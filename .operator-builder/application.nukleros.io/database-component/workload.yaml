@@ -1,0 +1,20 @@
+kind: ComponentWorkload
+name: database-component
+spec:
+  api:
+    clusterScoped: true
+    domain: nukleros.io
+    group: application
+    kind: DatabaseComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the database support service
+    name: database
+  dependencies: []
+  resources:
+    - zalando-postgres/manifests/config.yaml
+    - zalando-postgres/manifests/deployment.yaml
+    - zalando-postgres/manifests/namespace.yaml
+    - zalando-postgres/manifests/rbac.yaml
+    - zalando-postgres/manifests/service.yaml
+

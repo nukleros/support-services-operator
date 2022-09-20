@@ -1,0 +1,13 @@
+apiVersion: application.nukleros.io/v1alpha1
+kind: DatabaseComponent
+metadata:
+  name: databasecomponent-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-database-system"
+  zalandoPostgres:
+    replicas: 1
+    image: "registry.opensource.zalan.do/acid/postgres-operator"
+    version: "v1.8.2"

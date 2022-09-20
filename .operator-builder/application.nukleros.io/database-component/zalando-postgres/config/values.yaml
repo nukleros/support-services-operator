@@ -1,0 +1,4 @@
+---
+replicas: 1
+defaultImage: registry.opensource.zalan.do/acid/postgres-operator
+defaultVersion: v1.8.2

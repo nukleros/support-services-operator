@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  # +operator-builder:field:name=namespace,default="nukleros-database-system",type=string,description=`
+  # Namespace to use for database support services.`
+  name: nukleros-database-system

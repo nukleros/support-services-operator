@@ -1,0 +1,9 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'fix: add missing namespaces for zalando-postgres...'
+      sha: 5a6fe474ad100072b99ff04c5b258aaa5bf0c6d2
+    path: ./
+  path: application.nukleros.io/database-component/zalando-postgres/vendor
+kind: LockConfig

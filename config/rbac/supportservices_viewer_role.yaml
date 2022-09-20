@@ -1,0 +1,20 @@
+# permissions for end users to view supportservices.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: supportservices-viewer-role
+rules:
+- apiGroups:
+  - services.nukleros.io
+  resources:
+  - supportservices
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - services.nukleros.io
+  resources:
+  - supportservices/status
+  verbs:
+  - get

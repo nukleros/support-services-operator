@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-operator
+  namespace: nukleros-database-system # +operator-builder:field:name=namespace,default="nukleros-database-system",type=string
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    name: postgres-operator

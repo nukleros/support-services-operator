@@ -1,0 +1,16 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: application.nukleros.io/database-component/zalando-postgres/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nukleros/application-component-library.git
+          #ref: v0.1.0
+          ref: main
+        includePaths:
+          - database/zalando-postgres/*
+        newRootPath: database/zalando-postgres
+

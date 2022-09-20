@@ -1,0 +1,22 @@
+domain: nukleros.io
+layout:
+- go.kubebuilder.io/v3
+multigroup: true
+plugins:
+  operatorBuilder:
+    cliRootCommandName: ssctl
+    controllerImg: ""
+    workloadConfigPath: .operator-builder/workload.yaml
+projectName: support-services-operator
+repo: github.com/nukleros/support-services-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: nukleros.io
+  group: services
+  kind: SupportServices
+  path: github.com/nukleros/support-services-operator/apis/services/v1alpha1
+  version: v1alpha1
+version: "3"

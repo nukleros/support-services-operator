@@ -1,0 +1,54 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+yamlFiles:
+  - name: "zalando-postgres namespace"
+    path: "../static/namespace.yaml"
+    outputPath: "namespace.yaml"
+    overlays:
+      - name: "add namespace name marker"
+        query: "$"
+        value:
+          metadata:
+            # +operator-builder:field:name=namespace,default="%v",type=string,description=`
+            # Namespace to use for database support services.`
+            name: "%v"
+
+
+  - name: "zalando-postgres configmap"
+    path: "../vendor/config.yaml"
+    outputPath: "config.yaml"
+
+  - name: "zalando-postgres deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add replica count marker"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=zalandoPostgres.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the postgres-operator deployment.`
+            replicas: !!int "%v"
+
+      - name: "add image name marker"
+        query: "spec.template.spec.containers[?(@.name == 'postgres-operator')]"
+        value:
+          # +operator-builder:field:name=zalandoPostgres.image,default={{ .defaultImage }},type=string,replace="postgresDefaultImage",description=`
+          # Image repo and name to use for postgres operator.`
+          # +operator-builder:field:name=zalandoPostgres.version,default={{ .defaultVersion }},type=string,replace="postgresDefaultVersion",description=`
+          # Version of postgres operator to use.`
+          image: postgresDefaultImage:postgresDefaultVersion
+
+  - name: "zalando-postgres rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+
+  - name: "zalando-postgres service"
+    path: "../vendor/service.yaml"
+    outputPath: "service.yaml"
+

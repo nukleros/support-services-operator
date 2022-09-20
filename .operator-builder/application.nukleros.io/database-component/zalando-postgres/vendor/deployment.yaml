@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-operator
+  labels:
+    application: postgres-operator
+    app.kubernetes.io/name: postgres-operator
+    application.nukleros.io/group: database
+    application.nukleros.io/project: zalando-postgres
+  namespace: nukleros-database-system
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      name: postgres-operator
+  template:
+    metadata:
+      labels:
+        name: postgres-operator
+        app.kubernetes.io/name: postgres-operator
+        application.nukleros.io/group: database
+        application.nukleros.io/project: zalando-postgres
+    spec:
+      serviceAccountName: postgres-operator
+      containers:
+        - name: postgres-operator
+          image: registry.opensource.zalan.do/acid/postgres-operator:v1.8.2
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 250Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            runAsUser: 1000
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          env:
+            - name: CONFIG_MAP_NAME
+              value: postgres-operator
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - nginx-ingress
+      nodeSelector:
+        kubernetes.io/os: linux
