@@ -40,7 +40,7 @@ import (
 func NewSupportServicesSubCommand(parentCommand *cobra.Command) {
 	generateCmd := &cmdgenerate.GenerateSubCommand{
 		Name:                  "collection",
-		Description:           "Manage the collection of support services",
+		Description:           "Manage the setup of support services",
 		SubCommandOf:          parentCommand,
 		GenerateFunc:          GenerateSupportServices,
 		UseCollectionManifest: true,

@@ -29,7 +29,7 @@ import (
 func NewSupportServicesSubCommand(parentCommand *cobra.Command) {
 	versionCmd := &cmdversion.VersionSubCommand{
 		Name:         "collection",
-		Description:  "Manage the collection of support services",
+		Description:  "Manage the setup of support services",
 		VersionFunc:  VersionSupportServices,
 		SubCommandOf: parentCommand,
 	}

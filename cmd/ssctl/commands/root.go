@@ -44,8 +44,8 @@ func NewSsctlCommand() *SsctlCommand {
 	c := &SsctlCommand{
 		Command: &cobra.Command{
 			Use:   "ssctl",
-			Short: "Manage a cluster's support service installations",
-			Long:  "Manage a cluster's support service installations",
+			Short: "Manage Kubernetes cluster support service installations",
+			Long:  "Manage Kubernetes cluster support service installations",
 		},
 	}
 

@@ -58,7 +58,7 @@ func getSupportServicesManifest(i *cmdinit.InitSubCommand) (string, error) {
 func NewSupportServicesSubCommand(parentCommand *cobra.Command) {
 	initCmd := &cmdinit.InitSubCommand{
 		Name:         "collection",
-		Description:  "Manage the collection of support services",
+		Description:  "Manage the setup of support services",
 		InitFunc:     InitSupportServices,
 		SubCommandOf: parentCommand,
 	}

@@ -8,13 +8,13 @@ spec:
     kind: SupportServices
     version: v1alpha1
   companionCliRootcmd:
-    description: "Manage a cluster's support service installations"
+    description: Manage Kubernetes cluster support service installations
     name: ssctl
   companionCliSubcmd:
-    description: Manage the collection of support services
+    description: Manage the setup of support services
     name: collection
   componentFiles:
-    - application.nukleros.io/database-component/workload.yaml
+    - ../application.addons.nukleros.io/database-component/workload.yaml
   resources:
     - namespace.yaml
 

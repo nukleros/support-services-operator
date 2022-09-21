@@ -6,7 +6,7 @@ plugins:
   operatorBuilder:
     cliRootCommandName: ssctl
     controllerImg: ""
-    workloadConfigPath: .operator-builder/workload.yaml
+    workloadConfigPath: .operator-builder/setup.addons.nukleros.io/workload.yaml
 projectName: support-services-operator
 repo: github.com/nukleros/support-services-operator
 resources:

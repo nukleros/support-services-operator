@@ -2,13 +2,13 @@
 # code generation
 #
 INIT_OPTS=init \
-	--workload-config .operator-builder/workload.yaml \
+	--workload-config .operator-builder/setup.addons.nukleros.io/workload.yaml \
    	--repo github.com/nukleros/support-services-operator \
 	--controller-image nukleros/support-services-operator:latest \
     --skip-go-version-check
 
 CREATE_OPTS=create api \
-	--workload-config .operator-builder/workload.yaml \
+	--workload-config .operator-builder/setup.addons.nukleros.io/workload.yaml \
 	--controller \
 	--resource
 
