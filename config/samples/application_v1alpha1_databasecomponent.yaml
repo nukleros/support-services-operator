@@ -1,4 +1,4 @@
-apiVersion: application.nukleros.io/v1alpha1
+apiVersion: application.addons.nukleros.io/v1alpha1
 kind: DatabaseComponent
 metadata:
   name: databasecomponent-sample

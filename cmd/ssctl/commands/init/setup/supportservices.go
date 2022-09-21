@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package services
+package setup
 
 import (
 	"fmt"
@@ -22,9 +22,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/nukleros/support-services-operator/apis/services"
+	"github.com/nukleros/support-services-operator/apis/setup"
 
-	v1alpha1supportservices "github.com/nukleros/support-services-operator/apis/services/v1alpha1/supportservicescollection"
+	v1alpha1supportservices "github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection"
 	cmdinit "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init"
 	//+kubebuilder:scaffold:operator-builder:imports
 )
@@ -34,7 +34,7 @@ import (
 func getSupportServicesManifest(i *cmdinit.InitSubCommand) (string, error) {
 	apiVersion := i.APIVersion
 	if apiVersion == "" || apiVersion == "latest" {
-		return services.SupportServicesLatestSample, nil
+		return setup.SupportServicesLatestSample, nil
 	}
 
 	// generate a map of all versions to samples for each api version created

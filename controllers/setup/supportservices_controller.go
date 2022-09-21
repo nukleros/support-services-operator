@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package services
+package setup
 
 import (
 	"context"
@@ -30,8 +30,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
-	"github.com/nukleros/support-services-operator/apis/services/v1alpha1/supportservicescollection"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
+	"github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection"
 	"github.com/nukleros/support-services-operator/internal/dependencies"
 	"github.com/nukleros/support-services-operator/internal/mutate"
 )
@@ -54,14 +54,14 @@ func NewSupportServicesReconciler(mgr ctrl.Manager) *SupportServicesReconciler {
 		Client:       mgr.GetClient(),
 		Events:       mgr.GetEventRecorderFor("SupportServices-Controller"),
 		FieldManager: "SupportServices-reconciler",
-		Log:          ctrl.Log.WithName("controllers").WithName("services").WithName("SupportServices"),
+		Log:          ctrl.Log.WithName("controllers").WithName("setup").WithName("SupportServices"),
 		Watches:      []client.Object{},
 		Phases:       &phases.Registry{},
 	}
 }
 
-// +kubebuilder:rbac:groups=services.nukleros.io,resources=supportservices,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=services.nukleros.io,resources=supportservices/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=setup.addons.nukleros.io,resources=supportservices,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=setup.addons.nukleros.io,resources=supportservices/status,verbs=get;update;patch
 
 // Until Webhooks are implemented we need to list and watch namespaces to ensure
 // they are available before deploying resources,
@@ -96,7 +96,7 @@ func (r *SupportServicesReconciler) Reconcile(ctx context.Context, request ctrl.
 }
 
 func (r *SupportServicesReconciler) NewRequest(ctx context.Context, request ctrl.Request) (*workload.Request, error) {
-	component := &servicesv1alpha1.SupportServices{}
+	component := &setupv1alpha1.SupportServices{}
 
 	log := r.Log.WithValues(
 		"kind", component.GetWorkloadGVK().Kind,
@@ -210,7 +210,7 @@ func (r *SupportServicesReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 	baseController, err := ctrl.NewControllerManagedBy(mgr).
 		WithEventFilter(predicates.WorkloadPredicates()).
-		For(&servicesv1alpha1.SupportServices{}).
+		For(&setupv1alpha1.SupportServices{}).
 		Build(r)
 	if err != nil {
 		return fmt.Errorf("unable to setup controller, %w", err)

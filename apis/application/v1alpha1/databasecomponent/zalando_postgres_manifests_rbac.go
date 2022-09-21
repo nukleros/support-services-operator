@@ -21,7 +21,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
@@ -31,7 +31,7 @@ const ServiceAccountNamespacePostgresOperator = "postgres-operator"
 // CreateServiceAccountNamespacePostgresOperator creates the postgres-operator ServiceAccount resource.
 func CreateServiceAccountNamespacePostgresOperator(
 	parent *applicationv1alpha1.DatabaseComponent,
-	collection *servicesv1alpha1.SupportServices,
+	collection *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}
@@ -80,7 +80,7 @@ const ClusterRolePostgresOperator = "postgres-operator"
 // CreateClusterRolePostgresOperator creates the postgres-operator ClusterRole resource.
 func CreateClusterRolePostgresOperator(
 	parent *applicationv1alpha1.DatabaseComponent,
-	collection *servicesv1alpha1.SupportServices,
+	collection *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}
@@ -377,7 +377,7 @@ const ClusterRoleBindingPostgresOperator = "postgres-operator"
 // CreateClusterRoleBindingPostgresOperator creates the postgres-operator ClusterRoleBinding resource.
 func CreateClusterRoleBindingPostgresOperator(
 	parent *applicationv1alpha1.DatabaseComponent,
-	collection *servicesv1alpha1.SupportServices,
+	collection *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}
@@ -418,7 +418,7 @@ const ClusterRolePostgresPod = "postgres-pod"
 // CreateClusterRolePostgresPod creates the postgres-pod ClusterRole resource.
 func CreateClusterRolePostgresPod(
 	parent *applicationv1alpha1.DatabaseComponent,
-	collection *servicesv1alpha1.SupportServices,
+	collection *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}

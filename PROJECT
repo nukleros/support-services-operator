@@ -1,4 +1,4 @@
-domain: nukleros.io
+domain: addons.nukleros.io
 layout:
 - go.kubebuilder.io/v3
 multigroup: true
@@ -14,9 +14,9 @@ resources:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: nukleros.io
-  group: services
+  domain: addons.nukleros.io
+  group: setup
   kind: SupportServices
-  path: github.com/nukleros/support-services-operator/apis/services/v1alpha1
+  path: github.com/nukleros/support-services-operator/apis/setup/v1alpha1
   version: v1alpha1
 version: "3"

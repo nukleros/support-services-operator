@@ -5,7 +5,7 @@ metadata:
   name: supportservices-editor-role
 rules:
 - apiGroups:
-  - services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
   - supportservices
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
   - supportservices/status
   verbs:

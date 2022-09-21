@@ -3,8 +3,8 @@ name: support-services-collection
 spec:
   api:
     clusterScoped: true
-    domain: nukleros.io
-    group: services
+    domain: addons.nukleros.io
+    group: setup
     kind: SupportServices
     version: v1alpha1
   companionCliRootcmd:

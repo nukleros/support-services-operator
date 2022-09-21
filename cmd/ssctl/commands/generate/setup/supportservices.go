@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package services
+package setup
 
 import (
 	"fmt"
@@ -31,7 +31,7 @@ import (
 	// common imports for subcommands
 	cmdgenerate "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate"
 	// specific imports for workloads
-	v1alpha1supportservices "github.com/nukleros/support-services-operator/apis/services/v1alpha1/supportservicescollection"
+	v1alpha1supportservices "github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection"
 	//+kubebuilder:scaffold:operator-builder:imports
 )
 

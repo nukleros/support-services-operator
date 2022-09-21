@@ -3,7 +3,7 @@ name: database-component
 spec:
   api:
     clusterScoped: true
-    domain: nukleros.io
+    domain: addons.nukleros.io
     group: application
     kind: DatabaseComponent
     version: v1alpha1

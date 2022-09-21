@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package services
+package setup
 
 import (
 	"github.com/spf13/cobra"
 
 	cmdversion "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version"
 
-	"github.com/nukleros/support-services-operator/apis/services"
+	"github.com/nukleros/support-services-operator/apis/setup"
 )
 
 // NewSupportServicesSubCommand creates a new command and adds it to its
@@ -38,9 +38,9 @@ func NewSupportServicesSubCommand(parentCommand *cobra.Command) {
 }
 
 func VersionSupportServices(v *cmdversion.VersionSubCommand) error {
-	apiVersions := make([]string, len(services.SupportServicesGroupVersions()))
+	apiVersions := make([]string, len(setup.SupportServicesGroupVersions()))
 
-	for i, groupVersion := range services.SupportServicesGroupVersions() {
+	for i, groupVersion := range setup.SupportServicesGroupVersions() {
 		apiVersions[i] = groupVersion.Version
 	}
 

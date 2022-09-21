@@ -5,7 +5,7 @@ metadata:
   name: supportservices-viewer-role
 rules:
 - apiGroups:
-  - services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
   - supportservices
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
   - supportservices/status
   verbs:

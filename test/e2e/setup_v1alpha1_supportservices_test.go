@@ -27,14 +27,14 @@ import (
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
-	"github.com/nukleros/support-services-operator/apis/services/v1alpha1/supportservicescollection"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
+	"github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection"
 )
 
 //
-// servicesv1alpha1SupportServices tests
+// setupv1alpha1SupportServices tests
 //
-func servicesv1alpha1SupportServicesChildrenFuncs(tester *E2ETest) error {
+func setupv1alpha1SupportServicesChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(supportservicescollection.CreateFuncs) == 0 {
 		return nil
@@ -55,18 +55,18 @@ func servicesv1alpha1SupportServicesChildrenFuncs(tester *E2ETest) error {
 	return nil
 }
 
-func servicesv1alpha1SupportServicesNewHarness(namespace string) *E2ETest {
+func setupv1alpha1SupportServicesNewHarness(namespace string) *E2ETest {
 	return &E2ETest{
 		namespace:          namespace,
 		unstructured:       &unstructured.Unstructured{},
-		workload:           &servicesv1alpha1.SupportServices{},
-		sampleManifestFile: "../../config/samples/services_v1alpha1_supportservices.yaml",
-		getChildrenFunc:    servicesv1alpha1SupportServicesChildrenFuncs,
-		logSyntax:          "controllers.services.SupportServices",
+		workload:           &setupv1alpha1.SupportServices{},
+		sampleManifestFile: "../../config/samples/setup_v1alpha1_supportservices.yaml",
+		getChildrenFunc:    setupv1alpha1SupportServicesChildrenFuncs,
+		logSyntax:          "controllers.setup.SupportServices",
 	}
 }
 
-func (tester *E2ETest) servicesv1alpha1SupportServicesTest(testSuite *E2ECollectionTestSuite) {
+func (tester *E2ETest) setupv1alpha1SupportServicesTest(testSuite *E2ECollectionTestSuite) {
 	testSuite.suiteConfig.tests = append(testSuite.suiteConfig.tests, tester)
 	tester.suiteConfig = &testSuite.suiteConfig
 	require.NoErrorf(testSuite.T(), tester.setup(), "failed to setup test")
@@ -91,7 +91,7 @@ func (tester *E2ETest) servicesv1alpha1SupportServicesTest(testSuite *E2ECollect
 	}
 }
 
-func (testSuite *E2ECollectionTestSuite) Test_servicesv1alpha1SupportServices() {
-	tester := servicesv1alpha1SupportServicesNewHarness("")
-	tester.servicesv1alpha1SupportServicesTest(testSuite)
+func (testSuite *E2ECollectionTestSuite) Test_setupv1alpha1SupportServices() {
+	tester := setupv1alpha1SupportServicesNewHarness("")
+	tester.setupv1alpha1SupportServicesTest(testSuite)
 }

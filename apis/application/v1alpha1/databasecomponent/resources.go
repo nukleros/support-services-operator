@@ -25,11 +25,11 @@ import (
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
 // sampleDatabaseComponent is a sample containing all fields
-const sampleDatabaseComponent = `apiVersion: application.nukleros.io/v1alpha1
+const sampleDatabaseComponent = `apiVersion: application.addons.nukleros.io/v1alpha1
 kind: DatabaseComponent
 metadata:
   name: databasecomponent-sample
@@ -45,7 +45,7 @@ spec:
 `
 
 // sampleDatabaseComponentRequired is a sample containing only required fields
-const sampleDatabaseComponentRequired = `apiVersion: application.nukleros.io/v1alpha1
+const sampleDatabaseComponentRequired = `apiVersion: application.addons.nukleros.io/v1alpha1
 kind: DatabaseComponent
 metadata:
   name: databasecomponent-sample
@@ -68,7 +68,7 @@ func Sample(requiredOnly bool) string {
 // appropriate structured inputs.
 func Generate(
 	workloadObj applicationv1alpha1.DatabaseComponent,
-	collectionObj servicesv1alpha1.SupportServices,
+	collectionObj setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 	resourceObjects := []client.Object{}
 
@@ -97,7 +97,7 @@ func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object
 		return nil, fmt.Errorf("error validating workload yaml, %w", err)
 	}
 
-	var collectionObj servicesv1alpha1.SupportServices
+	var collectionObj setupv1alpha1.SupportServices
 	if err := yaml.Unmarshal(collectionFile, &collectionObj); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal yaml into collection, %w", err)
 	}
@@ -114,7 +114,7 @@ func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object
 // database.
 var CreateFuncs = []func(
 	*applicationv1alpha1.DatabaseComponent,
-	*servicesv1alpha1.SupportServices,
+	*setupv1alpha1.SupportServices,
 ) ([]client.Object, error){
 	CreateConfigMapNamespacePostgresOperator,
 	CreateDeploymentNamespacePostgresOperator,
@@ -136,12 +136,12 @@ var CreateFuncs = []func(
 // setup, it will fail.
 var InitFuncs = []func(
 	*applicationv1alpha1.DatabaseComponent,
-	*servicesv1alpha1.SupportServices,
+	*setupv1alpha1.SupportServices,
 ) ([]client.Object, error){}
 
 func ConvertWorkload(component, collection workload.Workload) (
 	*applicationv1alpha1.DatabaseComponent,
-	*servicesv1alpha1.SupportServices,
+	*setupv1alpha1.SupportServices,
 	error,
 ) {
 	p, ok := component.(*applicationv1alpha1.DatabaseComponent)
@@ -149,9 +149,9 @@ func ConvertWorkload(component, collection workload.Workload) (
 		return nil, nil, applicationv1alpha1.ErrUnableToConvertDatabaseComponent
 	}
 
-	c, ok := collection.(*servicesv1alpha1.SupportServices)
+	c, ok := collection.(*setupv1alpha1.SupportServices)
 	if !ok {
-		return nil, nil, servicesv1alpha1.ErrUnableToConvertSupportServices
+		return nil, nil, setupv1alpha1.ErrUnableToConvertSupportServices
 	}
 
 	return p, c, nil

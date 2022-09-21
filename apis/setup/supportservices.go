@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package services
+package setup
 
 import (
-	v1alpha1services "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	v1alpha1setup "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 	//+kubebuilder:scaffold:operator-builder:imports
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -26,7 +26,7 @@ import (
 // SupportServicesGroupVersions returns all group version objects associated with this kind.
 func SupportServicesGroupVersions() []schema.GroupVersion {
 	return []schema.GroupVersion{
-		v1alpha1services.GroupVersion,
+		v1alpha1setup.GroupVersion,
 		//+kubebuilder:scaffold:operator-builder:groupversions
 	}
 }

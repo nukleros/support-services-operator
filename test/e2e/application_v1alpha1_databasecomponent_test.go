@@ -63,7 +63,7 @@ func applicationv1alpha1DatabaseComponentNewHarness(namespace string) *E2ETest {
 		sampleManifestFile: "../../config/samples/application_v1alpha1_databasecomponent.yaml",
 		getChildrenFunc:    applicationv1alpha1DatabaseComponentChildrenFuncs,
 		logSyntax:          "controllers.application.DatabaseComponent",
-		collectionTester:   servicesv1alpha1SupportServicesNewHarness(""),
+		collectionTester:   setupv1alpha1SupportServicesNewHarness(""),
 	}
 }
 

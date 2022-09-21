@@ -24,11 +24,11 @@ import (
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
 
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
 // sampleSupportServices is a sample containing all fields
-const sampleSupportServices = `apiVersion: services.nukleros.io/v1alpha1
+const sampleSupportServices = `apiVersion: setup.addons.nukleros.io/v1alpha1
 kind: SupportServices
 metadata:
   name: supportservices-sample
@@ -38,7 +38,7 @@ spec:
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields
-const sampleSupportServicesRequired = `apiVersion: services.nukleros.io/v1alpha1
+const sampleSupportServicesRequired = `apiVersion: setup.addons.nukleros.io/v1alpha1
 kind: SupportServices
 metadata:
   name: supportservices-sample
@@ -57,7 +57,7 @@ func Sample(requiredOnly bool) string {
 
 // Generate returns the child resources that are associated with this workload given
 // appropriate structured inputs.
-func Generate(collectionObj servicesv1alpha1.SupportServices) ([]client.Object, error) {
+func Generate(collectionObj setupv1alpha1.SupportServices) ([]client.Object, error) {
 	resourceObjects := []client.Object{}
 
 	for _, f := range CreateFuncs {
@@ -76,7 +76,7 @@ func Generate(collectionObj servicesv1alpha1.SupportServices) ([]client.Object, 
 // GenerateForCLI returns the child resources that are associated with this workload given
 // appropriate YAML manifest files.
 func GenerateForCLI(collectionFile []byte) ([]client.Object, error) {
-	var collectionObj servicesv1alpha1.SupportServices
+	var collectionObj setupv1alpha1.SupportServices
 	if err := yaml.Unmarshal(collectionFile, &collectionObj); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal yaml into collection, %w", err)
 	}
@@ -92,7 +92,7 @@ func GenerateForCLI(collectionFile []byte) ([]client.Object, error) {
 // in memory during the reconciliation loop prior to persisting the changes or updates to the Kubernetes
 // database.
 var CreateFuncs = []func(
-	*servicesv1alpha1.SupportServices,
+	*setupv1alpha1.SupportServices,
 ) ([]client.Object, error){
 	CreateNamespaceParentName,
 }
@@ -106,13 +106,13 @@ var CreateFuncs = []func(
 // crash loop because when it tries to own a non-existent resource type during manager
 // setup, it will fail.
 var InitFuncs = []func(
-	*servicesv1alpha1.SupportServices,
+	*setupv1alpha1.SupportServices,
 ) ([]client.Object, error){}
 
-func ConvertWorkload(component workload.Workload) (*servicesv1alpha1.SupportServices, error) {
-	p, ok := component.(*servicesv1alpha1.SupportServices)
+func ConvertWorkload(component workload.Workload) (*setupv1alpha1.SupportServices, error) {
+	p, ok := component.(*setupv1alpha1.SupportServices)
 	if !ok {
-		return nil, servicesv1alpha1.ErrUnableToConvertSupportServices
+		return nil, setupv1alpha1.ErrUnableToConvertSupportServices
 	}
 
 	return p, nil

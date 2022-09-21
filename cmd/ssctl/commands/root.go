@@ -26,11 +26,11 @@ import (
 
 	// specific imports for workloads
 	generateapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/application"
-	generateservices "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/services"
+	generatesetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/setup"
 	initapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/application"
-	initservices "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/services"
+	initsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/setup"
 	versionapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/application"
-	versionservices "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/services"
+	versionsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/setup"
 	//+kubebuilder:scaffold:operator-builder:subcommands:imports
 )
 
@@ -65,7 +65,7 @@ func (c *SsctlCommand) newInitSubCommand() {
 	_ = parentCommand
 
 	// add the init subcommands
-	initservices.NewSupportServicesSubCommand(parentCommand)
+	initsetup.NewSupportServicesSubCommand(parentCommand)
 	initapplication.NewDatabaseComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
@@ -75,7 +75,7 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	_ = parentCommand
 
 	// add the generate subcommands
-	generateservices.NewSupportServicesSubCommand(parentCommand)
+	generatesetup.NewSupportServicesSubCommand(parentCommand)
 	generateapplication.NewDatabaseComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
@@ -85,7 +85,7 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	_ = parentCommand
 
 	// add the version subcommands
-	versionservices.NewSupportServicesSubCommand(parentCommand)
+	versionsetup.NewSupportServicesSubCommand(parentCommand)
 	versionapplication.NewDatabaseComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }

@@ -2,8 +2,8 @@
 # since it depends on service name and namespace that are out of this kustomize package.
 # It should be run by config/default
 resources:
-- bases/services.nukleros.io_supportservices.yaml
-- bases/application.nukleros.io_databasecomponents.yaml
+- bases/setup.addons.nukleros.io_supportservices.yaml
+- bases/application.addons.nukleros.io_databasecomponents.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:

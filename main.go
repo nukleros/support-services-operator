@@ -33,9 +33,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 	applicationcontrollers "github.com/nukleros/support-services-operator/controllers/application"
-	servicescontrollers "github.com/nukleros/support-services-operator/controllers/services"
+	setupcontrollers "github.com/nukleros/support-services-operator/controllers/setup"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -52,7 +52,7 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(servicesv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(setupv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(applicationv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
@@ -91,7 +91,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "bb9cd6ef.nukleros.io",
+		LeaderElectionID:       "bb9cd6ef.addons.nukleros.io",
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
@@ -99,7 +99,7 @@ func main() {
 	}
 
 	reconcilers := []ReconcilerInitializer{
-		servicescontrollers.NewSupportServicesReconciler(mgr),
+		setupcontrollers.NewSupportServicesReconciler(mgr),
 		applicationcontrollers.NewDatabaseComponentReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}

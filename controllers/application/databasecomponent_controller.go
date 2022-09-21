@@ -41,7 +41,7 @@ import (
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
 	"github.com/nukleros/support-services-operator/apis/application/v1alpha1/databasecomponent"
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 	"github.com/nukleros/support-services-operator/internal/dependencies"
 	"github.com/nukleros/support-services-operator/internal/mutate"
 )
@@ -70,10 +70,10 @@ func NewDatabaseComponentReconciler(mgr ctrl.Manager) *DatabaseComponentReconcil
 	}
 }
 
-// +kubebuilder:rbac:groups=application.nukleros.io,resources=databasecomponents,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=application.nukleros.io,resources=databasecomponents/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=services.nukleros.io,resources=supportservices,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=services.nukleros.io,resources=supportservices/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=application.addons.nukleros.io,resources=databasecomponents,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=application.addons.nukleros.io,resources=databasecomponents/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=setup.addons.nukleros.io,resources=supportservices,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=setup.addons.nukleros.io,resources=supportservices/status,verbs=get;update;patch
 
 // Until Webhooks are implemented we need to list and watch namespaces to ensure
 // they are available before deploying resources,
@@ -157,8 +157,8 @@ func (r *DatabaseComponentReconciler) SetCollection(component *applicationv1alph
 func (r *DatabaseComponentReconciler) GetCollection(
 	component *applicationv1alpha1.DatabaseComponent,
 	req *workload.Request,
-) (*servicesv1alpha1.SupportServices, error) {
-	var collectionList servicesv1alpha1.SupportServicesList
+) (*setupv1alpha1.SupportServices, error) {
+	var collectionList setupv1alpha1.SupportServicesList
 
 	if err := r.List(req.Context, &collectionList); err != nil {
 		return nil, fmt.Errorf("unable to list collection SupportServices, %w", err)

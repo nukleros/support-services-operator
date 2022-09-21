@@ -20,7 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
 // +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;create;update;patch;delete
@@ -29,7 +29,7 @@ const NamespaceParentName = "parent.Name"
 
 // CreateNamespaceParentName creates the parent.Name Namespace resource.
 func CreateNamespaceParentName(
-	parent *servicesv1alpha1.SupportServices,
+	parent *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}

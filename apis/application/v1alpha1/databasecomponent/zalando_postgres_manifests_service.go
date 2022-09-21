@@ -21,7 +21,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	servicesv1alpha1 "github.com/nukleros/support-services-operator/apis/services/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
@@ -31,7 +31,7 @@ const ServiceNamespacePostgresOperator = "postgres-operator"
 // CreateServiceNamespacePostgresOperator creates the postgres-operator Service resource.
 func CreateServiceNamespacePostgresOperator(
 	parent *applicationv1alpha1.DatabaseComponent,
-	collection *servicesv1alpha1.SupportServices,
+	collection *setupv1alpha1.SupportServices,
 ) ([]client.Object, error) {
 
 	resourceObjs := []client.Object{}
