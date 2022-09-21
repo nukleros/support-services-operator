@@ -3,7 +3,8 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    value: "nukleros-certs-system"  # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
 
 yamlFiles:
   - name: "cert-manager namespace"
@@ -42,7 +43,7 @@ yamlFiles:
         value:
           # +operator-builder:field:name=certManager.cainjector.image,default={{ .defaultCainjectorImage }},type=string,replace="cainjectorDefaultImage",description=`
           # Image repo and name to use for cert-manager cainjector.`
-          # +operator-builder:field:name=certManager.cainjector.version,default={{ .defaultCainjectorVersion }},type=string,replace="cainjectorDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.cainjector.version,default={{ .defaultVersion }},type=string,replace="cainjectorDefaultVersion",description=`
           # Version of cert-manager cainjector to use.`
           image: cainjectorDefaultImage:cainjectorDefaultVersion
 
@@ -66,7 +67,7 @@ yamlFiles:
         value:
           # +operator-builder:field:name=certManager.controller.image,default={{ .defaultControllerImage }},type=string,replace="controllerDefaultImage",description=`
           # Image repo and name to use for cert-manager controller.`
-          # +operator-builder:field:name=certManager.controller.version,default={{ .defaultControllerVersion }},type=string,replace="controllerDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.controller.version,default={{ .defaultVersion }},type=string,replace="controllerDefaultVersion",description=`
           # Version of cert-manager controller to use.`
           image: controllerDefaultImage:controllerDefaultVersion
 
@@ -90,7 +91,7 @@ yamlFiles:
         value:
           # +operator-builder:field:name=certManager.webhook.image,default={{ .defaultWebhookImage }},type=string,replace="webhookDefaultImage",description=`
           # Image repo and name to use for cert-manager webhook.`
-          # +operator-builder:field:name=certManager.webhook.version,default={{ .defaultWebhookVersion }},type=string,replace="webhookDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.webhook.version,default={{ .defaultVersion }},type=string,replace="webhookDefaultVersion",description=`
           # Version of cert-manager webhook to use.`
           image: webhookDefaultImage:webhookDefaultVersion
 

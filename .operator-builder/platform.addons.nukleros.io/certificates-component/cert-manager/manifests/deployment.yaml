@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cert-manager-cainjector
-  namespace: certificates-system # +operator-builder:field:name=namespace,default="certificates-system",type=string
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
   labels:
     app: cainjector
     app.kubernetes.io/name: cainjector
@@ -38,7 +38,7 @@ spec:
         - name: cert-manager
           # +operator-builder:field:name=certManager.cainjector.image,default=quay.io/jetstack/cert-manager-cainjector,type=string,replace="cainjectorDefaultImage",description=`
           # Image repo and name to use for cert-manager cainjector.`
-          # +operator-builder:field:name=certManager.cainjector.version,default=<no value>,type=string,replace="cainjectorDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.cainjector.version,default=v1.9.1,type=string,replace="cainjectorDefaultVersion",description=`
           # Version of cert-manager cainjector to use.`
           image: cainjectorDefaultImage:cainjectorDefaultVersion
           imagePullPolicy: IfNotPresent
@@ -82,7 +82,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cert-manager
-  namespace: certificates-system # +operator-builder:field:name=namespace,default="certificates-system",type=string
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
   labels:
     app: cert-manager
     app.kubernetes.io/name: cert-manager
@@ -121,7 +121,7 @@ spec:
         - name: cert-manager
           # +operator-builder:field:name=certManager.controller.image,default=quay.io/jetstack/cert-manager-controller,type=string,replace="controllerDefaultImage",description=`
           # Image repo and name to use for cert-manager controller.`
-          # +operator-builder:field:name=certManager.controller.version,default=<no value>,type=string,replace="controllerDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.controller.version,default=v1.9.1,type=string,replace="controllerDefaultVersion",description=`
           # Version of cert-manager controller to use.`
           image: controllerDefaultImage:controllerDefaultVersion
           imagePullPolicy: IfNotPresent
@@ -170,7 +170,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cert-manager-webhook
-  namespace: certificates-system # +operator-builder:field:name=namespace,default="certificates-system",type=string
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
   labels:
     app: webhook
     app.kubernetes.io/name: webhook
@@ -205,7 +205,7 @@ spec:
         - name: cert-manager
           # +operator-builder:field:name=certManager.webhook.image,default=quay.io/jetstack/cert-manager-webhook,type=string,replace="webhookDefaultImage",description=`
           # Image repo and name to use for cert-manager webhook.`
-          # +operator-builder:field:name=certManager.webhook.version,default=<no value>,type=string,replace="webhookDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.webhook.version,default=v1.9.1,type=string,replace="webhookDefaultVersion",description=`
           # Version of cert-manager webhook to use.`
           image: webhookDefaultImage:webhookDefaultVersion
           imagePullPolicy: IfNotPresent

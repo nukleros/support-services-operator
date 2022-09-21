@@ -26,10 +26,13 @@ import (
 
 	// specific imports for workloads
 	generateapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/application"
+	generateplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/platform"
 	generatesetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/setup"
 	initapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/application"
+	initplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/platform"
 	initsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/setup"
 	versionapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/application"
+	versionplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/platform"
 	versionsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/setup"
 	//+kubebuilder:scaffold:operator-builder:subcommands:imports
 )
@@ -67,6 +70,7 @@ func (c *SsctlCommand) newInitSubCommand() {
 	// add the init subcommands
 	initsetup.NewSupportServicesSubCommand(parentCommand)
 	initapplication.NewDatabaseComponentSubCommand(parentCommand)
+	initplatform.NewCertificatesComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
@@ -77,6 +81,7 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	// add the generate subcommands
 	generatesetup.NewSupportServicesSubCommand(parentCommand)
 	generateapplication.NewDatabaseComponentSubCommand(parentCommand)
+	generateplatform.NewCertificatesComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
@@ -87,6 +92,7 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	// add the version subcommands
 	versionsetup.NewSupportServicesSubCommand(parentCommand)
 	versionapplication.NewDatabaseComponentSubCommand(parentCommand)
+	versionplatform.NewCertificatesComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }
 

@@ -33,8 +33,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
+	platformv1alpha1 "github.com/nukleros/support-services-operator/apis/platform/v1alpha1"
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 	applicationcontrollers "github.com/nukleros/support-services-operator/controllers/application"
+	platformcontrollers "github.com/nukleros/support-services-operator/controllers/platform"
 	setupcontrollers "github.com/nukleros/support-services-operator/controllers/setup"
 	//+kubebuilder:scaffold:imports
 )
@@ -54,6 +56,7 @@ func init() {
 
 	utilruntime.Must(setupv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(applicationv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(platformv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -101,6 +104,7 @@ func main() {
 	reconcilers := []ReconcilerInitializer{
 		setupcontrollers.NewSupportServicesReconciler(mgr),
 		applicationcontrollers.NewDatabaseComponentReconciler(mgr),
+		platformcontrollers.NewCertificatesComponentReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
 
