@@ -3,7 +3,7 @@ apiVersion: vendir.k14s.io/v1alpha1
 kind: Config
 minimumRequiredVersion: 0.30.0
 directories:
-  - path: application.nukleros.io/database-component/zalando-postgres/vendor
+  - path: application.addons.nukleros.io/database-component/zalando-postgres/vendor
     contents:
       - path: ./
         git:

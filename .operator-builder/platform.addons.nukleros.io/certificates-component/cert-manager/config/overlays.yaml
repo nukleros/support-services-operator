@@ -1,0 +1,108 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+yamlFiles:
+  - name: "cert-manager namespace"
+    path: "../static/namespace.yaml"
+    outputPath: "namespace.yaml"
+    overlays:
+      - name: "add namespace name marker"
+        query: "$"
+        value:
+          metadata:
+            # +operator-builder:field:name=namespace,default="%v",type=string,description=`
+            # Namespace to use for certificate support services.`
+            name: "%v"
+
+  - name: "cert-manager crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "crds.yaml"
+
+  - name: "cert-manager cainjector deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add cainjector replica count marker"
+        query: "$[?($.metadata.name == 'cert-manager-cainjector')]"
+        value:
+          spec:
+            # +operator-builder:field:name=certManager.cainjector.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the cert-manager cainjector deployment.`
+            replicas: !!int "%v"
+
+      - name: "add cainjector image name markers"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "cert-manager-cainjector")]
+        query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
+        value:
+          # +operator-builder:field:name=certManager.cainjector.image,default={{ .defaultCainjectorImage }},type=string,replace="cainjectorDefaultImage",description=`
+          # Image repo and name to use for cert-manager cainjector.`
+          # +operator-builder:field:name=certManager.cainjector.version,default={{ .defaultCainjectorVersion }},type=string,replace="cainjectorDefaultVersion",description=`
+          # Version of cert-manager cainjector to use.`
+          image: cainjectorDefaultImage:cainjectorDefaultVersion
+
+  - name: "cert-manager controller deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add controller replica count marker"
+        query: "$[?($.metadata.name == 'cert-manager')]"
+        value:
+          spec:
+            # +operator-builder:field:name=certManager.controller.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the cert-manager controller deployment.`
+            replicas: !!int "%v"
+
+      - name: "add controller image name markers"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "cert-manager")]
+        query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
+        value:
+          # +operator-builder:field:name=certManager.controller.image,default={{ .defaultControllerImage }},type=string,replace="controllerDefaultImage",description=`
+          # Image repo and name to use for cert-manager controller.`
+          # +operator-builder:field:name=certManager.controller.version,default={{ .defaultControllerVersion }},type=string,replace="controllerDefaultVersion",description=`
+          # Version of cert-manager controller to use.`
+          image: controllerDefaultImage:controllerDefaultVersion
+
+  - name: "cert-manager webhook deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add webhook replica count marker"
+        query: "$[?($.metadata.name == 'cert-manager-webhook')]"
+        value:
+          spec:
+            # +operator-builder:field:name=certManager.webhook.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the cert-manager webhook deployment.`
+            replicas: !!int "%v"
+
+      - name: "add webhook image name markers"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "cert-manager-webhook")]
+        query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
+        value:
+          # +operator-builder:field:name=certManager.webhook.image,default={{ .defaultWebhookImage }},type=string,replace="webhookDefaultImage",description=`
+          # Image repo and name to use for cert-manager webhook.`
+          # +operator-builder:field:name=certManager.webhook.version,default={{ .defaultWebhookVersion }},type=string,replace="webhookDefaultVersion",description=`
+          # Version of cert-manager webhook to use.`
+          image: webhookDefaultImage:webhookDefaultVersion
+
+  - name: "cert-manager rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+
+  - name: "cert-manager service"
+    path: "../vendor/service.yaml"
+    outputPath: "service.yaml"
+
+  - name: "cert-manager webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "webhook.yaml"
+

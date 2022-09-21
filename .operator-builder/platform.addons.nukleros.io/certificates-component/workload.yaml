@@ -1,0 +1,16 @@
+kind: ComponentWorkload
+name: certificates-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: CertificatesComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the cert management support service
+    name: certificates
+  dependencies: []
+  resources:
+    - cert-manager/manifests/
+

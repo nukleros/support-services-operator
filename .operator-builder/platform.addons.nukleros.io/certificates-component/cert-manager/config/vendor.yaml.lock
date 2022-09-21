@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #6 from lander2k2/readme-purpose...'
+      sha: 7cd96e52ae57d83aa77759740287b62049622bff
+      tags:
+      - v0.0.0-alpha.1-10-g7cd96e5
+    path: ./
+  path: platform.addons.nukleros.io/certificates-component/cert-manager/vendor
+kind: LockConfig
