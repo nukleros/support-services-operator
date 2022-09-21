@@ -1,0 +1,13 @@
+apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: IngressComponent
+metadata:
+  name: ingresscomponent-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-ingress-system"
+  externalDNS:
+    image: "k8s.gcr.io/external-dns/external-dns"
+    version: "v0.12.2"
+  externalDNSProvider: "none"

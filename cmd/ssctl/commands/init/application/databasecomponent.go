@@ -58,7 +58,7 @@ func getDatabaseComponentManifest(i *cmdinit.InitSubCommand) (string, error) {
 func NewDatabaseComponentSubCommand(parentCommand *cobra.Command) {
 	initCmd := &cmdinit.InitSubCommand{
 		Name:         "database",
-		Description:  "Manage the database support service",
+		Description:  "Manage the database support services",
 		InitFunc:     InitDatabaseComponent,
 		SubCommandOf: parentCommand,
 	}

@@ -42,7 +42,7 @@ import (
 func NewDatabaseComponentSubCommand(parentCommand *cobra.Command) {
 	generateCmd := &cmdgenerate.GenerateSubCommand{
 		Name:                  "database",
-		Description:           "Manage the database support service",
+		Description:           "Manage the database support services",
 		SubCommandOf:          parentCommand,
 		GenerateFunc:          GenerateDatabaseComponent,
 		UseCollectionManifest: true,

@@ -105,6 +105,7 @@ func main() {
 		setupcontrollers.NewSupportServicesReconciler(mgr),
 		applicationcontrollers.NewDatabaseComponentReconciler(mgr),
 		platformcontrollers.NewCertificatesComponentReconciler(mgr),
+		platformcontrollers.NewIngressComponentReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
 

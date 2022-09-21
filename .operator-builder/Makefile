@@ -36,6 +36,5 @@ download:
 	vendir sync --file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml --lock-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml.lock
 
 overlay:
-	#yot -I 2 -i $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml -o $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/manifests -f $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml
 	yot -I 2 -i $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml -o $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/manifests -f $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml
 

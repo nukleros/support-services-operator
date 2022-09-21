@@ -1,0 +1,23 @@
+kind: ComponentWorkload
+name: ingress-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: IngressComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the ingress support services
+    name: ingress
+  dependencies: []
+  resources:
+    - external-dns/manifests/config-active-directory.yaml
+    - external-dns/manifests/config-google.yaml
+    - external-dns/manifests/config-route53.yaml
+    - external-dns/manifests/deployment-active-directory.yaml
+    - external-dns/manifests/deployment-google.yaml
+    #- external-dns/manifests/deployment-route53.yaml
+    - external-dns/manifests/namespace.yaml
+    - external-dns/manifests/rbac.yaml
+

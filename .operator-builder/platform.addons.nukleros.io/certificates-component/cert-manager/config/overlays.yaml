@@ -41,11 +41,11 @@ yamlFiles:
             - query: $[?($.metadata.name == "cert-manager-cainjector")]
         query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
         value:
-          # +operator-builder:field:name=certManager.cainjector.image,default={{ .defaultCainjectorImage }},type=string,replace="cainjectorDefaultImage",description=`
+          # +operator-builder:field:name=certManager.cainjector.image,default={{ .defaultCainjectorImage }},type=string,replace="cainjectorImage",description=`
           # Image repo and name to use for cert-manager cainjector.`
-          # +operator-builder:field:name=certManager.cainjector.version,default={{ .defaultVersion }},type=string,replace="cainjectorDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.cainjector.version,default={{ .defaultVersion }},type=string,replace="cainjectorVersion",description=`
           # Version of cert-manager cainjector to use.`
-          image: cainjectorDefaultImage:cainjectorDefaultVersion
+          image: cainjectorImage:cainjectorVersion
 
   - name: "cert-manager controller deployment"
     path: "../vendor/deployment.yaml"
@@ -65,11 +65,11 @@ yamlFiles:
             - query: $[?($.metadata.name == "cert-manager")]
         query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
         value:
-          # +operator-builder:field:name=certManager.controller.image,default={{ .defaultControllerImage }},type=string,replace="controllerDefaultImage",description=`
+          # +operator-builder:field:name=certManager.controller.image,default={{ .defaultControllerImage }},type=string,replace="controllerImage",description=`
           # Image repo and name to use for cert-manager controller.`
-          # +operator-builder:field:name=certManager.controller.version,default={{ .defaultVersion }},type=string,replace="controllerDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.controller.version,default={{ .defaultVersion }},type=string,replace="controllerVersion",description=`
           # Version of cert-manager controller to use.`
-          image: controllerDefaultImage:controllerDefaultVersion
+          image: controllerImage:controllerVersion
 
   - name: "cert-manager webhook deployment"
     path: "../vendor/deployment.yaml"
@@ -89,11 +89,11 @@ yamlFiles:
             - query: $[?($.metadata.name == "cert-manager-webhook")]
         query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
         value:
-          # +operator-builder:field:name=certManager.webhook.image,default={{ .defaultWebhookImage }},type=string,replace="webhookDefaultImage",description=`
+          # +operator-builder:field:name=certManager.webhook.image,default={{ .defaultWebhookImage }},type=string,replace="webhookImage",description=`
           # Image repo and name to use for cert-manager webhook.`
-          # +operator-builder:field:name=certManager.webhook.version,default={{ .defaultVersion }},type=string,replace="webhookDefaultVersion",description=`
+          # +operator-builder:field:name=certManager.webhook.version,default={{ .defaultVersion }},type=string,replace="webhookVersion",description=`
           # Version of cert-manager webhook to use.`
-          image: webhookDefaultImage:webhookDefaultVersion
+          image: webhookImage:webhookVersion
 
   - name: "cert-manager rbac"
     path: "../vendor/rbac.yaml"

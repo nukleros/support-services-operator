@@ -14,33 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package application
+package platform
 
 import (
 	"github.com/spf13/cobra"
 
 	cmdversion "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version"
 
-	"github.com/nukleros/support-services-operator/apis/application"
+	"github.com/nukleros/support-services-operator/apis/platform"
 )
 
-// NewDatabaseComponentSubCommand creates a new command and adds it to its
+// NewIngressComponentSubCommand creates a new command and adds it to its
 // parent command.
-func NewDatabaseComponentSubCommand(parentCommand *cobra.Command) {
+func NewIngressComponentSubCommand(parentCommand *cobra.Command) {
 	versionCmd := &cmdversion.VersionSubCommand{
-		Name:         "database",
-		Description:  "Manage the database support services",
-		VersionFunc:  VersionDatabaseComponent,
+		Name:         "ingress",
+		Description:  "Manage the ingress support services",
+		VersionFunc:  VersionIngressComponent,
 		SubCommandOf: parentCommand,
 	}
 
 	versionCmd.Setup()
 }
 
-func VersionDatabaseComponent(v *cmdversion.VersionSubCommand) error {
-	apiVersions := make([]string, len(application.DatabaseComponentGroupVersions()))
+func VersionIngressComponent(v *cmdversion.VersionSubCommand) error {
+	apiVersions := make([]string, len(platform.IngressComponentGroupVersions()))
 
-	for i, groupVersion := range application.DatabaseComponentGroupVersions() {
+	for i, groupVersion := range platform.IngressComponentGroupVersions() {
 		apiVersions[i] = groupVersion.Version
 	}
 

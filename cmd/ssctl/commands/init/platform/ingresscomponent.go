@@ -24,22 +24,22 @@ import (
 
 	"github.com/nukleros/support-services-operator/apis/platform"
 
-	v1alpha1certificatescomponent "github.com/nukleros/support-services-operator/apis/platform/v1alpha1/certificatescomponent"
+	v1alpha1ingresscomponent "github.com/nukleros/support-services-operator/apis/platform/v1alpha1/ingresscomponent"
 	cmdinit "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init"
 	//+kubebuilder:scaffold:operator-builder:imports
 )
 
-// getCertificatesComponentManifest returns the sample CertificatesComponent manifest
+// getIngressComponentManifest returns the sample IngressComponent manifest
 // based upon API Version input.
-func getCertificatesComponentManifest(i *cmdinit.InitSubCommand) (string, error) {
+func getIngressComponentManifest(i *cmdinit.InitSubCommand) (string, error) {
 	apiVersion := i.APIVersion
 	if apiVersion == "" || apiVersion == "latest" {
-		return platform.CertificatesComponentLatestSample, nil
+		return platform.IngressComponentLatestSample, nil
 	}
 
 	// generate a map of all versions to samples for each api version created
 	manifestMap := map[string]string{
-		"v1alpha1": v1alpha1certificatescomponent.Sample(i.RequiredOnly),
+		"v1alpha1": v1alpha1ingresscomponent.Sample(i.RequiredOnly),
 		//+kubebuilder:scaffold:operator-builder:versionmap
 	}
 
@@ -53,23 +53,23 @@ func getCertificatesComponentManifest(i *cmdinit.InitSubCommand) (string, error)
 	return "", fmt.Errorf("unsupported API Version: " + apiVersion)
 }
 
-// NewCertificatesComponentSubCommand creates a new command and adds it to its
+// NewIngressComponentSubCommand creates a new command and adds it to its
 // parent command.
-func NewCertificatesComponentSubCommand(parentCommand *cobra.Command) {
+func NewIngressComponentSubCommand(parentCommand *cobra.Command) {
 	initCmd := &cmdinit.InitSubCommand{
-		Name:         "certificates",
-		Description:  "Manage the certificate support services",
-		InitFunc:     InitCertificatesComponent,
+		Name:         "ingress",
+		Description:  "Manage the ingress support services",
+		InitFunc:     InitIngressComponent,
 		SubCommandOf: parentCommand,
 	}
 
 	initCmd.Setup()
 }
 
-func InitCertificatesComponent(i *cmdinit.InitSubCommand) error {
-	manifest, err := getCertificatesComponentManifest(i)
+func InitIngressComponent(i *cmdinit.InitSubCommand) error {
+	manifest, err := getIngressComponentManifest(i)
 	if err != nil {
-		return fmt.Errorf("unable to get manifest for CertificatesComponent; %w", err)
+		return fmt.Errorf("unable to get manifest for IngressComponent; %w", err)
 	}
 
 	outputStream := os.Stdout

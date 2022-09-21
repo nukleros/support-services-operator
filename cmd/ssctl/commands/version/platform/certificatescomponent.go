@@ -29,7 +29,7 @@ import (
 func NewCertificatesComponentSubCommand(parentCommand *cobra.Command) {
 	versionCmd := &cmdversion.VersionSubCommand{
 		Name:         "certificates",
-		Description:  "Manage the cert management support service",
+		Description:  "Manage the certificate support services",
 		VersionFunc:  VersionCertificatesComponent,
 		SubCommandOf: parentCommand,
 	}

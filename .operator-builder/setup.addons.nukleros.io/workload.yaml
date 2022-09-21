@@ -16,6 +16,7 @@ spec:
   componentFiles:
     - ../application.addons.nukleros.io/database-component/workload.yaml
     - ../platform.addons.nukleros.io/certificates-component/workload.yaml
+    - ../platform.addons.nukleros.io/ingress-component/workload.yaml
   resources:
     - namespace.yaml
 

@@ -37,11 +37,11 @@ yamlFiles:
       - name: "add image name markers"
         query: "spec.template.spec.containers[?(@.name == 'postgres-operator')]"
         value:
-          # +operator-builder:field:name=zalandoPostgres.image,default={{ .defaultImage }},type=string,replace="postgresDefaultImage",description=`
+          # +operator-builder:field:name=zalandoPostgres.image,default={{ .defaultImage }},type=string,replace="postgresImage",description=`
           # Image repo and name to use for postgres operator.`
-          # +operator-builder:field:name=zalandoPostgres.version,default={{ .defaultVersion }},type=string,replace="postgresDefaultVersion",description=`
+          # +operator-builder:field:name=zalandoPostgres.version,default={{ .defaultVersion }},type=string,replace="postgresVersion",description=`
           # Version of postgres operator to use.`
-          image: postgresDefaultImage:postgresDefaultVersion
+          image: postgresImage:postgresVersion
 
   - name: "zalando-postgres rbac"
     path: "../vendor/rbac.yaml"

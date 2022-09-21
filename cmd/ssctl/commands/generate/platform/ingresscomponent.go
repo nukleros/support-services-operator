@@ -33,30 +33,30 @@ import (
 
 	// specific imports for workloads
 
-	v1alpha1certificatescomponent "github.com/nukleros/support-services-operator/apis/platform/v1alpha1/certificatescomponent"
+	v1alpha1ingresscomponent "github.com/nukleros/support-services-operator/apis/platform/v1alpha1/ingresscomponent"
 	//+kubebuilder:scaffold:operator-builder:imports
 )
 
-// NewCertificatesComponentSubCommand creates a new command and adds it to its
+// NewIngressComponentSubCommand creates a new command and adds it to its
 // parent command.
-func NewCertificatesComponentSubCommand(parentCommand *cobra.Command) {
+func NewIngressComponentSubCommand(parentCommand *cobra.Command) {
 	generateCmd := &cmdgenerate.GenerateSubCommand{
-		Name:                  "certificates",
-		Description:           "Manage the certificate support services",
+		Name:                  "ingress",
+		Description:           "Manage the ingress support services",
 		SubCommandOf:          parentCommand,
-		GenerateFunc:          GenerateCertificatesComponent,
+		GenerateFunc:          GenerateIngressComponent,
 		UseCollectionManifest: true,
 		CollectionKind:        "SupportServices",
 		UseWorkloadManifest:   true,
-		WorkloadKind:          "CertificatesComponent",
+		WorkloadKind:          "IngressComponent",
 	}
 
 	generateCmd.Setup()
 }
 
-// GenerateCertificatesComponent runs the logic to generate child resources for a
-// CertificatesComponent workload.
-func GenerateCertificatesComponent(g *cmdgenerate.GenerateSubCommand) error {
+// GenerateIngressComponent runs the logic to generate child resources for a
+// IngressComponent workload.
+func GenerateIngressComponent(g *cmdgenerate.GenerateSubCommand) error {
 	var apiVersion string
 
 	workloadFilename, _ := filepath.Abs(g.WorkloadManifest)
@@ -96,7 +96,7 @@ func GenerateCertificatesComponent(g *cmdgenerate.GenerateSubCommand) error {
 	// generate a map of all versions to generate functions for each api version created
 	type generateFunc func([]byte, []byte) ([]client.Object, error)
 	generateFuncMap := map[string]generateFunc{
-		"v1alpha1": v1alpha1certificatescomponent.GenerateForCLI,
+		"v1alpha1": v1alpha1ingresscomponent.GenerateForCLI,
 		//+kubebuilder:scaffold:operator-builder:versionmap
 	}
 

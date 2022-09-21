@@ -1,0 +1,140 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    value: "nukleros-ingress-system"  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+
+yamlFiles:
+  - name: "external-dns namespace"
+    path: "../static/namespace.yaml"
+    outputPath: "namespace.yaml"
+    overlays:
+      - name: "add namespace name marker"
+        query: "$"
+        value:
+          metadata:
+            # +operator-builder:field:name=namespace,default="%v",type=string,description=`
+            # Namespace to use for ingress support services.`
+            name: "%v"
+
+      - name: "add namespace label marker"
+        query: "$"
+        value:
+          metadata:
+            labels:
+              externalDNSProvider: none  # +operator-builder:field:name=externalDNSProvider,type=string
+
+  - name: "external-dns config for active directory"
+    path: "../vendor/config-active-directory.yaml"
+    outputPath: "config-active-directory.yaml"
+    overlays:
+      - name: "add include marker for active directory secret and configmap"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+          apiVersion: v1
+
+  - name: "external-dns config for google"
+    path: "../vendor/config-google.yaml"
+    outputPath: "config-google.yaml"
+    overlays:
+      - name: "add include marker for google secret and configmap"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="google",include
+          apiVersion: v1
+
+  - name: "external-dns config for route53"
+    path: "../vendor/config-route53.yaml"
+    outputPath: "config-route53.yaml"
+    overlays:
+      - name: "add include marker for route53 secret and configmap"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="route53",include
+          apiVersion: v1
+
+  - name: "external-dns deployment for active directory"
+    path: "../vendor/deployment-active-directory.yaml"
+    outputPath: "deployment-active-directory.yaml"
+    overlays:
+      - name: "add include marker for active directory deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+          apiVersion: v1
+
+      - name: "add external-dns deployment replica count marker"
+        value:
+          spec:
+            # +operator-builder:field:name=externalDNS.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-dns deployment.`
+            replicas: !!int "%v"
+
+      - name: "add external-dns image markers"
+        query: "spec.template.spec.containers[?(@.name == 'external-dns')]"
+        value:
+          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage",description=`
+          # Image repo and name to use for external-dns.`
+          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion",description=`
+          # Version of external-dns to use.`
+          image: externalDNSImage:externalDNSVersion
+
+  - name: "external-dns deployment for google"
+    path: "../vendor/deployment-google.yaml"
+    outputPath: "deployment-google.yaml"
+    overlays:
+      - name: "add include marker for google deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="google",include
+          apiVersion: v1
+
+      - name: "add external-dns deployment replica count marker"
+        value:
+          spec:
+            # +operator-builder:field:name=externalDNS.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-dns deployment.`
+            replicas: !!int "%v"
+
+      - name: "add external-dns image markers"
+        query: "spec.template.spec.containers[?(@.name == 'external-dns')]"
+        value:
+          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage",description=`
+          # Image repo and name to use for external-dns.`
+          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion",description=`
+          # Version of external-dns to use.`
+          image: externalDNSImage:externalDNSVersion
+
+  - name: "external-dns deployment for route53"
+    path: "../vendor/deployment-route53.yaml"
+    outputPath: "deployment-route53.yaml"
+    overlays:
+      - name: "add include marker for route53 deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=externalDNSProvider,value="route53",include
+          apiVersion: v1
+
+      - name: "add external-dns deployment replica count marker"
+        value:
+          spec:
+            # +operator-builder:field:name=externalDNS.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-dns deployment.`
+            replicas: !!int "%v"
+
+      - name: "add external-dns image markers"
+        query: "spec.template.spec.containers[?(@.name == 'external-dns')]"
+        value:
+          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage",description=`
+          # Image repo and name to use for external-dns.`
+          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion",description=`
+          # Version of external-dns to use.`
+          image: externalDNSImage:externalDNSVersion
+
+  - name: "external-dns rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+

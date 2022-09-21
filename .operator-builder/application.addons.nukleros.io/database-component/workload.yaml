@@ -8,7 +8,7 @@ spec:
     kind: DatabaseComponent
     version: v1alpha1
   companionCliSubcmd:
-    description: Manage the database support service
+    description: Manage the database support services
     name: database
   dependencies: []
   resources:

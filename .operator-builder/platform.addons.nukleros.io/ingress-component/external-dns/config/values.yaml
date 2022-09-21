@@ -1,0 +1,4 @@
+---
+defaultImage: k8s.gcr.io/external-dns/external-dns
+defaultVersion: v0.12.2
+
