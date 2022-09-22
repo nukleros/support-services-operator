@@ -45,7 +45,7 @@ func platformv1alpha1IngressComponentChildrenFuncs(tester *E2ETest) error {
 		return fmt.Errorf("error in workload conversion; %w", err)
 	}
 
-	resourceObjects, err := ingresscomponent.Generate(*workload, *collection)
+	resourceObjects, err := ingresscomponent.Generate(*workload, *collection, nil, nil)
 	if err != nil {
 		return fmt.Errorf("unable to create objects in memory; %w", err)
 	}

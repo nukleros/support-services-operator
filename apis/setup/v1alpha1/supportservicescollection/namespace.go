@@ -20,19 +20,20 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
+
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
+	"github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection/mutate"
 )
 
 // +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;create;update;patch;delete
 
-const NamespaceParentName = "parent.Name"
-
-// CreateNamespaceParentName creates the parent.Name Namespace resource.
+// CreateNamespaceParentName creates the Namespace resource with name parent.Name.
 func CreateNamespaceParentName(
 	parent *setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
 ) ([]client.Object, error) {
-
-	resourceObjs := []client.Object{}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			"apiVersion": "v1",
@@ -51,7 +52,5 @@ func CreateNamespaceParentName(
 		},
 	}
 
-	resourceObjs = append(resourceObjs, resourceObj)
-
-	return resourceObjs, nil
+	return mutate.MutateNamespaceParentName(resourceObj, parent, reconciler, req)
 }

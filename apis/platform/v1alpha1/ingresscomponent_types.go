@@ -52,6 +52,7 @@ type IngressComponentSpec struct {
 	// +kubebuilder:validation:Optional
 	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
 
+	// +kubebuilder:validation:Required
 	ExternalDNSProvider string `json:"externalDNSProvider,omitempty"`
 }
 
@@ -72,13 +73,11 @@ type IngressComponentSpecExternalDNS struct {
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")
 	//  Image repo and name to use for external-dns.
-	//  Image repo and name to use for external-dns.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="v0.12.2"
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.12.2")
-	//  Version of external-dns to use.
 	//  Version of external-dns to use.
 	Version string `json:"version,omitempty"`
 }

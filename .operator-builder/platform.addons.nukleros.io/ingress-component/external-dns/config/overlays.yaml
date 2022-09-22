@@ -102,10 +102,8 @@ yamlFiles:
       - name: "add external-dns image markers"
         query: "spec.template.spec.containers[?(@.name == 'external-dns')]"
         value:
-          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage",description=`
-          # Image repo and name to use for external-dns.`
-          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion",description=`
-          # Version of external-dns to use.`
+          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage"
+          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion"
           image: externalDNSImage:externalDNSVersion
 
   - name: "external-dns deployment for route53"
@@ -128,10 +126,8 @@ yamlFiles:
       - name: "add external-dns image markers"
         query: "spec.template.spec.containers[?(@.name == 'external-dns')]"
         value:
-          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage",description=`
-          # Image repo and name to use for external-dns.`
-          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion",description=`
-          # Version of external-dns to use.`
+          # +operator-builder:field:name=externalDNS.image,default={{ .defaultImage }},type=string,replace="externalDNSImage"
+          # +operator-builder:field:name=externalDNS.version,default={{ .defaultVersion }},type=string,replace="externalDNSVersion"
           image: externalDNSImage:externalDNSVersion
 
   - name: "external-dns rbac"

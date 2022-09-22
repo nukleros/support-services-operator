@@ -12,10 +12,10 @@ spec:
     name: certificates
   dependencies: []
   resources:
-    - cert-manager/manifests/crds.yaml
-    - cert-manager/manifests/deployment.yaml
-    - cert-manager/manifests/namespace.yaml
-    - cert-manager/manifests/rbac.yaml
-    - cert-manager/manifests/service.yaml
-    - cert-manager/manifests/webhook.yaml
+    - cert-manager/crds.yaml
+    - cert-manager/deployment.yaml
+    - cert-manager/namespace.yaml
+    - cert-manager/rbac.yaml
+    - cert-manager/service.yaml
+    - cert-manager/webhook.yaml
 

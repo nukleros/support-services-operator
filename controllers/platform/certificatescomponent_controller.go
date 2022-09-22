@@ -248,34 +248,12 @@ func (r *CertificatesComponentReconciler) EnqueueRequestOnCollectionChange(req *
 
 // GetResources resources runs the methods to properly construct the resources in memory.
 func (r *CertificatesComponentReconciler) GetResources(req *workload.Request) ([]client.Object, error) {
-	resourceObjects := []client.Object{}
-
 	component, collection, err := certificatescomponent.ConvertWorkload(req.Workload, req.Collection)
 	if err != nil {
 		return nil, err
 	}
 
-	// create resources in memory
-	resources, err := certificatescomponent.Generate(*component, *collection)
-	if err != nil {
-		return nil, err
-	}
-
-	// run through the mutation functions to mutate the resources
-	for _, resource := range resources {
-		mutatedResources, skip, err := r.Mutate(req, resource)
-		if err != nil {
-			return []client.Object{}, err
-		}
-
-		if skip {
-			continue
-		}
-
-		resourceObjects = append(resourceObjects, mutatedResources...)
-	}
-
-	return resourceObjects, nil
+	return certificatescomponent.Generate(*component, *collection, r, req)
 }
 
 // GetEventRecorder returns the event recorder for writing kubernetes events.
@@ -319,6 +297,7 @@ func (r *CertificatesComponentReconciler) CheckReady(req *workload.Request) (boo
 }
 
 // Mutate will run the mutate function for the workload.
+// WARN: this will be deprecated in the future.  See apis/group/version/kind/mutate*
 func (r *CertificatesComponentReconciler) Mutate(
 	req *workload.Request,
 	object client.Object,

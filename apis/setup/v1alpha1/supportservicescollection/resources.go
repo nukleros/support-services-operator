@@ -57,11 +57,15 @@ func Sample(requiredOnly bool) string {
 
 // Generate returns the child resources that are associated with this workload given
 // appropriate structured inputs.
-func Generate(collectionObj setupv1alpha1.SupportServices) ([]client.Object, error) {
+func Generate(
+	collectionObj setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
+) ([]client.Object, error) {
 	resourceObjects := []client.Object{}
 
 	for _, f := range CreateFuncs {
-		resources, err := f(&collectionObj)
+		resources, err := f(&collectionObj, reconciler, req)
 
 		if err != nil {
 			return nil, err
@@ -85,7 +89,7 @@ func GenerateForCLI(collectionFile []byte) ([]client.Object, error) {
 		return nil, fmt.Errorf("error validating collection yaml, %w", err)
 	}
 
-	return Generate(collectionObj)
+	return Generate(collectionObj, nil, nil)
 }
 
 // CreateFuncs is an array of functions that are called to create the child resources for the controller
@@ -93,6 +97,8 @@ func GenerateForCLI(collectionFile []byte) ([]client.Object, error) {
 // database.
 var CreateFuncs = []func(
 	*setupv1alpha1.SupportServices,
+	workload.Reconciler,
+	*workload.Request,
 ) ([]client.Object, error){
 	CreateNamespaceParentName,
 }
@@ -107,6 +113,8 @@ var CreateFuncs = []func(
 // setup, it will fail.
 var InitFuncs = []func(
 	*setupv1alpha1.SupportServices,
+	workload.Reconciler,
+	*workload.Request,
 ) ([]client.Object, error){}
 
 func ConvertWorkload(component workload.Workload) (*setupv1alpha1.SupportServices, error) {

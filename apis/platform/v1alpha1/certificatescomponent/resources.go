@@ -78,11 +78,13 @@ func Sample(requiredOnly bool) string {
 func Generate(
 	workloadObj platformv1alpha1.CertificatesComponent,
 	collectionObj setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
 ) ([]client.Object, error) {
 	resourceObjects := []client.Object{}
 
 	for _, f := range CreateFuncs {
-		resources, err := f(&workloadObj, &collectionObj)
+		resources, err := f(&workloadObj, &collectionObj, reconciler, req)
 
 		if err != nil {
 			return nil, err
@@ -115,7 +117,7 @@ func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object
 		return nil, fmt.Errorf("error validating collection yaml, %w", err)
 	}
 
-	return Generate(workloadObj, collectionObj)
+	return Generate(workloadObj, collectionObj, nil, nil)
 }
 
 // CreateFuncs is an array of functions that are called to create the child resources for the controller
@@ -124,13 +126,15 @@ func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object
 var CreateFuncs = []func(
 	*platformv1alpha1.CertificatesComponent,
 	*setupv1alpha1.SupportServices,
+	workload.Reconciler,
+	*workload.Request,
 ) ([]client.Object, error){
-	CreateCustomResourceDefinitionCertificaterequestsCertManagerIo,
-	CreateCustomResourceDefinitionCertificatesCertManagerIo,
-	CreateCustomResourceDefinitionChallengesAcmeCertManagerIo,
-	CreateCustomResourceDefinitionClusterissuersCertManagerIo,
-	CreateCustomResourceDefinitionIssuersCertManagerIo,
-	CreateCustomResourceDefinitionOrdersAcmeCertManagerIo,
+	CreateCRDCertificaterequestsCertManagerIo,
+	CreateCRDCertificatesCertManagerIo,
+	CreateCRDChallengesAcmeCertManagerIo,
+	CreateCRDClusterissuersCertManagerIo,
+	CreateCRDIssuersCertManagerIo,
+	CreateCRDOrdersAcmeCertManagerIo,
 	CreateDeploymentNamespaceCertManagerCainjector,
 	CreateDeploymentNamespaceCertManager,
 	CreateDeploymentNamespaceCertManagerWebhook,
@@ -168,8 +172,8 @@ var CreateFuncs = []func(
 	CreateRoleBindingNamespaceCertManagerWebhookDynamicServing,
 	CreateServiceNamespaceCertManager,
 	CreateServiceNamespaceCertManagerWebhook,
-	CreateMutatingWebhookConfigurationCertManagerWebhook,
-	CreateValidatingWebhookConfigurationCertManagerWebhook,
+	CreateMutatingWebhookCertManagerWebhook,
+	CreateValidatingWebhookCertManagerWebhook,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -183,13 +187,15 @@ var CreateFuncs = []func(
 var InitFuncs = []func(
 	*platformv1alpha1.CertificatesComponent,
 	*setupv1alpha1.SupportServices,
+	workload.Reconciler,
+	*workload.Request,
 ) ([]client.Object, error){
-	CreateCustomResourceDefinitionCertificaterequestsCertManagerIo,
-	CreateCustomResourceDefinitionCertificatesCertManagerIo,
-	CreateCustomResourceDefinitionChallengesAcmeCertManagerIo,
-	CreateCustomResourceDefinitionClusterissuersCertManagerIo,
-	CreateCustomResourceDefinitionIssuersCertManagerIo,
-	CreateCustomResourceDefinitionOrdersAcmeCertManagerIo,
+	CreateCRDCertificaterequestsCertManagerIo,
+	CreateCRDCertificatesCertManagerIo,
+	CreateCRDChallengesAcmeCertManagerIo,
+	CreateCRDClusterissuersCertManagerIo,
+	CreateCRDIssuersCertManagerIo,
+	CreateCRDOrdersAcmeCertManagerIo,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (

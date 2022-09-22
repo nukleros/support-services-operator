@@ -248,34 +248,12 @@ func (r *DatabaseComponentReconciler) EnqueueRequestOnCollectionChange(req *work
 
 // GetResources resources runs the methods to properly construct the resources in memory.
 func (r *DatabaseComponentReconciler) GetResources(req *workload.Request) ([]client.Object, error) {
-	resourceObjects := []client.Object{}
-
 	component, collection, err := databasecomponent.ConvertWorkload(req.Workload, req.Collection)
 	if err != nil {
 		return nil, err
 	}
 
-	// create resources in memory
-	resources, err := databasecomponent.Generate(*component, *collection)
-	if err != nil {
-		return nil, err
-	}
-
-	// run through the mutation functions to mutate the resources
-	for _, resource := range resources {
-		mutatedResources, skip, err := r.Mutate(req, resource)
-		if err != nil {
-			return []client.Object{}, err
-		}
-
-		if skip {
-			continue
-		}
-
-		resourceObjects = append(resourceObjects, mutatedResources...)
-	}
-
-	return resourceObjects, nil
+	return databasecomponent.Generate(*component, *collection, r, req)
 }
 
 // GetEventRecorder returns the event recorder for writing kubernetes events.
@@ -319,6 +297,7 @@ func (r *DatabaseComponentReconciler) CheckReady(req *workload.Request) (bool, e
 }
 
 // Mutate will run the mutate function for the workload.
+// WARN: this will be deprecated in the future.  See apis/group/version/kind/mutate*
 func (r *DatabaseComponentReconciler) Mutate(
 	req *workload.Request,
 	object client.Object,

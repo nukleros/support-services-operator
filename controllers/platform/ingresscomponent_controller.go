@@ -248,34 +248,12 @@ func (r *IngressComponentReconciler) EnqueueRequestOnCollectionChange(req *workl
 
 // GetResources resources runs the methods to properly construct the resources in memory.
 func (r *IngressComponentReconciler) GetResources(req *workload.Request) ([]client.Object, error) {
-	resourceObjects := []client.Object{}
-
 	component, collection, err := ingresscomponent.ConvertWorkload(req.Workload, req.Collection)
 	if err != nil {
 		return nil, err
 	}
 
-	// create resources in memory
-	resources, err := ingresscomponent.Generate(*component, *collection)
-	if err != nil {
-		return nil, err
-	}
-
-	// run through the mutation functions to mutate the resources
-	for _, resource := range resources {
-		mutatedResources, skip, err := r.Mutate(req, resource)
-		if err != nil {
-			return []client.Object{}, err
-		}
-
-		if skip {
-			continue
-		}
-
-		resourceObjects = append(resourceObjects, mutatedResources...)
-	}
-
-	return resourceObjects, nil
+	return ingresscomponent.Generate(*component, *collection, r, req)
 }
 
 // GetEventRecorder returns the event recorder for writing kubernetes events.
@@ -319,6 +297,7 @@ func (r *IngressComponentReconciler) CheckReady(req *workload.Request) (bool, er
 }
 
 // Mutate will run the mutate function for the workload.
+// WARN: this will be deprecated in the future.  See apis/group/version/kind/mutate*
 func (r *IngressComponentReconciler) Mutate(
 	req *workload.Request,
 	object client.Object,

@@ -35,6 +35,7 @@ type SupportServicesSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	// +kubebuilder:validation:Required
 	//  +kubebuilder:validation:Enum=aws;gcp;azure;none
 	CloudProvider string `json:"cloudProvider,omitempty"`
 

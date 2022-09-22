@@ -127,34 +127,12 @@ func (r *SupportServicesReconciler) NewRequest(ctx context.Context, request ctrl
 
 // GetResources resources runs the methods to properly construct the resources in memory.
 func (r *SupportServicesReconciler) GetResources(req *workload.Request) ([]client.Object, error) {
-	resourceObjects := []client.Object{}
-
 	component, err := supportservicescollection.ConvertWorkload(req.Workload)
 	if err != nil {
 		return nil, err
 	}
 
-	// create resources in memory
-	resources, err := supportservicescollection.Generate(*component)
-	if err != nil {
-		return nil, err
-	}
-
-	// run through the mutation functions to mutate the resources
-	for _, resource := range resources {
-		mutatedResources, skip, err := r.Mutate(req, resource)
-		if err != nil {
-			return []client.Object{}, err
-		}
-
-		if skip {
-			continue
-		}
-
-		resourceObjects = append(resourceObjects, mutatedResources...)
-	}
-
-	return resourceObjects, nil
+	return supportservicescollection.Generate(*component, r, req)
 }
 
 // GetEventRecorder returns the event recorder for writing kubernetes events.
@@ -198,6 +176,7 @@ func (r *SupportServicesReconciler) CheckReady(req *workload.Request) (bool, err
 }
 
 // Mutate will run the mutate function for the workload.
+// WARN: this will be deprecated in the future.  See apis/group/version/kind/mutate*
 func (r *SupportServicesReconciler) Mutate(
 	req *workload.Request,
 	object client.Object,

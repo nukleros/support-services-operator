@@ -12,12 +12,12 @@ spec:
     name: ingress
   dependencies: []
   resources:
-    - external-dns/manifests/config-active-directory.yaml
-    - external-dns/manifests/config-google.yaml
-    - external-dns/manifests/config-route53.yaml
-    - external-dns/manifests/deployment-active-directory.yaml
-    - external-dns/manifests/deployment-google.yaml
-    #- external-dns/manifests/deployment-route53.yaml
-    - external-dns/manifests/namespace.yaml
-    - external-dns/manifests/rbac.yaml
+    - external-dns/config-active-directory.yaml
+    - external-dns/config-google.yaml
+    - external-dns/config-route53.yaml
+    - external-dns/deployment-active-directory.yaml
+    - external-dns/deployment-google.yaml
+    - external-dns/deployment-route53.yaml
+    - external-dns/namespace.yaml
+    - external-dns/rbac.yaml
 

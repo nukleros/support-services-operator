@@ -19,4 +19,28 @@ resources:
   kind: SupportServices
   path: github.com/nukleros/support-services-operator/apis/setup/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: addons.nukleros.io
+  group: application
+  kind: DatabaseComponent
+  path: github.com/nukleros/support-services-operator/apis/application/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: addons.nukleros.io
+  group: platform
+  kind: CertificatesComponent
+  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: addons.nukleros.io
+  group: platform
+  kind: IngressComponent
+  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  version: v1alpha1
 version: "3"
