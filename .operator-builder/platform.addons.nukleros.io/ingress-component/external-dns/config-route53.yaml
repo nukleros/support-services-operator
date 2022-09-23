@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field=externalDNSProvider,value="route53",include
+# +operator-builder:resource:field=externalDNS.provider,value="route53",include
 apiVersion: v1
 kind: Secret
 metadata:

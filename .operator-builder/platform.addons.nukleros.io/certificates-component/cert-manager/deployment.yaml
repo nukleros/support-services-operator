@@ -36,11 +36,11 @@ spec:
         runAsNonRoot: true
       containers:
         - name: cert-manager
-          # +operator-builder:field:name=certManager.cainjector.image,default=quay.io/jetstack/cert-manager-cainjector,type=string,replace="cainjectorDefaultImage",description=`
+          # +operator-builder:field:name=certManager.cainjector.image,default=quay.io/jetstack/cert-manager-cainjector,type=string,replace="cainjectorImage",description=`
           # Image repo and name to use for cert-manager cainjector.`
-          # +operator-builder:field:name=certManager.cainjector.version,default=v1.9.1,type=string,replace="cainjectorDefaultVersion",description=`
-          # Version of cert-manager cainjector to use.`
-          image: cainjectorDefaultImage:cainjectorDefaultVersion
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion",description=`
+          # Version of cert-manager to use.`
+          image: cainjectorImage:certManagerVersion
           imagePullPolicy: IfNotPresent
           args:
             - --v=2
@@ -119,11 +119,10 @@ spec:
         runAsNonRoot: true
       containers:
         - name: cert-manager
-          # +operator-builder:field:name=certManager.controller.image,default=quay.io/jetstack/cert-manager-controller,type=string,replace="controllerDefaultImage",description=`
+          # +operator-builder:field:name=certManager.controller.image,default=quay.io/jetstack/cert-manager-controller,type=string,replace="controllerImage",description=`
           # Image repo and name to use for cert-manager controller.`
-          # +operator-builder:field:name=certManager.controller.version,default=v1.9.1,type=string,replace="controllerDefaultVersion",description=`
-          # Version of cert-manager controller to use.`
-          image: controllerDefaultImage:controllerDefaultVersion
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion"
+          image: controllerImage:certManagerVersion
           imagePullPolicy: IfNotPresent
           args:
             - --v=2
@@ -203,11 +202,10 @@ spec:
         runAsNonRoot: true
       containers:
         - name: cert-manager
-          # +operator-builder:field:name=certManager.webhook.image,default=quay.io/jetstack/cert-manager-webhook,type=string,replace="webhookDefaultImage",description=`
+          # +operator-builder:field:name=certManager.webhook.image,default=quay.io/jetstack/cert-manager-webhook,type=string,replace="webhookImage",description=`
           # Image repo and name to use for cert-manager webhook.`
-          # +operator-builder:field:name=certManager.webhook.version,default=v1.9.1,type=string,replace="webhookDefaultVersion",description=`
-          # Version of cert-manager webhook to use.`
-          image: webhookDefaultImage:webhookDefaultVersion
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion"
+          image: webhookImage:certManagerVersion
           imagePullPolicy: IfNotPresent
           args:
             - --v=2

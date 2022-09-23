@@ -6,4 +6,4 @@ metadata:
   # Namespace to use for ingress support services.`
   name: nukleros-ingress-system
   labels:
-    externalDNSProvider: none # +operator-builder:field:name=externalDNSProvider,type=string
+    externalDNSProvider: none # +operator-builder:field:name=externalDNS.provider,type=string

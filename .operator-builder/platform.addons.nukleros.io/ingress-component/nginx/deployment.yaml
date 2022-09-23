@@ -1,0 +1,97 @@
+---
+# +operator-builder:resource:field:name=installType,value="deployment",include
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-ingress
+  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+  labels:
+    app.kubernetes.io/name: nginx-ingress
+    platform.nukleros.io/purpose: ingress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-ingress
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+        app.kubernetes.io/name: nginx-ingress
+        platform.nukleros.io/purpose: ingress
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9113"
+        prometheus.io/scheme: http
+    spec:
+      serviceAccountName: nginx-ingress
+      containers:
+        - # +operator-builder:field:name=nginx.image,default=nginx/nginx-ingress,type=string,replace="nginxImage",description=`
+          # Image repo and name to use for nginx.`
+          # +operator-builder:field:name=nginx.version,default="2.3.0",type=string,replace="nginxVersion",description=`
+          # Version of nginx to use.`
+          image: nginxImage:nginxVersion
+          imagePullPolicy: IfNotPresent
+          name: nginx-ingress
+          ports:
+            - name: http
+              containerPort: 80
+            - name: https
+              containerPort: 443
+            - name: readiness-port
+              containerPort: 8081
+            - name: prometheus
+              containerPort: 9113
+          readinessProbe:
+            httpGet:
+              path: /nginx-ready
+              port: readiness-port
+            periodSeconds: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: true
+            runAsUser: 101
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          args:
+            - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
+            - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
+            - -enable-cert-manager
+            - -enable-external-dns
+            - -v=3 # Enables extensive logging. Useful for troubleshooting.
+            - -report-ingress-status
+            - -external-service=nginx-ingress
+            - -enable-prometheus-metrics
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - nginx-ingress
+      nodeSelector:
+        kubernetes.io/os: linux

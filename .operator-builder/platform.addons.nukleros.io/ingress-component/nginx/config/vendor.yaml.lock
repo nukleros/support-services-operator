@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #13 from lander2k2/nginx-service-names...'
+      sha: 4f0ab6e699c87e0418f0b31f6379748b85feaf21
+      tags:
+      - v0.0.0-alpha.1-12-g4f0ab6e
+    path: ./
+  path: platform.addons.nukleros.io/ingress-component/nginx/vendor
+kind: LockConfig

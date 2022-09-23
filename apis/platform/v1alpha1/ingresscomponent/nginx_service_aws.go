@@ -27,40 +27,49 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 
-// CreateSecretNamespaceExternalDnsRoute53 creates the Secret resource with name external-dns-route53.
-func CreateSecretNamespaceExternalDnsRoute53(
+// CreateServiceNamespaceNginxIngressAws creates the Service resource with name nginx-ingress-aws.
+func CreateServiceNamespaceNginxIngressAws(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "route53" {
-		return []client.Object{}, nil
-	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="route53",include
 			"apiVersion": "v1",
-			"kind":       "Secret",
+			"kind":       "Service",
 			"metadata": map[string]interface{}{
-				"name":      "external-dns-route53",
+				"name":      "nginx-ingress-aws",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"annotations": map[string]interface{}{
+					"service.beta.kubernetes.io/aws-load-balancer-backend-protocol": "tcp",
+					"service.beta.kubernetes.io/aws-load-balancer-proxy-protocol":   "*",
+				},
 			},
-			"stringData": map[string]interface{}{
-				"EXTERNAL_DNS_TXT_OWNER_ID":     "external-dns-",
-				"EXTERNAL_DNS_TXT_PREFIX":       "external-dns-",
-				"EXTERNAL_DNS_PROVIDER":         "aws",
-				"EXTERNAL_DNS_AWS_ZONE_TYPE":    "private",
-				"EXTERNAL_DNS_AWS_PREFER_CNAME": "true",
-				"EXTERNAL_DNS_DOMAIN_FILTER":    "mydomain.com",
-				"EXTERNAL_DNS_POLICY":           "sync",
-				"AWS_ACCESS_KEY_ID":             "",
-				"AWS_SECRET_ACCESS_KEY":         "",
+			"spec": map[string]interface{}{
+				"type": "LoadBalancer",
+				"ports": []interface{}{
+					map[string]interface{}{
+						"port":       80,
+						"targetPort": 80,
+						"protocol":   "TCP",
+						"name":       "http",
+					},
+					map[string]interface{}{
+						"port":       443,
+						"targetPort": 443,
+						"protocol":   "TCP",
+						"name":       "https",
+					},
+				},
+				"selector": map[string]interface{}{
+					"app": "nginx-ingress",
+				},
 			},
 		},
 	}
 
-	return mutate.MutateSecretNamespaceExternalDnsRoute53(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceNamespaceNginxIngressAws(resourceObj, parent, collection, reconciler, req)
 }

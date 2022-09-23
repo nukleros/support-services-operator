@@ -84,10 +84,10 @@ func CreateDeploymentNamespaceCertManagerCainjector(
 							map[string]interface{}{
 								"name": "cert-manager",
 								// controlled by field: certManager.cainjector.image
-								// controlled by field: certManager.cainjector.version
+								// controlled by field: certManager.version
 								//  Image repo and name to use for cert-manager cainjector.
-								//  Version of cert-manager cainjector to use.
-								"image":           "" + parent.Spec.CertManager.Cainjector.Image + ":" + parent.Spec.CertManager.Cainjector.Version + "",
+								//  Version of cert-manager to use.
+								"image":           "" + parent.Spec.CertManager.Cainjector.Image + ":" + parent.Spec.CertManager.Version + "",
 								"imagePullPolicy": "IfNotPresent",
 								"args": []interface{}{
 									"--v=2",
@@ -221,10 +221,9 @@ func CreateDeploymentNamespaceCertManager(
 							map[string]interface{}{
 								"name": "cert-manager",
 								// controlled by field: certManager.controller.image
-								// controlled by field: certManager.controller.version
+								// controlled by field: certManager.version
 								//  Image repo and name to use for cert-manager controller.
-								//  Version of cert-manager controller to use.
-								"image":           "" + parent.Spec.CertManager.Controller.Image + ":" + parent.Spec.CertManager.Controller.Version + "",
+								"image":           "" + parent.Spec.CertManager.Controller.Image + ":" + parent.Spec.CertManager.Version + "",
 								"imagePullPolicy": "IfNotPresent",
 								"args": []interface{}{
 									"--v=2",
@@ -361,10 +360,9 @@ func CreateDeploymentNamespaceCertManagerWebhook(
 							map[string]interface{}{
 								"name": "cert-manager",
 								// controlled by field: certManager.webhook.image
-								// controlled by field: certManager.webhook.version
+								// controlled by field: certManager.version
 								//  Image repo and name to use for cert-manager webhook.
-								//  Version of cert-manager webhook to use.
-								"image":           "" + parent.Spec.CertManager.Webhook.Image + ":" + parent.Spec.CertManager.Webhook.Version + "",
+								"image":           "" + parent.Spec.CertManager.Webhook.Image + ":" + parent.Spec.CertManager.Version + "",
 								"imagePullPolicy": "IfNotPresent",
 								"args": []interface{}{
 									"--v=2",

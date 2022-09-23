@@ -20,6 +20,7 @@ package constants
 // package to prevent import cycle errors when attempting to reference the names from other
 // packages (e.g. mutate).
 const (
+	NamespaceNamespace                                   = "parent.Spec.Namespace"
 	SecretNamespaceExternalDnsActiveDirectory            = "external-dns-active-directory"
 	ConfigMapNamespaceExternalDnsActiveDirectoryKerberos = "external-dns-active-directory-kerberos"
 	SecretNamespaceExternalDnsGoogle                     = "external-dns-google"
@@ -27,8 +28,23 @@ const (
 	DeploymentNamespaceExternalDnsActiveDirectory        = "external-dns-active-directory"
 	DeploymentNamespaceExternalDnsGoogle                 = "external-dns-google"
 	DeploymentNamespaceExternalDnsRoute53                = "external-dns-route53"
-	NamespaceNamespace                                   = "parent.Spec.Namespace"
 	ClusterRoleBindingExternalDnsViewer                  = "external-dns-viewer"
 	ClusterRoleNamespaceExternalDns                      = "external-dns"
 	ServiceAccountNamespaceExternalDns                   = "external-dns"
+	ConfigMapNamespaceNginxConfig                        = "nginx-config"
+	CRDDnsendpointsExternaldnsNginxOrg                   = "dnsendpoints.externaldns.nginx.org"
+	CRDTransportserversK8sNginxOrg                       = "transportservers.k8s.nginx.org"
+	CRDGlobalconfigurationsK8sNginxOrg                   = "globalconfigurations.k8s.nginx.org"
+	CRDPoliciesK8sNginxOrg                               = "policies.k8s.nginx.org"
+	CRDVirtualserverroutesK8sNginxOrg                    = "virtualserverroutes.k8s.nginx.org"
+	CRDVirtualserversK8sNginxOrg                         = "virtualservers.k8s.nginx.org"
+	DaemonSetNamespaceNginxIngress                       = "nginx-ingress"
+	DeploymentNamespaceNginxIngress                      = "nginx-ingress"
+	IngressClassNginx                                    = "nginx"
+	ServiceAccountNamespaceNginxIngress                  = "nginx-ingress"
+	ClusterRoleNginxIngress                              = "nginx-ingress"
+	ClusterRoleBindingNginxIngress                       = "nginx-ingress"
+	ServiceNamespaceNginxIngressAws                      = "nginx-ingress-aws"
+	ServiceNamespaceNginxIngressGcpAzure                 = "nginx-ingress-gcp-azure"
+	ServiceNamespaceNginxIngressNodeport                 = "nginx-ingress-nodeport"
 )

@@ -39,9 +39,12 @@ spec:
     #namespace: ""
   namespace: "nukleros-ingress-system"
   externalDNS:
+    provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
-  externalDNSProvider: "none"
+  nginx:
+    image: "nginx/nginx-ingress"
+    version: "2.3.0"
 `
 
 // sampleIngressComponentRequired is a sample containing only required fields
@@ -53,7 +56,8 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
-  externalDNSProvider: "none"
+  externalDNS:
+    provider: "none"
 `
 
 // Sample returns the sample manifest for this custom resource.
@@ -121,6 +125,7 @@ var CreateFuncs = []func(
 	workload.Reconciler,
 	*workload.Request,
 ) ([]client.Object, error){
+	CreateNamespaceNamespace,
 	CreateSecretNamespaceExternalDnsActiveDirectory,
 	CreateConfigMapNamespaceExternalDnsActiveDirectoryKerberos,
 	CreateSecretNamespaceExternalDnsGoogle,
@@ -128,10 +133,25 @@ var CreateFuncs = []func(
 	CreateDeploymentNamespaceExternalDnsActiveDirectory,
 	CreateDeploymentNamespaceExternalDnsGoogle,
 	CreateDeploymentNamespaceExternalDnsRoute53,
-	CreateNamespaceNamespace,
 	CreateClusterRoleBindingExternalDnsViewer,
 	CreateClusterRoleNamespaceExternalDns,
 	CreateServiceAccountNamespaceExternalDns,
+	CreateConfigMapNamespaceNginxConfig,
+	CreateCRDDnsendpointsExternaldnsNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
+	CreateCRDGlobalconfigurationsK8sNginxOrg,
+	CreateCRDPoliciesK8sNginxOrg,
+	CreateCRDVirtualserverroutesK8sNginxOrg,
+	CreateCRDVirtualserversK8sNginxOrg,
+	CreateDaemonSetNamespaceNginxIngress,
+	CreateDeploymentNamespaceNginxIngress,
+	CreateIngressClassNginx,
+	CreateServiceAccountNamespaceNginxIngress,
+	CreateClusterRoleNginxIngress,
+	CreateClusterRoleBindingNginxIngress,
+	CreateServiceNamespaceNginxIngressAws,
+	CreateServiceNamespaceNginxIngressGcpAzure,
+	CreateServiceNamespaceNginxIngressNodeport,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -147,7 +167,14 @@ var InitFuncs = []func(
 	*setupv1alpha1.SupportServices,
 	workload.Reconciler,
 	*workload.Request,
-) ([]client.Object, error){}
+) ([]client.Object, error){
+	CreateCRDDnsendpointsExternaldnsNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
+	CreateCRDGlobalconfigurationsK8sNginxOrg,
+	CreateCRDPoliciesK8sNginxOrg,
+	CreateCRDVirtualserverroutesK8sNginxOrg,
+	CreateCRDVirtualserversK8sNginxOrg,
+}
 
 func ConvertWorkload(component, collection workload.Workload) (
 	*platformv1alpha1.IngressComponent,

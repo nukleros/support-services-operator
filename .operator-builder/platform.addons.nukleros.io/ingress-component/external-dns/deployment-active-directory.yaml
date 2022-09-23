@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+# +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 apiVersion: v1
 kind: Deployment
 metadata:

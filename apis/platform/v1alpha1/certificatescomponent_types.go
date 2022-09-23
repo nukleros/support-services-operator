@@ -69,6 +69,12 @@ type CertificatesComponentSpecCertManager struct {
 	// +kubebuilder:validation:Optional
 	Cainjector CertificatesComponentSpecCertManagerCainjector `json:"cainjector,omitempty"`
 
+	// +kubebuilder:default="v1.9.1"
+	// +kubebuilder:validation:Optional
+	// (Default: "v1.9.1")
+	//  Version of cert-manager to use.
+	Version string `json:"version,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	Controller CertificatesComponentSpecCertManagerController `json:"controller,omitempty"`
 
@@ -88,12 +94,6 @@ type CertificatesComponentSpecCertManagerCainjector struct {
 	// (Default: "quay.io/jetstack/cert-manager-cainjector")
 	//  Image repo and name to use for cert-manager cainjector.
 	Image string `json:"image,omitempty"`
-
-	// +kubebuilder:default="v1.9.1"
-	// +kubebuilder:validation:Optional
-	// (Default: "v1.9.1")
-	//  Version of cert-manager cainjector to use.
-	Version string `json:"version,omitempty"`
 }
 
 type CertificatesComponentSpecCertManagerController struct {
@@ -108,12 +108,6 @@ type CertificatesComponentSpecCertManagerController struct {
 	// (Default: "quay.io/jetstack/cert-manager-controller")
 	//  Image repo and name to use for cert-manager controller.
 	Image string `json:"image,omitempty"`
-
-	// +kubebuilder:default="v1.9.1"
-	// +kubebuilder:validation:Optional
-	// (Default: "v1.9.1")
-	//  Version of cert-manager controller to use.
-	Version string `json:"version,omitempty"`
 }
 
 type CertificatesComponentSpecCertManagerWebhook struct {
@@ -128,12 +122,6 @@ type CertificatesComponentSpecCertManagerWebhook struct {
 	// (Default: "quay.io/jetstack/cert-manager-webhook")
 	//  Image repo and name to use for cert-manager webhook.
 	Image string `json:"image,omitempty"`
-
-	// +kubebuilder:default="v1.9.1"
-	// +kubebuilder:validation:Optional
-	// (Default: "v1.9.1")
-	//  Version of cert-manager webhook to use.
-	Version string `json:"version,omitempty"`
 }
 
 // CertificatesComponentStatus defines the observed state of CertificatesComponent.

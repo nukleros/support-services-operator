@@ -36,12 +36,12 @@ func CreateDeploymentNamespaceExternalDnsRoute53(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "route53" {
+	if parent.Spec.ExternalDNS.Provider != "route53" {
 		return []client.Object{}, nil
 	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="route53",include
+			// +operator-builder:resource:field=externalDNS.provider,value="route53",include
 			"apiVersion": "v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{

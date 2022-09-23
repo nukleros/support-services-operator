@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field=externalDNSProvider,value="google",include
+# +operator-builder:resource:field=externalDNS.provider,value="google",include
 apiVersion: v1
 kind: Secret
 metadata:

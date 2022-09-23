@@ -45,7 +45,7 @@ func CreateNamespaceNamespace(
 				//  Namespace to use for ingress support services.
 				"name": parent.Spec.Namespace,
 				"labels": map[string]interface{}{
-					"externalDNSProvider": parent.Spec.ExternalDNSProvider, //  controlled by field: externalDNSProvider
+					"externalDNSProvider": parent.Spec.ExternalDNS.Provider, //  controlled by field: externalDNS.provider
 				},
 			},
 		},

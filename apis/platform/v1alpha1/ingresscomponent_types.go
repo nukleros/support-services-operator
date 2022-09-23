@@ -52,8 +52,8 @@ type IngressComponentSpec struct {
 	// +kubebuilder:validation:Optional
 	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
 
-	// +kubebuilder:validation:Required
-	ExternalDNSProvider string `json:"externalDNSProvider,omitempty"`
+	// +kubebuilder:validation:Optional
+	Nginx IngressComponentSpecNginx `json:"nginx,omitempty"`
 }
 
 type IngressComponentCollectionSpec struct {
@@ -69,6 +69,9 @@ type IngressComponentCollectionSpec struct {
 }
 
 type IngressComponentSpecExternalDNS struct {
+	// +kubebuilder:validation:Required
+	Provider string `json:"provider,omitempty"`
+
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")
@@ -79,6 +82,20 @@ type IngressComponentSpecExternalDNS struct {
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.12.2")
 	//  Version of external-dns to use.
+	Version string `json:"version,omitempty"`
+}
+
+type IngressComponentSpecNginx struct {
+	// +kubebuilder:default="nginx/nginx-ingress"
+	// +kubebuilder:validation:Optional
+	// (Default: "nginx/nginx-ingress")
+	//  Image repo and name to use for nginx.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="2.3.0"
+	// +kubebuilder:validation:Optional
+	// (Default: "2.3.0")
+	//  Version of nginx to use.
 	Version string `json:"version,omitempty"`
 }
 

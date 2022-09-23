@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+# +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 apiVersion: v1
 kind: Secret
 metadata:
@@ -20,7 +20,7 @@ stringData:
   EXTERNAL_DNS_RFC2136_TSIG_AXFR: "true"
   EXTERNAL_DNS_POLICY: sync
 ---
-# +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+# +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 apiVersion: v1
 kind: ConfigMap
 metadata:

@@ -1,0 +1,75 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    value: "nukleros-ingress-system"  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+
+yamlFiles:
+  - name: "nginx configmap"
+    path: "../vendor/config.yaml"
+    outputPath: "config.yaml"
+
+  - name: "cert-manager crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "crds.yaml"
+
+  - name: "cert-manager daemonset"
+    path: "../vendor/daemonset.yaml"
+    outputPath: "daemonset.yaml"
+    overlays:
+      - name: "add include marker for nginx daemonset"
+        query: "$"
+        value:
+          # +operator-builder:resource:field:name=installType,value="daemonset",include
+          apiVersion: apps/v1
+
+      - name: "add nginx ingress controller image markers"
+        query: "spec.template.spec.containers[?(@.name == 'nginx-ingress')]"
+        value:
+          # +operator-builder:field:name=nginx.image,default={{ .defaultImage }},type=string,replace="nginxImage",description=`
+          # Image repo and name to use for nginx.`
+          # +operator-builder:field:name=nginx.version,default="{{ .defaultVersion }}",type=string,replace="nginxVersion",description=`
+          # Version of nginx to use.`
+          image: nginxImage:nginxVersion
+
+  - name: "cert-manager deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add include marker for nginx deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:field:name=installType,value="deployment",include
+          apiVersion: apps/v1
+
+      - name: "add nginx ingress controller image markers"
+        query: "spec.template.spec.containers[?(@.name == 'nginx-ingress')]"
+        value:
+          # +operator-builder:field:name=nginx.image,default={{ .defaultImage }},type=string,replace="nginxImage",description=`
+          # Image repo and name to use for nginx.`
+          # +operator-builder:field:name=nginx.version,default="{{ .defaultVersion }}",type=string,replace="nginxVersion",description=`
+          # Version of nginx to use.`
+          image: nginxImage:nginxVersion
+
+  - name: "nginx ingress class"
+    path: "../vendor/ingress-class.yaml"
+    outputPath: "ingress-class.yaml"
+
+  - name: "nginx rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+
+  - name: "nginx service for aws"
+    path: "../vendor/service-aws.yaml"
+    outputPath: "service-aws.yaml"
+
+  - name: "nginx service for gcp and azure"
+    path: "../vendor/service-gcp-azure.yaml"
+    outputPath: "service-gcp-azure.yaml"
+
+  - name: "nginx service for nodeport"
+    path: "../vendor/service-nodeport.yaml"
+    outputPath: "service-nodeport.yaml"
+

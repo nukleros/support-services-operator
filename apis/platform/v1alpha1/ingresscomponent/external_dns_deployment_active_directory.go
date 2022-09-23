@@ -29,26 +29,26 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
-// CreateDeploymentNamespaceExternalDnsGoogle creates the Deployment resource with name external-dns-google.
-func CreateDeploymentNamespaceExternalDnsGoogle(
+// CreateDeploymentNamespaceExternalDnsActiveDirectory creates the Deployment resource with name external-dns-active-directory.
+func CreateDeploymentNamespaceExternalDnsActiveDirectory(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "google" {
+	if parent.Spec.ExternalDNS.Provider != "active-directory" {
 		return []client.Object{}, nil
 	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="google",include
+			// +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 			"apiVersion": "v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
-				"name": "external-dns-google",
+				"name": "external-dns-active-directory",
 				"labels": map[string]interface{}{
-					"app":                            "external-dns-google",
-					"app.kubernetes.io/name":         "external-dns-google",
+					"app":                            "external-dns-active-directory",
+					"app.kubernetes.io/name":         "external-dns-active-directory",
 					"app.kubernetes.io/instance":     "external-dns",
 					"platform.kubernetes.io/purpose": "dns-updates",
 				},
@@ -60,14 +60,14 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 				},
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
-						"app": "external-dns-google",
+						"app": "external-dns-active-directory",
 					},
 				},
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app":                            "external-dns-google",
-							"app.kubernetes.io/name":         "external-dns-google",
+							"app":                            "external-dns-active-directory",
+							"app.kubernetes.io/name":         "external-dns-active-directory",
 							"app.kubernetes.io/instance":     "external-dns",
 							"platform.kubernetes.io/purpose": "dns-updates",
 						},
@@ -79,6 +79,8 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 								"name": "external-dns",
 								// controlled by field: externalDNS.image
 								// controlled by field: externalDNS.version
+								//  Image repo and name to use for external-dns.
+								//  Version of external-dns to use.
 								"image": "" + parent.Spec.ExternalDNS.Image + ":" + parent.Spec.ExternalDNS.Version + "",
 								"args": []interface{}{
 									"--source=service",
@@ -88,7 +90,7 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 								"envFrom": []interface{}{
 									map[string]interface{}{
 										"secretRef": map[string]interface{}{
-											"name": "external-dns-google",
+											"name": "external-dns-active-directory",
 										},
 									},
 								},
@@ -112,6 +114,13 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 										"memory": "64Mi",
 									},
 								},
+								"volumeMounts": []interface{}{
+									map[string]interface{}{
+										"name":      "external-dns-active-directory-kerberos",
+										"subPath":   "krb5.conf",
+										"mountPath": "/etc/krb5.conf",
+									},
+								},
 							},
 						},
 						"securityContext": map[string]interface{}{
@@ -119,6 +128,15 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 							"runAsUser":    1001,
 							"runAsGroup":   1001,
 							"runAsNonRoot": true,
+						},
+						"volumes": []interface{}{
+							map[string]interface{}{
+								"name": "external-dns-active-directory-kerberos",
+								"configMap": map[string]interface{}{
+									"defaultMode": 420,
+									"name":        "external-dns-active-directory-kerberos",
+								},
+							},
 						},
 						"nodeSelector": map[string]interface{}{
 							"kubernetes.io/os": "linux",
@@ -136,7 +154,7 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 														"key":      "app.kubernetes.io/name",
 														"operator": "In",
 														"values": []interface{}{
-															"external-dns-google",
+															"external-dns-active-directory",
 														},
 													},
 												},
@@ -153,5 +171,5 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 		},
 	}
 
-	return mutate.MutateDeploymentNamespaceExternalDnsGoogle(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateDeploymentNamespaceExternalDnsActiveDirectory(resourceObj, parent, collection, reconciler, req)
 }

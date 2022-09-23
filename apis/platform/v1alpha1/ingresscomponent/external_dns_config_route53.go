@@ -29,36 +29,38 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 
-// CreateSecretNamespaceExternalDnsGoogle creates the Secret resource with name external-dns-google.
-func CreateSecretNamespaceExternalDnsGoogle(
+// CreateSecretNamespaceExternalDnsRoute53 creates the Secret resource with name external-dns-route53.
+func CreateSecretNamespaceExternalDnsRoute53(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "google" {
+	if parent.Spec.ExternalDNS.Provider != "route53" {
 		return []client.Object{}, nil
 	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="google",include
+			// +operator-builder:resource:field=externalDNS.provider,value="route53",include
 			"apiVersion": "v1",
 			"kind":       "Secret",
 			"metadata": map[string]interface{}{
-				"name":      "external-dns-google",
+				"name":      "external-dns-route53",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"stringData": map[string]interface{}{
-				"EXTERNAL_DNS_TXT_OWNER_ID":           "external-dns-",
-				"EXTERNAL_DNS_TXT_PREFIX":             "external-dns-",
-				"EXTERNAL_DNS_PROVIDER":               "google",
-				"EXTERNAL_DNS_GOOGLE_ZONE_VISIBILITY": "private",
-				"EXTERNAL_DNS_GOOGLE_PROJECT":         "my-project",
-				"EXTERNAL_DNS_DOMAIN_FILTER":          "mydomain.com",
-				"EXTERNAL_DNS_POLICY":                 "sync",
+				"EXTERNAL_DNS_TXT_OWNER_ID":     "external-dns-",
+				"EXTERNAL_DNS_TXT_PREFIX":       "external-dns-",
+				"EXTERNAL_DNS_PROVIDER":         "aws",
+				"EXTERNAL_DNS_AWS_ZONE_TYPE":    "private",
+				"EXTERNAL_DNS_AWS_PREFER_CNAME": "true",
+				"EXTERNAL_DNS_DOMAIN_FILTER":    "mydomain.com",
+				"EXTERNAL_DNS_POLICY":           "sync",
+				"AWS_ACCESS_KEY_ID":             "",
+				"AWS_SECRET_ACCESS_KEY":         "",
 			},
 		},
 	}
 
-	return mutate.MutateSecretNamespaceExternalDnsGoogle(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateSecretNamespaceExternalDnsRoute53(resourceObj, parent, collection, reconciler, req)
 }

@@ -36,12 +36,12 @@ func CreateSecretNamespaceExternalDnsActiveDirectory(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "active-directory" {
+	if parent.Spec.ExternalDNS.Provider != "active-directory" {
 		return []client.Object{}, nil
 	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+			// +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 			"apiVersion": "v1",
 			"kind":       "Secret",
 			"metadata": map[string]interface{}{
@@ -78,12 +78,12 @@ func CreateConfigMapNamespaceExternalDnsActiveDirectoryKerberos(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
-	if parent.Spec.ExternalDNSProvider != "active-directory" {
+	if parent.Spec.ExternalDNS.Provider != "active-directory" {
 		return []client.Object{}, nil
 	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=externalDNSProvider,value="active-directory",include
+			// +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
 			"apiVersion": "v1",
 			"kind":       "ConfigMap",
 			"metadata": map[string]interface{}{

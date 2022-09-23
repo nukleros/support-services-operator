@@ -1,0 +1,4 @@
+---
+defaultImage: nginx/nginx-ingress
+defaultVersion: "2.3.0"
+

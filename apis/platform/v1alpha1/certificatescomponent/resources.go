@@ -42,15 +42,13 @@ spec:
     cainjector:
       replicas: 2
       image: "quay.io/jetstack/cert-manager-cainjector"
-      version: "v1.9.1"
+    version: "v1.9.1"
     controller:
       replicas: 2
       image: "quay.io/jetstack/cert-manager-controller"
-      version: "v1.9.1"
     webhook:
       replicas: 2
       image: "quay.io/jetstack/cert-manager-webhook"
-      version: "v1.9.1"
 `
 
 // sampleCertificatesComponentRequired is a sample containing only required fields
