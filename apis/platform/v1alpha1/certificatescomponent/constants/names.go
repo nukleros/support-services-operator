@@ -20,6 +20,7 @@ package constants
 // package to prevent import cycle errors when attempting to reference the names from other
 // packages (e.g. mutate).
 const (
+	NamespaceNamespace                                                = "parent.Spec.Namespace"
 	CRDCertificaterequestsCertManagerIo                               = "certificaterequests.cert-manager.io"
 	CRDCertificatesCertManagerIo                                      = "certificates.cert-manager.io"
 	CRDChallengesAcmeCertManagerIo                                    = "challenges.acme.cert-manager.io"
@@ -29,7 +30,6 @@ const (
 	DeploymentNamespaceCertManagerCainjector                          = "cert-manager-cainjector"
 	DeploymentNamespaceCertManager                                    = "cert-manager"
 	DeploymentNamespaceCertManagerWebhook                             = "cert-manager-webhook"
-	NamespaceNamespace                                                = "parent.Spec.Namespace"
 	ServiceAccountNamespaceCertManagerCainjector                      = "cert-manager-cainjector"
 	ServiceAccountNamespaceCertManager                                = "cert-manager"
 	ServiceAccountNamespaceCertManagerWebhook                         = "cert-manager-webhook"

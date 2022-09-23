@@ -1,0 +1,91 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    value: "nukleros-secrets-system"  # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
+
+yamlFiles:
+  - name: "external-secrets configmap"
+    path: "../vendor/config.yaml"
+    outputPath: "config.yaml"
+    overlays:
+      - name: "set version on labels"
+        query: metadata
+        value:
+          labels:
+            app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
+
+  - name: "external-secrets crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "crds.yaml"
+
+  - name: "external-secrets deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add external-secrets image markers"
+        #query: "spec.template.spec.containers[?(@.name == 'cert-controller')]"
+        query: "spec.template.spec.containers[*]"
+        value:
+          # +operator-builder:field:name=externalSecrets.image,default={{ .defaultImage }},type=string,replace="externalSecretsImage",description=`
+          # Image repo and name to use for external-secrets.`
+          # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string,replace="externalSecretsVersion",description=`
+          # Version of external-secrets to use.`
+          image: externalSecretsImage:externalSecretsVersion
+
+      - name: "set version on labels"
+        query: metadata
+        value:
+          labels:
+            app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
+
+      - name: "add external secrets cert controller replica count marker"
+        query: "$[?($.metadata.name == 'external-secrets-cert-controller')]"
+        value:
+          spec:
+            # +operator-builder:field:name=externalSecrets.certController.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-secrets cert-controller deployment.`
+            replicas: !!int "%v"
+
+      - name: "add external secrets controller replica count marker"
+        query: "$[?($.metadata.name == 'external-secrets')]"
+        value:
+          spec:
+            # +operator-builder:field:name=externalSecrets.controller.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-secrets controller deployment.`
+            replicas: !!int "%v"
+
+      - name: "add external secrets webhook replica count marker"
+        query: "$[?($.metadata.name == 'external-secrets-webhook')]"
+        value:
+          spec:
+            # +operator-builder:field:name=externalSecrets.webhook.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the external-secrets webhook deployment.`
+            replicas: !!int "%v"
+
+  - name: "external-secrets rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+    overlays:
+      - name: "set version on labels"
+        query: metadata
+        value:
+          labels:
+            app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
+
+  - name: "external-secrets service"
+    path: "../vendor/service.yaml"
+    outputPath: "service.yaml"
+    overlays:
+      - name: "set version on labels"
+        query: metadata
+        value:
+          labels:
+            app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
+
+  - name: "external-secrets webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "webhook.yaml"
+

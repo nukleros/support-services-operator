@@ -120,9 +120,9 @@ var CreateFuncs = []func(
 	workload.Reconciler,
 	*workload.Request,
 ) ([]client.Object, error){
+	CreateNamespaceNamespace,
 	CreateConfigMapNamespacePostgresOperator,
 	CreateDeploymentNamespacePostgresOperator,
-	CreateNamespaceNamespace,
 	CreateServiceAccountNamespacePostgresOperator,
 	CreateClusterRolePostgresOperator,
 	CreateClusterRoleBindingPostgresOperator,

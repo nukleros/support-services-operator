@@ -72,6 +72,7 @@ func (c *SsctlCommand) newInitSubCommand() {
 	initapplication.NewDatabaseComponentSubCommand(parentCommand)
 	initplatform.NewCertificatesComponentSubCommand(parentCommand)
 	initplatform.NewIngressComponentSubCommand(parentCommand)
+	initplatform.NewSecretsComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
@@ -84,6 +85,7 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	generateapplication.NewDatabaseComponentSubCommand(parentCommand)
 	generateplatform.NewCertificatesComponentSubCommand(parentCommand)
 	generateplatform.NewIngressComponentSubCommand(parentCommand)
+	generateplatform.NewSecretsComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
@@ -96,6 +98,7 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	versionapplication.NewDatabaseComponentSubCommand(parentCommand)
 	versionplatform.NewCertificatesComponentSubCommand(parentCommand)
 	versionplatform.NewIngressComponentSubCommand(parentCommand)
+	versionplatform.NewSecretsComponentSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }
 

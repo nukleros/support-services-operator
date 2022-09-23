@@ -43,4 +43,12 @@ resources:
   kind: IngressComponent
   path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: addons.nukleros.io
+  group: platform
+  kind: SecretsComponent
+  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  version: v1alpha1
 version: "3"

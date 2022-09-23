@@ -20,9 +20,9 @@ package constants
 // package to prevent import cycle errors when attempting to reference the names from other
 // packages (e.g. mutate).
 const (
+	NamespaceNamespace                      = "parent.Spec.Namespace"
 	ConfigMapNamespacePostgresOperator      = "postgres-operator"
 	DeploymentNamespacePostgresOperator     = "postgres-operator"
-	NamespaceNamespace                      = "parent.Spec.Namespace"
 	ServiceAccountNamespacePostgresOperator = "postgres-operator"
 	ClusterRolePostgresOperator             = "postgres-operator"
 	ClusterRoleBindingPostgresOperator      = "postgres-operator"

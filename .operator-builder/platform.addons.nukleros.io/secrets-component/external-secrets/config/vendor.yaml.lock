@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #8 from scottd018/feat-labels-namespaces...'
+      sha: dfa809f250fc3cee7ae229876e478fde0405b866
+      tags:
+      - v0.0.0-alpha.1-15-gdfa809f
+    path: ./
+  path: platform.addons.nukleros.io/secrets-component/external-secrets/vendor
+kind: LockConfig

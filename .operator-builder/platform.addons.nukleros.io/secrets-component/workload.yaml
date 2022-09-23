@@ -1,0 +1,21 @@
+kind: ComponentWorkload
+name: secrets-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: SecretsComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the secrets management support services
+    name: secrets
+  dependencies: []
+  resources:
+    - namespace.yaml
+    - external-secrets/config.yaml
+    - external-secrets/crds.yaml
+    - external-secrets/deployment.yaml
+    - external-secrets/rbac.yaml
+    - external-secrets/service.yaml
+    - external-secrets/webhook.yaml

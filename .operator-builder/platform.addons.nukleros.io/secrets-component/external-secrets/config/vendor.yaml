@@ -1,0 +1,16 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: platform.addons.nukleros.io/secrets-component/external-secrets/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nukleros/platform-component-library.git
+          #ref: v0.1.0
+          ref: main
+        includePaths:
+          - secrets/external-secrets/*
+        newRootPath: secrets/external-secrets
+

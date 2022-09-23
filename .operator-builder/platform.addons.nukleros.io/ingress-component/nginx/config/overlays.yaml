@@ -11,11 +11,11 @@ yamlFiles:
     path: "../vendor/config.yaml"
     outputPath: "config.yaml"
 
-  - name: "cert-manager crds"
+  - name: "nginx crds"
     path: "../vendor/crds.yaml"
     outputPath: "crds.yaml"
 
-  - name: "cert-manager daemonset"
+  - name: "nginx daemonset"
     path: "../vendor/daemonset.yaml"
     outputPath: "daemonset.yaml"
     overlays:
@@ -34,7 +34,7 @@ yamlFiles:
           # Version of nginx to use.`
           image: nginxImage:nginxVersion
 
-  - name: "cert-manager deployment"
+  - name: "nginx deployment"
     path: "../vendor/deployment.yaml"
     outputPath: "deployment.yaml"
     overlays:

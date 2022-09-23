@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package certificatescomponent
+package secretscomponent
 
 import (
 	"fmt"
@@ -28,34 +28,32 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// sampleCertificatesComponent is a sample containing all fields
-const sampleCertificatesComponent = `apiVersion: platform.addons.nukleros.io/v1alpha1
-kind: CertificatesComponent
+// sampleSecretsComponent is a sample containing all fields
+const sampleSecretsComponent = `apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: SecretsComponent
 metadata:
-  name: certificatescomponent-sample
+  name: secretscomponent-sample
 spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
-  namespace: "nukleros-certs-system"
-  certManager:
-    cainjector:
-      replicas: 2
-      image: "quay.io/jetstack/cert-manager-cainjector"
-    version: "v1.9.1"
+  namespace: "nukleros-secrets-system"
+  externalSecrets:
+    version: "v0.5.9"
+    certController:
+      replicas: 1
+    image: "ghcr.io/external-secrets/external-secrets"
     controller:
       replicas: 2
-      image: "quay.io/jetstack/cert-manager-controller"
     webhook:
       replicas: 2
-      image: "quay.io/jetstack/cert-manager-webhook"
 `
 
-// sampleCertificatesComponentRequired is a sample containing only required fields
-const sampleCertificatesComponentRequired = `apiVersion: platform.addons.nukleros.io/v1alpha1
-kind: CertificatesComponent
+// sampleSecretsComponentRequired is a sample containing only required fields
+const sampleSecretsComponentRequired = `apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: SecretsComponent
 metadata:
-  name: certificatescomponent-sample
+  name: secretscomponent-sample
 spec:
   #collection:
     #name: "supportservices-sample"
@@ -65,16 +63,16 @@ spec:
 // Sample returns the sample manifest for this custom resource.
 func Sample(requiredOnly bool) string {
 	if requiredOnly {
-		return sampleCertificatesComponentRequired
+		return sampleSecretsComponentRequired
 	}
 
-	return sampleCertificatesComponent
+	return sampleSecretsComponent
 }
 
 // Generate returns the child resources that are associated with this workload given
 // appropriate structured inputs.
 func Generate(
-	workloadObj platformv1alpha1.CertificatesComponent,
+	workloadObj platformv1alpha1.SecretsComponent,
 	collectionObj setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
 	req *workload.Request,
@@ -97,7 +95,7 @@ func Generate(
 // GenerateForCLI returns the child resources that are associated with this workload given
 // appropriate YAML manifest files.
 func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object, error) {
-	var workloadObj platformv1alpha1.CertificatesComponent
+	var workloadObj platformv1alpha1.SecretsComponent
 	if err := yaml.Unmarshal(workloadFile, &workloadObj); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal yaml into workload, %w", err)
 	}
@@ -122,56 +120,34 @@ func GenerateForCLI(workloadFile []byte, collectionFile []byte) ([]client.Object
 // in memory during the reconciliation loop prior to persisting the changes or updates to the Kubernetes
 // database.
 var CreateFuncs = []func(
-	*platformv1alpha1.CertificatesComponent,
+	*platformv1alpha1.SecretsComponent,
 	*setupv1alpha1.SupportServices,
 	workload.Reconciler,
 	*workload.Request,
 ) ([]client.Object, error){
 	CreateNamespaceNamespace,
-	CreateCRDCertificaterequestsCertManagerIo,
-	CreateCRDCertificatesCertManagerIo,
-	CreateCRDChallengesAcmeCertManagerIo,
-	CreateCRDClusterissuersCertManagerIo,
-	CreateCRDIssuersCertManagerIo,
-	CreateCRDOrdersAcmeCertManagerIo,
-	CreateDeploymentNamespaceCertManagerCainjector,
-	CreateDeploymentNamespaceCertManager,
-	CreateDeploymentNamespaceCertManagerWebhook,
-	CreateServiceAccountNamespaceCertManagerCainjector,
-	CreateServiceAccountNamespaceCertManager,
-	CreateServiceAccountNamespaceCertManagerWebhook,
-	CreateClusterRoleCertManagerCainjector,
-	CreateClusterRoleCertManagerControllerIssuers,
-	CreateClusterRoleCertManagerControllerClusterissuers,
-	CreateClusterRoleCertManagerControllerCertificates,
-	CreateClusterRoleCertManagerControllerOrders,
-	CreateClusterRoleCertManagerControllerChallenges,
-	CreateClusterRoleCertManagerControllerIngressShim,
-	CreateClusterRoleCertManagerView,
-	CreateClusterRoleCertManagerEdit,
-	CreateClusterRoleCertManagerControllerApproveCertManagerIo,
-	CreateClusterRoleCertManagerControllerCertificatesigningrequests,
-	CreateClusterRoleCertManagerWebhookSubjectaccessreviews,
-	CreateClusterRoleBindingCertManagerCainjector,
-	CreateClusterRoleBindingCertManagerControllerIssuers,
-	CreateClusterRoleBindingCertManagerControllerClusterissuers,
-	CreateClusterRoleBindingCertManagerControllerCertificates,
-	CreateClusterRoleBindingCertManagerControllerOrders,
-	CreateClusterRoleBindingCertManagerControllerChallenges,
-	CreateClusterRoleBindingCertManagerControllerIngressShim,
-	CreateClusterRoleBindingCertManagerControllerApproveCertManagerIo,
-	CreateClusterRoleBindingCertManagerControllerCertificatesigningrequests,
-	CreateClusterRoleBindingCertManagerWebhookSubjectaccessreviews,
-	CreateRoleNamespaceCertManagerCainjectorLeaderelection,
-	CreateRoleNamespaceCertManagerLeaderelection,
-	CreateRoleNamespaceCertManagerWebhookDynamicServing,
-	CreateRoleBindingNamespaceCertManagerCainjectorLeaderelection,
-	CreateRoleBindingNamespaceCertManagerLeaderelection,
-	CreateRoleBindingNamespaceCertManagerWebhookDynamicServing,
-	CreateServiceNamespaceCertManager,
-	CreateServiceNamespaceCertManagerWebhook,
-	CreateMutatingWebhookCertManagerWebhook,
-	CreateValidatingWebhookCertManagerWebhook,
+	CreateSecretNamespaceExternalSecretsWebhook,
+	CreateCRDClusterexternalsecretsExternalSecretsIo,
+	CreateCRDClustersecretstoresExternalSecretsIo,
+	CreateCRDExternalsecretsExternalSecretsIo,
+	CreateCRDSecretstoresExternalSecretsIo,
+	CreateDeploymentNamespaceExternalSecretsCertController,
+	CreateDeploymentNamespaceExternalSecrets,
+	CreateDeploymentNamespaceExternalSecretsWebhook,
+	CreateServiceAccountNamespaceExternalSecretsCertController,
+	CreateServiceAccountNamespaceExternalSecrets,
+	CreateServiceAccountNamespaceExternalSecretsWebhook,
+	CreateClusterRoleExternalSecretsCertController,
+	CreateClusterRoleExternalSecretsController,
+	CreateClusterRoleExternalSecretsView,
+	CreateClusterRoleExternalSecretsEdit,
+	CreateClusterRoleBindingExternalSecretsCertController,
+	CreateClusterRoleBindingExternalSecretsController,
+	CreateRoleNamespaceExternalSecretsLeaderelection,
+	CreateRoleBindingNamespaceExternalSecretsLeaderelection,
+	CreateServiceNamespaceExternalSecretsWebhook,
+	CreateValidatingWebhookSecretstoreValidate,
+	CreateValidatingWebhookExternalsecretValidate,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -183,27 +159,25 @@ var CreateFuncs = []func(
 // crash loop because when it tries to own a non-existent resource type during manager
 // setup, it will fail.
 var InitFuncs = []func(
-	*platformv1alpha1.CertificatesComponent,
+	*platformv1alpha1.SecretsComponent,
 	*setupv1alpha1.SupportServices,
 	workload.Reconciler,
 	*workload.Request,
 ) ([]client.Object, error){
-	CreateCRDCertificaterequestsCertManagerIo,
-	CreateCRDCertificatesCertManagerIo,
-	CreateCRDChallengesAcmeCertManagerIo,
-	CreateCRDClusterissuersCertManagerIo,
-	CreateCRDIssuersCertManagerIo,
-	CreateCRDOrdersAcmeCertManagerIo,
+	CreateCRDClusterexternalsecretsExternalSecretsIo,
+	CreateCRDClustersecretstoresExternalSecretsIo,
+	CreateCRDExternalsecretsExternalSecretsIo,
+	CreateCRDSecretstoresExternalSecretsIo,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (
-	*platformv1alpha1.CertificatesComponent,
+	*platformv1alpha1.SecretsComponent,
 	*setupv1alpha1.SupportServices,
 	error,
 ) {
-	p, ok := component.(*platformv1alpha1.CertificatesComponent)
+	p, ok := component.(*platformv1alpha1.SecretsComponent)
 	if !ok {
-		return nil, nil, platformv1alpha1.ErrUnableToConvertCertificatesComponent
+		return nil, nil, platformv1alpha1.ErrUnableToConvertSecretsComponent
 	}
 
 	c, ok := collection.(*setupv1alpha1.SupportServices)
