@@ -19,3 +19,5 @@ spec:
     - external-secrets/rbac.yaml
     - external-secrets/service.yaml
     - external-secrets/webhook.yaml
+    - reloader/deployment.yaml
+    - reloader/rbac.yaml

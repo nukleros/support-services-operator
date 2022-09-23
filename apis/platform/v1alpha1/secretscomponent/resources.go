@@ -47,6 +47,10 @@ spec:
       replicas: 2
     webhook:
       replicas: 2
+  reloader:
+    replicas: 1
+    image: "stakater/reloader"
+    version: "v0.0.119"
 `
 
 // sampleSecretsComponentRequired is a sample containing only required fields
@@ -148,6 +152,10 @@ var CreateFuncs = []func(
 	CreateServiceNamespaceExternalSecretsWebhook,
 	CreateValidatingWebhookSecretstoreValidate,
 	CreateValidatingWebhookExternalsecretValidate,
+	CreateDeploymentNamespaceSecretReloader,
+	CreateServiceAccountNamespaceSecretReloader,
+	CreateClusterRoleNamespaceSecretReloader,
+	CreateClusterRoleBindingNamespaceSecretReloader,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is

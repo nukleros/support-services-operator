@@ -43,4 +43,8 @@ const (
 	ServiceNamespaceExternalSecretsWebhook               = "external-secrets-webhook"
 	ValidatingWebhookSecretstoreValidate                 = "secretstore-validate"
 	ValidatingWebhookExternalsecretValidate              = "externalsecret-validate"
+	DeploymentNamespaceSecretReloader                    = "secret-reloader"
+	ServiceAccountNamespaceSecretReloader                = "secret-reloader"
+	ClusterRoleNamespaceSecretReloader                   = "secret-reloader"
+	ClusterRoleBindingNamespaceSecretReloader            = "secret-reloader"
 )

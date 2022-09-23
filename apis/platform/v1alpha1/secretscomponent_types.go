@@ -51,6 +51,9 @@ type SecretsComponentSpec struct {
 
 	// +kubebuilder:validation:Optional
 	ExternalSecrets SecretsComponentSpecExternalSecrets `json:"externalSecrets,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Reloader SecretsComponentSpecReloader `json:"reloader,omitempty"`
 }
 
 type SecretsComponentCollectionSpec struct {
@@ -110,6 +113,26 @@ type SecretsComponentSpecExternalSecretsWebhook struct {
 	// (Default: 2)
 	//  Number of replicas to use for the external-secrets webhook deployment.
 	Replicas int `json:"replicas,omitempty"`
+}
+
+type SecretsComponentSpecReloader struct {
+	// +kubebuilder:default=1
+	// +kubebuilder:validation:Optional
+	// (Default: 1)
+	//  Number of replicas to use for the reloader deployment.
+	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:default="stakater/reloader"
+	// +kubebuilder:validation:Optional
+	// (Default: "stakater/reloader")
+	//  Image repo and name to use for reloader.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="v0.0.119"
+	// +kubebuilder:validation:Optional
+	// (Default: "v0.0.119")
+	//  Version of reloader to use.
+	Version string `json:"version,omitempty"`
 }
 
 // SecretsComponentStatus defines the observed state of SecretsComponent.

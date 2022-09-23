@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: Fixes #11, added secret reloader (#14)...'
+      sha: ff6529c5cd510b601fd498d99751640bc36a5f58
+      tags:
+      - v0.0.0-alpha.1-16-gff6529c
+    path: ./
+  path: platform.addons.nukleros.io/secrets-component/reloader/vendor
+kind: LockConfig

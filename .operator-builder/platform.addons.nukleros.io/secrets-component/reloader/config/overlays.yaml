@@ -1,0 +1,34 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+    value: "nukleros-secrets-system"  # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
+
+yamlFiles:
+  - name: "reloader deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "deployment.yaml"
+    overlays:
+      - name: "add reloader image markers"
+        query: "spec.template.spec.containers[*]"
+        value:
+          # +operator-builder:field:name=reloader.image,default={{ .defaultImage }},type=string,replace="reloaderImage",description=`
+          # Image repo and name to use for reloader.`
+          # +operator-builder:field:name=reloader.version,default="{{ .defaultVersion }}",type=string,replace="reloaderVersion",description=`
+          # Version of reloader to use.`
+          image: reloaderImage:reloaderVersion
+
+      - name: "add reloader replica count marker"
+        query: "$[?($.metadata.name == 'secret-reloader')]"
+        value:
+          spec:
+            # +operator-builder:field:name=reloader.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the reloader deployment.`
+            replicas: !!int "%v"
+
+  - name: "reloader rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "rbac.yaml"
+
