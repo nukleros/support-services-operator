@@ -15,6 +15,7 @@ spec:
     - namespace.yaml
     - cert-manager/crds.yaml
     - cert-manager/deployment.yaml
+    - cert-manager/issuer.yaml
     - cert-manager/rbac.yaml
     - cert-manager/service.yaml
     - cert-manager/webhook.yaml

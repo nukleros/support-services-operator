@@ -137,6 +137,8 @@ var CreateFuncs = []func(
 	CreateDeploymentNamespaceCertManagerCainjector,
 	CreateDeploymentNamespaceCertManager,
 	CreateDeploymentNamespaceCertManagerWebhook,
+	CreateClusterIssuerLetsencryptStaging,
+	CreateClusterIssuerLetsencryptProduction,
 	CreateServiceAccountNamespaceCertManagerCainjector,
 	CreateServiceAccountNamespaceCertManager,
 	CreateServiceAccountNamespaceCertManagerWebhook,

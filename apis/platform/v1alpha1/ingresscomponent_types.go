@@ -54,6 +54,9 @@ type IngressComponentSpec struct {
 
 	// +kubebuilder:validation:Optional
 	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
+
+	// +kubebuilder:validation:Required
+	DomainName string `json:"domainName,omitempty"`
 }
 
 type IngressComponentCollectionSpec struct {
@@ -208,7 +211,9 @@ func (component *IngressComponent) SetChildResourceCondition(resource *status.Ch
 
 // GetDependencies returns the dependencies for a component.
 func (*IngressComponent) GetDependencies() []workload.Workload {
-	return []workload.Workload{}
+	return []workload.Workload{
+		&CertificatesComponent{},
+	}
 }
 
 // GetComponentGVK returns a GVK object for the component.

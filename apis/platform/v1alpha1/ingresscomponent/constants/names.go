@@ -31,6 +31,8 @@ const (
 	ClusterRoleBindingExternalDnsViewer                  = "external-dns-viewer"
 	ClusterRoleNamespaceExternalDns                      = "external-dns"
 	ServiceAccountNamespaceExternalDns                   = "external-dns"
+	CertNamespaceNginxDefaultServerSecretNonProd         = "nginx-default-server-secret-non-prod"
+	CertNamespaceNginxDefaultServerSecretProd            = "nginx-default-server-secret-prod"
 	ConfigMapNamespaceNginxConfig                        = "nginx-config"
 	CRDDnsendpointsExternaldnsNginxOrg                   = "dnsendpoints.externaldns.nginx.org"
 	CRDTransportserversK8sNginxOrg                       = "transportservers.k8s.nginx.org"

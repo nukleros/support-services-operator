@@ -10,7 +10,8 @@ spec:
   companionCliSubcmd:
     description: Manage the ingress support services
     name: ingress
-  dependencies: []
+  dependencies:
+    - certificates-component
   resources:
     - namespace.yaml
     - external-dns/config-active-directory.yaml
@@ -20,6 +21,7 @@ spec:
     - external-dns/deployment-google.yaml
     - external-dns/deployment-route53.yaml
     - external-dns/rbac.yaml
+    - nginx/cert.yaml
     - nginx/config.yaml
     - nginx/crds.yaml
     - nginx/daemonset.yaml

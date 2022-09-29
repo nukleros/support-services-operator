@@ -33,8 +33,7 @@ kind: SupportServices
 metadata:
   name: supportservices-sample
 spec:
-  cloudProvider: "none"
-  certProvider: "letsencrypt-staging"
+  tier: "development"
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields
@@ -43,7 +42,6 @@ kind: SupportServices
 metadata:
   name: supportservices-sample
 spec:
-  cloudProvider: "none"
 `
 
 // Sample returns the sample manifest for this custom resource.

@@ -1,0 +1,28 @@
+---
+# +operator-builder:resource:collectionField=tier,value="production",include=false
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-default-server-secret-non-prod
+  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+spec:
+  secretName: default-server-secret
+  dnsNames:
+    - nukleros.io # +operator-builder:field:name=domainName,type=string
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+---
+# +operator-builder:resource:collectionField=tier,value="production",include
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-default-server-secret-prod
+  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+spec:
+  secretName: default-server-secret
+  dnsNames:
+    - nukleros.io # +operator-builder:field:name=domainName,type=string
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer

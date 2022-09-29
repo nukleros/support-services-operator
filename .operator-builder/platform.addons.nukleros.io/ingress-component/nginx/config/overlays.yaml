@@ -82,3 +82,31 @@ yamlFiles:
     path: "../vendor/service-nodeport.yaml"
     outputPath: "service-nodeport.yaml"
 
+  - name: "nginx default server certificate"
+    path: "../static/cert.yaml"
+    outputPath: "cert.yaml"
+    overlays:
+      - name: "add include marker for non-prod cert"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "nginx-default-server-secret-non-prod")]
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=tier,value="production",include=false
+          apiVersion: cert-manager.io/v1
+
+      - name: "add include marker for prod cert"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "nginx-default-server-secret-prod")]
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=tier,value="production",include
+          apiVersion: cert-manager.io/v1
+
+      - name: "add domain name for ingress cert"
+        query: "spec.dnsNames"
+        action: replace
+        value:
+          - nukleros.io  # +operator-builder:field:name=domainName,type=string
+

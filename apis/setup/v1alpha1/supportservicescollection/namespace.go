@@ -36,18 +36,13 @@ func CreateNamespaceParentName(
 ) ([]client.Object, error) {
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// controlled by field: tier
+			//  +kubebuilder:validation:Enum=development;staging;production
+			//  The tier of cluster being used.  One of: development | staging | production.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{
 				"name": parent.Name, //  controlled by field:
-				"labels": map[string]interface{}{
-					// controlled by field: cloudProvider
-					//  +kubebuilder:validation:Enum=aws;gcp;azure;none
-					"cloudProvider": parent.Spec.CloudProvider,
-					// controlled by field: certProvider
-					//  +kubebuilder:validation:Enum=letsencrypt-staging;letsencrypt-production
-					"certProvider": parent.Spec.CertProvider,
-				},
 			},
 		},
 	}

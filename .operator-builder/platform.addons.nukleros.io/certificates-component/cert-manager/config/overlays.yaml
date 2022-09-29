@@ -7,18 +7,6 @@ commonOverlays:
     value: "nukleros-certs-system"  # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
 
 yamlFiles:
-  - name: "cert-manager namespace"
-    path: "../static/namespace.yaml"
-    outputPath: "namespace.yaml"
-    overlays:
-      - name: "add namespace name marker"
-        query: "$"
-        value:
-          metadata:
-            # +operator-builder:field:name=namespace,default="%v",type=string,description=`
-            # Namespace to use for certificate support services.`
-            name: "%v"
-
   - name: "cert-manager crds"
     path: "../vendor/crds.yaml"
     outputPath: "crds.yaml"
@@ -104,4 +92,30 @@ yamlFiles:
   - name: "cert-manager webhook"
     path: "../vendor/webhook.yaml"
     outputPath: "webhook.yaml"
+
+  - name: "cert-manager cluster issuer"
+    path: "../static/issuer.yaml"
+    outputPath: "issuer.yaml"
+    overlays:
+      - name: "add include marker for non-prod issuer"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "letsencrypt-staging")]
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=tier,value="production",include=false
+          apiVersion: cert-manager.io/v1
+
+      - name: "add include marker for prod issuer"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "letsencrypt-production")]
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=tier,value="production",include
+          apiVersion: cert-manager.io/v1
+
+      - name: "add contact email"
+        query: "spec.acme.email"
+        value: admin@nukleros.io  # +operator-builder:resource:field=contactEmail,type=string
 

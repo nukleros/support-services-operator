@@ -47,6 +47,7 @@ spec:
     provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
+  domainName: "nukleros.io"
 `
 
 // sampleIngressComponentRequired is a sample containing only required fields
@@ -60,6 +61,7 @@ spec:
     #namespace: ""
   externalDNS:
     provider: "none"
+  domainName: "nukleros.io"
 `
 
 // Sample returns the sample manifest for this custom resource.
@@ -138,6 +140,8 @@ var CreateFuncs = []func(
 	CreateClusterRoleBindingExternalDnsViewer,
 	CreateClusterRoleNamespaceExternalDns,
 	CreateServiceAccountNamespaceExternalDns,
+	CreateCertNamespaceNginxDefaultServerSecretNonProd,
+	CreateCertNamespaceNginxDefaultServerSecretProd,
 	CreateConfigMapNamespaceNginxConfig,
 	CreateCRDDnsendpointsExternaldnsNginxOrg,
 	CreateCRDTransportserversK8sNginxOrg,

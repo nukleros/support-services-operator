@@ -3,5 +3,4 @@ kind: SupportServices
 metadata:
   name: supportservices-sample
 spec:
-  cloudProvider: "none"
-  certProvider: "letsencrypt-staging"
+  tier: "development"

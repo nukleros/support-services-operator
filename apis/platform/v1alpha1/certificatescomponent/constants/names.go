@@ -30,6 +30,8 @@ const (
 	DeploymentNamespaceCertManagerCainjector                          = "cert-manager-cainjector"
 	DeploymentNamespaceCertManager                                    = "cert-manager"
 	DeploymentNamespaceCertManagerWebhook                             = "cert-manager-webhook"
+	ClusterIssuerLetsencryptStaging                                   = "letsencrypt-staging"
+	ClusterIssuerLetsencryptProduction                                = "letsencrypt-production"
 	ServiceAccountNamespaceCertManagerCainjector                      = "cert-manager-cainjector"
 	ServiceAccountNamespaceCertManager                                = "cert-manager"
 	ServiceAccountNamespaceCertManagerWebhook                         = "cert-manager-webhook"

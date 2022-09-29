@@ -35,15 +35,12 @@ type SupportServicesSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// +kubebuilder:validation:Required
-	//  +kubebuilder:validation:Enum=aws;gcp;azure;none
-	CloudProvider string `json:"cloudProvider,omitempty"`
-
-	// +kubebuilder:default="letsencrypt-staging"
+	// +kubebuilder:default="development"
 	// +kubebuilder:validation:Optional
-	// (Default: "letsencrypt-staging")
-	//  +kubebuilder:validation:Enum=letsencrypt-staging;letsencrypt-production
-	CertProvider string `json:"certProvider,omitempty"`
+	// (Default: "development")
+	//  +kubebuilder:validation:Enum=development;staging;production
+	//  The tier of cluster being used.  One of: development | staging | production.
+	Tier string `json:"tier,omitempty"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.
