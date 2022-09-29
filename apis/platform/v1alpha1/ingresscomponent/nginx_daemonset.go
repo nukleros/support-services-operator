@@ -36,9 +36,12 @@ func CreateDaemonSetNamespaceNginxIngress(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
+	if parent.Spec.Nginx.InstallType != "daemonset" {
+		return []client.Object{}, nil
+	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field:name=installType,value="daemonset",include
+			// +operator-builder:resource:field=nginx.installType,value="daemonset",include
 			"apiVersion": "apps/v1",
 			"kind":       "DaemonSet",
 			"metadata": map[string]interface{}{

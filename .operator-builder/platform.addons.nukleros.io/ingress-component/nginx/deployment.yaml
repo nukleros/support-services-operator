@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field:name=installType,value="deployment",include
+# +operator-builder:resource:field=nginx.installType,value="deployment",include
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/name: nginx-ingress
     platform.nukleros.io/purpose: ingress
 spec:
+  # +operator-builder:field:name=nginx.replicas,default="2",type=int,description=`
+  # Number of replicas to use for the nginx ingress controller deployment.`
   replicas: 2
   selector:
     matchLabels:

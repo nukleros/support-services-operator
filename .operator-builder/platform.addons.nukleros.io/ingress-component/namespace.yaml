@@ -1,4 +1,7 @@
 ---
+# +operator-builder:field:name=nginx.installType,arbitrary,default="deployment",type=string,description=`
+# +kubebuilder:validation:Enum=deployment;daemonset
+# Method of install nginx ingress controller.  One of: deployment | daemonset.`
 apiVersion: v1
 kind: Namespace
 metadata:

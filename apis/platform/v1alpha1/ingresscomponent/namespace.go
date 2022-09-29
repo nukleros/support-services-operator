@@ -38,6 +38,9 @@ func CreateNamespaceNamespace(
 ) ([]client.Object, error) {
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// controlled by field: nginx.installType
+			//  +kubebuilder:validation:Enum=deployment;daemonset
+			//  Method of install nginx ingress controller.  One of: deployment | daemonset.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{

@@ -43,6 +43,9 @@ type IngressComponentSpec struct {
 	// if not exactly one collection is found.
 	Collection IngressComponentCollectionSpec `json:"collection"`
 
+	// +kubebuilder:validation:Optional
+	Nginx IngressComponentSpecNginx `json:"nginx,omitempty"`
+
 	// +kubebuilder:default="nukleros-ingress-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-ingress-system")
@@ -51,9 +54,6 @@ type IngressComponentSpec struct {
 
 	// +kubebuilder:validation:Optional
 	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Nginx IngressComponentSpecNginx `json:"nginx,omitempty"`
 }
 
 type IngressComponentCollectionSpec struct {
@@ -66,6 +66,33 @@ type IngressComponentCollectionSpec struct {
 	// (Default: "") The namespace where the collection exists.  Required only if
 	// the collection is namespace scoped and not cluster scoped.
 	Namespace string `json:"namespace"`
+}
+
+type IngressComponentSpecNginx struct {
+	// +kubebuilder:default="deployment"
+	// +kubebuilder:validation:Optional
+	// (Default: "deployment")
+	//  +kubebuilder:validation:Enum=deployment;daemonset
+	//  Method of install nginx ingress controller.  One of: deployment | daemonset.
+	InstallType string `json:"installType,omitempty"`
+
+	// +kubebuilder:default="nginx/nginx-ingress"
+	// +kubebuilder:validation:Optional
+	// (Default: "nginx/nginx-ingress")
+	//  Image repo and name to use for nginx.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="2.3.0"
+	// +kubebuilder:validation:Optional
+	// (Default: "2.3.0")
+	//  Version of nginx to use.
+	Version string `json:"version,omitempty"`
+
+	// +kubebuilder:default=2
+	// +kubebuilder:validation:Optional
+	// (Default: 2)
+	//  Number of replicas to use for the nginx ingress controller deployment.
+	Replicas int `json:"replicas,omitempty"`
 }
 
 type IngressComponentSpecExternalDNS struct {
@@ -82,20 +109,6 @@ type IngressComponentSpecExternalDNS struct {
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.12.2")
 	//  Version of external-dns to use.
-	Version string `json:"version,omitempty"`
-}
-
-type IngressComponentSpecNginx struct {
-	// +kubebuilder:default="nginx/nginx-ingress"
-	// +kubebuilder:validation:Optional
-	// (Default: "nginx/nginx-ingress")
-	//  Image repo and name to use for nginx.
-	Image string `json:"image,omitempty"`
-
-	// +kubebuilder:default="2.3.0"
-	// +kubebuilder:validation:Optional
-	// (Default: "2.3.0")
-	//  Version of nginx to use.
 	Version string `json:"version,omitempty"`
 }
 

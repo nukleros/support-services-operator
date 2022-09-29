@@ -22,7 +22,7 @@ yamlFiles:
       - name: "add include marker for nginx daemonset"
         query: "$"
         value:
-          # +operator-builder:resource:field:name=installType,value="daemonset",include
+          # +operator-builder:resource:field=nginx.installType,value="daemonset",include
           apiVersion: apps/v1
 
       - name: "add nginx ingress controller image markers"
@@ -41,7 +41,7 @@ yamlFiles:
       - name: "add include marker for nginx deployment"
         query: "$"
         value:
-          # +operator-builder:resource:field:name=installType,value="deployment",include
+          # +operator-builder:resource:field=nginx.installType,value="deployment",include
           apiVersion: apps/v1
 
       - name: "add nginx ingress controller image markers"
@@ -52,6 +52,15 @@ yamlFiles:
           # +operator-builder:field:name=nginx.version,default="{{ .defaultVersion }}",type=string,replace="nginxVersion",description=`
           # Version of nginx to use.`
           image: nginxImage:nginxVersion
+
+      - name: "add nginx ingress controller replica count marker"
+        #query: "$[?($.metadata.name == 'cert-manager-cainjector')]"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=nginx.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the nginx ingress controller deployment.`
+            replicas: !!int "%v"
 
   - name: "nginx ingress class"
     path: "../vendor/ingress-class.yaml"

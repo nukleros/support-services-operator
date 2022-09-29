@@ -36,9 +36,12 @@ func CreateDeploymentNamespaceNginxIngress(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
+	if parent.Spec.Nginx.InstallType != "deployment" {
+		return []client.Object{}, nil
+	}
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field:name=installType,value="deployment",include
+			// +operator-builder:resource:field=nginx.installType,value="deployment",include
 			"apiVersion": "apps/v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
@@ -50,7 +53,9 @@ func CreateDeploymentNamespaceNginxIngress(
 				},
 			},
 			"spec": map[string]interface{}{
-				"replicas": 2,
+				// controlled by field: nginx.replicas
+				//  Number of replicas to use for the nginx ingress controller deployment.
+				"replicas": parent.Spec.Nginx.Replicas,
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
 						"app": "nginx-ingress",

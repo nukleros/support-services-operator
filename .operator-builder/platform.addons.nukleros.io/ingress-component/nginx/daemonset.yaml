@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field:name=installType,value="daemonset",include
+# +operator-builder:resource:field=nginx.installType,value="daemonset",include
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:

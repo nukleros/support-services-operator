@@ -37,14 +37,16 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
+  nginx:
+    installType: "deployment"
+    image: "nginx/nginx-ingress"
+    version: "2.3.0"
+    replicas: 2
   namespace: "nukleros-ingress-system"
   externalDNS:
     provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
-  nginx:
-    image: "nginx/nginx-ingress"
-    version: "2.3.0"
 `
 
 // sampleIngressComponentRequired is a sample containing only required fields
