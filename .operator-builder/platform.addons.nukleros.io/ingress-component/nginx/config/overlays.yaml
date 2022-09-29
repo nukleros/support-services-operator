@@ -9,15 +9,15 @@ commonOverlays:
 yamlFiles:
   - name: "nginx configmap"
     path: "../vendor/config.yaml"
-    outputPath: "config.yaml"
+    outputPath: "manifests/config.yaml"
 
   - name: "nginx crds"
     path: "../vendor/crds.yaml"
-    outputPath: "crds.yaml"
+    outputPath: "manifests/crds.yaml"
 
   - name: "nginx daemonset"
-    path: "../vendor/daemonset.yaml"
-    outputPath: "daemonset.yaml"
+    path: "../vendor-nginx/nginx-ingress.yaml"
+    outputPath: "manifests/daemonset.yaml"
     overlays:
       - name: "add include marker for nginx daemonset"
         query: "$"
@@ -36,7 +36,7 @@ yamlFiles:
 
   - name: "nginx deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add include marker for nginx deployment"
         query: "$"
@@ -64,27 +64,23 @@ yamlFiles:
 
   - name: "nginx ingress class"
     path: "../vendor/ingress-class.yaml"
-    outputPath: "ingress-class.yaml"
+    outputPath: "manifests/ingress-class.yaml"
 
   - name: "nginx rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 
   - name: "nginx service for aws"
     path: "../vendor/service-aws.yaml"
-    outputPath: "service-aws.yaml"
+    outputPath: "manifests/service-aws.yaml"
 
   - name: "nginx service for gcp and azure"
     path: "../vendor/service-gcp-azure.yaml"
-    outputPath: "service-gcp-azure.yaml"
-
-  - name: "nginx service for nodeport"
-    path: "../vendor/service-nodeport.yaml"
-    outputPath: "service-nodeport.yaml"
+    outputPath: "manifests/service-gcp-azure.yaml"
 
   - name: "nginx default server certificate"
     path: "../static/cert.yaml"
-    outputPath: "cert.yaml"
+    outputPath: "manifests/cert.yaml"
     overlays:
       - name: "add include marker for non-prod cert"
         documentQuery:

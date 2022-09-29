@@ -43,14 +43,16 @@ func CreateMutatingWebhookCertManagerWebhook(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-webhook",
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 				"annotations": map[string]interface{}{
-					"cert-manager.io/inject-ca-from-secret": "certificates-system/cert-manager-webhook-ca",
+					"cert-manager.io/inject-ca-from-secret": "nukleros-certs-system/cert-manager-webhook-ca",
 				},
 			},
 			"webhooks": []interface{}{
@@ -84,7 +86,7 @@ func CreateMutatingWebhookCertManagerWebhook(
 					"clientConfig": map[string]interface{}{
 						"service": map[string]interface{}{
 							"name":      "cert-manager-webhook",
-							"namespace": "certificates-system",
+							"namespace": "nukleros-certs-system",
 							"path":      "/mutate",
 						},
 					},
@@ -112,14 +114,16 @@ func CreateValidatingWebhookCertManagerWebhook(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-webhook",
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 				"annotations": map[string]interface{}{
-					"cert-manager.io/inject-ca-from-secret": "certificates-system/cert-manager-webhook-ca",
+					"cert-manager.io/inject-ca-from-secret": "nukleros-certs-system/cert-manager-webhook-ca",
 				},
 			},
 			"webhooks": []interface{}{
@@ -171,7 +175,7 @@ func CreateValidatingWebhookCertManagerWebhook(
 					"clientConfig": map[string]interface{}{
 						"service": map[string]interface{}{
 							"name":      "cert-manager-webhook",
-							"namespace": "certificates-system",
+							"namespace": "nukleros-certs-system",
 							"path":      "/validate",
 						},
 					},

@@ -3,17 +3,16 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
-    value: "nukleros-certs-system"  # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
   - name: "cert-manager crds"
     path: "../vendor/crds.yaml"
-    outputPath: "crds.yaml"
+    outputPath: "manifests/crds.yaml"
 
   - name: "cert-manager cainjector deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add cainjector replica count marker"
         query: "$[?($.metadata.name == 'cert-manager-cainjector')]"
@@ -37,7 +36,7 @@ yamlFiles:
 
   - name: "cert-manager controller deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add controller replica count marker"
         query: "$[?($.metadata.name == 'cert-manager')]"
@@ -60,7 +59,7 @@ yamlFiles:
 
   - name: "cert-manager webhook deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add webhook replica count marker"
         query: "$[?($.metadata.name == 'cert-manager-webhook')]"
@@ -83,19 +82,19 @@ yamlFiles:
 
   - name: "cert-manager rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 
   - name: "cert-manager service"
     path: "../vendor/service.yaml"
-    outputPath: "service.yaml"
+    outputPath: "manifests/service.yaml"
 
   - name: "cert-manager webhook"
     path: "../vendor/webhook.yaml"
-    outputPath: "webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
 
   - name: "cert-manager cluster issuer"
     path: "../static/issuer.yaml"
-    outputPath: "issuer.yaml"
+    outputPath: "manifests/issuer.yaml"
     overlays:
       - name: "add include marker for non-prod issuer"
         documentQuery:

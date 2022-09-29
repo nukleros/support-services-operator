@@ -14,20 +14,19 @@ spec:
     - certificates-component
   resources:
     - namespace.yaml
-    - external-dns/config-active-directory.yaml
-    - external-dns/config-google.yaml
-    - external-dns/config-route53.yaml
-    - external-dns/deployment-active-directory.yaml
-    - external-dns/deployment-google.yaml
-    - external-dns/deployment-route53.yaml
-    - external-dns/rbac.yaml
-    - nginx/cert.yaml
-    - nginx/config.yaml
-    - nginx/crds.yaml
-    - nginx/daemonset.yaml
-    - nginx/deployment.yaml
-    - nginx/ingress-class.yaml
-    - nginx/rbac.yaml
-    - nginx/service-aws.yaml
-    - nginx/service-gcp-azure.yaml
-    - nginx/service-nodeport.yaml
+    - external-dns/manifests/config-active-directory.yaml
+    - external-dns/manifests/config-google.yaml
+    - external-dns/manifests/config-route53.yaml
+    - external-dns/manifests/deployment-active-directory.yaml
+    - external-dns/manifests/deployment-google.yaml
+    - external-dns/manifests/deployment-route53.yaml
+    - external-dns/manifests/rbac.yaml
+    - nginx/manifests/cert.yaml
+    - nginx/manifests/config.yaml
+    - nginx/manifests/crds.yaml
+    - nginx/manifests/daemonset.yaml
+    - nginx/manifests/deployment.yaml
+    - nginx/manifests/ingress-class.yaml
+    - nginx/manifests/rbac.yaml
+    - nginx/manifests/service-aws.yaml
+    - nginx/manifests/service-gcp-azure.yaml

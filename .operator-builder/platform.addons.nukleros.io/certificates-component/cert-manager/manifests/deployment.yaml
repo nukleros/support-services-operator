@@ -1,0 +1,283 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-cainjector
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
+  labels:
+    app: cainjector
+    app.kubernetes.io/name: cainjector
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/component: cainjector
+    app.kubernetes.io/version: v1.9.1
+    platform.nukleros.io/group: certificates
+    platform.nukleros.io/project: cert-manager
+spec:
+  # +operator-builder:field:name=certManager.cainjector.replicas,default="2",type=int,description=`
+  # Number of replicas to use for the cert-manager cainjector deployment.`
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cainjector
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/component: cainjector
+  template:
+    metadata:
+      labels:
+        app: cainjector
+        app.kubernetes.io/name: cainjector
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: cainjector
+        app.kubernetes.io/version: v1.9.1
+        platform.nukleros.io/group: certificates
+        platform.nukleros.io/project: cert-manager
+    spec:
+      serviceAccountName: cert-manager-cainjector
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+      containers:
+        - name: cert-manager
+          # +operator-builder:field:name=certManager.cainjector.image,default=quay.io/jetstack/cert-manager-cainjector,type=string,replace="cainjectorImage",description=`
+          # Image repo and name to use for cert-manager cainjector.`
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion",description=`
+          # Version of cert-manager to use.`
+          image: cainjectorImage:certManagerVersion
+          imagePullPolicy: IfNotPresent
+          args:
+            - --v=2
+            - --leader-election-namespace=$(POD_NAMESPACE)
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - cert-manager-cainjector
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
+  labels:
+    app: cert-manager
+    app.kubernetes.io/name: cert-manager
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/version: v1.9.1
+    platform.nukleros.io/group: certificates
+    platform.nukleros.io/project: cert-manager
+spec:
+  # +operator-builder:field:name=certManager.controller.replicas,default="2",type=int,description=`
+  # Number of replicas to use for the cert-manager controller deployment.`
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cert-manager
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/component: controller
+  template:
+    metadata:
+      labels:
+        app: cert-manager
+        app.kubernetes.io/name: cert-manager
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/version: v1.9.1
+        platform.nukleros.io/group: certificates
+        platform.nukleros.io/project: cert-manager
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9402"
+    spec:
+      serviceAccountName: cert-manager
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+      containers:
+        - name: cert-manager
+          # +operator-builder:field:name=certManager.controller.image,default=quay.io/jetstack/cert-manager-controller,type=string,replace="controllerImage",description=`
+          # Image repo and name to use for cert-manager controller.`
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion"
+          image: controllerImage:certManagerVersion
+          imagePullPolicy: IfNotPresent
+          args:
+            - --v=2
+            - --cluster-resource-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=$(POD_NAMESPACE)
+          ports:
+            - containerPort: 9402
+              name: http-metrics
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - cert-manager
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-webhook
+  namespace: nukleros-certs-system # +operator-builder:field:name=namespace,default="nukleros-certs-system",type=string
+  labels:
+    app: webhook
+    app.kubernetes.io/name: webhook
+    app.kubernetes.io/instance: cert-manager
+    app.kubernetes.io/component: webhook
+    app.kubernetes.io/version: v1.9.1
+    platform.nukleros.io/group: certificates
+    platform.nukleros.io/project: cert-manager
+spec:
+  # +operator-builder:field:name=certManager.webhook.replicas,default="2",type=int,description=`
+  # Number of replicas to use for the cert-manager webhook deployment.`
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: webhook
+      app.kubernetes.io/instance: cert-manager
+      app.kubernetes.io/component: webhook
+  template:
+    metadata:
+      labels:
+        app: webhook
+        app.kubernetes.io/name: webhook
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: webhook
+        app.kubernetes.io/version: v1.9.1
+        platform.nukleros.io/group: certificates
+        platform.nukleros.io/project: cert-manager
+    spec:
+      serviceAccountName: cert-manager-webhook
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+      containers:
+        - name: cert-manager
+          # +operator-builder:field:name=certManager.webhook.image,default=quay.io/jetstack/cert-manager-webhook,type=string,replace="webhookImage",description=`
+          # Image repo and name to use for cert-manager webhook.`
+          # +operator-builder:field:name=certManager.version,default=v1.9.1,type=string,replace="certManagerVersion"
+          image: webhookImage:certManagerVersion
+          imagePullPolicy: IfNotPresent
+          args:
+            - --v=2
+            - --secure-port=10250
+            - --dynamic-serving-ca-secret-namespace=$(POD_NAMESPACE)
+            - --dynamic-serving-ca-secret-name=cert-manager-webhook-ca
+            - --dynamic-serving-dns-names=cert-manager-webhook,cert-manager-webhook.$(POD_NAMESPACE),cert-manager-webhook.$(POD_NAMESPACE).svc
+          ports:
+            - name: https
+              protocol: TCP
+              containerPort: 10250
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: 6080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 6080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - cert-manager-cainjector

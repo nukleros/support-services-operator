@@ -3,13 +3,12 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
-    value: "nukleros-ingress-system"  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
   - name: "external-dns config for active directory"
     path: "../vendor/config-active-directory.yaml"
-    outputPath: "config-active-directory.yaml"
+    outputPath: "manifests/config-active-directory.yaml"
     overlays:
       - name: "add include marker for active directory secret and configmap"
         query: "$"
@@ -19,7 +18,7 @@ yamlFiles:
 
   - name: "external-dns config for google"
     path: "../vendor/config-google.yaml"
-    outputPath: "config-google.yaml"
+    outputPath: "manifests/config-google.yaml"
     overlays:
       - name: "add include marker for google secret and configmap"
         query: "$"
@@ -29,7 +28,7 @@ yamlFiles:
 
   - name: "external-dns config for route53"
     path: "../vendor/config-route53.yaml"
-    outputPath: "config-route53.yaml"
+    outputPath: "manifests/config-route53.yaml"
     overlays:
       - name: "add include marker for route53 secret and configmap"
         query: "$"
@@ -39,7 +38,7 @@ yamlFiles:
 
   - name: "external-dns deployment for active directory"
     path: "../vendor/deployment-active-directory.yaml"
-    outputPath: "deployment-active-directory.yaml"
+    outputPath: "manifests/deployment-active-directory.yaml"
     overlays:
       - name: "add include marker for active directory deployment"
         query: "$"
@@ -65,7 +64,7 @@ yamlFiles:
 
   - name: "external-dns deployment for google"
     path: "../vendor/deployment-google.yaml"
-    outputPath: "deployment-google.yaml"
+    outputPath: "manifests/deployment-google.yaml"
     overlays:
       - name: "add include marker for google deployment"
         query: "$"
@@ -89,7 +88,7 @@ yamlFiles:
 
   - name: "external-dns deployment for route53"
     path: "../vendor/deployment-route53.yaml"
-    outputPath: "deployment-route53.yaml"
+    outputPath: "manifests/deployment-route53.yaml"
     overlays:
       - name: "add include marker for route53 deployment"
         query: "$"
@@ -113,5 +112,5 @@ yamlFiles:
 
   - name: "external-dns rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 

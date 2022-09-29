@@ -3,13 +3,12 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
-    value: "nukleros-secrets-system"  # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
   - name: "reloader deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add reloader image markers"
         query: "spec.template.spec.containers[*]"
@@ -30,5 +29,5 @@ yamlFiles:
 
   - name: "reloader rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 

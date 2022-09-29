@@ -8,9 +8,17 @@ directories:
       - path: ./
         git:
           url: https://github.com/nukleros/platform-component-library.git
-          #ref: v0.1.0
-          ref: main
+          ref: v0.1.1
         includePaths:
           - ingress/nginx/*
         newRootPath: ingress/nginx
+  - path: platform.addons.nukleros.io/ingress-component/nginx/vendor-nginx
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nginxinc/kubernetes-ingress.git
+          ref: v2.3.1
+        includePaths:
+          - deployments/daemon-set/nginx-ingress.yaml
+        newRootPath: deployments/daemon-set
 

@@ -45,11 +45,13 @@ func CreateServiceAccountNamespaceCertManagerCainjector(
 				"name":      "cert-manager-cainjector",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cainjector",
-					"app.kubernetes.io/name":      "cainjector",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cainjector",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cainjector",
+					"app.kubernetes.io/name":       "cainjector",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cainjector",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 		},
@@ -76,11 +78,13 @@ func CreateServiceAccountNamespaceCertManager(
 				"name":      "cert-manager",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 		},
@@ -107,11 +111,13 @@ func CreateServiceAccountNamespaceCertManagerWebhook(
 				"name":      "cert-manager-webhook",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 		},
@@ -143,11 +149,13 @@ func CreateClusterRoleCertManagerCainjector(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-cainjector",
 				"labels": map[string]interface{}{
-					"app":                         "cainjector",
-					"app.kubernetes.io/name":      "cainjector",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cainjector",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cainjector",
+					"app.kubernetes.io/name":       "cainjector",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cainjector",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -261,11 +269,13 @@ func CreateClusterRoleCertManagerControllerIssuers(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-issuers",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -350,11 +360,13 @@ func CreateClusterRoleCertManagerControllerClusterissuers(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-clusterissuers",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -446,11 +458,13 @@ func CreateClusterRoleCertManagerControllerCertificates(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-certificates",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -572,11 +586,13 @@ func CreateClusterRoleCertManagerControllerOrders(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-orders",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -704,11 +720,13 @@ func CreateClusterRoleCertManagerControllerChallenges(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-challenges",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -894,11 +912,13 @@ func CreateClusterRoleCertManagerControllerIngressShim(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-ingress-shim",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1030,6 +1050,8 @@ func CreateClusterRoleCertManagerView(
 					"rbac.authorization.k8s.io/aggregate-to-view":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-edit":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-admin": "true",
+					"platform.nukleros.io/group":                   "certificates",
+					"platform.nukleros.io/project":                 "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1098,6 +1120,8 @@ func CreateClusterRoleCertManagerEdit(
 					"app.kubernetes.io/version":                    "v1.9.1",
 					"rbac.authorization.k8s.io/aggregate-to-edit":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-admin": "true",
+					"platform.nukleros.io/group":                   "certificates",
+					"platform.nukleros.io/project":                 "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1169,11 +1193,13 @@ func CreateClusterRoleCertManagerControllerApproveCertManagerIo(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-approve:cert-manager-io",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cert-manager",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cert-manager",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1219,11 +1245,13 @@ func CreateClusterRoleCertManagerControllerCertificatesigningrequests(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-certificatesigningrequests",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cert-manager",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cert-manager",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1303,11 +1331,13 @@ func CreateClusterRoleCertManagerWebhookSubjectaccessreviews(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-webhook:subjectaccessreviews",
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1345,11 +1375,13 @@ func CreateClusterRoleBindingCertManagerCainjector(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-cainjector",
 				"labels": map[string]interface{}{
-					"app":                         "cainjector",
-					"app.kubernetes.io/name":      "cainjector",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cainjector",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cainjector",
+					"app.kubernetes.io/name":       "cainjector",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cainjector",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1386,11 +1418,13 @@ func CreateClusterRoleBindingCertManagerControllerIssuers(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-issuers",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1427,11 +1461,13 @@ func CreateClusterRoleBindingCertManagerControllerClusterissuers(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-clusterissuers",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1468,11 +1504,13 @@ func CreateClusterRoleBindingCertManagerControllerCertificates(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-certificates",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1509,11 +1547,13 @@ func CreateClusterRoleBindingCertManagerControllerOrders(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-orders",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1550,11 +1590,13 @@ func CreateClusterRoleBindingCertManagerControllerChallenges(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-challenges",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1591,11 +1633,13 @@ func CreateClusterRoleBindingCertManagerControllerIngressShim(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-ingress-shim",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1632,11 +1676,13 @@ func CreateClusterRoleBindingCertManagerControllerApproveCertManagerIo(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-approve:cert-manager-io",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cert-manager",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cert-manager",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1673,11 +1719,13 @@ func CreateClusterRoleBindingCertManagerControllerCertificatesigningrequests(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-controller-certificatesigningrequests",
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cert-manager",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cert-manager",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1714,11 +1762,13 @@ func CreateClusterRoleBindingCertManagerWebhookSubjectaccessreviews(
 			"metadata": map[string]interface{}{
 				"name": "cert-manager-webhook:subjectaccessreviews",
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1758,11 +1808,13 @@ func CreateRoleNamespaceCertManagerCainjectorLeaderelection(
 				"name":      "cert-manager-cainjector:leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cainjector",
-					"app.kubernetes.io/name":      "cainjector",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cainjector",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cainjector",
+					"app.kubernetes.io/name":       "cainjector",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cainjector",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1819,11 +1871,13 @@ func CreateRoleNamespaceCertManagerLeaderelection(
 				"name":      "cert-manager:leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1879,11 +1933,13 @@ func CreateRoleNamespaceCertManagerWebhookDynamicServing(
 				"name":      "cert-manager-webhook:dynamic-serving",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"rules": []interface{}{
@@ -1939,11 +1995,13 @@ func CreateRoleBindingNamespaceCertManagerCainjectorLeaderelection(
 				"name":      "cert-manager-cainjector:leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cainjector",
-					"app.kubernetes.io/name":      "cainjector",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "cainjector",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cainjector",
+					"app.kubernetes.io/name":       "cainjector",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "cainjector",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1981,11 +2039,13 @@ func CreateRoleBindingNamespaceCertManagerLeaderelection(
 				"name":      "cert-manager:leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "cert-manager",
-					"app.kubernetes.io/name":      "cert-manager",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "controller",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "cert-manager",
+					"app.kubernetes.io/name":       "cert-manager",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "controller",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -2024,11 +2084,13 @@ func CreateRoleBindingNamespaceCertManagerWebhookDynamicServing(
 				"name":      "cert-manager-webhook:dynamic-serving",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app":                         "webhook",
-					"app.kubernetes.io/name":      "webhook",
-					"app.kubernetes.io/instance":  "cert-manager",
-					"app.kubernetes.io/component": "webhook",
-					"app.kubernetes.io/version":   "v1.9.1",
+					"app":                          "webhook",
+					"app.kubernetes.io/name":       "webhook",
+					"app.kubernetes.io/instance":   "cert-manager",
+					"app.kubernetes.io/component":  "webhook",
+					"app.kubernetes.io/version":    "v1.9.1",
+					"platform.nukleros.io/group":   "certificates",
+					"platform.nukleros.io/project": "cert-manager",
 				},
 			},
 			"roleRef": map[string]interface{}{

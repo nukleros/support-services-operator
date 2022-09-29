@@ -1,7 +1,0 @@
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: nginx-config
-  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
-data:

@@ -13,11 +13,11 @@ spec:
   dependencies: []
   resources:
     - namespace.yaml
-    - external-secrets/config.yaml
-    - external-secrets/crds.yaml
-    - external-secrets/deployment.yaml
-    - external-secrets/rbac.yaml
-    - external-secrets/service.yaml
-    - external-secrets/webhook.yaml
-    - reloader/deployment.yaml
-    - reloader/rbac.yaml
+    - external-secrets/manifests/config.yaml
+    - external-secrets/manifests/crds.yaml
+    - external-secrets/manifests/deployment.yaml
+    - external-secrets/manifests/rbac.yaml
+    - external-secrets/manifests/service.yaml
+    - external-secrets/manifests/webhook.yaml
+    - reloader/manifests/deployment.yaml
+    - reloader/manifests/rbac.yaml

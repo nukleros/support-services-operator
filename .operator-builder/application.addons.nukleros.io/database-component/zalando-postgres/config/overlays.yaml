@@ -6,25 +6,13 @@ commonOverlays:
     value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
-  - name: "zalando-postgres namespace"
-    path: "../static/namespace.yaml"
-    outputPath: "namespace.yaml"
-    overlays:
-      - name: "add namespace name marker"
-        query: "$"
-        value:
-          metadata:
-            # +operator-builder:field:name=namespace,default="%v",type=string,description=`
-            # Namespace to use for database support services.`
-            name: "%v"
-
   - name: "zalando-postgres configmap"
     path: "../vendor/config.yaml"
-    outputPath: "config.yaml"
+    outputPath: "manifests/config.yaml"
 
   - name: "zalando-postgres deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add replica count marker"
         query: "$"
@@ -45,9 +33,9 @@ yamlFiles:
 
   - name: "zalando-postgres rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
 
   - name: "zalando-postgres service"
     path: "../vendor/service.yaml"
-    outputPath: "service.yaml"
+    outputPath: "manifests/service.yaml"
 

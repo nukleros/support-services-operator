@@ -3,13 +3,12 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
-    value: "nukleros-secrets-system"  # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
   - name: "external-secrets configmap"
     path: "../vendor/config.yaml"
-    outputPath: "config.yaml"
+    outputPath: "manifests/config.yaml"
     overlays:
       - name: "set version on labels"
         query: metadata
@@ -19,11 +18,11 @@ yamlFiles:
 
   - name: "external-secrets crds"
     path: "../vendor/crds.yaml"
-    outputPath: "crds.yaml"
+    outputPath: "manifests/crds.yaml"
 
   - name: "external-secrets deployment"
     path: "../vendor/deployment.yaml"
-    outputPath: "deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
     overlays:
       - name: "add external-secrets image markers"
         query: "spec.template.spec.containers[*]"
@@ -66,7 +65,7 @@ yamlFiles:
 
   - name: "external-secrets rbac"
     path: "../vendor/rbac.yaml"
-    outputPath: "rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
     overlays:
       - name: "set version on labels"
         query: metadata
@@ -76,7 +75,7 @@ yamlFiles:
 
   - name: "external-secrets service"
     path: "../vendor/service.yaml"
-    outputPath: "service.yaml"
+    outputPath: "manifests/service.yaml"
     overlays:
       - name: "set version on labels"
         query: metadata
@@ -86,5 +85,5 @@ yamlFiles:
 
   - name: "external-secrets webhook"
     path: "../vendor/webhook.yaml"
-    outputPath: "webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
 

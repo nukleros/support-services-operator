@@ -1,5 +1,2 @@
-* implement default server cert for nginx with cert-manager
-* add cluster issuer for cert manager
-
 * re-implement manifest directories in .operator-builder
 

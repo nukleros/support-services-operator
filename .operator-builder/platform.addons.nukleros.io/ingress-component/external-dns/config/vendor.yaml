@@ -8,8 +8,7 @@ directories:
       - path: ./
         git:
           url: https://github.com/nukleros/platform-component-library.git
-          #ref: v0.1.0
-          ref: main
+          ref: v0.1.1
         includePaths:
           - ingress/external-dns/*
         newRootPath: ingress/external-dns

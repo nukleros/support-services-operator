@@ -137,27 +137,25 @@ var CreateFuncs = []func(
 	CreateDeploymentNamespaceExternalDnsActiveDirectory,
 	CreateDeploymentNamespaceExternalDnsGoogle,
 	CreateDeploymentNamespaceExternalDnsRoute53,
-	CreateClusterRoleBindingExternalDnsViewer,
-	CreateClusterRoleNamespaceExternalDns,
 	CreateServiceAccountNamespaceExternalDns,
+	CreateClusterRoleNamespaceExternalDns,
+	CreateClusterRoleBindingExternalDnsViewer,
 	CreateCertNamespaceNginxDefaultServerSecretNonProd,
 	CreateCertNamespaceNginxDefaultServerSecretProd,
 	CreateConfigMapNamespaceNginxConfig,
 	CreateCRDDnsendpointsExternaldnsNginxOrg,
-	CreateCRDTransportserversK8sNginxOrg,
 	CreateCRDGlobalconfigurationsK8sNginxOrg,
 	CreateCRDPoliciesK8sNginxOrg,
 	CreateCRDVirtualserverroutesK8sNginxOrg,
 	CreateCRDVirtualserversK8sNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
 	CreateDaemonSetNamespaceNginxIngress,
 	CreateDeploymentNamespaceNginxIngress,
 	CreateIngressClassNginx,
-	CreateServiceAccountNamespaceNginxIngress,
 	CreateClusterRoleNginxIngress,
-	CreateClusterRoleBindingNginxIngress,
+	CreateServiceAccountNuklerosIngressSystemNginxIngress,
 	CreateServiceNamespaceNginxIngressAws,
 	CreateServiceNamespaceNginxIngressGcpAzure,
-	CreateServiceNamespaceNginxIngressNodeport,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -175,11 +173,11 @@ var InitFuncs = []func(
 	*workload.Request,
 ) ([]client.Object, error){
 	CreateCRDDnsendpointsExternaldnsNginxOrg,
-	CreateCRDTransportserversK8sNginxOrg,
 	CreateCRDGlobalconfigurationsK8sNginxOrg,
 	CreateCRDPoliciesK8sNginxOrg,
 	CreateCRDVirtualserverroutesK8sNginxOrg,
 	CreateCRDVirtualserversK8sNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (

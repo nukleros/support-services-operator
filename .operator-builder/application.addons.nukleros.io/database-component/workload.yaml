@@ -13,8 +13,8 @@ spec:
   dependencies: []
   resources:
     - namespace.yaml
-    - zalando-postgres/config.yaml
-    - zalando-postgres/deployment.yaml
-    - zalando-postgres/rbac.yaml
-    - zalando-postgres/service.yaml
+    - zalando-postgres/manifests/config.yaml
+    - zalando-postgres/manifests/deployment.yaml
+    - zalando-postgres/manifests/rbac.yaml
+    - zalando-postgres/manifests/service.yaml
 
