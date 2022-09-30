@@ -27,6 +27,33 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
+// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
+
+// CreateServiceAccountNamespaceNginxIngress creates the ServiceAccount resource with name nginx-ingress.
+func CreateServiceAccountNamespaceNginxIngress(
+	parent *platformv1alpha1.IngressComponent,
+	collection *setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
+) ([]client.Object, error) {
+	var resourceObj = &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "v1",
+			"kind":       "ServiceAccount",
+			"metadata": map[string]interface{}{
+				"name":      "nginx-ingress",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"labels": map[string]interface{}{
+					"platform.nukleros.io/group":   "ingress",
+					"platform.nukleros.io/project": "nginx-ingress-controller",
+				},
+			},
+		},
+	}
+
+	return mutate.MutateServiceAccountNamespaceNginxIngress(resourceObj, parent, collection, reconciler, req)
+}
+
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch
 // +kubebuilder:rbac:groups=core,resources=endpoints,verbs=get;list;watch
@@ -268,10 +295,10 @@ func CreateClusterRoleNginxIngress(
 	return mutate.MutateClusterRoleNginxIngress(resourceObj, parent, collection, reconciler, req)
 }
 
-// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNuklerosIngressSystemNginxIngress creates the ServiceAccount resource with name nginx-ingress.
-func CreateServiceAccountNuklerosIngressSystemNginxIngress(
+// CreateClusterRoleBindingNginxIngress creates the ClusterRoleBinding resource with name nginx-ingress.
+func CreateClusterRoleBindingNginxIngress(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -300,18 +327,8 @@ func CreateServiceAccountNuklerosIngressSystemNginxIngress(
 				"name":     "nginx-ingress",
 				"apiGroup": "rbac.authorization.k8s.io",
 			},
-			"apiVersion": "v1",
-			"kind":       "ServiceAccount",
-			"metadata": map[string]interface{}{
-				"name":      "nginx-ingress",
-				"namespace": "nukleros-ingress-system",
-				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "nginx-ingress-controller",
-				},
-			},
 		},
 	}
 
-	return mutate.MutateServiceAccountNuklerosIngressSystemNginxIngress(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateClusterRoleBindingNginxIngress(resourceObj, parent, collection, reconciler, req)
 }

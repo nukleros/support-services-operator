@@ -144,16 +144,17 @@ var CreateFuncs = []func(
 	CreateCertNamespaceNginxDefaultServerSecretProd,
 	CreateConfigMapNamespaceNginxConfig,
 	CreateCRDDnsendpointsExternaldnsNginxOrg,
-	CreateCRDGlobalconfigurationsK8sNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
 	CreateCRDPoliciesK8sNginxOrg,
 	CreateCRDVirtualserverroutesK8sNginxOrg,
+	CreateCRDGlobalconfigurationsK8sNginxOrg,
 	CreateCRDVirtualserversK8sNginxOrg,
-	CreateCRDTransportserversK8sNginxOrg,
 	CreateDaemonSetNamespaceNginxIngress,
 	CreateDeploymentNamespaceNginxIngress,
 	CreateIngressClassNginx,
+	CreateServiceAccountNamespaceNginxIngress,
 	CreateClusterRoleNginxIngress,
-	CreateServiceAccountNuklerosIngressSystemNginxIngress,
+	CreateClusterRoleBindingNginxIngress,
 	CreateServiceNamespaceNginxIngressAws,
 	CreateServiceNamespaceNginxIngressGcpAzure,
 }
@@ -173,11 +174,11 @@ var InitFuncs = []func(
 	*workload.Request,
 ) ([]client.Object, error){
 	CreateCRDDnsendpointsExternaldnsNginxOrg,
-	CreateCRDGlobalconfigurationsK8sNginxOrg,
+	CreateCRDTransportserversK8sNginxOrg,
 	CreateCRDPoliciesK8sNginxOrg,
 	CreateCRDVirtualserverroutesK8sNginxOrg,
+	CreateCRDGlobalconfigurationsK8sNginxOrg,
 	CreateCRDVirtualserversK8sNginxOrg,
-	CreateCRDTransportserversK8sNginxOrg,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (

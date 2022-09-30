@@ -25,8 +25,8 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// MutateServiceAccountNuklerosIngressSystemNginxIngress mutates the ServiceAccount resource with name nginx-ingress.
-func MutateServiceAccountNuklerosIngressSystemNginxIngress(
+// MutateClusterRoleBindingNginxIngress mutates the ClusterRoleBinding resource with name nginx-ingress.
+func MutateClusterRoleBindingNginxIngress(
 	original client.Object,
 	parent *platformv1alpha1.IngressComponent, collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

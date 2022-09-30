@@ -173,8 +173,8 @@ func CreateCRDDnsendpointsExternaldnsNginxOrg(
 
 // +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
 
-// CreateCRDGlobalconfigurationsK8sNginxOrg creates the CustomResourceDefinition resource with name globalconfigurations.k8s.nginx.org.
-func CreateCRDGlobalconfigurationsK8sNginxOrg(
+// CreateCRDTransportserversK8sNginxOrg creates the CustomResourceDefinition resource with name transportservers.k8s.nginx.org.
+func CreateCRDTransportserversK8sNginxOrg(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -189,7 +189,7 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 					"controller-gen.kubebuilder.io/version": "v0.8.0",
 				},
 				"creationTimestamp": nil,
-				"name":              "globalconfigurations.k8s.nginx.org",
+				"name":              "transportservers.k8s.nginx.org",
 				"labels": map[string]interface{}{
 					"platform.nukleros.io/group":   "ingress",
 					"platform.nukleros.io/project": "nginx-ingress-controller",
@@ -198,21 +198,39 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 			"spec": map[string]interface{}{
 				"group": "k8s.nginx.org",
 				"names": map[string]interface{}{
-					"kind":     "GlobalConfiguration",
-					"listKind": "GlobalConfigurationList",
-					"plural":   "globalconfigurations",
+					"kind":     "TransportServer",
+					"listKind": "TransportServerList",
+					"plural":   "transportservers",
 					"shortNames": []interface{}{
-						"gc",
+						"ts",
 					},
-					"singular": "globalconfiguration",
+					"singular": "transportserver",
 				},
 				"scope": "Namespaced",
 				"versions": []interface{}{
 					map[string]interface{}{
+						"additionalPrinterColumns": []interface{}{
+							map[string]interface{}{
+								"description": "Current state of the TransportServer. If the resource has a valid status, it means it has been validated and accepted by the Ingress Controller.",
+								"jsonPath":    ".status.state",
+								"name":        "State",
+								"type":        "string",
+							},
+							map[string]interface{}{
+								"jsonPath": ".status.reason",
+								"name":     "Reason",
+								"type":     "string",
+							},
+							map[string]interface{}{
+								"jsonPath": ".metadata.creationTimestamp",
+								"name":     "Age",
+								"type":     "date",
+							},
+						},
 						"name": "v1alpha1",
 						"schema": map[string]interface{}{
 							"openAPIV3Schema": map[string]interface{}{
-								"description": "GlobalConfiguration defines the GlobalConfiguration resource.",
+								"description": "TransportServer defines the TransportServer resource.",
 								"type":        "object",
 								"properties": map[string]interface{}{
 									"apiVersion": map[string]interface{}{
@@ -227,26 +245,158 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 										"type": "object",
 									},
 									"spec": map[string]interface{}{
-										"description": "GlobalConfigurationSpec is the spec of the GlobalConfiguration resource.",
+										"description": "TransportServerSpec is the spec of the TransportServer resource.",
 										"type":        "object",
 										"properties": map[string]interface{}{
-											"listeners": map[string]interface{}{
+											"action": map[string]interface{}{
+												"description": "Action defines an action.",
+												"type":        "object",
+												"properties": map[string]interface{}{
+													"pass": map[string]interface{}{
+														"type": "string",
+													},
+												},
+											},
+											"host": map[string]interface{}{
+												"type": "string",
+											},
+											"ingressClassName": map[string]interface{}{
+												"type": "string",
+											},
+											"listener": map[string]interface{}{
+												"description": "TransportServerListener defines a listener for a TransportServer.",
+												"type":        "object",
+												"properties": map[string]interface{}{
+													"name": map[string]interface{}{
+														"type": "string",
+													},
+													"protocol": map[string]interface{}{
+														"type": "string",
+													},
+												},
+											},
+											"serverSnippets": map[string]interface{}{
+												"type": "string",
+											},
+											"sessionParameters": map[string]interface{}{
+												"description": "SessionParameters defines session parameters.",
+												"type":        "object",
+												"properties": map[string]interface{}{
+													"timeout": map[string]interface{}{
+														"type": "string",
+													},
+												},
+											},
+											"streamSnippets": map[string]interface{}{
+												"type": "string",
+											},
+											"upstreamParameters": map[string]interface{}{
+												"description": "UpstreamParameters defines parameters for an upstream.",
+												"type":        "object",
+												"properties": map[string]interface{}{
+													"connectTimeout": map[string]interface{}{
+														"type": "string",
+													},
+													"nextUpstream": map[string]interface{}{
+														"type": "boolean",
+													},
+													"nextUpstreamTimeout": map[string]interface{}{
+														"type": "string",
+													},
+													"nextUpstreamTries": map[string]interface{}{
+														"type": "integer",
+													},
+													"udpRequests": map[string]interface{}{
+														"type": "integer",
+													},
+													"udpResponses": map[string]interface{}{
+														"type": "integer",
+													},
+												},
+											},
+											"upstreams": map[string]interface{}{
 												"type": "array",
 												"items": map[string]interface{}{
-													"description": "Listener defines a listener.",
+													"description": "Upstream defines an upstream.",
 													"type":        "object",
 													"properties": map[string]interface{}{
+														"failTimeout": map[string]interface{}{
+															"type": "string",
+														},
+														"healthCheck": map[string]interface{}{
+															"description": "HealthCheck defines the parameters for active Upstream HealthChecks.",
+															"type":        "object",
+															"properties": map[string]interface{}{
+																"enable": map[string]interface{}{
+																	"type": "boolean",
+																},
+																"fails": map[string]interface{}{
+																	"type": "integer",
+																},
+																"interval": map[string]interface{}{
+																	"type": "string",
+																},
+																"jitter": map[string]interface{}{
+																	"type": "string",
+																},
+																"match": map[string]interface{}{
+																	"description": "Match defines the parameters of a custom health check.",
+																	"type":        "object",
+																	"properties": map[string]interface{}{
+																		"expect": map[string]interface{}{
+																			"type": "string",
+																		},
+																		"send": map[string]interface{}{
+																			"type": "string",
+																		},
+																	},
+																},
+																"passes": map[string]interface{}{
+																	"type": "integer",
+																},
+																"port": map[string]interface{}{
+																	"type": "integer",
+																},
+																"timeout": map[string]interface{}{
+																	"type": "string",
+																},
+															},
+														},
+														"loadBalancingMethod": map[string]interface{}{
+															"type": "string",
+														},
+														"maxConns": map[string]interface{}{
+															"type": "integer",
+														},
+														"maxFails": map[string]interface{}{
+															"type": "integer",
+														},
 														"name": map[string]interface{}{
 															"type": "string",
 														},
 														"port": map[string]interface{}{
 															"type": "integer",
 														},
-														"protocol": map[string]interface{}{
+														"service": map[string]interface{}{
 															"type": "string",
 														},
 													},
 												},
+											},
+										},
+									},
+									"status": map[string]interface{}{
+										"description": "TransportServerStatus defines the status for the TransportServer resource.",
+										"type":        "object",
+										"properties": map[string]interface{}{
+											"message": map[string]interface{}{
+												"type": "string",
+											},
+											"reason": map[string]interface{}{
+												"type": "string",
+											},
+											"state": map[string]interface{}{
+												"type": "string",
 											},
 										},
 									},
@@ -255,6 +405,9 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 						},
 						"served":  true,
 						"storage": true,
+						"subresources": map[string]interface{}{
+							"status": map[string]interface{}{},
+						},
 					},
 				},
 			},
@@ -269,7 +422,7 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 		},
 	}
 
-	return mutate.MutateCRDGlobalconfigurationsK8sNginxOrg(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateCRDTransportserversK8sNginxOrg(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
@@ -1717,6 +1870,107 @@ func CreateCRDVirtualserverroutesK8sNginxOrg(
 
 // +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
 
+// CreateCRDGlobalconfigurationsK8sNginxOrg creates the CustomResourceDefinition resource with name globalconfigurations.k8s.nginx.org.
+func CreateCRDGlobalconfigurationsK8sNginxOrg(
+	parent *platformv1alpha1.IngressComponent,
+	collection *setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
+) ([]client.Object, error) {
+	var resourceObj = &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "apiextensions.k8s.io/v1",
+			"kind":       "CustomResourceDefinition",
+			"metadata": map[string]interface{}{
+				"annotations": map[string]interface{}{
+					"controller-gen.kubebuilder.io/version": "v0.8.0",
+				},
+				"creationTimestamp": nil,
+				"name":              "globalconfigurations.k8s.nginx.org",
+				"labels": map[string]interface{}{
+					"platform.nukleros.io/group":   "ingress",
+					"platform.nukleros.io/project": "nginx-ingress-controller",
+				},
+			},
+			"spec": map[string]interface{}{
+				"group": "k8s.nginx.org",
+				"names": map[string]interface{}{
+					"kind":     "GlobalConfiguration",
+					"listKind": "GlobalConfigurationList",
+					"plural":   "globalconfigurations",
+					"shortNames": []interface{}{
+						"gc",
+					},
+					"singular": "globalconfiguration",
+				},
+				"scope": "Namespaced",
+				"versions": []interface{}{
+					map[string]interface{}{
+						"name": "v1alpha1",
+						"schema": map[string]interface{}{
+							"openAPIV3Schema": map[string]interface{}{
+								"description": "GlobalConfiguration defines the GlobalConfiguration resource.",
+								"type":        "object",
+								"properties": map[string]interface{}{
+									"apiVersion": map[string]interface{}{
+										"description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+										"type":        "string",
+									},
+									"kind": map[string]interface{}{
+										"description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+										"type":        "string",
+									},
+									"metadata": map[string]interface{}{
+										"type": "object",
+									},
+									"spec": map[string]interface{}{
+										"description": "GlobalConfigurationSpec is the spec of the GlobalConfiguration resource.",
+										"type":        "object",
+										"properties": map[string]interface{}{
+											"listeners": map[string]interface{}{
+												"type": "array",
+												"items": map[string]interface{}{
+													"description": "Listener defines a listener.",
+													"type":        "object",
+													"properties": map[string]interface{}{
+														"name": map[string]interface{}{
+															"type": "string",
+														},
+														"port": map[string]interface{}{
+															"type": "integer",
+														},
+														"protocol": map[string]interface{}{
+															"type": "string",
+														},
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"served":  true,
+						"storage": true,
+					},
+				},
+			},
+			"status": map[string]interface{}{
+				"acceptedNames": map[string]interface{}{
+					"kind":   "",
+					"plural": "",
+				},
+				"conditions":     []interface{}{},
+				"storedVersions": []interface{}{},
+			},
+		},
+	}
+
+	return mutate.MutateCRDGlobalconfigurationsK8sNginxOrg(resourceObj, parent, collection, reconciler, req)
+}
+
+// +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
+
 // CreateCRDVirtualserversK8sNginxOrg creates the CustomResourceDefinition resource with name virtualservers.k8s.nginx.org.
 func CreateCRDVirtualserversK8sNginxOrg(
 	parent *platformv1alpha1.IngressComponent,
@@ -2811,258 +3065,4 @@ func CreateCRDVirtualserversK8sNginxOrg(
 	}
 
 	return mutate.MutateCRDVirtualserversK8sNginxOrg(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
-
-// CreateCRDTransportserversK8sNginxOrg creates the CustomResourceDefinition resource with name transportservers.k8s.nginx.org.
-func CreateCRDTransportserversK8sNginxOrg(
-	parent *platformv1alpha1.IngressComponent,
-	collection *setupv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "apiextensions.k8s.io/v1",
-			"kind":       "CustomResourceDefinition",
-			"metadata": map[string]interface{}{
-				"annotations": map[string]interface{}{
-					"controller-gen.kubebuilder.io/version": "v0.8.0",
-				},
-				"creationTimestamp": nil,
-				"name":              "transportservers.k8s.nginx.org",
-				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "nginx-ingress-controller",
-				},
-			},
-			"spec": map[string]interface{}{
-				"group": "k8s.nginx.org",
-				"names": map[string]interface{}{
-					"kind":     "TransportServer",
-					"listKind": "TransportServerList",
-					"plural":   "transportservers",
-					"shortNames": []interface{}{
-						"ts",
-					},
-					"singular": "transportserver",
-				},
-				"scope": "Namespaced",
-				"versions": []interface{}{
-					map[string]interface{}{
-						"additionalPrinterColumns": []interface{}{
-							map[string]interface{}{
-								"description": "Current state of the TransportServer. If the resource has a valid status, it means it has been validated and accepted by the Ingress Controller.",
-								"jsonPath":    ".status.state",
-								"name":        "State",
-								"type":        "string",
-							},
-							map[string]interface{}{
-								"jsonPath": ".status.reason",
-								"name":     "Reason",
-								"type":     "string",
-							},
-							map[string]interface{}{
-								"jsonPath": ".metadata.creationTimestamp",
-								"name":     "Age",
-								"type":     "date",
-							},
-						},
-						"name": "v1alpha1",
-						"schema": map[string]interface{}{
-							"openAPIV3Schema": map[string]interface{}{
-								"description": "TransportServer defines the TransportServer resource.",
-								"type":        "object",
-								"properties": map[string]interface{}{
-									"apiVersion": map[string]interface{}{
-										"description": "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
-										"type":        "string",
-									},
-									"kind": map[string]interface{}{
-										"description": "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
-										"type":        "string",
-									},
-									"metadata": map[string]interface{}{
-										"type": "object",
-									},
-									"spec": map[string]interface{}{
-										"description": "TransportServerSpec is the spec of the TransportServer resource.",
-										"type":        "object",
-										"properties": map[string]interface{}{
-											"action": map[string]interface{}{
-												"description": "Action defines an action.",
-												"type":        "object",
-												"properties": map[string]interface{}{
-													"pass": map[string]interface{}{
-														"type": "string",
-													},
-												},
-											},
-											"host": map[string]interface{}{
-												"type": "string",
-											},
-											"ingressClassName": map[string]interface{}{
-												"type": "string",
-											},
-											"listener": map[string]interface{}{
-												"description": "TransportServerListener defines a listener for a TransportServer.",
-												"type":        "object",
-												"properties": map[string]interface{}{
-													"name": map[string]interface{}{
-														"type": "string",
-													},
-													"protocol": map[string]interface{}{
-														"type": "string",
-													},
-												},
-											},
-											"serverSnippets": map[string]interface{}{
-												"type": "string",
-											},
-											"sessionParameters": map[string]interface{}{
-												"description": "SessionParameters defines session parameters.",
-												"type":        "object",
-												"properties": map[string]interface{}{
-													"timeout": map[string]interface{}{
-														"type": "string",
-													},
-												},
-											},
-											"streamSnippets": map[string]interface{}{
-												"type": "string",
-											},
-											"upstreamParameters": map[string]interface{}{
-												"description": "UpstreamParameters defines parameters for an upstream.",
-												"type":        "object",
-												"properties": map[string]interface{}{
-													"connectTimeout": map[string]interface{}{
-														"type": "string",
-													},
-													"nextUpstream": map[string]interface{}{
-														"type": "boolean",
-													},
-													"nextUpstreamTimeout": map[string]interface{}{
-														"type": "string",
-													},
-													"nextUpstreamTries": map[string]interface{}{
-														"type": "integer",
-													},
-													"udpRequests": map[string]interface{}{
-														"type": "integer",
-													},
-													"udpResponses": map[string]interface{}{
-														"type": "integer",
-													},
-												},
-											},
-											"upstreams": map[string]interface{}{
-												"type": "array",
-												"items": map[string]interface{}{
-													"description": "Upstream defines an upstream.",
-													"type":        "object",
-													"properties": map[string]interface{}{
-														"failTimeout": map[string]interface{}{
-															"type": "string",
-														},
-														"healthCheck": map[string]interface{}{
-															"description": "HealthCheck defines the parameters for active Upstream HealthChecks.",
-															"type":        "object",
-															"properties": map[string]interface{}{
-																"enable": map[string]interface{}{
-																	"type": "boolean",
-																},
-																"fails": map[string]interface{}{
-																	"type": "integer",
-																},
-																"interval": map[string]interface{}{
-																	"type": "string",
-																},
-																"jitter": map[string]interface{}{
-																	"type": "string",
-																},
-																"match": map[string]interface{}{
-																	"description": "Match defines the parameters of a custom health check.",
-																	"type":        "object",
-																	"properties": map[string]interface{}{
-																		"expect": map[string]interface{}{
-																			"type": "string",
-																		},
-																		"send": map[string]interface{}{
-																			"type": "string",
-																		},
-																	},
-																},
-																"passes": map[string]interface{}{
-																	"type": "integer",
-																},
-																"port": map[string]interface{}{
-																	"type": "integer",
-																},
-																"timeout": map[string]interface{}{
-																	"type": "string",
-																},
-															},
-														},
-														"loadBalancingMethod": map[string]interface{}{
-															"type": "string",
-														},
-														"maxConns": map[string]interface{}{
-															"type": "integer",
-														},
-														"maxFails": map[string]interface{}{
-															"type": "integer",
-														},
-														"name": map[string]interface{}{
-															"type": "string",
-														},
-														"port": map[string]interface{}{
-															"type": "integer",
-														},
-														"service": map[string]interface{}{
-															"type": "string",
-														},
-													},
-												},
-											},
-										},
-									},
-									"status": map[string]interface{}{
-										"description": "TransportServerStatus defines the status for the TransportServer resource.",
-										"type":        "object",
-										"properties": map[string]interface{}{
-											"message": map[string]interface{}{
-												"type": "string",
-											},
-											"reason": map[string]interface{}{
-												"type": "string",
-											},
-											"state": map[string]interface{}{
-												"type": "string",
-											},
-										},
-									},
-								},
-							},
-						},
-						"served":  true,
-						"storage": true,
-						"subresources": map[string]interface{}{
-							"status": map[string]interface{}{},
-						},
-					},
-				},
-			},
-			"status": map[string]interface{}{
-				"acceptedNames": map[string]interface{}{
-					"kind":   "",
-					"plural": "",
-				},
-				"conditions":     []interface{}{},
-				"storedVersions": []interface{}{},
-			},
-		},
-	}
-
-	return mutate.MutateCRDTransportserversK8sNginxOrg(resourceObj, parent, collection, reconciler, req)
 }
