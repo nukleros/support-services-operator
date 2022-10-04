@@ -48,6 +48,14 @@ spec:
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
   domainName: "nukleros.io"
+  kong:
+    replicas: 2
+    gateway:
+      image: "kong/kong-gateway"
+      version: "2.8"
+    ingressController:
+      image: "kong/kubernetes-ingress-controller"
+      version: "2.5.0"
 `
 
 // sampleIngressComponentRequired is a sample containing only required fields
@@ -157,6 +165,21 @@ var CreateFuncs = []func(
 	CreateClusterRoleBindingNginxIngress,
 	CreateServiceNamespaceNginxIngressAws,
 	CreateServiceNamespaceNginxIngressGcpAzure,
+	CreateCRDKongclusterpluginsConfigurationKonghqCom,
+	CreateCRDKongconsumersConfigurationKonghqCom,
+	CreateCRDKongingressesConfigurationKonghqCom,
+	CreateCRDKongpluginsConfigurationKonghqCom,
+	CreateCRDTcpingressesConfigurationKonghqCom,
+	CreateCRDUdpingressesConfigurationKonghqCom,
+	CreateDeploymentNamespaceIngressKong,
+	CreateIngressClassKong,
+	CreateServiceAccountNamespaceKongServiceaccount,
+	CreateRoleNamespaceKongLeaderElection,
+	CreateClusterRoleKongIngress,
+	CreateRoleBindingNamespaceKongLeaderElection,
+	CreateClusterRoleBindingKongIngress,
+	CreateServiceNamespaceKongProxy,
+	CreateServiceNamespaceKongValidationWebhook,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -179,6 +202,12 @@ var InitFuncs = []func(
 	CreateCRDVirtualserverroutesK8sNginxOrg,
 	CreateCRDGlobalconfigurationsK8sNginxOrg,
 	CreateCRDVirtualserversK8sNginxOrg,
+	CreateCRDKongclusterpluginsConfigurationKonghqCom,
+	CreateCRDKongconsumersConfigurationKonghqCom,
+	CreateCRDKongingressesConfigurationKonghqCom,
+	CreateCRDKongpluginsConfigurationKonghqCom,
+	CreateCRDTcpingressesConfigurationKonghqCom,
+	CreateCRDUdpingressesConfigurationKonghqCom,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (

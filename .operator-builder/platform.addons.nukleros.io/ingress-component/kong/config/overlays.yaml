@@ -1,0 +1,54 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+yamlFiles:
+  - name: "kong crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  - name: "kong deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add kong gateway image markers"
+        query: "spec.template.spec.containers[?(@.name == 'proxy')]"
+        value:
+          # +operator-builder:field:name=kong.gateway.image,default={{ .defaultGatewayImage }},type=string,replace="kongGatewayImage",description=`
+          # Image repo and name to use for kong gateway.`
+          # +operator-builder:field:name=kong.gateway.version,default="{{ .defaultGatewayVersion }}",type=string,replace="kongGatewayVersion",description=`
+          # Version of kong gateway to use.`
+          image: kongGatewayImage:kongGatewayVersion
+
+      - name: "add kong ingress controller image markers"
+        query: "spec.template.spec.containers[?(@.name == 'ingress-controller')]"
+        value:
+          # +operator-builder:field:name=kong.ingressController.image,default={{ .defaultIngressControllerImage }},type=string,replace="kongIngressControllerImage",description=`
+          # Image repo and name to use for kong ingress controller.`
+          # +operator-builder:field:name=kong.ingressController.version,default="{{ .defaultIngressControllerVersion }}",type=string,replace="kongIngressControllerVersion",description=`
+          # Version of kong ingress controller to use.`
+          image: kongIngressControllerImage:kongIngressControllerVersion
+
+      - name: "add kong ingress replica count marker"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=kong.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the kong ingress deployment.`
+            replicas: !!int "%v"
+
+  - name: "kong ingress class"
+    path: "../vendor/ingress-class.yaml"
+    outputPath: "manifests/ingress-class.yaml"
+
+  - name: "kong rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+
+  - name: "kong service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+

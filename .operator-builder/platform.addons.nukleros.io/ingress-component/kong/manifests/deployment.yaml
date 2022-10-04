@@ -1,0 +1,231 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ingress-kong
+    platform.nukleros.io/group: ingress
+    platform.nukleros.io/project: kong-ingress-controller
+    app.kubernetes.io/name: kong-ingress
+  name: ingress-kong
+  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+spec:
+  # +operator-builder:field:name=kong.replicas,default="2",type=int,description=`
+  # Number of replicas to use for the kong ingress deployment.`
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ingress-kong
+  template:
+    metadata:
+      annotations:
+        kuma.io/gateway: enabled
+        kuma.io/service-account-token-volume: kong-serviceaccount-token
+        traffic.sidecar.istio.io/includeInboundPorts: ""
+      labels:
+        app: ingress-kong
+        platform.nukleros.io/group: ingress
+        platform.nukleros.io/project: kong-ingress-controller
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - env:
+            - name: KONG_LICENSE_DATA
+              valueFrom:
+                secretKeyRef:
+                  key: license
+                  name: kong-enterprise-license
+                  optional: true
+            - name: KONG_PROXY_LISTEN
+              value: 0.0.0.0:8000, 0.0.0.0:8443 ssl http2
+            - name: KONG_PORT_MAPS
+              value: 80:8000, 443:8443
+            - name: KONG_ADMIN_LISTEN
+              value: 127.0.0.1:8444 ssl
+            - name: KONG_STATUS_LISTEN
+              value: 0.0.0.0:8100
+            - name: KONG_DATABASE
+              value: |
+                off
+            - name: KONG_NGINX_WORKER_PROCESSES
+              value: "2"
+            - name: KONG_KIC
+              value: |
+                on
+            - name: KONG_ADMIN_ACCESS_LOG
+              value: /dev/stdout
+            - name: KONG_ADMIN_ERROR_LOG
+              value: /dev/stderr
+            - name: KONG_PROXY_ERROR_LOG
+              value: /dev/stderr
+            - name: KONG_LUA_PACKAGE_PATH
+              value: /opt/?.lua;/opt/?/init.lua;;
+            - name: KONG_PREFIX
+              value: /kong_prefix/
+          # +operator-builder:field:name=kong.gateway.image,default=kong/kong-gateway,type=string,replace="kongGatewayImage",description=`
+          # Image repo and name to use for kong gateway.`
+          # +operator-builder:field:name=kong.gateway.version,default="2.8",type=string,replace="kongGatewayVersion",description=`
+          # Version of kong gateway to use.`
+          image: kongGatewayImage:kongGatewayVersion
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - kong quit
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /status
+              port: 8100
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: proxy
+          ports:
+            - containerPort: 8000
+              name: proxy
+              protocol: TCP
+            - containerPort: 8443
+              name: proxy-ssl
+              protocol: TCP
+            - containerPort: 8100
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /status
+              port: 8100
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 384Mi
+          volumeMounts:
+            - name: kong-prefix-dir
+              mountPath: /kong_prefix/
+            - name: kong-tmp
+              mountPath: /tmp
+        - env:
+            - name: CONTROLLER_KONG_ADMIN_URL
+              value: https://127.0.0.1:8444
+            - name: CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY
+              value: "true"
+            - name: CONTROLLER_PUBLISH_SERVICE
+              value: nukleros-ingress-system/kong-proxy
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: KONG_LUA_PACKAGE_PATH
+              value: /opt/?.lua;/opt/?/init.lua;;
+          # +operator-builder:field:name=kong.ingressController.image,default=kong/kubernetes-ingress-controller,type=string,replace="kongIngressControllerImage",description=`
+          # Image repo and name to use for kong ingress controller.`
+          # +operator-builder:field:name=kong.ingressController.version,default="2.5.0",type=string,replace="kongIngressControllerVersion",description=`
+          # Version of kong ingress controller to use.`
+          image: kongIngressControllerImage:kongIngressControllerVersion
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: ingress-controller
+          ports:
+            - containerPort: 8080
+              name: webhook
+              protocol: TCP
+            - containerPort: 10255
+              name: cmetrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /readyz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          volumeMounts:
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: kong-serviceaccount-token
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 384Mi
+      serviceAccountName: kong-serviceaccount
+      volumes:
+        - name: kong-serviceaccount-token
+          secret:
+            items:
+              - key: token
+                path: token
+              - key: ca.crt
+                path: ca.crt
+              - key: namespace
+                path: namespace
+            secretName: kong-serviceaccount-token
+        - name: kong-prefix-dir
+          emptyDir: {}
+        - name: kong-tmp
+          emptyDir: {}
+      securityContext:
+        fsGroup: 1001
+        runAsUser: 1001
+        runAsGroup: 1001
+        runAsNonRoot: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - kong-ingress

@@ -30,3 +30,9 @@ spec:
     - nginx/manifests/rbac.yaml
     - nginx/manifests/service-aws.yaml
     - nginx/manifests/service-gcp-azure.yaml
+    - kong/manifests/crds.yaml
+    - kong/manifests/deployment.yaml
+    - kong/manifests/ingress-class.yaml
+    - kong/manifests/rbac.yaml
+    - kong/manifests/service.yaml
+

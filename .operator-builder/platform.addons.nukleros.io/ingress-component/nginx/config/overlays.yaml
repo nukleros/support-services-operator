@@ -3,8 +3,7 @@ commonOverlays:
     query:
       - metadata.namespace
       - subjects[*].namespace
-    #value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
-    value: "nukleros-ingress-system"  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
 
 yamlFiles:
   - name: "nginx configmap"
@@ -54,7 +53,6 @@ yamlFiles:
           image: nginxImage:nginxVersion
 
       - name: "add nginx ingress controller replica count marker"
-        #query: "$[?($.metadata.name == 'cert-manager-cainjector')]"
         query: "$"
         value:
           spec:

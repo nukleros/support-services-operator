@@ -1,0 +1,6 @@
+---
+defaultGatewayImage: kong/kong-gateway
+defaultGatewayVersion: "2.8"
+defaultIngressControllerImage: kong/kubernetes-ingress-controller
+defaultIngressControllerVersion: "2.5.0"
+

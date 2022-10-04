@@ -57,6 +57,9 @@ type IngressComponentSpec struct {
 
 	// +kubebuilder:validation:Required
 	DomainName string `json:"domainName,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Kong IngressComponentSpecKong `json:"kong,omitempty"`
 }
 
 type IngressComponentCollectionSpec struct {
@@ -112,6 +115,48 @@ type IngressComponentSpecExternalDNS struct {
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.12.2")
 	//  Version of external-dns to use.
+	Version string `json:"version,omitempty"`
+}
+
+type IngressComponentSpecKong struct {
+	// +kubebuilder:default=2
+	// +kubebuilder:validation:Optional
+	// (Default: 2)
+	//  Number of replicas to use for the kong ingress deployment.
+	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Gateway IngressComponentSpecKongGateway `json:"gateway,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IngressController IngressComponentSpecKongIngressController `json:"ingressController,omitempty"`
+}
+
+type IngressComponentSpecKongGateway struct {
+	// +kubebuilder:default="kong/kong-gateway"
+	// +kubebuilder:validation:Optional
+	// (Default: "kong/kong-gateway")
+	//  Image repo and name to use for kong gateway.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="2.8"
+	// +kubebuilder:validation:Optional
+	// (Default: "2.8")
+	//  Version of kong gateway to use.
+	Version string `json:"version,omitempty"`
+}
+
+type IngressComponentSpecKongIngressController struct {
+	// +kubebuilder:default="kong/kubernetes-ingress-controller"
+	// +kubebuilder:validation:Optional
+	// (Default: "kong/kubernetes-ingress-controller")
+	//  Image repo and name to use for kong ingress controller.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="2.5.0"
+	// +kubebuilder:validation:Optional
+	// (Default: "2.5.0")
+	//  Version of kong ingress controller to use.
 	Version string `json:"version,omitempty"`
 }
 

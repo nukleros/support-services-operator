@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'Merge pull request #16 from lander2k2/nginx-rbac...'
+      sha: f72048843f3eb0ec0a4c2c6b12ba55f22db4cd6a
+      tags:
+      - v0.1.2
+    path: ./
+  path: platform.addons.nukleros.io/ingress-component/kong/vendor
+kind: LockConfig
