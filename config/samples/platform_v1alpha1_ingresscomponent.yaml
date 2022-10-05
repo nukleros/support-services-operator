@@ -17,3 +17,11 @@ spec:
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
   domainName: "nukleros.io"
+  kong:
+    replicas: 2
+    gateway:
+      image: "kong/kong-gateway"
+      version: "2.8"
+    ingressController:
+      image: "kong/kubernetes-ingress-controller"
+      version: "2.5.0"

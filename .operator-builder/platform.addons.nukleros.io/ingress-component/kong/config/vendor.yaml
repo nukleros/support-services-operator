@@ -1,0 +1,15 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: platform.addons.nukleros.io/ingress-component/kong/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nukleros/platform-component-library.git
+          ref: v0.1.2
+        includePaths:
+          - ingress/kong/*
+        newRootPath: ingress/kong
+
