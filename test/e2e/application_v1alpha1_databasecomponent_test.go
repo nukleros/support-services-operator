@@ -31,9 +31,7 @@ import (
 	"github.com/nukleros/support-services-operator/apis/application/v1alpha1/databasecomponent"
 )
 
-//
 // applicationv1alpha1DatabaseComponent tests
-//
 func applicationv1alpha1DatabaseComponentChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(databasecomponent.CreateFuncs) == 0 {

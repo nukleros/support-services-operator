@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1alpha1 contains API Schema definitions for the application v1alpha1 API group.
-//+kubebuilder:object:generate=true
-//+groupName=application.addons.nukleros.io
+// +kubebuilder:object:generate=true
+// +groupName=application.addons.nukleros.io
 package v1alpha1
 
 import (

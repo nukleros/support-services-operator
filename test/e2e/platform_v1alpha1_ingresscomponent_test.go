@@ -31,9 +31,7 @@ import (
 	"github.com/nukleros/support-services-operator/apis/platform/v1alpha1/ingresscomponent"
 )
 
-//
 // platformv1alpha1IngressComponent tests
-//
 func platformv1alpha1IngressComponentChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(ingresscomponent.CreateFuncs) == 0 {

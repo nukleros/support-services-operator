@@ -49,7 +49,8 @@ type IngressComponentSpec struct {
 	// +kubebuilder:default="nukleros-ingress-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-ingress-system")
-	//  Namespace to use for ingress support services.
+	//
+	//	Namespace to use for ingress support services.
 	Namespace string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -78,26 +79,30 @@ type IngressComponentSpecNginx struct {
 	// +kubebuilder:default="deployment"
 	// +kubebuilder:validation:Optional
 	// (Default: "deployment")
-	//  +kubebuilder:validation:Enum=deployment;daemonset
-	//  Method of install nginx ingress controller.  One of: deployment | daemonset.
+	//
+	//	+kubebuilder:validation:Enum=deployment;daemonset
+	//	Method of install nginx ingress controller.  One of: deployment | daemonset.
 	InstallType string `json:"installType,omitempty"`
 
 	// +kubebuilder:default="nginx/nginx-ingress"
 	// +kubebuilder:validation:Optional
 	// (Default: "nginx/nginx-ingress")
-	//  Image repo and name to use for nginx.
+	//
+	//	Image repo and name to use for nginx.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="2.3.0"
 	// +kubebuilder:validation:Optional
 	// (Default: "2.3.0")
-	//  Version of nginx to use.
+	//
+	//	Version of nginx to use.
 	Version string `json:"version,omitempty"`
 
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the nginx ingress controller deployment.
+	//
+	//	Number of replicas to use for the nginx ingress controller deployment.
 	Replicas int `json:"replicas,omitempty"`
 }
 
@@ -108,13 +113,15 @@ type IngressComponentSpecExternalDNS struct {
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")
-	//  Image repo and name to use for external-dns.
+	//
+	//	Image repo and name to use for external-dns.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="v0.12.2"
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.12.2")
-	//  Version of external-dns to use.
+	//
+	//	Version of external-dns to use.
 	Version string `json:"version,omitempty"`
 }
 
@@ -122,7 +129,8 @@ type IngressComponentSpecKong struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the kong ingress deployment.
+	//
+	//	Number of replicas to use for the kong ingress deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -136,13 +144,15 @@ type IngressComponentSpecKongGateway struct {
 	// +kubebuilder:default="kong/kong-gateway"
 	// +kubebuilder:validation:Optional
 	// (Default: "kong/kong-gateway")
-	//  Image repo and name to use for kong gateway.
+	//
+	//	Image repo and name to use for kong gateway.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="2.8"
 	// +kubebuilder:validation:Optional
 	// (Default: "2.8")
-	//  Version of kong gateway to use.
+	//
+	//	Version of kong gateway to use.
 	Version string `json:"version,omitempty"`
 }
 
@@ -150,13 +160,15 @@ type IngressComponentSpecKongIngressController struct {
 	// +kubebuilder:default="kong/kubernetes-ingress-controller"
 	// +kubebuilder:validation:Optional
 	// (Default: "kong/kubernetes-ingress-controller")
-	//  Image repo and name to use for kong ingress controller.
+	//
+	//	Image repo and name to use for kong ingress controller.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="2.5.0"
 	// +kubebuilder:validation:Optional
 	// (Default: "2.5.0")
-	//  Version of kong ingress controller to use.
+	//
+	//	Version of kong ingress controller to use.
 	Version string `json:"version,omitempty"`
 }
 

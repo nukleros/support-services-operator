@@ -46,7 +46,8 @@ type DatabaseComponentSpec struct {
 	// +kubebuilder:default="nukleros-database-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-database-system")
-	//  Namespace to use for database support services.
+	//
+	//	Namespace to use for database support services.
 	Namespace string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -69,19 +70,22 @@ type DatabaseComponentSpecZalandoPostgres struct {
 	// +kubebuilder:default=1
 	// +kubebuilder:validation:Optional
 	// (Default: 1)
-	//  Number of replicas to use for the postgres-operator deployment.
+	//
+	//	Number of replicas to use for the postgres-operator deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:default="registry.opensource.zalan.do/acid/postgres-operator"
 	// +kubebuilder:validation:Optional
 	// (Default: "registry.opensource.zalan.do/acid/postgres-operator")
-	//  Image repo and name to use for postgres operator.
+	//
+	//	Image repo and name to use for postgres operator.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="v1.8.2"
 	// +kubebuilder:validation:Optional
 	// (Default: "v1.8.2")
-	//  Version of postgres operator to use.
+	//
+	//	Version of postgres operator to use.
 	Version string `json:"version,omitempty"`
 }
 

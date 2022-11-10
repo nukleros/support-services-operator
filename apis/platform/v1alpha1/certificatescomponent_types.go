@@ -46,7 +46,8 @@ type CertificatesComponentSpec struct {
 	// +kubebuilder:default="nukleros-certs-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-certs-system")
-	//  Namespace to use for certificate support services.
+	//
+	//	Namespace to use for certificate support services.
 	Namespace string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -72,7 +73,8 @@ type CertificatesComponentSpecCertManager struct {
 	// +kubebuilder:default="v1.9.1"
 	// +kubebuilder:validation:Optional
 	// (Default: "v1.9.1")
-	//  Version of cert-manager to use.
+	//
+	//	Version of cert-manager to use.
 	Version string `json:"version,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -86,13 +88,15 @@ type CertificatesComponentSpecCertManagerCainjector struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the cert-manager cainjector deployment.
+	//
+	//	Number of replicas to use for the cert-manager cainjector deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:default="quay.io/jetstack/cert-manager-cainjector"
 	// +kubebuilder:validation:Optional
 	// (Default: "quay.io/jetstack/cert-manager-cainjector")
-	//  Image repo and name to use for cert-manager cainjector.
+	//
+	//	Image repo and name to use for cert-manager cainjector.
 	Image string `json:"image,omitempty"`
 }
 
@@ -100,13 +104,15 @@ type CertificatesComponentSpecCertManagerController struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the cert-manager controller deployment.
+	//
+	//	Number of replicas to use for the cert-manager controller deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:default="quay.io/jetstack/cert-manager-controller"
 	// +kubebuilder:validation:Optional
 	// (Default: "quay.io/jetstack/cert-manager-controller")
-	//  Image repo and name to use for cert-manager controller.
+	//
+	//	Image repo and name to use for cert-manager controller.
 	Image string `json:"image,omitempty"`
 }
 
@@ -114,13 +120,15 @@ type CertificatesComponentSpecCertManagerWebhook struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the cert-manager webhook deployment.
+	//
+	//	Number of replicas to use for the cert-manager webhook deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:default="quay.io/jetstack/cert-manager-webhook"
 	// +kubebuilder:validation:Optional
 	// (Default: "quay.io/jetstack/cert-manager-webhook")
-	//  Image repo and name to use for cert-manager webhook.
+	//
+	//	Image repo and name to use for cert-manager webhook.
 	Image string `json:"image,omitempty"`
 }
 

@@ -31,9 +31,7 @@ import (
 	"github.com/nukleros/support-services-operator/apis/platform/v1alpha1/certificatescomponent"
 )
 
-//
 // platformv1alpha1CertificatesComponent tests
-//
 func platformv1alpha1CertificatesComponentChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(certificatescomponent.CreateFuncs) == 0 {

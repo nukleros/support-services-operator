@@ -31,9 +31,7 @@ import (
 	"github.com/nukleros/support-services-operator/apis/platform/v1alpha1/secretscomponent"
 )
 
-//
 // platformv1alpha1SecretsComponent tests
-//
 func platformv1alpha1SecretsComponentChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(secretscomponent.CreateFuncs) == 0 {

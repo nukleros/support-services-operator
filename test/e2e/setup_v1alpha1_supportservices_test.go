@@ -31,9 +31,7 @@ import (
 	"github.com/nukleros/support-services-operator/apis/setup/v1alpha1/supportservicescollection"
 )
 
-//
 // setupv1alpha1SupportServices tests
-//
 func setupv1alpha1SupportServicesChildrenFuncs(tester *E2ETest) error {
 	// TODO: need to run r.GetResources(request) on the reconciler to get the mutated resources
 	if len(supportservicescollection.CreateFuncs) == 0 {

@@ -16,10 +16,10 @@ operator-clean:
 	rm -rf ../*
 
 operator-init:
-	cd .. && operator-builder $(INIT_OPTS)
+	cd .. && /usr/local/bin/operator-builder $(INIT_OPTS)
 
 operator-create:
-	cd .. && operator-builder $(CREATE_OPTS)
+	cd .. && /usr/local/bin/operator-builder $(CREATE_OPTS)
 
 #
 # project management

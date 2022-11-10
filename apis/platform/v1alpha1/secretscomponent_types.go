@@ -46,7 +46,8 @@ type SecretsComponentSpec struct {
 	// +kubebuilder:default="nukleros-secrets-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-secrets-system")
-	//  Namespace to use for secrets support services.
+	//
+	//	Namespace to use for secrets support services.
 	Namespace string `json:"namespace,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -72,7 +73,8 @@ type SecretsComponentSpecExternalSecrets struct {
 	// +kubebuilder:default="v0.5.9"
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.5.9")
-	//  Version of external-secrets to use.
+	//
+	//	Version of external-secrets to use.
 	Version string `json:"version,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -81,7 +83,8 @@ type SecretsComponentSpecExternalSecrets struct {
 	// +kubebuilder:default="ghcr.io/external-secrets/external-secrets"
 	// +kubebuilder:validation:Optional
 	// (Default: "ghcr.io/external-secrets/external-secrets")
-	//  Image repo and name to use for external-secrets.
+	//
+	//	Image repo and name to use for external-secrets.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -95,7 +98,8 @@ type SecretsComponentSpecExternalSecretsCertController struct {
 	// +kubebuilder:default=1
 	// +kubebuilder:validation:Optional
 	// (Default: 1)
-	//  Number of replicas to use for the external-secrets cert-controller deployment.
+	//
+	//	Number of replicas to use for the external-secrets cert-controller deployment.
 	Replicas int `json:"replicas,omitempty"`
 }
 
@@ -103,7 +107,8 @@ type SecretsComponentSpecExternalSecretsController struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the external-secrets controller deployment.
+	//
+	//	Number of replicas to use for the external-secrets controller deployment.
 	Replicas int `json:"replicas,omitempty"`
 }
 
@@ -111,7 +116,8 @@ type SecretsComponentSpecExternalSecretsWebhook struct {
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
 	// (Default: 2)
-	//  Number of replicas to use for the external-secrets webhook deployment.
+	//
+	//	Number of replicas to use for the external-secrets webhook deployment.
 	Replicas int `json:"replicas,omitempty"`
 }
 
@@ -119,19 +125,22 @@ type SecretsComponentSpecReloader struct {
 	// +kubebuilder:default=1
 	// +kubebuilder:validation:Optional
 	// (Default: 1)
-	//  Number of replicas to use for the reloader deployment.
+	//
+	//	Number of replicas to use for the reloader deployment.
 	Replicas int `json:"replicas,omitempty"`
 
 	// +kubebuilder:default="stakater/reloader"
 	// +kubebuilder:validation:Optional
 	// (Default: "stakater/reloader")
-	//  Image repo and name to use for reloader.
+	//
+	//	Image repo and name to use for reloader.
 	Image string `json:"image,omitempty"`
 
 	// +kubebuilder:default="v0.0.119"
 	// +kubebuilder:validation:Optional
 	// (Default: "v0.0.119")
-	//  Version of reloader to use.
+	//
+	//	Version of reloader to use.
 	Version string `json:"version,omitempty"`
 }
 

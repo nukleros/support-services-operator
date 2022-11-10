@@ -1,0 +1,204 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.0
+  creationTimestamp: null
+  name: certificatescomponents.platform.addons.nukleros.io
+spec:
+  group: platform.addons.nukleros.io
+  names:
+    kind: CertificatesComponent
+    listKind: CertificatesComponentList
+    plural: certificatescomponents
+    singular: certificatescomponent
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: CertificatesComponent is the Schema for the certificatescomponents
+          API.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: CertificatesComponentSpec defines the desired state of CertificatesComponent.
+            properties:
+              certManager:
+                properties:
+                  cainjector:
+                    properties:
+                      image:
+                        default: quay.io/jetstack/cert-manager-cainjector
+                        description: "(Default: \"quay.io/jetstack/cert-manager-cainjector\")
+                          \n Image repo and name to use for cert-manager cainjector."
+                        type: string
+                      replicas:
+                        default: 2
+                        description: "(Default: 2) \n Number of replicas to use for
+                          the cert-manager cainjector deployment."
+                        type: integer
+                    type: object
+                  controller:
+                    properties:
+                      image:
+                        default: quay.io/jetstack/cert-manager-controller
+                        description: "(Default: \"quay.io/jetstack/cert-manager-controller\")
+                          \n Image repo and name to use for cert-manager controller."
+                        type: string
+                      replicas:
+                        default: 2
+                        description: "(Default: 2) \n Number of replicas to use for
+                          the cert-manager controller deployment."
+                        type: integer
+                    type: object
+                  version:
+                    default: v1.9.1
+                    description: "(Default: \"v1.9.1\") \n Version of cert-manager
+                      to use."
+                    type: string
+                  webhook:
+                    properties:
+                      image:
+                        default: quay.io/jetstack/cert-manager-webhook
+                        description: "(Default: \"quay.io/jetstack/cert-manager-webhook\")
+                          \n Image repo and name to use for cert-manager webhook."
+                        type: string
+                      replicas:
+                        default: 2
+                        description: "(Default: 2) \n Number of replicas to use for
+                          the cert-manager webhook deployment."
+                        type: integer
+                    type: object
+                type: object
+              collection:
+                description: Specifies a reference to the collection to use for this
+                  workload. Requires the name and namespace input to find the collection.
+                  If no collection field is set, default to selecting the only workload
+                  collection in the cluster, which will result in an error if not
+                  exactly one collection is found.
+                properties:
+                  name:
+                    description: Required if specifying collection.  The name of the
+                      collection within a specific collection.namespace to reference.
+                    type: string
+                  namespace:
+                    description: '(Default: "") The namespace where the collection
+                      exists.  Required only if the collection is namespace scoped
+                      and not cluster scoped.'
+                    type: string
+                required:
+                - name
+                type: object
+              namespace:
+                default: nukleros-certs-system
+                description: "(Default: \"nukleros-certs-system\") \n Namespace to
+                  use for certificate support services."
+                type: string
+            type: object
+          status:
+            description: CertificatesComponentStatus defines the observed state of
+              CertificatesComponent.
+            properties:
+              conditions:
+                items:
+                  description: PhaseCondition describes an event that has occurred
+                    during a phase of the controller reconciliation loop.
+                  properties:
+                    lastModified:
+                      description: LastModified defines the time in which this component
+                        was updated.
+                      type: string
+                    message:
+                      description: Message defines a helpful message from the phase.
+                      type: string
+                    phase:
+                      description: Phase defines the phase in which the condition
+                        was set.
+                      type: string
+                    state:
+                      description: PhaseState defines the current state of the phase.
+                      enum:
+                      - Complete
+                      - Reconciling
+                      - Failed
+                      - Pending
+                      type: string
+                  required:
+                  - lastModified
+                  - message
+                  - phase
+                  - state
+                  type: object
+                type: array
+              created:
+                type: boolean
+              dependenciesSatisfied:
+                type: boolean
+              resources:
+                items:
+                  description: ChildResource is the resource and its condition as
+                    stored on the workload custom resource's status field.
+                  properties:
+                    condition:
+                      description: ResourceCondition defines the current condition
+                        of this resource.
+                      properties:
+                        created:
+                          description: Created defines whether this object has been
+                            successfully created or not.
+                          type: boolean
+                        lastModified:
+                          description: LastModified defines the time in which this
+                            resource was updated.
+                          type: string
+                        message:
+                          description: Message defines a helpful message from the
+                            resource phase.
+                          type: string
+                      required:
+                      - created
+                      type: object
+                    group:
+                      description: Group defines the API Group of the resource.
+                      type: string
+                    kind:
+                      description: Kind defines the kind of the resource.
+                      type: string
+                    name:
+                      description: Name defines the name of the resource from the
+                        metadata.name field.
+                      type: string
+                    namespace:
+                      description: Namespace defines the namespace in which this resource
+                        exists in.
+                      type: string
+                    version:
+                      description: Version defines the API Version of the resource.
+                      type: string
+                  required:
+                  - group
+                  - kind
+                  - name
+                  - namespace
+                  - version
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

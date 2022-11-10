@@ -38,8 +38,9 @@ type SupportServicesSpec struct {
 	// +kubebuilder:default="development"
 	// +kubebuilder:validation:Optional
 	// (Default: "development")
-	//  +kubebuilder:validation:Enum=development;staging;production
-	//  The tier of cluster being used.  One of: development | staging | production.
+	//
+	//	+kubebuilder:validation:Enum=development;staging;production
+	//	The tier of cluster being used.  One of: development | staging | production.
 	Tier string `json:"tier,omitempty"`
 }
 
