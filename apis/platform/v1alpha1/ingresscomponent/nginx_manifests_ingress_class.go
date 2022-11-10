@@ -43,8 +43,8 @@ func CreateIngressClassNginx(
 			"metadata": map[string]interface{}{
 				"name": "nginx",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "nginx-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "nginx-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{

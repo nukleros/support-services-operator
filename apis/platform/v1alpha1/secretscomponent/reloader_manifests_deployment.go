@@ -42,9 +42,9 @@ func CreateDeploymentNamespaceSecretReloader(
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "secret-reloader",
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "reloader",
+					"app.kubernetes.io/name":        "secret-reloader",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "reloader",
 				},
 				"name":      "secret-reloader",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
@@ -56,17 +56,17 @@ func CreateDeploymentNamespaceSecretReloader(
 				"revisionHistoryLimit": 2,
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
-						"app.kubernetes.io/name":       "secret-reloader",
-						"platform.nukleros.io/group":   "secrets",
-						"platform.nukleros.io/project": "reloader",
+						"app.kubernetes.io/name":        "secret-reloader",
+						"platform.nukleros.io/category": "secrets",
+						"platform.nukleros.io/project":  "reloader",
 					},
 				},
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "secret-reloader",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "reloader",
+							"app.kubernetes.io/name":        "secret-reloader",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "reloader",
 						},
 					},
 					"spec": map[string]interface{}{

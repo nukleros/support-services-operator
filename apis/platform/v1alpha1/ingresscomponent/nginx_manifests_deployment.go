@@ -48,9 +48,9 @@ func CreateDeploymentNamespaceNginxIngress(
 				"name":      "nginx-ingress",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "nginx-ingress-controller",
-					"app.kubernetes.io/name":       "nginx-ingress",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "nginx-ingress-controller",
+					"app.kubernetes.io/name":        "nginx-ingress",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -65,10 +65,10 @@ func CreateDeploymentNamespaceNginxIngress(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app":                          "nginx-ingress",
-							"platform.nukleros.io/group":   "ingress",
-							"platform.nukleros.io/project": "nginx-ingress-controller",
-							"app.kubernetes.io/name":       "nginx-ingress",
+							"app":                           "nginx-ingress",
+							"platform.nukleros.io/category": "ingress",
+							"platform.nukleros.io/project":  "nginx-ingress-controller",
+							"app.kubernetes.io/name":        "nginx-ingress",
 						},
 						"annotations": map[string]interface{}{
 							"prometheus.io/scrape": "true",

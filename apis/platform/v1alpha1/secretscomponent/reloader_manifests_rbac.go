@@ -42,8 +42,8 @@ func CreateServiceAccountNamespaceSecretReloader(
 			"kind":       "ServiceAccount",
 			"metadata": map[string]interface{}{
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "reloader",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "reloader",
 				},
 				"name":      "secret-reloader",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
@@ -76,8 +76,8 @@ func CreateClusterRoleNamespaceSecretReloader(
 			"kind":       "ClusterRole",
 			"metadata": map[string]interface{}{
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "reloader",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "reloader",
 				},
 				"name":      "secret-reloader",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
@@ -150,8 +150,8 @@ func CreateClusterRoleBindingNamespaceSecretReloader(
 			"kind":       "ClusterRoleBinding",
 			"metadata": map[string]interface{}{
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "reloader",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "reloader",
 				},
 				"name":      "secret-reloader",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace

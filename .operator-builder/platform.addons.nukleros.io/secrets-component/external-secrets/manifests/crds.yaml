@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.9.2
   name: clusterexternalsecrets.external-secrets.io
   labels:
-    platform.nukleros.io/group: secrets
+    platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
 spec:
   group: external-secrets.io
@@ -383,7 +383,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.9.2
   name: clustersecretstores.external-secrets.io
   labels:
-    platform.nukleros.io/group: secrets
+    platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
 spec:
   group: external-secrets.io
@@ -2563,7 +2563,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.9.2
   name: externalsecrets.external-secrets.io
   labels:
-    platform.nukleros.io/group: secrets
+    platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
 spec:
   group: external-secrets.io
@@ -3104,7 +3104,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.9.2
   name: secretstores.external-secrets.io
   labels:
-    platform.nukleros.io/group: secrets
+    platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
 spec:
   group: external-secrets.io

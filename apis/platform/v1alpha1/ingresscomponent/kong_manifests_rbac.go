@@ -44,8 +44,8 @@ func CreateServiceAccountNamespaceKongServiceaccount(
 				"name":      "kong-serviceaccount",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 		},
@@ -76,8 +76,8 @@ func CreateRoleNamespaceKongLeaderElection(
 				"name":      "kong-leader-election",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"rules": []interface{}{
@@ -178,8 +178,8 @@ func CreateClusterRoleKongIngress(
 			"metadata": map[string]interface{}{
 				"name": "kong-ingress",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"rules": []interface{}{
@@ -759,8 +759,8 @@ func CreateRoleBindingNamespaceKongLeaderElection(
 				"name":      "kong-leader-election",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -797,8 +797,8 @@ func CreateClusterRoleBindingKongIngress(
 			"metadata": map[string]interface{}{
 				"name": "kong-ingress",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"roleRef": map[string]interface{}{

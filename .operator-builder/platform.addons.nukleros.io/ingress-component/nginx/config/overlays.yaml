@@ -18,6 +18,11 @@ yamlFiles:
     path: "../vendor-nginx/nginx-ingress.yaml"
     outputPath: "manifests/daemonset.yaml"
     overlays:
+      - name: "add namespace markers minus default"
+        query:
+          - metadata.namespace
+        value: "%v"  # +operator-builder:field:name=namespace,type=string
+
       - name: "add include marker for nginx daemonset"
         query: "$"
         value:
@@ -67,6 +72,12 @@ yamlFiles:
   - name: "nginx rbac"
     path: "../vendor/rbac.yaml"
     outputPath: "manifests/rbac.yaml"
+    overlays:
+      - name: "add namespace markers minus default"
+        query:
+          - metadata.namespace
+          - subjects[*].namespace
+        value: "%v"  # +operator-builder:field:name=namespace,type=string
 
   - name: "nginx service for aws"
     path: "../vendor/service-aws.yaml"
@@ -80,13 +91,22 @@ yamlFiles:
     path: "../static/cert.yaml"
     outputPath: "manifests/cert.yaml"
     overlays:
+      - name: "add include marker for local cert"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "nginx-default-server-secret-local")]
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=tier,value="local",include
+          apiVersion: cert-manager.io/v1
+
       - name: "add include marker for non-prod cert"
         documentQuery:
           - conditions:
             - query: $[?($.metadata.name == "nginx-default-server-secret-non-prod")]
         query: "$"
         value:
-          # +operator-builder:resource:collectionField=tier,value="production",include=false
+          # +operator-builder:resource:collectionField=tier,value="development",include
           apiVersion: cert-manager.io/v1
 
       - name: "add include marker for prod cert"

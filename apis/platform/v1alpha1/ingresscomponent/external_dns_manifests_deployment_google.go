@@ -47,11 +47,11 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 			"metadata": map[string]interface{}{
 				"name": "external-dns-google",
 				"labels": map[string]interface{}{
-					"app":                          "external-dns-google",
-					"app.kubernetes.io/name":       "external-dns-google",
-					"app.kubernetes.io/instance":   "external-dns",
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "external-dns",
+					"app":                           "external-dns-google",
+					"app.kubernetes.io/name":        "external-dns-google",
+					"app.kubernetes.io/instance":    "external-dns",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "external-dns",
 				},
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
@@ -67,11 +67,11 @@ func CreateDeploymentNamespaceExternalDnsGoogle(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app":                          "external-dns-google",
-							"app.kubernetes.io/name":       "external-dns-google",
-							"app.kubernetes.io/instance":   "external-dns",
-							"platform.nukleros.io/group":   "ingress",
-							"platform.nukleros.io/project": "external-dns",
+							"app":                           "external-dns-google",
+							"app.kubernetes.io/name":        "external-dns-google",
+							"app.kubernetes.io/instance":    "external-dns",
+							"platform.nukleros.io/category": "ingress",
+							"platform.nukleros.io/project":  "external-dns",
 						},
 					},
 					"spec": map[string]interface{}{

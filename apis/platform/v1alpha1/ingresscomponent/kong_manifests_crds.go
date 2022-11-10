@@ -46,8 +46,8 @@ func CreateCRDKongclusterpluginsConfigurationKonghqCom(
 				},
 				"name": "kongclusterplugins.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -230,8 +230,8 @@ func CreateCRDKongconsumersConfigurationKonghqCom(
 				},
 				"name": "kongconsumers.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -341,8 +341,8 @@ func CreateCRDKongingressesConfigurationKonghqCom(
 				},
 				"name": "kongingresses.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -734,8 +734,8 @@ func CreateCRDKongpluginsConfigurationKonghqCom(
 				},
 				"name": "kongplugins.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -913,8 +913,8 @@ func CreateCRDTcpingressesConfigurationKonghqCom(
 				},
 				"name": "tcpingresses.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -1138,8 +1138,8 @@ func CreateCRDUdpingressesConfigurationKonghqCom(
 				},
 				"name": "udpingresses.configuration.konghq.com",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{

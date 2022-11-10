@@ -43,8 +43,8 @@ func CreateIngressClassKong(
 			"metadata": map[string]interface{}{
 				"name": "kong",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{

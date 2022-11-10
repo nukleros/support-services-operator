@@ -47,11 +47,11 @@ func CreateDeploymentNamespaceExternalDnsActiveDirectory(
 			"metadata": map[string]interface{}{
 				"name": "external-dns-active-directory",
 				"labels": map[string]interface{}{
-					"app":                          "external-dns-active-directory",
-					"app.kubernetes.io/name":       "external-dns-active-directory",
-					"app.kubernetes.io/instance":   "external-dns",
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "external-dns",
+					"app":                           "external-dns-active-directory",
+					"app.kubernetes.io/name":        "external-dns-active-directory",
+					"app.kubernetes.io/instance":    "external-dns",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "external-dns",
 				},
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
@@ -67,11 +67,11 @@ func CreateDeploymentNamespaceExternalDnsActiveDirectory(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app":                          "external-dns-active-directory",
-							"app.kubernetes.io/name":       "external-dns-active-directory",
-							"app.kubernetes.io/instance":   "external-dns",
-							"platform.nukleros.io/group":   "ingress",
-							"platform.nukleros.io/project": "external-dns",
+							"app":                           "external-dns-active-directory",
+							"app.kubernetes.io/name":        "external-dns-active-directory",
+							"app.kubernetes.io/instance":    "external-dns",
+							"platform.nukleros.io/category": "ingress",
+							"platform.nukleros.io/project":  "external-dns",
 						},
 					},
 					"spec": map[string]interface{}{

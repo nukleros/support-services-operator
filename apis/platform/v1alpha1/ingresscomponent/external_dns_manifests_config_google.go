@@ -48,8 +48,8 @@ func CreateSecretNamespaceExternalDnsGoogle(
 				"name":      "external-dns-google",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "external-dns",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "external-dns",
 				},
 			},
 			"stringData": map[string]interface{}{

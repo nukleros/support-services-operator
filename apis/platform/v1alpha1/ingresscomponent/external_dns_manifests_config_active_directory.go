@@ -48,8 +48,8 @@ func CreateSecretNamespaceExternalDnsActiveDirectory(
 				"name":      "external-dns-active-directory",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "external-dns",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "external-dns",
 				},
 			},
 			"stringData": map[string]interface{}{
@@ -94,8 +94,8 @@ func CreateConfigMapNamespaceExternalDnsActiveDirectoryKerberos(
 				"name":      "external-dns-active-directory-kerberos",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "external-dns",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "external-dns",
 				},
 			},
 			"data": map[string]interface{}{

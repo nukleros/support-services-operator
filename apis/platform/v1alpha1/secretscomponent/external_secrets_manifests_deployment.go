@@ -44,11 +44,11 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 				"name":      "external-secrets-cert-controller",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-cert-controller",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-cert-controller",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -64,10 +64,10 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets-cert-controller",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets-cert-controller",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{
@@ -179,11 +179,11 @@ func CreateDeploymentNamespaceExternalSecrets(
 				"name":      "external-secrets",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -199,10 +199,10 @@ func CreateDeploymentNamespaceExternalSecrets(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{
@@ -301,11 +301,11 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 				"name":      "external-secrets-webhook",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-webhook",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-webhook",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -321,10 +321,10 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets-webhook",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets-webhook",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{

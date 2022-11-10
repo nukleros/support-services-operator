@@ -46,8 +46,8 @@ func CreateCRDClusterexternalsecretsExternalSecretsIo(
 				},
 				"name": "clusterexternalsecrets.external-secrets.io",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -598,8 +598,8 @@ func CreateCRDClustersecretstoresExternalSecretsIo(
 				},
 				"name": "clustersecretstores.external-secrets.io",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -3677,8 +3677,8 @@ func CreateCRDExternalsecretsExternalSecretsIo(
 				},
 				"name": "externalsecrets.external-secrets.io",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{
@@ -4468,8 +4468,8 @@ func CreateCRDSecretstoresExternalSecretsIo(
 				},
 				"name": "secretstores.external-secrets.io",
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"spec": map[string]interface{}{

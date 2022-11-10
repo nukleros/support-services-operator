@@ -48,8 +48,8 @@ func CreateServiceNamespaceNginxIngressAws(
 					"service.beta.kubernetes.io/aws-load-balancer-proxy-protocol":   "*",
 				},
 				"labels": map[string]interface{}{
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "nginx-ingress-controller",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "nginx-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{

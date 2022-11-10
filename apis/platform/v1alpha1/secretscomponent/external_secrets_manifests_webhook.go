@@ -44,7 +44,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 				"name": "secretstore-validate",
 				"labels": map[string]interface{}{
 					"external-secrets.io/component": "webhook",
-					"platform.nukleros.io/group":    "secrets",
+					"platform.nukleros.io/category": "secrets",
 					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
@@ -143,7 +143,7 @@ func CreateValidatingWebhookExternalsecretValidate(
 				"name": "externalsecret-validate",
 				"labels": map[string]interface{}{
 					"external-secrets.io/component": "webhook",
-					"platform.nukleros.io/group":    "secrets",
+					"platform.nukleros.io/category": "secrets",
 					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},

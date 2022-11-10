@@ -42,10 +42,10 @@ func CreateDeploymentNamespaceIngressKong(
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
 				"labels": map[string]interface{}{
-					"app":                          "ingress-kong",
-					"platform.nukleros.io/group":   "ingress",
-					"platform.nukleros.io/project": "kong-ingress-controller",
-					"app.kubernetes.io/name":       "kong-ingress",
+					"app":                           "ingress-kong",
+					"platform.nukleros.io/category": "ingress",
+					"platform.nukleros.io/project":  "kong-ingress-controller",
+					"app.kubernetes.io/name":        "kong-ingress",
 				},
 				"name":      "ingress-kong",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
@@ -67,9 +67,9 @@ func CreateDeploymentNamespaceIngressKong(
 							"traffic.sidecar.istio.io/includeInboundPorts": "",
 						},
 						"labels": map[string]interface{}{
-							"app":                          "ingress-kong",
-							"platform.nukleros.io/group":   "ingress",
-							"platform.nukleros.io/project": "kong-ingress-controller",
+							"app":                           "ingress-kong",
+							"platform.nukleros.io/category": "ingress",
+							"platform.nukleros.io/project":  "kong-ingress-controller",
 						},
 					},
 					"spec": map[string]interface{}{
