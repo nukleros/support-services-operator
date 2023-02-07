@@ -12,7 +12,17 @@ CREATE_OPTS=create api \
 	--controller \
 	--resource
 
-operator-clean:
+# preserve manually mananged assets
+preserve:
+	cp -R ../config/install assets/
+	cp ../README.md assets/
+
+# restore manually managed assets
+restore:
+	cp -R assets/install ../config
+	cp assets/README.md ../
+
+operator-clean: preserve
 	rm -rf ../*
 
 operator-init:
