@@ -1,4 +1,5 @@
-
+CURRENTTAG:=$(shell git describe --tags --abbrev=0)
+NEWTAG ?= $(shell bash -c 'read -p "Please provide a new tag (currnet tag - ${CURRENTTAG}): " newtag; echo $$newtag')
 # Image URL to use all building/pushing image targets
 IMG ?= "nukleros/support-services-operator:latest"
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
@@ -123,3 +124,17 @@ docs: manifests
 	go get fybrik.io/crdoc@v0.5.0; \
 	go install fybrik.io/crdoc@v0.5.0; \
 	crdoc --resources config/crd/bases/ --output docs/apis.md
+
+update:
+	@go get -u; go mod tidy
+
+version:
+	@echo $(shell git describe --tags --abbrev=0)
+
+release: build
+	$(eval NT=$(NEWTAG))
+	@echo -n "Are you sure to create and push ${NT} tag? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@git tag -a -m "Cut ${NT} release" ${NT}
+	@git push origin ${NT}
+	@git push
+	@echo "Done."
