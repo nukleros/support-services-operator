@@ -6,7 +6,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: kongclusterplugins.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com
@@ -128,7 +128,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: kongconsumers.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com
@@ -195,7 +195,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: kongingresses.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com
@@ -470,7 +470,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: kongplugins.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com
@@ -588,7 +588,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: tcpingresses.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com
@@ -739,7 +739,7 @@ metadata:
     controller-gen.kubebuilder.io/version: v0.7.0
   name: udpingresses.configuration.konghq.com
   labels:
-    platform.nukleros.io/group: ingress
+    platform.nukleros.io/category: ingress
     platform.nukleros.io/project: kong-ingress-controller
 spec:
   group: configuration.konghq.com

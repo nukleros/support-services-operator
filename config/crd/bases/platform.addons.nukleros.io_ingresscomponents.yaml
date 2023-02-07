@@ -86,6 +86,11 @@ spec:
                           to use."
                         type: string
                     type: object
+                  include:
+                    default: true
+                    description: "(Default: true) \n Include the Kong ingress controller
+                      when installing ingress components."
+                    type: boolean
                   ingressController:
                     properties:
                       image:
@@ -117,6 +122,11 @@ spec:
                     description: "(Default: \"nginx/nginx-ingress\") \n Image repo
                       and name to use for nginx."
                     type: string
+                  include:
+                    default: false
+                    description: "(Default: false) \n Include the Nginx ingress controller
+                      when installing ingress components."
+                    type: boolean
                   installType:
                     default: deployment
                     description: "(Default: \"deployment\") \n Method of install nginx

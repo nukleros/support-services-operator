@@ -22,6 +22,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:field=nginx.installType,value="daemonset",include
+          # +operator-builder:resource:field=nginx.include,value=true,include
           apiVersion: apps/v1
 
       - name: "add nginx ingress controller image markers"
@@ -41,6 +42,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:field=nginx.installType,value="deployment",include
+          # +operator-builder:resource:field=nginx.include,value=true,include
           apiVersion: apps/v1
 
       - name: "add nginx ingress controller image markers"

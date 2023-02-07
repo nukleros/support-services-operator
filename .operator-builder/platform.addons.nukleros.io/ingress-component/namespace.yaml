@@ -2,6 +2,10 @@
 # +operator-builder:field:name=nginx.installType,arbitrary,default="deployment",type=string,description=`
 # +kubebuilder:validation:Enum=deployment;daemonset
 # Method of install nginx ingress controller.  One of: deployment | daemonset.`
+# +operator-builder:field:name=nginx.include,arbitrary,default=false,type=bool,description=`
+# Include the Nginx ingress controller when installing ingress components.`
+# +operator-builder:field:name=kong.include,arbitrary,default=true,type=bool,description=`
+# Include the Kong ingress controller when installing ingress components.`
 apiVersion: v1
 kind: Namespace
 metadata:

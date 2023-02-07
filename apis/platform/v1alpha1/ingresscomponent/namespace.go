@@ -1,5 +1,5 @@
 /*
-Copyright 2022.
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,11 +36,16 @@ func CreateNamespaceNamespace(
 	reconciler workload.Reconciler,
 	req *workload.Request,
 ) ([]client.Object, error) {
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// controlled by field: nginx.installType
+			// controlled by field: nginx.include
+			// controlled by field: kong.include
 			//  +kubebuilder:validation:Enum=deployment;daemonset
 			//  Method of install nginx ingress controller.  One of: deployment | daemonset.
+			//  Include the Nginx ingress controller when installing ingress components.
+			//  Include the Kong ingress controller when installing ingress components.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{

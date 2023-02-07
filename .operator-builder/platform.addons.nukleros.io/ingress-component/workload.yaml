@@ -35,4 +35,5 @@ spec:
     - kong/manifests/ingress-class.yaml
     - kong/manifests/rbac.yaml
     - kong/manifests/service.yaml
+    - kong/manifests/secret.yaml
 

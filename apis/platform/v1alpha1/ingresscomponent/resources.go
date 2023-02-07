@@ -1,5 +1,5 @@
 /*
-Copyright 2022.
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,16 +39,12 @@ spec:
     #namespace: ""
   nginx:
     installType: "deployment"
+    include: false
     image: "nginx/nginx-ingress"
     version: "2.3.0"
     replicas: 2
-  namespace: "nukleros-ingress-system"
-  externalDNS:
-    provider: "none"
-    image: "k8s.gcr.io/external-dns/external-dns"
-    version: "v0.12.2"
-  domainName: "nukleros.io"
   kong:
+    include: true
     replicas: 2
     gateway:
       image: "kong/kong-gateway"
@@ -56,6 +52,12 @@ spec:
     ingressController:
       image: "kong/kubernetes-ingress-controller"
       version: "2.5.0"
+  namespace: "nukleros-ingress-system"
+  externalDNS:
+    provider: "none"
+    image: "k8s.gcr.io/external-dns/external-dns"
+    version: "v0.12.2"
+  domainName: "nukleros.io"
 `
 
 // sampleIngressComponentRequired is a sample containing only required fields
@@ -180,6 +182,7 @@ var CreateFuncs = []func(
 	CreateClusterRoleBindingKongIngress,
 	CreateServiceNamespaceKongProxy,
 	CreateServiceNamespaceKongValidationWebhook,
+	CreateSecretNamespaceKongServiceaccountToken,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is

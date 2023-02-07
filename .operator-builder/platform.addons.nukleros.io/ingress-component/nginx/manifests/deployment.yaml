@@ -1,5 +1,6 @@
 ---
 # +operator-builder:resource:field=nginx.installType,value="deployment",include
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: apps/v1
 kind: Deployment
 metadata:

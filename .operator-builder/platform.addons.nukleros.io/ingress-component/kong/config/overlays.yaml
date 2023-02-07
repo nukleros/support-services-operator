@@ -52,3 +52,6 @@ yamlFiles:
     path: "../vendor/service.yaml"
     outputPath: "manifests/service.yaml"
 
+  - name: "kong secret"
+    path: "../vendor/secret.yaml"
+    outputPath: "manifests/secret.yaml"
