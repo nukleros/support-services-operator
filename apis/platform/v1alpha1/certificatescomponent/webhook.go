@@ -87,7 +87,7 @@ func CreateMutatingWebhookCertManagerWebhook(
 					"clientConfig": map[string]interface{}{
 						"service": map[string]interface{}{
 							"name":      "cert-manager-webhook",
-							"namespace": "nukleros-certs-system",
+							"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 							"path":      "/mutate",
 						},
 					},
@@ -177,7 +177,7 @@ func CreateValidatingWebhookCertManagerWebhook(
 					"clientConfig": map[string]interface{}{
 						"service": map[string]interface{}{
 							"name":      "cert-manager-webhook",
-							"namespace": "nukleros-certs-system",
+							"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 							"path":      "/validate",
 						},
 					},

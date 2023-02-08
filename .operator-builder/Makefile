@@ -19,6 +19,7 @@ preserve:
 	cp ../Makefile assets/
 	cp ../Dockerfile assets/
 	cp ../Dockerfile.old assets/
+	cp ../go.mod assets/
 
 # restore manually managed assets
 restore:
@@ -27,6 +28,7 @@ restore:
 	cp assets/Makefile ../
 	cp assets/Dockerfile ../
 	cp assets/Dockerfile.old ../
+	cp assets/go.mod ../
 
 operator-clean: preserve
 	rm -rf ../*
