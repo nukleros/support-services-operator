@@ -115,6 +115,9 @@ yamlFiles:
           apiVersion: cert-manager.io/v1
 
       - name: "add contact email"
-        query: "spec.acme.email"
-        value: admin@nukleros.io  # +operator-builder:resource:field=contactEmail,type=string
+        query: "spec.acme"
+        value:
+          # +operator-builder:field:name=certManager.contactEmail,type=string,description=`
+          # Contact e-mail address for receiving updates about certificates from LetsEncrypt.`
+          email: admin@nukleros.io
 

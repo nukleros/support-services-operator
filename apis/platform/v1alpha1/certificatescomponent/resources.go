@@ -49,6 +49,7 @@ spec:
     webhook:
       replicas: 2
       image: "quay.io/jetstack/cert-manager-webhook"
+    contactEmail: "admin@nukleros.io"
 `
 
 // sampleCertificatesComponentRequired is a sample containing only required fields
@@ -60,6 +61,8 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
+  certManager:
+    contactEmail: "admin@nukleros.io"
 `
 
 // Sample returns the sample manifest for this custom resource.

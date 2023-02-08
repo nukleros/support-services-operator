@@ -82,6 +82,11 @@ type CertificatesComponentSpecCertManager struct {
 
 	// +kubebuilder:validation:Optional
 	Webhook CertificatesComponentSpecCertManagerWebhook `json:"webhook,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//
+	//	Contact e-mail address for receiving updates about certificates from LetsEncrypt.
+	ContactEmail string `json:"contactEmail,omitempty"`
 }
 
 type CertificatesComponentSpecCertManagerCainjector struct {

@@ -51,6 +51,10 @@ spec:
                           the cert-manager cainjector deployment."
                         type: integer
                     type: object
+                  contactEmail:
+                    description: Contact e-mail address for receiving updates about
+                      certificates from LetsEncrypt.
+                    type: string
                   controller:
                     properties:
                       image:

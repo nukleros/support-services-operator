@@ -10,8 +10,9 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # +operator-builder:field:name=certManager.contactEmail,type=string,description=`
     # Contact e-mail address for receiving updates about certificates from LetsEncrypt.`
-    email: admin@nukleros.io # +operator-builder:resource:field=contactEmail,type=string
+    email: admin@nukleros.io
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
@@ -38,8 +39,9 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
+    # +operator-builder:field:name=certManager.contactEmail,type=string,description=`
     # Contact e-mail address for receiving updates about certificates from LetsEncrypt.`
-    email: admin@nukleros.io # +operator-builder:resource:field=contactEmail,type=string
+    email: admin@nukleros.io
     privateKeySecretRef:
       name: letsencrypt-production
     solvers:

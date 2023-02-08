@@ -16,11 +16,17 @@ CREATE_OPTS=create api \
 preserve:
 	cp -R ../config/install assets/
 	cp ../README.md assets/
+	cp ../Makefile assets/
+	cp ../Dockerfile assets/
+	cp ../Dockerfile.old assets/
 
 # restore manually managed assets
 restore:
 	cp -R assets/install ../config
 	cp assets/README.md ../
+	cp assets/Makefile ../
+	cp assets/Dockerfile ../
+	cp assets/Dockerfile.old ../
 
 operator-clean: preserve
 	rm -rf ../*

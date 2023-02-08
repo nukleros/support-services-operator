@@ -56,8 +56,9 @@ func CreateClusterIssuerLetsencryptStaging(
 			"spec": map[string]interface{}{
 				"acme": map[string]interface{}{
 					"server": "https://acme-staging-v02.api.letsencrypt.org/directory",
-					// Contact e-mail address for receiving updates about certificates from LetsEncrypt.`
-					"email": "admin@nukleros.io", //  +operator-builder:resource:field=contactEmail,type=string
+					// controlled by field: certManager.contactEmail
+					//  Contact e-mail address for receiving updates about certificates from LetsEncrypt.
+					"email": parent.Spec.CertManager.ContactEmail,
 					"privateKeySecretRef": map[string]interface{}{
 						"name": "letsencrypt-staging",
 					},
@@ -118,8 +119,9 @@ func CreateClusterIssuerLetsencryptProduction(
 			"spec": map[string]interface{}{
 				"acme": map[string]interface{}{
 					"server": "https://acme-v02.api.letsencrypt.org/directory",
-					// Contact e-mail address for receiving updates about certificates from LetsEncrypt.`
-					"email": "admin@nukleros.io", //  +operator-builder:resource:field=contactEmail,type=string
+					// controlled by field: certManager.contactEmail
+					//  Contact e-mail address for receiving updates about certificates from LetsEncrypt.
+					"email": parent.Spec.CertManager.ContactEmail,
 					"privateKeySecretRef": map[string]interface{}{
 						"name": "letsencrypt-production",
 					},

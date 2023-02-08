@@ -18,3 +18,4 @@ spec:
     webhook:
       replicas: 2
       image: "quay.io/jetstack/cert-manager-webhook"
+    contactEmail: "admin@nukleros.io"
