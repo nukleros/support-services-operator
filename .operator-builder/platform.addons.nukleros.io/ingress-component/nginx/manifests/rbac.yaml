@@ -1,4 +1,5 @@
 ---
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -8,6 +9,7 @@ metadata:
     platform.nukleros.io/group: ingress
     platform.nukleros.io/project: nginx-ingress-controller
 ---
+# +operator-builder:resource:field=nginx.include,value=true,include
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -137,6 +139,7 @@ rules:
     verbs:
       - update
 ---
+# +operator-builder:resource:field=nginx.include,value=true,include
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

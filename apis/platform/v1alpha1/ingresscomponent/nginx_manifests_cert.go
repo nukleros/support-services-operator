@@ -41,9 +41,14 @@ func CreateCertNamespaceNginxDefaultServerSecretNonProd(
 		return []client.Object{}, nil
 	}
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// +operator-builder:resource:collectionField=tier,value="production",include=false
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "cert-manager.io/v1",
 			"kind":       "Certificate",
 			"metadata": map[string]interface{}{
@@ -80,9 +85,14 @@ func CreateCertNamespaceNginxDefaultServerSecretProd(
 		return []client.Object{}, nil
 	}
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// +operator-builder:resource:collectionField=tier,value="production",include
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "cert-manager.io/v1",
 			"kind":       "Certificate",
 			"metadata": map[string]interface{}{

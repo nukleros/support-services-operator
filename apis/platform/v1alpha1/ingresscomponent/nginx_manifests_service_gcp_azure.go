@@ -37,8 +37,13 @@ func CreateServiceNamespaceNginxIngressGcpAzure(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "v1",
 			"kind":       "Service",
 			"metadata": map[string]interface{}{

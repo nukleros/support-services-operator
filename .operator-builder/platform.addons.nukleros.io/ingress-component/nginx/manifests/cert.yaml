@@ -1,5 +1,6 @@
 ---
 # +operator-builder:resource:collectionField=tier,value="production",include=false
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -14,6 +15,7 @@ spec:
     kind: ClusterIssuer
 ---
 # +operator-builder:resource:collectionField=tier,value="production",include
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

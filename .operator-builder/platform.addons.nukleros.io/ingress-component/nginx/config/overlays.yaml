@@ -9,16 +9,32 @@ yamlFiles:
   - name: "nginx configmap"
     path: "../vendor/config.yaml"
     outputPath: "manifests/config.yaml"
+    overlays:
+      - name: "add include markers for nginx configmap"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          kind: ConfigMap
 
   - name: "nginx crds"
     path: "../vendor/crds.yaml"
     outputPath: "manifests/crds.yaml"
+    overlays:
+      - name: "add include markers for nginx CRDs"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          apiVersion: apiextensions.k8s.io/v1
 
   - name: "nginx daemonset"
     path: "../vendor-nginx/nginx-ingress.yaml"
     outputPath: "manifests/daemonset.yaml"
     overlays:
-      - name: "add include marker for nginx daemonset"
+      - name: "set namespace for nginx daemonset"
+        query: metadata.namespace
+        value: "%v"  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+
+      - name: "add include markers for nginx daemonset"
         query: "$"
         value:
           # +operator-builder:resource:field=nginx.installType,value="daemonset",include
@@ -65,30 +81,67 @@ yamlFiles:
   - name: "nginx ingress class"
     path: "../vendor/ingress-class.yaml"
     outputPath: "manifests/ingress-class.yaml"
+    overlays:
+      - name: "add include markers for nginx ingress class"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          apiVersion: networking.k8s.io/v1
 
   - name: "nginx rbac"
     path: "../vendor/rbac.yaml"
     outputPath: "manifests/rbac.yaml"
+    overlays:
+      - name: "add include markers for nginx service account"
+        query: "$[?($.kind == 'ServiceAccount')]"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          apiVersion: v1
+
+      - name: "add include markers for nginx cluster role"
+        query: "$[?($.kind == 'ClusterRole')]"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          kind: ClusterRole
+
+      - name: "add include markers for nginx cluster role binding"
+        query: "$[?($.kind == 'ClusterRoleBinding')]"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          kind: ClusterRoleBinding
 
   - name: "nginx service for aws"
     path: "../vendor/service-aws.yaml"
     outputPath: "manifests/service-aws.yaml"
+    overlays:
+      - name: "add include markers for nginx service on aws"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          apiVersion: v1
 
   - name: "nginx service for gcp and azure"
     path: "../vendor/service-gcp-azure.yaml"
     outputPath: "manifests/service-gcp-azure.yaml"
+    overlays:
+      - name: "add include markers for nginx service on gcp or azure"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=nginx.include,value=true,include
+          apiVersion: v1
 
   - name: "nginx default server certificate"
     path: "../static/cert.yaml"
     outputPath: "manifests/cert.yaml"
     overlays:
-      - name: "add include marker for non-prod cert"
+      - name: "add include markers for non-prod cert"
         documentQuery:
           - conditions:
             - query: $[?($.metadata.name == "nginx-default-server-secret-non-prod")]
         query: "$"
         value:
           # +operator-builder:resource:collectionField=tier,value="production",include=false
+          # +operator-builder:resource:field=nginx.include,value=true,include
           apiVersion: cert-manager.io/v1
 
       - name: "add include marker for prod cert"
@@ -98,6 +151,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:collectionField=tier,value="production",include
+          # +operator-builder:resource:field=nginx.include,value=true,include
           apiVersion: cert-manager.io/v1
 
       - name: "add domain name for ingress cert"

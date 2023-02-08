@@ -1,4 +1,5 @@
 ---
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: v1
 kind: Service
 metadata:

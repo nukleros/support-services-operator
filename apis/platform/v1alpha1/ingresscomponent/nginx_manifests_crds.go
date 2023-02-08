@@ -37,8 +37,13 @@ func CreateCRDDnsendpointsExternaldnsNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -182,8 +187,13 @@ func CreateCRDTransportserversK8sNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -437,8 +447,13 @@ func CreateCRDPoliciesK8sNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -900,8 +915,13 @@ func CreateCRDVirtualserverroutesK8sNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -1882,8 +1902,13 @@ func CreateCRDGlobalconfigurationsK8sNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -1984,8 +2009,13 @@ func CreateCRDVirtualserversK8sNginxOrg(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Nginx.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
