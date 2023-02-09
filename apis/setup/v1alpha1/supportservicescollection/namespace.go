@@ -38,8 +38,11 @@ func CreateNamespaceParentName(
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// controlled by field: tier
+			// controlled by field: defaultIngressController
 			//  +kubebuilder:validation:Enum=development;staging;production
 			//  The tier of cluster being used.  One of: development | staging | production.
+			//  +kubebuilder:validation:Enum=kong;nginx
+			//  The default ingress for setting TLS certs.  One of: kong | nginx.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{

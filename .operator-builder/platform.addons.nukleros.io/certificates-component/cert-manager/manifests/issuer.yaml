@@ -24,7 +24,7 @@ spec:
                 labels:
                   app.kubernetes.io/name: cluster-issuer
               spec: {}
-            class: nginx
+            class: kong # +operator-builder:collectionField:defaultIngressController,default="kong",type=string
 ---
 # +operator-builder:resource:collectionField=tier,value="production",include
 apiVersion: cert-manager.io/v1
@@ -53,4 +53,4 @@ spec:
                 labels:
                   app.kubernetes.io/name: cluster-issuer
               spec: {}
-            class: nginx
+            class: kong # +operator-builder:collectionField:defaultIngressController,default="kong",type=string

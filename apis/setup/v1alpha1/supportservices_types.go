@@ -42,6 +42,14 @@ type SupportServicesSpec struct {
 	//	+kubebuilder:validation:Enum=development;staging;production
 	//	The tier of cluster being used.  One of: development | staging | production.
 	Tier string `json:"tier,omitempty"`
+
+	// +kubebuilder:default="kong"
+	// +kubebuilder:validation:Optional
+	// (Default: "kong")
+	//
+	//	+kubebuilder:validation:Enum=kong;nginx
+	//	The default ingress for setting TLS certs.  One of: kong | nginx.
+	DefaultIngressController string `json:"defaultIngressController,omitempty"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.

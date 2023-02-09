@@ -75,7 +75,7 @@ func CreateClusterIssuerLetsencryptStaging(
 										},
 										"spec": map[string]interface{}{},
 									},
-									"class": "nginx",
+									"class": "kong", //  +operator-builder:collectionField:defaultIngressController,default="kong",type=string
 								},
 							},
 						},
@@ -138,7 +138,7 @@ func CreateClusterIssuerLetsencryptProduction(
 										},
 										"spec": map[string]interface{}{},
 									},
-									"class": "nginx",
+									"class": "kong", //  +operator-builder:collectionField:defaultIngressController,default="kong",type=string
 								},
 							},
 						},

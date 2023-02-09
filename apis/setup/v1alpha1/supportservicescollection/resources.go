@@ -34,6 +34,7 @@ metadata:
   name: supportservices-sample
 spec:
   tier: "development"
+  defaultIngressController: "kong"
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields

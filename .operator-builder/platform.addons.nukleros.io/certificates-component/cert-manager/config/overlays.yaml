@@ -105,6 +105,10 @@ yamlFiles:
     path: "../static/issuer.yaml"
     outputPath: "manifests/issuer.yaml"
     overlays:
+      - name: "add ingress class based on default ingress controller"
+        query: "spec.acme.solvers[*].http01.ingress.class"
+        value: "%v"  # +operator-builder:collectionField:defaultIngressController,default="%v",type=string
+
       - name: "add include marker for non-prod issuer"
         documentQuery:
           - conditions:

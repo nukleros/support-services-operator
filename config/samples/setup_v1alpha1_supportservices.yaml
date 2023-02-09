@@ -4,3 +4,4 @@ metadata:
   name: supportservices-sample
 spec:
   tier: "development"
+  defaultIngressController: "kong"

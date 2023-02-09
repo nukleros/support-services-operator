@@ -35,6 +35,14 @@ spec:
           spec:
             description: SupportServicesSpec defines the desired state of SupportServices.
             properties:
+              defaultIngressController:
+                default: kong
+                description: "(Default: \"kong\") \n The default ingress for setting
+                  TLS certs.  One of: kong | nginx."
+                enum:
+                - kong
+                - nginx
+                type: string
               tier:
                 default: development
                 description: "(Default: \"development\") \n The tier of cluster being

@@ -22,7 +22,7 @@ spec:
                 labels:
                   app.kubernetes.io/name: cluster-issuer
               spec: {}
-            class: nginx
+            class: kong
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -49,5 +49,5 @@ spec:
                 labels:
                   app.kubernetes.io/name: cluster-issuer
               spec: {}
-            class: nginx
+            class: kong
 
