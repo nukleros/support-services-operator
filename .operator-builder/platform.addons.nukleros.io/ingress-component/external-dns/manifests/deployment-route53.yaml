@@ -1,6 +1,6 @@
 ---
 # +operator-builder:resource:field=externalDNS.provider,value="route53",include
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: external-dns-route53

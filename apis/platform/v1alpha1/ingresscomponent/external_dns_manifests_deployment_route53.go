@@ -27,7 +27,7 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// +kubebuilder:rbac:groups=core,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
 // CreateDeploymentNamespaceExternalDnsRoute53 creates the Deployment resource with name external-dns-route53.
 func CreateDeploymentNamespaceExternalDnsRoute53(
@@ -44,7 +44,7 @@ func CreateDeploymentNamespaceExternalDnsRoute53(
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// +operator-builder:resource:field=externalDNS.provider,value="route53",include
-			"apiVersion": "v1",
+			"apiVersion": "apps/v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
 				"name": "external-dns-route53",

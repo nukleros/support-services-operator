@@ -44,7 +44,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
-          apiVersion: v1
+          apiVersion: apps/v1
 
       - name: "add external-dns deployment replica count marker"
         value:
@@ -70,7 +70,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:field=externalDNS.provider,value="google",include
-          apiVersion: v1
+          apiVersion: apps/v1
 
       - name: "add external-dns deployment replica count marker"
         value:
@@ -94,7 +94,7 @@ yamlFiles:
         query: "$"
         value:
           # +operator-builder:resource:field=externalDNS.provider,value="route53",include
-          apiVersion: v1
+          apiVersion: apps/v1
 
       - name: "add external-dns deployment replica count marker"
         value:
