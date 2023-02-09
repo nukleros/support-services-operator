@@ -93,13 +93,11 @@ yamlFiles:
     path: "../vendor/webhook.yaml"
     outputPath: "manifests/webhook.yaml"
     overlays:
-      - name: "set namespace for webhook addresses"
-        query: "spec.template.spec.containers[?(@.name == 'cert-manager')]"
+      - name: "set namespace in CA reference annotation"
+        query: "metadata.annotations"
         value:
-          # +operator-builder:field:name=certManager.webhook.image,default={{ .defaultWebhookImage }},type=string,replace="webhookImage",description=`
-          # Image repo and name to use for cert-manager webhook.`
-          # +operator-builder:field:name=certManager.version,default={{ .defaultVersion }},type=string,replace="certManagerVersion"
-          image: webhookImage:certManagerVersion
+          # +operator-builder:field:name=namespace,type=string,replace="certs-namespace"
+          cert-manager.io/inject-ca-from-secret: certs-namespace/cert-manager-webhook-ca
 
   - name: "cert-manager cluster issuer"
     path: "../static/issuer.yaml"

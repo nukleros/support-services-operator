@@ -53,7 +53,8 @@ func CreateMutatingWebhookCertManagerWebhook(
 					"platform.nukleros.io/project": "cert-manager",
 				},
 				"annotations": map[string]interface{}{
-					"cert-manager.io/inject-ca-from-secret": "nukleros-certs-system/cert-manager-webhook-ca",
+					// controlled by field: namespace
+					"cert-manager.io/inject-ca-from-secret": "" + parent.Spec.Namespace + "/cert-manager-webhook-ca",
 				},
 			},
 			"webhooks": []interface{}{
@@ -125,7 +126,8 @@ func CreateValidatingWebhookCertManagerWebhook(
 					"platform.nukleros.io/project": "cert-manager",
 				},
 				"annotations": map[string]interface{}{
-					"cert-manager.io/inject-ca-from-secret": "nukleros-certs-system/cert-manager-webhook-ca",
+					// controlled by field: namespace
+					"cert-manager.io/inject-ca-from-secret": "" + parent.Spec.Namespace + "/cert-manager-webhook-ca",
 				},
 			},
 			"webhooks": []interface{}{

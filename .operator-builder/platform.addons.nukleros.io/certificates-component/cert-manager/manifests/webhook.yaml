@@ -12,7 +12,8 @@ metadata:
     platform.nukleros.io/group: certificates
     platform.nukleros.io/project: cert-manager
   annotations:
-    cert-manager.io/inject-ca-from-secret: nukleros-certs-system/cert-manager-webhook-ca
+    # +operator-builder:field:name=namespace,type=string,replace="certs-namespace"
+    cert-manager.io/inject-ca-from-secret: certs-namespace/cert-manager-webhook-ca
 webhooks:
   - name: webhook.cert-manager.io
     rules:
@@ -51,7 +52,8 @@ metadata:
     platform.nukleros.io/group: certificates
     platform.nukleros.io/project: cert-manager
   annotations:
-    cert-manager.io/inject-ca-from-secret: nukleros-certs-system/cert-manager-webhook-ca
+    # +operator-builder:field:name=namespace,type=string,replace="certs-namespace"
+    cert-manager.io/inject-ca-from-secret: certs-namespace/cert-manager-webhook-ca
 webhooks:
   - name: webhook.cert-manager.io
     namespaceSelector:
