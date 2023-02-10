@@ -113,4 +113,15 @@ yamlFiles:
   - name: "external-dns rbac"
     path: "../vendor/rbac.yaml"
     outputPath: "manifests/rbac.yaml"
+    overlays:
+      - name: "add include marker for route53 deployment"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ServiceAccount")]
+        query: "metadata"
+        value:
+          annotations:
+            # +operator-builder:field:name=externalDNS.iamRoleArn,type=string,description=`
+            # On AWS, the IAM Role ARN that gives external-dns access to Route53`
+            eks.amazonaws.com/role-arn: iam_role_arn
 

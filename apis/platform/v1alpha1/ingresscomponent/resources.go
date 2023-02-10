@@ -57,6 +57,7 @@ spec:
     provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
+    iamRoleArn: "iam_role_arn"
   domainName: "nukleros.io"
 `
 
@@ -71,6 +72,7 @@ spec:
     #namespace: ""
   externalDNS:
     provider: "none"
+    iamRoleArn: "iam_role_arn"
   domainName: "nukleros.io"
 `
 

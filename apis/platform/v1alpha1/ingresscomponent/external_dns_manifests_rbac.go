@@ -48,6 +48,11 @@ func CreateServiceAccountNamespaceExternalDns(
 					"platform.nukleros.io/project": "external-dns",
 				},
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"annotations": map[string]interface{}{
+					// controlled by field: externalDNS.iamRoleArn
+					//  On AWS, the IAM Role ARN that gives external-dns access to Route53
+					"eks.amazonaws.com/role-arn": parent.Spec.ExternalDNS.IamRoleArn,
+				},
 			},
 		},
 	}

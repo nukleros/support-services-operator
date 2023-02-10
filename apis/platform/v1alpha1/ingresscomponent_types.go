@@ -184,6 +184,11 @@ type IngressComponentSpecExternalDNS struct {
 	//
 	//	Version of external-dns to use.
 	Version string `json:"version,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//
+	//	On AWS, the IAM Role ARN that gives external-dns access to Route53
+	IamRoleArn string `json:"iamRoleArn,omitempty"`
 }
 
 // IngressComponentStatus defines the observed state of IngressComponent.

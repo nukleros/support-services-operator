@@ -58,6 +58,10 @@ spec:
                 type: string
               externalDNS:
                 properties:
+                  iamRoleArn:
+                    description: On AWS, the IAM Role ARN that gives external-dns
+                      access to Route53
+                    type: string
                   image:
                     default: k8s.gcr.io/external-dns/external-dns
                     description: "(Default: \"k8s.gcr.io/external-dns/external-dns\")

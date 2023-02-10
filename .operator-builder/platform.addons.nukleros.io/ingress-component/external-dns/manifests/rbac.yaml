@@ -7,6 +7,10 @@ metadata:
     platform.nukleros.io/group: ingress
     platform.nukleros.io/project: external-dns
   namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+  annotations:
+    # +operator-builder:field:name=externalDNS.iamRoleArn,type=string,description=`
+    # On AWS, the IAM Role ARN that gives external-dns access to Route53`
+    eks.amazonaws.com/role-arn: iam_role_arn
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
