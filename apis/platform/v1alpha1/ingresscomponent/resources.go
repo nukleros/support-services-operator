@@ -57,6 +57,7 @@ spec:
     provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
+    serviceAccountName: "external-dns"
     iamRoleArn: "iam_role_arn"
   domainName: "nukleros.io"
 `
@@ -149,7 +150,7 @@ var CreateFuncs = []func(
 	CreateDeploymentNamespaceExternalDnsActiveDirectory,
 	CreateDeploymentNamespaceExternalDnsGoogle,
 	CreateDeploymentNamespaceExternalDnsRoute53,
-	CreateServiceAccountNamespaceExternalDns,
+	CreateServiceAccountNamespaceExternalDNSServiceAccountName,
 	CreateClusterRoleNamespaceExternalDns,
 	CreateClusterRoleBindingExternalDnsViewer,
 	CreateCertNamespaceNginxDefaultServerSecretNonProd,

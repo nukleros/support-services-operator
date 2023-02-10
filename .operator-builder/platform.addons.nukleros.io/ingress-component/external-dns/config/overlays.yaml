@@ -125,3 +125,13 @@ yamlFiles:
             # On AWS, the IAM Role ARN that gives external-dns access to Route53`
             eks.amazonaws.com/role-arn: iam_role_arn
 
+      - name: "set name of service account which is referenced in role policy doc for AWS"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ServiceAccount")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=externalDNS.serviceAccountName,default=external-dns,type=string,description=`
+          # The name of the external-dns service account which is referenced in role policy doc for AWS.`
+          name: external-dns
+

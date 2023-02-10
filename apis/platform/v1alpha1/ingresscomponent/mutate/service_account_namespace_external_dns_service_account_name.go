@@ -25,8 +25,8 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// MutateServiceAccountNamespaceExternalDns mutates the ServiceAccount resource with name external-dns.
-func MutateServiceAccountNamespaceExternalDns(
+// MutateServiceAccountNamespaceExternalDNSServiceAccountName mutates the ServiceAccount resource with name parent.Spec.ExternalDNS.ServiceAccountName.
+func MutateServiceAccountNamespaceExternalDNSServiceAccountName(
 	original client.Object,
 	parent *platformv1alpha1.IngressComponent, collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

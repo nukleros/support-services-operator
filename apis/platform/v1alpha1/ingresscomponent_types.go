@@ -185,6 +185,13 @@ type IngressComponentSpecExternalDNS struct {
 	//	Version of external-dns to use.
 	Version string `json:"version,omitempty"`
 
+	// +kubebuilder:default="external-dns"
+	// +kubebuilder:validation:Optional
+	// (Default: "external-dns")
+	//
+	//	The name of the external-dns service account which is referenced in role policy doc for AWS.
+	ServiceAccountName string `json:"serviceAccountName,omitempty"`
+
 	// +kubebuilder:validation:Required
 	//
 	//	On AWS, the IAM Role ARN that gives external-dns access to Route53

@@ -2,6 +2,8 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  # +operator-builder:field:name=externalDNS.serviceAccountName,default=external-dns,type=string,description=`
+  # The name of the external-dns service account which is referenced in role policy doc for AWS.`
   name: external-dns
   labels:
     platform.nukleros.io/group: ingress

@@ -28,7 +28,7 @@ const (
 	DeploymentNamespaceExternalDnsActiveDirectory        = "external-dns-active-directory"
 	DeploymentNamespaceExternalDnsGoogle                 = "external-dns-google"
 	DeploymentNamespaceExternalDnsRoute53                = "external-dns-route53"
-	ServiceAccountNamespaceExternalDns                   = "external-dns"
+	ServiceAccountNamespaceExternalDNSServiceAccountName = "parent.Spec.ExternalDNS.ServiceAccountName"
 	ClusterRoleNamespaceExternalDns                      = "external-dns"
 	ClusterRoleBindingExternalDnsViewer                  = "external-dns-viewer"
 	CertNamespaceNginxDefaultServerSecretNonProd         = "nginx-default-server-secret-non-prod"

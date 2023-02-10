@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNamespaceExternalDns creates the ServiceAccount resource with name external-dns.
-func CreateServiceAccountNamespaceExternalDns(
+// CreateServiceAccountNamespaceExternalDNSServiceAccountName creates the ServiceAccount resource with name parent.Spec.ExternalDNS.ServiceAccountName.
+func CreateServiceAccountNamespaceExternalDNSServiceAccountName(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -42,7 +42,9 @@ func CreateServiceAccountNamespaceExternalDns(
 			"apiVersion": "v1",
 			"kind":       "ServiceAccount",
 			"metadata": map[string]interface{}{
-				"name": "external-dns",
+				// controlled by field: externalDNS.serviceAccountName
+				//  The name of the external-dns service account which is referenced in role policy doc for AWS.
+				"name": parent.Spec.ExternalDNS.ServiceAccountName,
 				"labels": map[string]interface{}{
 					"platform.nukleros.io/group":   "ingress",
 					"platform.nukleros.io/project": "external-dns",
@@ -57,7 +59,7 @@ func CreateServiceAccountNamespaceExternalDns(
 		},
 	}
 
-	return mutate.MutateServiceAccountNamespaceExternalDns(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceAccountNamespaceExternalDNSServiceAccountName(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
