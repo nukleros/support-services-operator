@@ -1388,7 +1388,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: ghcr.io/nukleros/support-services-operator:v0.1.5
+        image: ghcr.io/nukleros/support-services-operator:v0.1.6
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
