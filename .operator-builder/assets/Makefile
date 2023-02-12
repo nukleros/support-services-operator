@@ -73,6 +73,9 @@ docker-build: test ## Build docker image with the manager.
 docker-push: ## Push docker image with the manager.
 	docker push ${IMG}
 
+crd-static-manifest: manifests kustomize ## Generate static manifest for CRDs
+	$(KUSTOMIZE) build config/crd > config/install/crds.yaml
+
 ##@ Deployment
 
 install: manifests kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
