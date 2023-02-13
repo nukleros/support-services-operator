@@ -60,7 +60,7 @@ func CreateSecretNamespaceExternalDnsRoute53(
 				"EXTERNAL_DNS_PROVIDER":         "aws",
 				"EXTERNAL_DNS_AWS_ZONE_TYPE":    "private",
 				"EXTERNAL_DNS_AWS_PREFER_CNAME": "true",
-				"EXTERNAL_DNS_DOMAIN_FILTER":    "mydomain.com",
+				"EXTERNAL_DNS_DOMAIN_FILTER":    parent.Spec.DomainName, //  controlled by field: domainName
 				"EXTERNAL_DNS_POLICY":           "sync",
 				"AWS_ACCESS_KEY_ID":             "",
 				"AWS_SECRET_ACCESS_KEY":         "",
