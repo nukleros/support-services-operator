@@ -6,6 +6,9 @@
 # Include the Nginx ingress controller when installing ingress components.`
 # +operator-builder:field:name=kong.include,arbitrary,default=true,type=bool,description=`
 # Include the Kong ingress controller when installing ingress components.`
+# +operator-builder:field:name=externalDNS.provider,arbitrary,default=none,type=string,description=`
+# +kubebuilder:validation:Enum=none;active-directory;google;route53
+# The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.`
 apiVersion: v1
 kind: Namespace
 metadata:

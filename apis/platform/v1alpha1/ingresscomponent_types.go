@@ -49,15 +49,15 @@ type IngressComponentSpec struct {
 	// +kubebuilder:validation:Optional
 	Kong IngressComponentSpecKong `json:"kong,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
+
 	// +kubebuilder:default="nukleros-ingress-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-ingress-system")
 	//
 	//	Namespace to use for ingress support services.
 	Namespace string `json:"namespace,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	ExternalDNS IngressComponentSpecExternalDNS `json:"externalDNS,omitempty"`
 
 	// +kubebuilder:validation:Required
 	DomainName string `json:"domainName,omitempty"`
@@ -168,7 +168,12 @@ type IngressComponentSpecKongIngressController struct {
 }
 
 type IngressComponentSpecExternalDNS struct {
-	// +kubebuilder:validation:Required
+	// +kubebuilder:default="none"
+	// +kubebuilder:validation:Optional
+	// (Default: "none")
+	//
+	//	+kubebuilder:validation:Enum=none;active-directory;google;route53
+	//	The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.
 	Provider string `json:"provider,omitempty"`
 
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"

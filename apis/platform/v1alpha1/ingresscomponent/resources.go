@@ -52,13 +52,13 @@ spec:
     ingressController:
       image: "kong/kubernetes-ingress-controller"
       version: "2.5.0"
-  namespace: "nukleros-ingress-system"
   externalDNS:
     provider: "none"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
     serviceAccountName: "external-dns"
     iamRoleArn: "iam_role_arn"
+  namespace: "nukleros-ingress-system"
   domainName: "nukleros.io"
 `
 
@@ -72,7 +72,6 @@ spec:
     #name: "supportservices-sample"
     #namespace: ""
   externalDNS:
-    provider: "none"
     iamRoleArn: "iam_role_arn"
   domainName: "nukleros.io"
 `

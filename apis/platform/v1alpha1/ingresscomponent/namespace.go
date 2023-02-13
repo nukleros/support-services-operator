@@ -42,10 +42,13 @@ func CreateNamespaceNamespace(
 			// controlled by field: nginx.installType
 			// controlled by field: nginx.include
 			// controlled by field: kong.include
+			// controlled by field: externalDNS.provider
 			//  +kubebuilder:validation:Enum=deployment;daemonset
 			//  Method of install nginx ingress controller.  One of: deployment | daemonset.
 			//  Include the Nginx ingress controller when installing ingress components.
 			//  Include the Kong ingress controller when installing ingress components.
+			//  +kubebuilder:validation:Enum=none;active-directory;google;route53
+			//  The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{

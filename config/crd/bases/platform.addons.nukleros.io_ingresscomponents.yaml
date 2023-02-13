@@ -68,6 +68,15 @@ spec:
                       \n Image repo and name to use for external-dns."
                     type: string
                   provider:
+                    default: none
+                    description: "(Default: \"none\") \n The DNS provider to use for
+                      setting DNS records with external-dns.  One of: none | active-directory
+                      | google | route53."
+                    enum:
+                    - none
+                    - active-directory
+                    - google
+                    - route53
                     type: string
                   serviceAccountName:
                     default: external-dns
