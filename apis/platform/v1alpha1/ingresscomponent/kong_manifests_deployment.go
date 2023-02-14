@@ -240,7 +240,7 @@ func CreateDeploymentNamespaceIngressKong(
 									},
 									map[string]interface{}{
 										"name":  "CONTROLLER_PUBLISH_SERVICE",
-										"value": "nukleros-ingress-system/kong-proxy",
+										"value": "" + parent.Spec.Namespace + "/kong-proxy", //  controlled by field: namespace
 									},
 									map[string]interface{}{
 										"name": "POD_NAME",

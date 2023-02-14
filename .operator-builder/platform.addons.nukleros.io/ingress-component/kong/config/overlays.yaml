@@ -40,6 +40,11 @@ yamlFiles:
             # Number of replicas to use for the kong ingress deployment.`
             replicas: !!int "%v"
 
+      - name: "set namespace for service publishing"
+        query: "spec.template.spec.containers[?(@.name == 'ingress-controller')].env[?(@.name == 'CONTROLLER_PUBLISH_SERVICE')]"
+        value:
+          value: ingress-namespace/kong-proxy # +operator-builder:field:name=namespace,replace="ingress-namespace",type=string
+
   - name: "kong ingress class"
     path: "../vendor/ingress-class.yaml"
     outputPath: "manifests/ingress-class.yaml"
