@@ -131,13 +131,11 @@ type IngressComponentSpecKong struct {
 	// +kubebuilder:validation:Optional
 	Gateway IngressComponentSpecKongGateway `json:"gateway,omitempty"`
 
+	// +kubebuilder:validation:Required
+	ProxyServiceName string `json:"proxyServiceName,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	IngressController IngressComponentSpecKongIngressController `json:"ingressController,omitempty"`
-
-	// +kubebuilder:default="kong-proxy"
-	// +kubebuilder:validation:Optional
-	// (Default: "kong-proxy")
-	ProxyServiceName string `json:"proxyServiceName,omitempty"`
 }
 
 type IngressComponentSpecKongGateway struct {

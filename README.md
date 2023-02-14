@@ -71,7 +71,8 @@ In `.operator-builder` directory:
 
 In root directory:
 
-1. Run `make install` or `make manifests` to generate CRD manifests.
+1. Run `make install` or `make manifests` to generate CRD manifests.  (Check
+   go.sum for changes if missing go.sum entry errors occur.)
 2. Run `make deploy` to update deployment kustomize overlays.
 3. If releasing a new version of support-services-operator, update the image
    version in `config/install/support-services-operator.yaml`.

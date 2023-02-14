@@ -43,7 +43,9 @@ yamlFiles:
       - name: "set namespace for service publishing"
         query: "spec.template.spec.containers[?(@.name == 'ingress-controller')].env[?(@.name == 'CONTROLLER_PUBLISH_SERVICE')]"
         value:
-          value: ingress-namespace/kong-proxy # +operator-builder:field:name=namespace,replace="ingress-namespace",type=string
+          # +operator-builder:field:name=namespace,replace="ingress-namespace",type=string
+          # +operator-builder:field:name=kong.proxyServiceName,replace="kong-proxy",type=string
+          value: ingress-namespace/kong-proxy
 
   - name: "kong ingress class"
     path: "../vendor/ingress-class.yaml"

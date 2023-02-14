@@ -239,8 +239,10 @@ func CreateDeploymentNamespaceIngressKong(
 										"value": "true",
 									},
 									map[string]interface{}{
-										"name":  "CONTROLLER_PUBLISH_SERVICE",
-										"value": "" + parent.Spec.Namespace + "/kong-proxy", //  controlled by field: namespace
+										"name": "CONTROLLER_PUBLISH_SERVICE",
+										// controlled by field: namespace
+										// controlled by field: kong.proxyServiceName
+										"value": "" + parent.Spec.Namespace + "/" + parent.Spec.Kong.ProxyServiceName + "",
 									},
 									map[string]interface{}{
 										"name": "POD_NAME",

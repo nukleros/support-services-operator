@@ -130,7 +130,9 @@ spec:
             - name: CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY
               value: "true"
             - name: CONTROLLER_PUBLISH_SERVICE
-              value: ingress-namespace/kong-proxy # +operator-builder:field:name=namespace,replace="ingress-namespace",type=string
+              # +operator-builder:field:name=namespace,replace="ingress-namespace",type=string
+              # +operator-builder:field:name=kong.proxyServiceName,replace="kong-proxy",type=string
+              value: ingress-namespace/kong-proxy
             - name: POD_NAME
               valueFrom:
                 fieldRef:
