@@ -176,6 +176,14 @@ type IngressComponentSpecExternalDNS struct {
 	//	The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.
 	Provider string `json:"provider,omitempty"`
 
+	// +kubebuilder:default="private"
+	// +kubebuilder:validation:Optional
+	// (Default: "private")
+	//
+	//	+kubebuilder:validation:Enum=private;public
+	//	Type of DNS hosted zone to manage.
+	ZoneType string `json:"zoneType,omitempty"`
+
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")

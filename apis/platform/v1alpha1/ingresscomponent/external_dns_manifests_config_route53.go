@@ -55,10 +55,13 @@ func CreateSecretNamespaceExternalDnsRoute53(
 				},
 			},
 			"stringData": map[string]interface{}{
-				"EXTERNAL_DNS_TXT_OWNER_ID":     "external-dns-",
-				"EXTERNAL_DNS_TXT_PREFIX":       "external-dns-",
-				"EXTERNAL_DNS_PROVIDER":         "aws",
-				"EXTERNAL_DNS_AWS_ZONE_TYPE":    "private",
+				"EXTERNAL_DNS_TXT_OWNER_ID": "external-dns-",
+				"EXTERNAL_DNS_TXT_PREFIX":   "external-dns-",
+				"EXTERNAL_DNS_PROVIDER":     "aws",
+				// controlled by field: externalDNS.zoneType
+				//  +kubebuilder:validation:Enum=private;public
+				//  Type of DNS hosted zone to manage.
+				"EXTERNAL_DNS_AWS_ZONE_TYPE":    parent.Spec.ExternalDNS.ZoneType,
 				"EXTERNAL_DNS_AWS_PREFER_CNAME": "true",
 				"EXTERNAL_DNS_DOMAIN_FILTER":    parent.Spec.DomainName, //  controlled by field: domainName
 				"EXTERNAL_DNS_POLICY":           "sync",

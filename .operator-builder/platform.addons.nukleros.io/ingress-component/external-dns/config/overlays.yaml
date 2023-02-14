@@ -41,6 +41,14 @@ yamlFiles:
         value:
           EXTERNAL_DNS_DOMAIN_FILTER: nukleros.io # +operator-builder:field:name=domainName,type=string
 
+      - name: "set domain hosted zone type in route53"
+        query: "stringData"
+        value:
+          # +operator-builder:field:name=externalDNS.zoneType,default="%v",type=string,description=`
+          # +kubebuilder:validation:Enum=private;public
+          # Type of DNS hosted zone to manage.`
+          EXTERNAL_DNS_AWS_ZONE_TYPE: private
+
   - name: "external-dns deployment for active directory"
     path: "../vendor/deployment-active-directory.yaml"
     outputPath: "manifests/deployment-active-directory.yaml"

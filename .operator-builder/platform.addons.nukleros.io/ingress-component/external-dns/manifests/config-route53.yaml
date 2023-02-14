@@ -12,6 +12,9 @@ stringData:
   EXTERNAL_DNS_TXT_OWNER_ID: external-dns-
   EXTERNAL_DNS_TXT_PREFIX: external-dns-
   EXTERNAL_DNS_PROVIDER: aws
+  # +operator-builder:field:name=externalDNS.zoneType,default="private",type=string,description=`
+  # +kubebuilder:validation:Enum=private;public
+  # Type of DNS hosted zone to manage.`
   EXTERNAL_DNS_AWS_ZONE_TYPE: private
   EXTERNAL_DNS_AWS_PREFER_CNAME: "true"
   EXTERNAL_DNS_DOMAIN_FILTER: nukleros.io # +operator-builder:field:name=domainName,type=string

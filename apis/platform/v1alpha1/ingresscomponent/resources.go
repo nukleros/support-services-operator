@@ -54,6 +54,7 @@ spec:
       version: "2.5.0"
   externalDNS:
     provider: "none"
+    zoneType: "private"
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
     serviceAccountName: "external-dns"

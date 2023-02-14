@@ -88,6 +88,14 @@ spec:
                     description: "(Default: \"v0.12.2\") \n Version of external-dns
                       to use."
                     type: string
+                  zoneType:
+                    default: private
+                    description: "(Default: \"private\") \n Type of DNS hosted zone
+                      to manage."
+                    enum:
+                    - private
+                    - public
+                    type: string
                 type: object
               kong:
                 properties:
