@@ -52,6 +52,7 @@ spec:
     ingressController:
       image: "kong/kubernetes-ingress-controller"
       version: "2.5.0"
+    proxyServiceName: "kong-proxy"
   externalDNS:
     provider: "none"
     zoneType: "private"
@@ -183,7 +184,7 @@ var CreateFuncs = []func(
 	CreateClusterRoleKongIngress,
 	CreateRoleBindingNamespaceKongLeaderElection,
 	CreateClusterRoleBindingKongIngress,
-	CreateServiceNamespaceKongProxy,
+	CreateServiceNamespaceKongProxyServiceName,
 	CreateServiceNamespaceKongValidationWebhook,
 	CreateSecretNamespaceKongServiceaccountToken,
 }

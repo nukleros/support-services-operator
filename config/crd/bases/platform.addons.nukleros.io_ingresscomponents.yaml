@@ -130,6 +130,10 @@ spec:
                           controller to use."
                         type: string
                     type: object
+                  proxyServiceName:
+                    default: kong-proxy
+                    description: '(Default: "kong-proxy")'
+                    type: string
                   replicas:
                     default: 2
                     description: "(Default: 2) \n Number of replicas to use for the

@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceNamespaceKongProxy creates the Service resource with name kong-proxy.
-func CreateServiceNamespaceKongProxy(
+// CreateServiceNamespaceKongProxyServiceName creates the Service resource with name parent.Spec.Kong.ProxyServiceName.
+func CreateServiceNamespaceKongProxyServiceName(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -46,8 +46,8 @@ func CreateServiceNamespaceKongProxy(
 					"service.beta.kubernetes.io/aws-load-balancer-backend-protocol": "tcp",
 					"service.beta.kubernetes.io/aws-load-balancer-type":             "nlb",
 				},
-				"name":      "kong-proxy",
-				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"name":      parent.Spec.Kong.ProxyServiceName, //  controlled by field: kong.proxyServiceName
+				"namespace": parent.Spec.Namespace,             //  controlled by field: namespace
 				"labels": map[string]interface{}{
 					"platform.nukleros.io/category": "ingress",
 					"platform.nukleros.io/project":  "kong-ingress-controller",
@@ -76,7 +76,7 @@ func CreateServiceNamespaceKongProxy(
 		},
 	}
 
-	return mutate.MutateServiceNamespaceKongProxy(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceNamespaceKongProxyServiceName(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete

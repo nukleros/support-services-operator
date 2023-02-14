@@ -56,6 +56,38 @@ To clean up:
 
     make uninstall
 
+### Common Changes
+
+Following is a cheat sheet of operations for common changes to the operator:
+
+In `.operator-builder` directory:
+
+1. Make updates to yot overlays for project being changed.
+2. Run `make overlays` and check the output manifests match your expectations.
+3. Run `make operator-clean && make operator-init && make operator-create` to
+   update the operator source code.
+4. Run `make restore` to restore the static assets that were preserved, e.g.
+   README.
+
+In root directory:
+
+1. Run `make install` or `make manifests` to generate CRD manifests.
+2. Run `make deploy` to update deployment kustomize overlays.
+3. If releasing a new version of support-services-operator, update the image
+   version in `config/install/support-services-operator.yaml`.
+4. If CRD updates were made, run `make crd-static-manifest` to update the static
+   install CRD manifest.
+
+In `.operator-builder` directory:
+
+1. Run `make preserve` to preserve static assets.
+
+In root directory:
+
+1. Add and commit changes
+2. If releasing a new version of support-services-operator, tag the commit.
+3. Push changes.
+
 ## Deploy the Controller Manager
 
 First, set the image:

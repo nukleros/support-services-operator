@@ -56,6 +56,13 @@ yamlFiles:
   - name: "kong service"
     path: "../vendor/service.yaml"
     outputPath: "manifests/service.yaml"
+    overlays:
+      - name: "set ingress service name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "kong-proxy")]
+        query: "metadata.name"
+        value: "%v"  # +operator-builder:field:name=kong.proxyServiceName,default="%v",type=string
 
   - name: "kong secret"
     path: "../vendor/secret.yaml"

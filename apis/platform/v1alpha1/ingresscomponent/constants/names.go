@@ -61,7 +61,7 @@ const (
 	ClusterRoleKongIngress                               = "kong-ingress"
 	RoleBindingNamespaceKongLeaderElection               = "kong-leader-election"
 	ClusterRoleBindingKongIngress                        = "kong-ingress"
-	ServiceNamespaceKongProxy                            = "kong-proxy"
+	ServiceNamespaceKongProxyServiceName                 = "parent.Spec.Kong.ProxyServiceName"
 	ServiceNamespaceKongValidationWebhook                = "kong-validation-webhook"
 	SecretNamespaceKongServiceaccountToken               = "kong-serviceaccount-token"
 )

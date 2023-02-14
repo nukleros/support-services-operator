@@ -21,6 +21,7 @@ spec:
     ingressController:
       image: "kong/kubernetes-ingress-controller"
       version: "2.5.0"
+    proxyServiceName: "kong-proxy"
   externalDNS:
     provider: "none"
     zoneType: "private"

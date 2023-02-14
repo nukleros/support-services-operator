@@ -25,8 +25,8 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// MutateServiceNamespaceKongProxy mutates the Service resource with name kong-proxy.
-func MutateServiceNamespaceKongProxy(
+// MutateServiceNamespaceKongProxyServiceName mutates the Service resource with name parent.Spec.Kong.ProxyServiceName.
+func MutateServiceNamespaceKongProxyServiceName(
 	original client.Object,
 	parent *platformv1alpha1.IngressComponent, collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
