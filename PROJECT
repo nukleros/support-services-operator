@@ -1,4 +1,4 @@
-domain: addons.nukleros.io
+domain: support-services.nukleros.io
 layout:
 - go.kubebuilder.io/v3
 multigroup: true
@@ -6,7 +6,7 @@ plugins:
   operatorBuilder:
     cliRootCommandName: ssctl
     controllerImg: ""
-    workloadConfigPath: .operator-builder/setup.addons.nukleros.io/workload.yaml
+    workloadConfigPath: .codegen/workload.yaml
 projectName: support-services-operator
 repo: github.com/nukleros/support-services-operator
 resources:
@@ -14,41 +14,41 @@ resources:
     crdVersion: v1
     namespaced: true
   controller: true
-  domain: addons.nukleros.io
-  group: setup
+  domain: support-services.nukleros.io
+  group: orchestration
   kind: SupportServices
-  path: github.com/nukleros/support-services-operator/apis/setup/v1alpha1
+  path: github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1
   version: v1alpha1
 - api:
     crdVersion: v1
   controller: true
-  domain: addons.nukleros.io
-  group: application
-  kind: DatabaseComponent
-  path: github.com/nukleros/support-services-operator/apis/application/v1alpha1
+  domain: support-services.nukleros.io
+  group: certificates
+  kind: CertManager
+  path: github.com/nukleros/support-services-operator/apis/certificates/v1alpha1
   version: v1alpha1
 - api:
     crdVersion: v1
   controller: true
-  domain: addons.nukleros.io
-  group: platform
-  kind: CertificatesComponent
-  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  domain: support-services.nukleros.io
+  group: ingress
+  kind: ExternalDNS
+  path: github.com/nukleros/support-services-operator/apis/ingress/v1alpha1
   version: v1alpha1
 - api:
     crdVersion: v1
   controller: true
-  domain: addons.nukleros.io
-  group: platform
-  kind: IngressComponent
-  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  domain: support-services.nukleros.io
+  group: secrets
+  kind: ExternalSecrets
+  path: github.com/nukleros/support-services-operator/apis/secrets/v1alpha1
   version: v1alpha1
 - api:
     crdVersion: v1
   controller: true
-  domain: addons.nukleros.io
-  group: platform
-  kind: SecretsComponent
-  path: github.com/nukleros/support-services-operator/apis/platform/v1alpha1
+  domain: support-services.nukleros.io
+  group: secrets
+  kind: Reloader
+  path: github.com/nukleros/support-services-operator/apis/secrets/v1alpha1
   version: v1alpha1
 version: "3"

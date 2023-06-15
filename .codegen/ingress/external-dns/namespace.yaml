@@ -1,0 +1,12 @@
+---
+# +operator-builder:field:name=provider,arbitrary,default=none,type=string,description=`
+# +kubebuilder:validation:Enum=none;active-directory;google;route53
+# The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.`
+apiVersion: v1
+kind: Namespace
+metadata:
+  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string,description=`
+  # Namespace to use for ingress support services.`
+  name: nukleros-ingress-system
+  labels:
+    externalDNSProvider: none # +operator-builder:field:name=provider,type=string

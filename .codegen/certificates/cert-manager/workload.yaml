@@ -1,0 +1,22 @@
+kind: ComponentWorkload
+name: cert-manager
+spec:
+  api:
+    clusterScoped: true
+    domain: support-services.nukleros.io
+    group: certificates
+    kind: CertManager
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage cert-manager installation for certificates support services
+    name: cert-manager
+  dependencies: []
+  resources:
+    - crds.yaml
+    - deployment.yaml
+    - issuer.yaml
+    - namespace.yaml
+    - rbac.yaml
+    - service.yaml
+    - webhook.yaml
+

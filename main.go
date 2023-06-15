@@ -32,12 +32,14 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	platformv1alpha1 "github.com/nukleros/support-services-operator/apis/platform/v1alpha1"
-	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
-	applicationcontrollers "github.com/nukleros/support-services-operator/controllers/application"
-	platformcontrollers "github.com/nukleros/support-services-operator/controllers/platform"
-	setupcontrollers "github.com/nukleros/support-services-operator/controllers/setup"
+	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
+	ingressv1alpha1 "github.com/nukleros/support-services-operator/apis/ingress/v1alpha1"
+	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
+	secretsv1alpha1 "github.com/nukleros/support-services-operator/apis/secrets/v1alpha1"
+	certificatescontrollers "github.com/nukleros/support-services-operator/controllers/certificates"
+	ingresscontrollers "github.com/nukleros/support-services-operator/controllers/ingress"
+	orchestrationcontrollers "github.com/nukleros/support-services-operator/controllers/orchestration"
+	secretscontrollers "github.com/nukleros/support-services-operator/controllers/secrets"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -54,9 +56,10 @@ var (
 func init() {
 	utilruntime.Must(clientgoscheme.AddToScheme(scheme))
 
-	utilruntime.Must(setupv1alpha1.AddToScheme(scheme))
-	utilruntime.Must(applicationv1alpha1.AddToScheme(scheme))
-	utilruntime.Must(platformv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(orchestrationv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(certificatesv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(ingressv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(secretsv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -94,7 +97,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "bb9cd6ef.addons.nukleros.io",
+		LeaderElectionID:       "bb9cd6ef.support-services.nukleros.io",
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to start manager")
@@ -102,11 +105,11 @@ func main() {
 	}
 
 	reconcilers := []ReconcilerInitializer{
-		setupcontrollers.NewSupportServicesReconciler(mgr),
-		applicationcontrollers.NewDatabaseComponentReconciler(mgr),
-		platformcontrollers.NewCertificatesComponentReconciler(mgr),
-		platformcontrollers.NewIngressComponentReconciler(mgr),
-		platformcontrollers.NewSecretsComponentReconciler(mgr),
+		orchestrationcontrollers.NewSupportServicesReconciler(mgr),
+		certificatescontrollers.NewCertManagerReconciler(mgr),
+		ingresscontrollers.NewExternalDNSReconciler(mgr),
+		secretscontrollers.NewExternalSecretsReconciler(mgr),
+		secretscontrollers.NewReloaderReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
 

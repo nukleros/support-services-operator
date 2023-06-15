@@ -1,0 +1,20 @@
+apiVersion: certificates.support-services.nukleros.io/v1alpha1
+kind: CertManager
+metadata:
+  name: certmanager-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-certs-system"
+  cainjector:
+    replicas: 2
+    image: "quay.io/jetstack/cert-manager-cainjector"
+  version: "v1.9.1"
+  controller:
+    replicas: 2
+    image: "quay.io/jetstack/cert-manager-controller"
+  webhook:
+    replicas: 2
+    image: "quay.io/jetstack/cert-manager-webhook"
+  contactEmail: "admin@nukleros.io"

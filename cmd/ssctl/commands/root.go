@@ -25,15 +25,18 @@ import (
 	cmdversion "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version"
 
 	// specific imports for workloads
-	generateapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/application"
-	generateplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/platform"
-	generatesetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/setup"
-	initapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/application"
-	initplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/platform"
-	initsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/setup"
-	versionapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/application"
-	versionplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/platform"
-	versionsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/setup"
+	generatecertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/certificates"
+	generateingress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/ingress"
+	generateorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/orchestration"
+	generatesecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/secrets"
+	initcertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/certificates"
+	initingress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/ingress"
+	initorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/orchestration"
+	initsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/secrets"
+	versioncertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/certificates"
+	versioningress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/ingress"
+	versionorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/orchestration"
+	versionsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/secrets"
 	//+kubebuilder:scaffold:operator-builder:subcommands:imports
 )
 
@@ -68,11 +71,11 @@ func (c *SsctlCommand) newInitSubCommand() {
 	_ = parentCommand
 
 	// add the init subcommands
-	initsetup.NewSupportServicesSubCommand(parentCommand)
-	initapplication.NewDatabaseComponentSubCommand(parentCommand)
-	initplatform.NewCertificatesComponentSubCommand(parentCommand)
-	initplatform.NewIngressComponentSubCommand(parentCommand)
-	initplatform.NewSecretsComponentSubCommand(parentCommand)
+	initorchestration.NewSupportServicesSubCommand(parentCommand)
+	initcertificates.NewCertManagerSubCommand(parentCommand)
+	initingress.NewExternalDNSSubCommand(parentCommand)
+	initsecrets.NewExternalSecretsSubCommand(parentCommand)
+	initsecrets.NewReloaderSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
@@ -81,11 +84,11 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	_ = parentCommand
 
 	// add the generate subcommands
-	generatesetup.NewSupportServicesSubCommand(parentCommand)
-	generateapplication.NewDatabaseComponentSubCommand(parentCommand)
-	generateplatform.NewCertificatesComponentSubCommand(parentCommand)
-	generateplatform.NewIngressComponentSubCommand(parentCommand)
-	generateplatform.NewSecretsComponentSubCommand(parentCommand)
+	generateorchestration.NewSupportServicesSubCommand(parentCommand)
+	generatecertificates.NewCertManagerSubCommand(parentCommand)
+	generateingress.NewExternalDNSSubCommand(parentCommand)
+	generatesecrets.NewExternalSecretsSubCommand(parentCommand)
+	generatesecrets.NewReloaderSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
@@ -94,11 +97,11 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	_ = parentCommand
 
 	// add the version subcommands
-	versionsetup.NewSupportServicesSubCommand(parentCommand)
-	versionapplication.NewDatabaseComponentSubCommand(parentCommand)
-	versionplatform.NewCertificatesComponentSubCommand(parentCommand)
-	versionplatform.NewIngressComponentSubCommand(parentCommand)
-	versionplatform.NewSecretsComponentSubCommand(parentCommand)
+	versionorchestration.NewSupportServicesSubCommand(parentCommand)
+	versioncertificates.NewCertManagerSubCommand(parentCommand)
+	versioningress.NewExternalDNSSubCommand(parentCommand)
+	versionsecrets.NewExternalSecretsSubCommand(parentCommand)
+	versionsecrets.NewReloaderSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }
 

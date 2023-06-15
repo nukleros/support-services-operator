@@ -1,0 +1,11 @@
+---
+# +operator-builder:field:name=tier,arbitrary,default="development",type=string,description=`
+# +kubebuilder:validation:Enum=development;staging;production
+# The tier of cluster being used.  One of: development | staging | production.`
+# +operator-builder:field:name=defaultIngressController,arbitrary,default="kong",type=string,description=`
+# +kubebuilder:validation:Enum=kong;nginx
+# The default ingress for setting TLS certs.  One of: kong | nginx.`
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nukleros-support-services-system  # +operator-builder:field:parent=metadata.name,type=string

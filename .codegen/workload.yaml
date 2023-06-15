@@ -1,0 +1,23 @@
+kind: WorkloadCollection
+name: support-services
+spec:
+  api:
+    clusterScoped: true
+    domain: support-services.nukleros.io
+    group: orchestration
+    kind: SupportServices
+    version: v1alpha1
+  companionCliRootcmd:
+    description: Manage Kubernetes cluster support service installations
+    name: ssctl
+  companionCliSubcmd:
+    description: Manage the orchestration of support services
+    name: collection
+  componentFiles:
+    - certificates/cert-manager/workload.yaml
+    - ingress/external-dns/workload.yaml
+    - secrets/external-secrets/workload.yaml
+    - secrets/reloader/workload.yaml
+  resources:
+    - namespace.yaml
+
