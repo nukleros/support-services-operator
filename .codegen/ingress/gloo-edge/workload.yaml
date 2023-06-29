@@ -1,0 +1,17 @@
+kind: ComponentWorkload
+name: gloo-edge
+spec:
+  api:
+    clusterScoped: true
+    domain: support-services.nukleros.io
+    group: ingress
+    kind: GlooEdge
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage gloo-edge installation for ingress support services
+    name: gloo-edge
+  dependencies:
+    - cert-manager
+  resources:
+    - manifest.yaml
+

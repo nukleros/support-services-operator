@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1alpha1 contains API Schema definitions for the ingress v1alpha1 API group.
-//+kubebuilder:object:generate=true
-//+groupName=ingress.support-services.nukleros.io
+// +kubebuilder:object:generate=true
+// +groupName=ingress.support-services.nukleros.io
 package v1alpha1
 
 import (

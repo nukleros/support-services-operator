@@ -35,11 +35,9 @@ import (
 	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
 	ingressv1alpha1 "github.com/nukleros/support-services-operator/apis/ingress/v1alpha1"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
-	secretsv1alpha1 "github.com/nukleros/support-services-operator/apis/secrets/v1alpha1"
 	certificatescontrollers "github.com/nukleros/support-services-operator/controllers/certificates"
 	ingresscontrollers "github.com/nukleros/support-services-operator/controllers/ingress"
 	orchestrationcontrollers "github.com/nukleros/support-services-operator/controllers/orchestration"
-	secretscontrollers "github.com/nukleros/support-services-operator/controllers/secrets"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -59,7 +57,6 @@ func init() {
 	utilruntime.Must(orchestrationv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(certificatesv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(ingressv1alpha1.AddToScheme(scheme))
-	utilruntime.Must(secretsv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -107,9 +104,7 @@ func main() {
 	reconcilers := []ReconcilerInitializer{
 		orchestrationcontrollers.NewSupportServicesReconciler(mgr),
 		certificatescontrollers.NewCertManagerReconciler(mgr),
-		ingresscontrollers.NewExternalDNSReconciler(mgr),
-		secretscontrollers.NewExternalSecretsReconciler(mgr),
-		secretscontrollers.NewReloaderReconciler(mgr),
+		ingresscontrollers.NewGlooEdgeReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
 

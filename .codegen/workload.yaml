@@ -15,9 +15,10 @@ spec:
     name: collection
   componentFiles:
     - certificates/cert-manager/workload.yaml
-    - ingress/external-dns/workload.yaml
-    - secrets/external-secrets/workload.yaml
-    - secrets/reloader/workload.yaml
+    # - ingress/external-dns/workload.yaml
+    # - secrets/external-secrets/workload.yaml
+    # - secrets/reloader/workload.yaml
+    - ingress/gloo-edge/workload.yaml
   resources:
     - namespace.yaml
 

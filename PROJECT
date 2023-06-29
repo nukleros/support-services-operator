@@ -32,23 +32,7 @@ resources:
   controller: true
   domain: support-services.nukleros.io
   group: ingress
-  kind: ExternalDNS
+  kind: GlooEdge
   path: github.com/nukleros/support-services-operator/apis/ingress/v1alpha1
-  version: v1alpha1
-- api:
-    crdVersion: v1
-  controller: true
-  domain: support-services.nukleros.io
-  group: secrets
-  kind: ExternalSecrets
-  path: github.com/nukleros/support-services-operator/apis/secrets/v1alpha1
-  version: v1alpha1
-- api:
-    crdVersion: v1
-  controller: true
-  domain: support-services.nukleros.io
-  group: secrets
-  kind: Reloader
-  path: github.com/nukleros/support-services-operator/apis/secrets/v1alpha1
   version: v1alpha1
 version: "3"
