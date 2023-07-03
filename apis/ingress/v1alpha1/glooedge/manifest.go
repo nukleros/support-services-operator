@@ -45177,6 +45177,18 @@ func CreateGatewayNuklerosGatewaySystemGatewayProxy(
 				"httpGateway":   map[string]interface{}{},
 				"useProxyProto": false,
 				"ssl":           false,
+				"options": map[string]interface{}{
+					"accessLoggingService": map[string]interface{}{
+						"accessLog": []interface{}{
+							map[string]interface{}{
+								"fileSink": map[string]interface{}{
+									"path":         "/dev/stdout",
+									"stringFormat": "",
+								},
+							},
+						},
+					},
+				},
 				"proxyNames": []interface{}{
 					"gateway-proxy",
 				},
@@ -45214,6 +45226,18 @@ func CreateGatewayNuklerosGatewaySystemGatewayProxySsl(
 				"httpGateway":   map[string]interface{}{},
 				"useProxyProto": false,
 				"ssl":           true,
+				"options": map[string]interface{}{
+					"accessLoggingService": map[string]interface{}{
+						"accessLog": []interface{}{
+							map[string]interface{}{
+								"fileSink": map[string]interface{}{
+									"path":         "/dev/stdout",
+									"stringFormat": "",
+								},
+							},
+						},
+					},
+				},
 				"proxyNames": []interface{}{
 					"gateway-proxy",
 				},

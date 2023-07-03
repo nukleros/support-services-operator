@@ -29061,6 +29061,12 @@ spec:
   httpGateway: {}
   useProxyProto: false
   ssl: false
+  options:
+    accessLoggingService:
+      accessLog:
+      - fileSink:
+          path: /dev/stdout
+          stringFormat: ""
   proxyNames:
   - gateway-proxy
 ---
@@ -29077,5 +29083,11 @@ spec:
   httpGateway: {}
   useProxyProto: false
   ssl: true
+  options:
+    accessLoggingService:
+      accessLog:
+      - fileSink:
+          path: /dev/stdout
+          stringFormat: ""
   proxyNames:
   - gateway-proxy
