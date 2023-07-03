@@ -1,0 +1,17 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certificate-authority
+  namespace: nukleros-gateway-system
+spec:
+  isCA: true
+  commonName: gloo-edge
+  secretName: certificate-authority
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: self-signed
+    kind: ClusterIssuer
+    group: cert-manager.io

@@ -13,5 +13,16 @@ spec:
   dependencies:
     - cert-manager
   resources:
-    - manifest.yaml
+    - certificate.yaml
+    - clusterissuer.yaml
+    - config.yaml
+    - crds.yaml
+    - deployment.yaml
+    - gateway.yaml
+    - issuer.yaml
+    - namespace.yaml
+    - rbac.yaml
+    - service.yaml
+    - settings.yaml
+    - webhook.yaml
 
