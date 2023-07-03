@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateSettingsDefaultDefault mutates the Settings resource with name default.
-func MutateSettingsDefaultDefault(
+// MutateCertNuklerosGatewaySystemCertificateAuthority mutates the Certificate resource with name certificate-authority.
+func MutateCertNuklerosGatewaySystemCertificateAuthority(
 	original client.Object,
 	parent *ingressv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

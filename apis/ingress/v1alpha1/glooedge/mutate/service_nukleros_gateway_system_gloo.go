@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateRoleBindingDefaultGlooResourceRollout mutates the RoleBinding resource with name gloo-resource-rollout.
-func MutateRoleBindingDefaultGlooResourceRollout(
+// MutateServiceNuklerosGatewaySystemGloo mutates the Service resource with name gloo.
+func MutateServiceNuklerosGatewaySystemGloo(
 	original client.Object,
 	parent *ingressv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

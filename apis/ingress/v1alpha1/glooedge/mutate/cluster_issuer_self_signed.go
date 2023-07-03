@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateDeploymentDefaultGatewayProxy mutates the Deployment resource with name gateway-proxy.
-func MutateDeploymentDefaultGatewayProxy(
+// MutateClusterIssuerSelfSigned mutates the ClusterIssuer resource with name self-signed.
+func MutateClusterIssuerSelfSigned(
 	original client.Object,
 	parent *ingressv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
