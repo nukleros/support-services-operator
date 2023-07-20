@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateGatewayNuklerosGatewaySystemGatewayProxySsl mutates the Gateway resource with name gateway-proxy-ssl.
-func MutateGatewayNuklerosGatewaySystemGatewayProxySsl(
+// MutateClusterRoleBindingGatewayResourceReaderBindingDefault mutates the ClusterRoleBinding resource with name gateway-resource-reader-binding-default.
+func MutateClusterRoleBindingGatewayResourceReaderBindingDefault(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
@@ -37,9 +37,6 @@ func MutateGatewayNuklerosGatewaySystemGatewayProxySsl(
 	}
 
 	// mutation logic goes here
-	if !parent.Spec.Ssl {
-		return []client.Object{}, nil
-	}
 
 	return []client.Object{original}, nil
 }

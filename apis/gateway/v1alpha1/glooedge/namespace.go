@@ -14,32 +14,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package mutate
+package glooedge
 
 import (
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
 
 	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
+	"github.com/nukleros/support-services-operator/apis/gateway/v1alpha1/glooedge/mutate"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateGatewayNuklerosGatewaySystemGatewayProxySsl mutates the Gateway resource with name gateway-proxy-ssl.
-func MutateGatewayNuklerosGatewaySystemGatewayProxySsl(
-	original client.Object,
-	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler, req *workload.Request,
+// +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;create;update;patch;delete
+
+// CreateNamespaceNuklerosGatewaySystem creates the Namespace resource with name nukleros-gateway-system.
+func CreateNamespaceNuklerosGatewaySystem(
+	parent *gatewayv1alpha1.GlooEdge,
+	collection *orchestrationv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
 ) ([]client.Object, error) {
-	// if either the reconciler or request are found to be nil, return the base object.
-	if reconciler == nil || req == nil {
-		return []client.Object{original}, nil
+
+	var resourceObj = &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "v1",
+			"kind":       "Namespace",
+			"metadata": map[string]interface{}{
+				"name": "nukleros-gateway-system",
+			},
+		},
 	}
 
-	// mutation logic goes here
-	if !parent.Spec.Ssl {
-		return []client.Object{}, nil
-	}
-
-	return []client.Object{original}, nil
+	return mutate.MutateNamespaceNuklerosGatewaySystem(resourceObj, parent, collection, reconciler, req)
 }

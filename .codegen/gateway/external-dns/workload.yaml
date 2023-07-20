@@ -1,0 +1,24 @@
+kind: ComponentWorkload
+name: external-dns
+spec:
+  api:
+    clusterScoped: true
+    domain: support-services.nukleros.io
+    group: gateway
+    kind: ExternalDNS
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage external-dns installation for gateway support services
+    name: external-dns
+  dependencies:
+    - cert-manager
+  resources:
+    - config-active-directory.yaml
+    - config-google.yaml
+    - config-route53.yaml
+    - deployment-active-directory.yaml
+    - deployment-google.yaml
+    - deployment-route53.yaml
+    - namespace.yaml
+    - rbac.yaml
+

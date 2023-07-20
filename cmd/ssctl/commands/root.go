@@ -26,13 +26,13 @@ import (
 
 	// specific imports for workloads
 	generatecertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/certificates"
-	generateingress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/ingress"
+	generategateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/gateway"
 	generateorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/orchestration"
 	initcertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/certificates"
-	initingress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/ingress"
+	initgateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/gateway"
 	initorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/orchestration"
 	versioncertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/certificates"
-	versioningress "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/ingress"
+	versiongateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/gateway"
 	versionorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/orchestration"
 	//+kubebuilder:scaffold:operator-builder:subcommands:imports
 )
@@ -70,7 +70,8 @@ func (c *SsctlCommand) newInitSubCommand() {
 	// add the init subcommands
 	initorchestration.NewSupportServicesSubCommand(parentCommand)
 	initcertificates.NewCertManagerSubCommand(parentCommand)
-	initingress.NewGlooEdgeSubCommand(parentCommand)
+	initgateway.NewExternalDNSSubCommand(parentCommand)
+	initgateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
@@ -81,7 +82,8 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	// add the generate subcommands
 	generateorchestration.NewSupportServicesSubCommand(parentCommand)
 	generatecertificates.NewCertManagerSubCommand(parentCommand)
-	generateingress.NewGlooEdgeSubCommand(parentCommand)
+	generategateway.NewExternalDNSSubCommand(parentCommand)
+	generategateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
@@ -92,7 +94,8 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	// add the version subcommands
 	versionorchestration.NewSupportServicesSubCommand(parentCommand)
 	versioncertificates.NewCertManagerSubCommand(parentCommand)
-	versioningress.NewGlooEdgeSubCommand(parentCommand)
+	versiongateway.NewExternalDNSSubCommand(parentCommand)
+	versiongateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }
 

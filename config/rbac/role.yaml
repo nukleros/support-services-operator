@@ -314,6 +314,13 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - nodes
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
   - pods
   verbs:
   - create
@@ -365,6 +372,14 @@ rules:
   - get
   - list
   - patch
+  - watch
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
   - watch
 - apiGroups:
   - gateway.networking.k8s.io
@@ -475,6 +490,46 @@ rules:
   - patch
   - watch
 - apiGroups:
+  - gateway.support-services.nukleros.io
+  resources:
+  - externaldns
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.support-services.nukleros.io
+  resources:
+  - externaldns/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.support-services.nukleros.io
+  resources:
+  - glooedges
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.support-services.nukleros.io
+  resources:
+  - glooedges/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - gloo.solo.io
   resources:
   - '*'
@@ -552,26 +607,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - ingress.support-services.nukleros.io
-  resources:
-  - glooedges
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ingress.support-services.nukleros.io
-  resources:
-  - glooedges/status
-  verbs:
-  - get
-  - patch
-  - update
 - apiGroups:
   - networking.k8s.io
   resources:

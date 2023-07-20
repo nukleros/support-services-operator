@@ -33,10 +33,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
 	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
-	ingressv1alpha1 "github.com/nukleros/support-services-operator/apis/ingress/v1alpha1"
+	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 	certificatescontrollers "github.com/nukleros/support-services-operator/controllers/certificates"
-	ingresscontrollers "github.com/nukleros/support-services-operator/controllers/ingress"
+	gatewaycontrollers "github.com/nukleros/support-services-operator/controllers/gateway"
 	orchestrationcontrollers "github.com/nukleros/support-services-operator/controllers/orchestration"
 	//+kubebuilder:scaffold:imports
 )
@@ -56,7 +56,7 @@ func init() {
 
 	utilruntime.Must(orchestrationv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(certificatesv1alpha1.AddToScheme(scheme))
-	utilruntime.Must(ingressv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(gatewayv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -104,7 +104,8 @@ func main() {
 	reconcilers := []ReconcilerInitializer{
 		orchestrationcontrollers.NewSupportServicesReconciler(mgr),
 		certificatescontrollers.NewCertManagerReconciler(mgr),
-		ingresscontrollers.NewGlooEdgeReconciler(mgr),
+		gatewaycontrollers.NewExternalDNSReconciler(mgr),
+		gatewaycontrollers.NewGlooEdgeReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
 
