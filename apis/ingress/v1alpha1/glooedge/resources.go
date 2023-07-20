@@ -137,7 +137,6 @@ var CreateFuncs = []func(
 	CreateDeploymentNuklerosGatewaySystemDiscovery,
 	CreateDeploymentNuklerosGatewaySystemGatewayProxy,
 	CreateGatewayNuklerosGatewaySystemGatewayProxy,
-	CreateGatewayNuklerosGatewaySystemGatewayProxySsl,
 	CreateIssuerNuklerosGatewaySystemCertificateAuthority,
 	CreateNamespaceNuklerosGatewaySystem,
 	CreateServiceAccountNuklerosGatewaySystemGlooResourceCleanup,

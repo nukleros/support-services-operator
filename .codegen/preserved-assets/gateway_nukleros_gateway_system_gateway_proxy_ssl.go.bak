@@ -37,6 +37,9 @@ func MutateGatewayNuklerosGatewaySystemGatewayProxySsl(
 	}
 
 	// mutation logic goes here
+	if !parent.Spec.Ssl {
+		return []client.Object{}, nil
+	}
 
 	return []client.Object{original}, nil
 }

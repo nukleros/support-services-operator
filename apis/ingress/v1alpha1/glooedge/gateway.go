@@ -70,57 +70,30 @@ func CreateGatewayNuklerosGatewaySystemGatewayProxy(
 					"gateway-proxy",
 				},
 			},
+			//---
+			//apiVersion: gateway.solo.io/v1
+			//kind: Gateway
+			//metadata:
+			//  name: gateway-proxy-ssl
+			//  namespace: nukleros-gateway-system
+			//  labels:
+			//    app: gloo
+			//spec:
+			//  bindAddress: "::"
+			//  bindPort: 8443
+			//  httpGateway: {}
+			//  useProxyProto: false
+			//  ssl: true
+			//  options:
+			//    accessLoggingService:
+			//      accessLog:
+			//      - fileSink:
+			//          path: /dev/stdout
+			//          stringFormat: ""
+			//  proxyNames:
+			//  - gateway-proxy
 		},
 	}
 
 	return mutate.MutateGatewayNuklerosGatewaySystemGatewayProxy(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=gateway.solo.io,resources=gateways,verbs=get;list;watch;create;update;patch;delete
-
-// CreateGatewayNuklerosGatewaySystemGatewayProxySsl creates the Gateway resource with name gateway-proxy-ssl.
-func CreateGatewayNuklerosGatewaySystemGatewayProxySsl(
-	parent *ingressv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "gateway.solo.io/v1",
-			"kind":       "Gateway",
-			"metadata": map[string]interface{}{
-				"name":      "gateway-proxy-ssl",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app": "gloo",
-				},
-			},
-			"spec": map[string]interface{}{
-				"bindAddress":   "::",
-				"bindPort":      8443,
-				"httpGateway":   map[string]interface{}{},
-				"useProxyProto": false,
-				"ssl":           true,
-				"options": map[string]interface{}{
-					"accessLoggingService": map[string]interface{}{
-						"accessLog": []interface{}{
-							map[string]interface{}{
-								"fileSink": map[string]interface{}{
-									"path":         "/dev/stdout",
-									"stringFormat": "",
-								},
-							},
-						},
-					},
-				},
-				"proxyNames": []interface{}{
-					"gateway-proxy",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateGatewayNuklerosGatewaySystemGatewayProxySsl(resourceObj, parent, collection, reconciler, req)
 }

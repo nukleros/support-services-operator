@@ -42,7 +42,6 @@ const (
 	DeploymentNuklerosGatewaySystemDiscovery                 = "discovery"
 	DeploymentNuklerosGatewaySystemGatewayProxy              = "gateway-proxy"
 	GatewayNuklerosGatewaySystemGatewayProxy                 = "gateway-proxy"
-	GatewayNuklerosGatewaySystemGatewayProxySsl              = "gateway-proxy-ssl"
 	IssuerNuklerosGatewaySystemCertificateAuthority          = "certificate-authority"
 	NamespaceNuklerosGatewaySystem                           = "nukleros-gateway-system"
 	ServiceAccountNuklerosGatewaySystemGlooResourceCleanup   = "gloo-resource-cleanup"

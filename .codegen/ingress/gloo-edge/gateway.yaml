@@ -7,7 +7,7 @@ metadata:
   labels:
     app: gloo
 spec:
-  bindAddress: "::"
+  bindAddress: '::'
   bindPort: 8080
   httpGateway: {}
   useProxyProto: false
@@ -20,25 +20,25 @@ spec:
           stringFormat: ""
   proxyNames:
   - gateway-proxy
----
-apiVersion: gateway.solo.io/v1
-kind: Gateway
-metadata:
-  name: gateway-proxy-ssl
-  namespace: nukleros-gateway-system
-  labels:
-    app: gloo
-spec:
-  bindAddress: "::"
-  bindPort: 8443
-  httpGateway: {}
-  useProxyProto: false
-  ssl: true
-  options:
-    accessLoggingService:
-      accessLog:
-      - fileSink:
-          path: /dev/stdout
-          stringFormat: ""
-  proxyNames:
-  - gateway-proxy
+#---
+#apiVersion: gateway.solo.io/v1
+#kind: Gateway
+#metadata:
+#  name: gateway-proxy-ssl
+#  namespace: nukleros-gateway-system
+#  labels:
+#    app: gloo
+#spec:
+#  bindAddress: "::"
+#  bindPort: 8443
+#  httpGateway: {}
+#  useProxyProto: false
+#  ssl: true
+#  options:
+#    accessLoggingService:
+#      accessLog:
+#      - fileSink:
+#          path: /dev/stdout
+#          stringFormat: ""
+#  proxyNames:
+#  - gateway-proxy
