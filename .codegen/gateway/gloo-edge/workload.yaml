@@ -1,0 +1,28 @@
+kind: ComponentWorkload
+name: gloo-edge
+spec:
+  api:
+    clusterScoped: true
+    domain: support-services.nukleros.io
+    group: gateway
+    kind: GlooEdge
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage gloo-edge installation for gateway support services
+    name: gloo-edge
+  dependencies:
+    - cert-manager
+  resources:
+    - certificate.yaml
+    - clusterissuer.yaml
+    - config.yaml
+    - crds.yaml
+    - deployment.yaml
+    - gateway.yaml
+    - issuer.yaml
+    - namespace.yaml
+    - rbac.yaml
+    - service.yaml
+    - settings.yaml
+    - webhook.yaml
+

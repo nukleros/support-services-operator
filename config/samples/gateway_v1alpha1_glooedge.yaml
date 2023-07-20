@@ -1,0 +1,8 @@
+apiVersion: gateway.support-services.nukleros.io/v1alpha1
+kind: GlooEdge
+metadata:
+  name: glooedge-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
