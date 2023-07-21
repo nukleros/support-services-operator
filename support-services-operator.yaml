@@ -461,6 +461,18 @@ spec:
                 required:
                 - name
                 type: object
+              ports:
+                items:
+                  properties:
+                    name:
+                      type: string
+                    port:
+                      format: int64
+                      type: integer
+                    ssl:
+                      type: boolean
+                  type: object
+                type: array
             type: object
           status:
             description: GlooEdgeStatus defines the observed state of GlooEdge.
