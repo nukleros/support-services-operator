@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: certificate-authority
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   ca:
     secretName: certificate-authority

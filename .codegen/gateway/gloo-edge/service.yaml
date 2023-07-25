@@ -6,7 +6,7 @@ metadata:
     app: gloo
     gloo: gloo
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   ports:
   - name: grpc-xds
@@ -40,7 +40,7 @@ metadata:
     gloo: gateway-proxy
     gateway-proxy-id: gateway-proxy
   name: gateway-proxy
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   # port order matters due to this issue: https://github.com/solo-io/gloo/issues/2571
   ports:

@@ -6,7 +6,7 @@ metadata:
     app: gloo
     gloo: settings
   name: default
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   gloo:
     xdsBindAddr: "0.0.0.0:9977"

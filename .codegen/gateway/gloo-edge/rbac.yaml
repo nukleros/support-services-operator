@@ -6,7 +6,7 @@ metadata:
     app: gloo
     gloo: rbac
   name: gloo-resource-cleanup
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -15,7 +15,7 @@ metadata:
     app: gloo
     gloo: rbac
   name: gloo-resource-migration
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -24,7 +24,7 @@ metadata:
     app: gloo
     gloo: rbac
   name: gloo-resource-rollout
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -33,7 +33,7 @@ metadata:
     app: gloo
     gloo: rbac
   name: certgen
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -42,7 +42,7 @@ metadata:
     app: gloo
     gloo: gloo
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -51,7 +51,7 @@ metadata:
     app: gloo
     gloo: discovery
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -60,7 +60,7 @@ metadata:
     app: gloo
     gloo: gateway-proxy
   name: gateway-proxy
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -270,10 +270,10 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: kube-resource-watcher-default
@@ -289,10 +289,10 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: kube-leader-election-default
@@ -308,7 +308,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-upstream-mutator-default
@@ -324,7 +324,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-resource-reader-default
@@ -340,13 +340,13 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: gateway
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: settings-user-default
@@ -362,10 +362,10 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gateway
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-resource-mutator-default
@@ -381,10 +381,10 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: gateway
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 - kind: ServiceAccount
   name: gloo # used to support gloo/gateway running in same pod
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gateway-resource-reader-default
@@ -400,7 +400,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: discovery
-    namespace: nukleros-gateway-system
+    namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-graphqlapi-mutator-default
@@ -486,7 +486,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-cleanup
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -502,7 +502,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-migration
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -518,7 +518,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-rollout
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
@@ -530,7 +530,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: certgen
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-gateway-vwc-update-default
@@ -546,7 +546,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: certgen
-    namespace: nukleros-gateway-system
+    namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 roleRef:
   kind: ClusterRole
   name: gloo-gateway-secret-create-default
@@ -556,7 +556,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-cleanup
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -569,7 +569,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-migration
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -582,7 +582,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-rollout
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -598,7 +598,7 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-cleanup
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -609,13 +609,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-cleanup
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-migration
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -626,13 +626,13 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-migration
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: gloo-resource-rollout
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     app: gloo
     gloo: rbac
@@ -643,4 +643,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: gloo-resource-rollout
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string

@@ -6,7 +6,7 @@ metadata:
     app: gloo
     gloo: gloo
   name: gloo
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   replicas: 1
   selector:
@@ -22,7 +22,6 @@ spec:
         prometheus.io/scrape: "true"
         gloo.solo.io/oss-image-tag: 1.14.9
     spec:
-
       serviceAccountName: gloo
       volumes:
       - name: labels-volume
@@ -96,7 +95,7 @@ metadata:
     app: gloo
     gloo: discovery
   name: discovery
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   replicas: 1
   selector:
@@ -144,7 +143,7 @@ metadata:
     gloo: gateway-proxy
     gateway-proxy-id: gateway-proxy
   name: gateway-proxy
-  namespace: nukleros-gateway-system
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
 spec:
   replicas: 1
   selector:
