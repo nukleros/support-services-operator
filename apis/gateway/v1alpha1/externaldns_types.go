@@ -45,9 +45,9 @@ type ExternalDNSSpec struct {
 	// if not exactly one collection is found.
 	Collection ExternalDNSCollectionSpec `json:"collection"`
 
-	// +kubebuilder:default="nukleros-ingress-system"
+	// +kubebuilder:default="nukleros-gateway-system"
 	// +kubebuilder:validation:Optional
-	// (Default: "nukleros-ingress-system")
+	// (Default: "nukleros-gateway-system")
 	//  Namespace to use for ingress support services.
 	Namespace string `json:"namespace,omitempty"`
 

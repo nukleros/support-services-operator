@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateClusterRoleBindingGlooResourceRolloutDefault mutates the ClusterRoleBinding resource with name gloo-resource-rollout-default.
-func MutateClusterRoleBindingGlooResourceRolloutDefault(
+// MutateSettingsNamespaceDefault mutates the Settings resource with name default.
+func MutateSettingsNamespaceDefault(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

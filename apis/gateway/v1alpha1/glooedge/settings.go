@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=gloo.solo.io,resources=settings,verbs=get;list;watch;create;update;patch;delete
 
-// CreateSettingsNuklerosGatewaySystemDefault creates the Settings resource with name default.
-func CreateSettingsNuklerosGatewaySystemDefault(
+// CreateSettingsNamespaceDefault creates the Settings resource with name default.
+func CreateSettingsNamespaceDefault(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -47,7 +47,7 @@ func CreateSettingsNuklerosGatewaySystemDefault(
 					"gloo": "settings",
 				},
 				"name":      "default",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"gloo": map[string]interface{}{
@@ -88,5 +88,5 @@ func CreateSettingsNuklerosGatewaySystemDefault(
 		},
 	}
 
-	return mutate.MutateSettingsNuklerosGatewaySystemDefault(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateSettingsNamespaceDefault(resourceObj, parent, collection, reconciler, req)
 }

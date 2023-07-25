@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateServiceAccountNuklerosGatewaySystemCertgen mutates the ServiceAccount resource with name certgen.
-func MutateServiceAccountNuklerosGatewaySystemCertgen(
+// MutateDeploymentNamespaceGloo mutates the Deployment resource with name gloo.
+func MutateDeploymentNamespaceGloo(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

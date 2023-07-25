@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: external-dns-route53
-  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   labels:
     platform.nukleros.io/group: ingress
     platform.nukleros.io/project: external-dns

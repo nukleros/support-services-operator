@@ -5,8 +5,8 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string,description=`
+  # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string,description=`
   # Namespace to use for ingress support services.`
-  name: nukleros-ingress-system
+  name: nukleros-gateway-system
   labels:
     externalDNSProvider: none # +operator-builder:field:name=provider,type=string

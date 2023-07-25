@@ -29,72 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
 
-// CreateConfigMapNuklerosGatewaySystemGlooCustomResourceConfig creates the ConfigMap resource with name gloo-custom-resource-config.
-func CreateConfigMapNuklerosGatewaySystemGlooCustomResourceConfig(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "v1",
-			"kind":       "ConfigMap",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-custom-resource-config",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "custom-resources",
-				},
-			},
-			"data": map[string]interface{}{
-				"custom-resources": `---
-apiVersion: gateway.solo.io/v1
-kind: Gateway
-metadata:
-  name: gateway-proxy
-  namespace: nukleros-gateway-system
-  labels:
-    app: gloo
-spec:
-  bindAddress: "::"
-  bindPort: 8080
-  httpGateway: {}
-  useProxyProto: false
-  ssl: false
-  proxyNames:
-  - gateway-proxy
----
-apiVersion: gateway.solo.io/v1
-kind: Gateway
-metadata:
-  name: gateway-proxy-ssl
-  namespace: nukleros-gateway-system
-  labels:
-    app: gloo
-spec:
-  bindAddress: "::"
-  bindPort: 8443
-  httpGateway: {}
-  useProxyProto: false
-  ssl: true
-  proxyNames:
-  - gateway-proxy
-`,
-				"has-custom-resources": "true",
-			},
-		},
-	}
-
-	return mutate.MutateConfigMapNuklerosGatewaySystemGlooCustomResourceConfig(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch;create;update;patch;delete
-
-// CreateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig creates the ConfigMap resource with name gateway-proxy-envoy-config.
-func CreateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig(
+// CreateConfigMapNamespaceGatewayProxyEnvoyConfig creates the ConfigMap resource with name gateway-proxy-envoy-config.
+func CreateConfigMapNamespaceGatewayProxyEnvoyConfig(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -107,7 +43,7 @@ func CreateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig(
 			"kind":       "ConfigMap",
 			"metadata": map[string]interface{}{
 				"name":      "gateway-proxy-envoy-config",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
 					"app":              "gloo",
 					"gloo":             "gateway-proxy",
@@ -262,5 +198,5 @@ admin:
 		},
 	}
 
-	return mutate.MutateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateConfigMapNamespaceGatewayProxyEnvoyConfig(resourceObj, parent, collection, reconciler, req)
 }

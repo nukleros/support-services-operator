@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=gateway.solo.io,resources=gateways,verbs=get;list;watch;create;update;patch;delete
 
-// CreateGatewayNuklerosGatewaySystemGatewayProxy creates the Gateway resource with name gateway-proxy.
-func CreateGatewayNuklerosGatewaySystemGatewayProxy(
+// CreateGatewayNamespaceGatewayProxy creates the Gateway resource with name gateway-proxy.
+func CreateGatewayNamespaceGatewayProxy(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -43,7 +43,7 @@ func CreateGatewayNuklerosGatewaySystemGatewayProxy(
 			"kind":       "Gateway",
 			"metadata": map[string]interface{}{
 				"name":      "gateway-proxy",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
 					"app": "gloo",
 				},
@@ -70,30 +70,8 @@ func CreateGatewayNuklerosGatewaySystemGatewayProxy(
 					"gateway-proxy",
 				},
 			},
-			//---
-			//apiVersion: gateway.solo.io/v1
-			//kind: Gateway
-			//metadata:
-			//  name: gateway-proxy-ssl
-			//  namespace: nukleros-gateway-system
-			//  labels:
-			//    app: gloo
-			//spec:
-			//  bindAddress: "::"
-			//  bindPort: 8443
-			//  httpGateway: {}
-			//  useProxyProto: false
-			//  ssl: true
-			//  options:
-			//    accessLoggingService:
-			//      accessLog:
-			//      - fileSink:
-			//          path: /dev/stdout
-			//          stringFormat: ""
-			//  proxyNames:
-			//  - gateway-proxy
 		},
 	}
 
-	return mutate.MutateGatewayNuklerosGatewaySystemGatewayProxy(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateGatewayNamespaceGatewayProxy(resourceObj, parent, collection, reconciler, req)
 }

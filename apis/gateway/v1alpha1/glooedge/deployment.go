@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
-// CreateDeploymentNuklerosGatewaySystemGloo creates the Deployment resource with name gloo.
-func CreateDeploymentNuklerosGatewaySystemGloo(
+// CreateDeploymentNamespaceGloo creates the Deployment resource with name gloo.
+func CreateDeploymentNamespaceGloo(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -47,7 +47,7 @@ func CreateDeploymentNuklerosGatewaySystemGloo(
 					"gloo": "gloo",
 				},
 				"name":      "gloo",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"replicas": 1,
@@ -186,13 +186,13 @@ func CreateDeploymentNuklerosGatewaySystemGloo(
 		},
 	}
 
-	return mutate.MutateDeploymentNuklerosGatewaySystemGloo(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateDeploymentNamespaceGloo(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
-// CreateDeploymentNuklerosGatewaySystemDiscovery creates the Deployment resource with name discovery.
-func CreateDeploymentNuklerosGatewaySystemDiscovery(
+// CreateDeploymentNamespaceDiscovery creates the Deployment resource with name discovery.
+func CreateDeploymentNamespaceDiscovery(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -209,7 +209,7 @@ func CreateDeploymentNuklerosGatewaySystemDiscovery(
 					"gloo": "discovery",
 				},
 				"name":      "discovery",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"replicas": 1,
@@ -274,13 +274,13 @@ func CreateDeploymentNuklerosGatewaySystemDiscovery(
 		},
 	}
 
-	return mutate.MutateDeploymentNuklerosGatewaySystemDiscovery(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateDeploymentNamespaceDiscovery(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 
-// CreateDeploymentNuklerosGatewaySystemGatewayProxy creates the Deployment resource with name gateway-proxy.
-func CreateDeploymentNuklerosGatewaySystemGatewayProxy(
+// CreateDeploymentNamespaceGatewayProxy creates the Deployment resource with name gateway-proxy.
+func CreateDeploymentNamespaceGatewayProxy(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -298,7 +298,7 @@ func CreateDeploymentNuklerosGatewaySystemGatewayProxy(
 					"gateway-proxy-id": "gateway-proxy",
 				},
 				"name":      "gateway-proxy",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"replicas": 1,
@@ -402,5 +402,5 @@ func CreateDeploymentNuklerosGatewaySystemGatewayProxy(
 		},
 	}
 
-	return mutate.MutateDeploymentNuklerosGatewaySystemGatewayProxy(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateDeploymentNamespaceGatewayProxy(resourceObj, parent, collection, reconciler, req)
 }

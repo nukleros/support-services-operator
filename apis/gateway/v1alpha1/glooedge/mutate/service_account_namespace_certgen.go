@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateConfigMapNuklerosGatewaySystemGlooCustomResourceConfig mutates the ConfigMap resource with name gloo-custom-resource-config.
-func MutateConfigMapNuklerosGatewaySystemGlooCustomResourceConfig(
+// MutateServiceAccountNamespaceCertgen mutates the ServiceAccount resource with name certgen.
+func MutateServiceAccountNamespaceCertgen(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

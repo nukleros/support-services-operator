@@ -29,92 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNuklerosGatewaySystemGlooResourceCleanup creates the ServiceAccount resource with name gloo-resource-cleanup.
-func CreateServiceAccountNuklerosGatewaySystemGlooResourceCleanup(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "v1",
-			"kind":       "ServiceAccount",
-			"metadata": map[string]interface{}{
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-				"name":      "gloo-resource-cleanup",
-				"namespace": "nukleros-gateway-system",
-			},
-		},
-	}
-
-	return mutate.MutateServiceAccountNuklerosGatewaySystemGlooResourceCleanup(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
-
-// CreateServiceAccountNuklerosGatewaySystemGlooResourceMigration creates the ServiceAccount resource with name gloo-resource-migration.
-func CreateServiceAccountNuklerosGatewaySystemGlooResourceMigration(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "v1",
-			"kind":       "ServiceAccount",
-			"metadata": map[string]interface{}{
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-				"name":      "gloo-resource-migration",
-				"namespace": "nukleros-gateway-system",
-			},
-		},
-	}
-
-	return mutate.MutateServiceAccountNuklerosGatewaySystemGlooResourceMigration(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
-
-// CreateServiceAccountNuklerosGatewaySystemGlooResourceRollout creates the ServiceAccount resource with name gloo-resource-rollout.
-func CreateServiceAccountNuklerosGatewaySystemGlooResourceRollout(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "v1",
-			"kind":       "ServiceAccount",
-			"metadata": map[string]interface{}{
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-				"name":      "gloo-resource-rollout",
-				"namespace": "nukleros-gateway-system",
-			},
-		},
-	}
-
-	return mutate.MutateServiceAccountNuklerosGatewaySystemGlooResourceRollout(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
-
-// CreateServiceAccountNuklerosGatewaySystemCertgen creates the ServiceAccount resource with name certgen.
-func CreateServiceAccountNuklerosGatewaySystemCertgen(
+// CreateServiceAccountNamespaceCertgen creates the ServiceAccount resource with name certgen.
+func CreateServiceAccountNamespaceCertgen(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -131,18 +47,18 @@ func CreateServiceAccountNuklerosGatewaySystemCertgen(
 					"gloo": "rbac",
 				},
 				"name":      "certgen",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 		},
 	}
 
-	return mutate.MutateServiceAccountNuklerosGatewaySystemCertgen(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceAccountNamespaceCertgen(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNuklerosGatewaySystemGloo creates the ServiceAccount resource with name gloo.
-func CreateServiceAccountNuklerosGatewaySystemGloo(
+// CreateServiceAccountNamespaceGloo creates the ServiceAccount resource with name gloo.
+func CreateServiceAccountNamespaceGloo(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -159,18 +75,18 @@ func CreateServiceAccountNuklerosGatewaySystemGloo(
 					"gloo": "gloo",
 				},
 				"name":      "gloo",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 		},
 	}
 
-	return mutate.MutateServiceAccountNuklerosGatewaySystemGloo(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceAccountNamespaceGloo(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNuklerosGatewaySystemDiscovery creates the ServiceAccount resource with name discovery.
-func CreateServiceAccountNuklerosGatewaySystemDiscovery(
+// CreateServiceAccountNamespaceDiscovery creates the ServiceAccount resource with name discovery.
+func CreateServiceAccountNamespaceDiscovery(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -187,18 +103,18 @@ func CreateServiceAccountNuklerosGatewaySystemDiscovery(
 					"gloo": "discovery",
 				},
 				"name":      "discovery",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 		},
 	}
 
-	return mutate.MutateServiceAccountNuklerosGatewaySystemDiscovery(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceAccountNamespaceDiscovery(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceAccountNuklerosGatewaySystemGatewayProxy creates the ServiceAccount resource with name gateway-proxy.
-func CreateServiceAccountNuklerosGatewaySystemGatewayProxy(
+// CreateServiceAccountNamespaceGatewayProxy creates the ServiceAccount resource with name gateway-proxy.
+func CreateServiceAccountNamespaceGatewayProxy(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -215,12 +131,12 @@ func CreateServiceAccountNuklerosGatewaySystemGatewayProxy(
 					"gloo": "gateway-proxy",
 				},
 				"name":      "gateway-proxy",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 		},
 	}
 
-	return mutate.MutateServiceAccountNuklerosGatewaySystemGatewayProxy(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceAccountNamespaceGatewayProxy(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
@@ -694,12 +610,12 @@ func CreateClusterRoleBindingKubeResourceWatcherBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gloo",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "discovery",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -738,12 +654,12 @@ func CreateClusterRoleBindingKubeLeaderElectionBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gloo",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "discovery",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -782,7 +698,7 @@ func CreateClusterRoleBindingGlooUpstreamMutatorBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "discovery",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -821,7 +737,7 @@ func CreateClusterRoleBindingGlooResourceReaderBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gloo",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -860,17 +776,17 @@ func CreateClusterRoleBindingSettingsUserBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gloo",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gateway",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "discovery",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -909,12 +825,12 @@ func CreateClusterRoleBindingGlooResourceMutatorBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gateway",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gloo",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -953,12 +869,12 @@ func CreateClusterRoleBindingGatewayResourceReaderBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "gateway",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
-					"name":      "gloo", //  used to support gloo/gateway running in same pod
-					"namespace": "nukleros-gateway-system",
+					"name":      "gloo",                //  used to support gloo/gateway running in same pod
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -997,7 +913,7 @@ func CreateClusterRoleBindingGlooGraphqlapiMutatorBindingDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "discovery",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1009,162 +925,6 @@ func CreateClusterRoleBindingGlooGraphqlapiMutatorBindingDefault(
 	}
 
 	return mutate.MutateClusterRoleBindingGlooGraphqlapiMutatorBindingDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=validatingwebhookconfigurations,verbs=delete
-// +kubebuilder:rbac:groups=gateway.solo.io,resources=*,verbs=list;delete
-
-// CreateClusterRoleGlooResourceCleanupDefault creates the ClusterRole resource with name gloo-resource-cleanup-default.
-func CreateClusterRoleGlooResourceCleanupDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRole",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-cleanup-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"admissionregistration.k8s.io",
-					},
-					"resources": []interface{}{
-						"validatingwebhookconfigurations",
-					},
-					"verbs": []interface{}{
-						"delete",
-					},
-				},
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gateway.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"list",
-						"delete",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleGlooResourceCleanupDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gateway.solo.io,resources=*,verbs=get;list;update;patch
-// +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list
-
-// CreateClusterRoleGlooResourceMigrationDefault creates the ClusterRole resource with name gloo-resource-migration-default.
-func CreateClusterRoleGlooResourceMigrationDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRole",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-migration-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gateway.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-						"update",
-						"patch",
-					},
-				},
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"apiextensions.k8s.io",
-					},
-					"resources": []interface{}{
-						"customresourcedefinitions",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleGlooResourceMigrationDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gateway.solo.io,resources=*,verbs=get;list;create;update;patch
-
-// CreateClusterRoleGlooResourceRolloutDefault creates the ClusterRole resource with name gloo-resource-rollout-default.
-func CreateClusterRoleGlooResourceRolloutDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRole",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-rollout-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gateway.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-						"create",
-						"update",
-						"patch",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleGlooResourceRolloutDefault(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
@@ -1254,123 +1014,6 @@ func CreateClusterRoleGlooGatewaySecretCreateDefault(
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
 
-// CreateClusterRoleBindingGlooResourceCleanupDefault creates the ClusterRoleBinding resource with name gloo-resource-cleanup-default.
-func CreateClusterRoleBindingGlooResourceCleanupDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-cleanup-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "ClusterRole",
-				"name":     "gloo-resource-cleanup-default",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-cleanup",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleBindingGlooResourceCleanupDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
-
-// CreateClusterRoleBindingGlooResourceMigrationDefault creates the ClusterRoleBinding resource with name gloo-resource-migration-default.
-func CreateClusterRoleBindingGlooResourceMigrationDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-migration-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "ClusterRole",
-				"name":     "gloo-resource-migration-default",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-migration",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleBindingGlooResourceMigrationDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
-
-// CreateClusterRoleBindingGlooResourceRolloutDefault creates the ClusterRoleBinding resource with name gloo-resource-rollout-default.
-func CreateClusterRoleBindingGlooResourceRolloutDefault(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "ClusterRoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name": "gloo-resource-rollout-default",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "ClusterRole",
-				"name":     "gloo-resource-rollout-default",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-rollout",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateClusterRoleBindingGlooResourceRolloutDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
-
 // CreateClusterRoleBindingGlooGatewayVwcUpdateDefault creates the ClusterRoleBinding resource with name gloo-gateway-vwc-update-default.
 func CreateClusterRoleBindingGlooGatewayVwcUpdateDefault(
 	parent *gatewayv1alpha1.GlooEdge,
@@ -1394,7 +1037,7 @@ func CreateClusterRoleBindingGlooGatewayVwcUpdateDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "certgen",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1433,7 +1076,7 @@ func CreateClusterRoleBindingGlooGatewaySecretCreateDefault(
 				map[string]interface{}{
 					"kind":      "ServiceAccount",
 					"name":      "certgen",
-					"namespace": "nukleros-gateway-system",
+					"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -1445,272 +1088,4 @@ func CreateClusterRoleBindingGlooGatewaySecretCreateDefault(
 	}
 
 	return mutate.MutateClusterRoleBindingGlooGatewaySecretCreateDefault(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gloo.solo.io,resources=*,verbs=list;delete
-
-// CreateRoleNuklerosGatewaySystemGlooResourceCleanup creates the Role resource with name gloo-resource-cleanup.
-func CreateRoleNuklerosGatewaySystemGlooResourceCleanup(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "Role",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-cleanup",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gloo.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"list",
-						"delete",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleNuklerosGatewaySystemGlooResourceCleanup(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gloo.solo.io,resources=*,verbs=get;list;update;patch
-
-// CreateRoleNuklerosGatewaySystemGlooResourceMigration creates the Role resource with name gloo-resource-migration.
-func CreateRoleNuklerosGatewaySystemGlooResourceMigration(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "Role",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-migration",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gloo.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-						"update",
-						"patch",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleNuklerosGatewaySystemGlooResourceMigration(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=roles,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch
-// +kubebuilder:rbac:groups=gloo.solo.io,resources=*,verbs=get;list;create;update;patch
-
-// CreateRoleNuklerosGatewaySystemGlooResourceRollout creates the Role resource with name gloo-resource-rollout.
-func CreateRoleNuklerosGatewaySystemGlooResourceRollout(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "Role",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-rollout",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"rules": []interface{}{
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"apps",
-					},
-					"resources": []interface{}{
-						"deployments",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-						"watch",
-					},
-				},
-				map[string]interface{}{
-					"apiGroups": []interface{}{
-						"gloo.solo.io",
-					},
-					"resources": []interface{}{
-						"*",
-					},
-					"verbs": []interface{}{
-						"get",
-						"list",
-						"create",
-						"update",
-						"patch",
-					},
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleNuklerosGatewaySystemGlooResourceRollout(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;list;watch;create;update;patch;delete
-
-// CreateRoleBindingNuklerosGatewaySystemGlooResourceCleanup creates the RoleBinding resource with name gloo-resource-cleanup.
-func CreateRoleBindingNuklerosGatewaySystemGlooResourceCleanup(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "RoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-cleanup",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "Role",
-				"name":     "gloo-resource-cleanup",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-cleanup",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleBindingNuklerosGatewaySystemGlooResourceCleanup(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;list;watch;create;update;patch;delete
-
-// CreateRoleBindingNuklerosGatewaySystemGlooResourceMigration creates the RoleBinding resource with name gloo-resource-migration.
-func CreateRoleBindingNuklerosGatewaySystemGlooResourceMigration(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "RoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-migration",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "Role",
-				"name":     "gloo-resource-migration",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-migration",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleBindingNuklerosGatewaySystemGlooResourceMigration(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=rolebindings,verbs=get;list;watch;create;update;patch;delete
-
-// CreateRoleBindingNuklerosGatewaySystemGlooResourceRollout creates the RoleBinding resource with name gloo-resource-rollout.
-func CreateRoleBindingNuklerosGatewaySystemGlooResourceRollout(
-	parent *gatewayv1alpha1.GlooEdge,
-	collection *orchestrationv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"kind":       "RoleBinding",
-			"apiVersion": "rbac.authorization.k8s.io/v1",
-			"metadata": map[string]interface{}{
-				"name":      "gloo-resource-rollout",
-				"namespace": "nukleros-gateway-system",
-				"labels": map[string]interface{}{
-					"app":  "gloo",
-					"gloo": "rbac",
-				},
-			},
-			"roleRef": map[string]interface{}{
-				"kind":     "Role",
-				"name":     "gloo-resource-rollout",
-				"apiGroup": "rbac.authorization.k8s.io",
-			},
-			"subjects": []interface{}{
-				map[string]interface{}{
-					"kind":      "ServiceAccount",
-					"name":      "gloo-resource-rollout",
-					"namespace": "nukleros-gateway-system",
-				},
-			},
-		},
-	}
-
-	return mutate.MutateRoleBindingNuklerosGatewaySystemGlooResourceRollout(resourceObj, parent, collection, reconciler, req)
 }

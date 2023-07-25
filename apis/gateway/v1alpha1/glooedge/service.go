@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceNuklerosGatewaySystemGloo creates the Service resource with name gloo.
-func CreateServiceNuklerosGatewaySystemGloo(
+// CreateServiceNamespaceGloo creates the Service resource with name gloo.
+func CreateServiceNamespaceGloo(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -47,7 +47,7 @@ func CreateServiceNuklerosGatewaySystemGloo(
 					"gloo": "gloo",
 				},
 				"name":      "gloo",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"ports": []interface{}{
@@ -91,13 +91,13 @@ func CreateServiceNuklerosGatewaySystemGloo(
 		},
 	}
 
-	return mutate.MutateServiceNuklerosGatewaySystemGloo(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceNamespaceGloo(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceNuklerosGatewaySystemGatewayProxy creates the Service resource with name gateway-proxy.
-func CreateServiceNuklerosGatewaySystemGatewayProxy(
+// CreateServiceNamespaceGatewayProxy creates the Service resource with name gateway-proxy.
+func CreateServiceNamespaceGatewayProxy(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -115,7 +115,7 @@ func CreateServiceNuklerosGatewaySystemGatewayProxy(
 					"gateway-proxy-id": "gateway-proxy",
 				},
 				"name":      "gateway-proxy",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				// port order matters due to this issue: https://github.com/solo-io/gloo/issues/2571
@@ -142,5 +142,5 @@ func CreateServiceNuklerosGatewaySystemGatewayProxy(
 		},
 	}
 
-	return mutate.MutateServiceNuklerosGatewaySystemGatewayProxy(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceNamespaceGatewayProxy(resourceObj, parent, collection, reconciler, req)
 }

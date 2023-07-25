@@ -37,7 +37,7 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
-  namespace: "nukleros-ingress-system"
+  namespace: "nukleros-gateway-system"
   zoneType: "private"
   domainName: "nukleros.io"
   image: "k8s.gcr.io/external-dns/external-dns"

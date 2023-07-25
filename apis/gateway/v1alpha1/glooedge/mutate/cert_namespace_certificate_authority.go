@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateClusterRoleBindingGlooResourceMigrationDefault mutates the ClusterRoleBinding resource with name gloo-resource-migration-default.
-func MutateClusterRoleBindingGlooResourceMigrationDefault(
+// MutateCertNamespaceCertificateAuthority mutates the Certificate resource with name certificate-authority.
+func MutateCertNamespaceCertificateAuthority(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

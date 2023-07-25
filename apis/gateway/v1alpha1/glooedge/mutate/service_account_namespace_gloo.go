@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateRoleNuklerosGatewaySystemGlooResourceMigration mutates the Role resource with name gloo-resource-migration.
-func MutateRoleNuklerosGatewaySystemGlooResourceMigration(
+// MutateServiceAccountNamespaceGloo mutates the ServiceAccount resource with name gloo.
+func MutateServiceAccountNamespaceGloo(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

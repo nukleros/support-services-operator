@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=cert-manager.io,resources=certificates,verbs=get;list;watch;create;update;patch;delete
 
-// CreateCertNuklerosGatewaySystemCertificateAuthority creates the Certificate resource with name certificate-authority.
-func CreateCertNuklerosGatewaySystemCertificateAuthority(
+// CreateCertNamespaceCertificateAuthority creates the Certificate resource with name certificate-authority.
+func CreateCertNamespaceCertificateAuthority(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -43,7 +43,7 @@ func CreateCertNuklerosGatewaySystemCertificateAuthority(
 			"kind":       "Certificate",
 			"metadata": map[string]interface{}{
 				"name":      "certificate-authority",
-				"namespace": "nukleros-gateway-system",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 			"spec": map[string]interface{}{
 				"isCA":       true,
@@ -62,5 +62,5 @@ func CreateCertNuklerosGatewaySystemCertificateAuthority(
 		},
 	}
 
-	return mutate.MutateCertNuklerosGatewaySystemCertificateAuthority(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateCertNamespaceCertificateAuthority(resourceObj, parent, collection, reconciler, req)
 }

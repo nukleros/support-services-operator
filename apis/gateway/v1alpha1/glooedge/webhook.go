@@ -57,7 +57,7 @@ func CreateValidatingWebhookGlooGatewayValidationWebhookDefault(
 					"clientConfig": map[string]interface{}{
 						"service": map[string]interface{}{
 							"name":      "gloo",
-							"namespace": "nukleros-gateway-system",
+							"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 							"path":      "/validation",
 						},
 					},

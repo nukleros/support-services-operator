@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig mutates the ConfigMap resource with name gateway-proxy-envoy-config.
-func MutateConfigMapNuklerosGatewaySystemGatewayProxyEnvoyConfig(
+// MutateDeploymentNamespaceDiscovery mutates the Deployment resource with name discovery.
+func MutateDeploymentNamespaceDiscovery(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
