@@ -2,4 +2,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: nukleros-gateway-system
+  name: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string

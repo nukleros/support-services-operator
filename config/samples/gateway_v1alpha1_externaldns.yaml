@@ -11,6 +11,6 @@ spec:
   domainName: "nukleros.io"
   image: "k8s.gcr.io/external-dns/external-dns"
   version: "v0.12.2"
-  provider: "route53"
+  provider: "none"
   serviceAccountName: "external-dns"
   iamRoleArn: "iam_role_arn"

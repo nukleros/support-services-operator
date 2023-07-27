@@ -45,9 +45,17 @@ type GlooEdgeSpec struct {
 	// if not exactly one collection is found.
 	Collection GlooEdgeCollectionSpec `json:"collection"`
 
+	// +kubebuilder:default="nukleros-gateway-system"
+	// +kubebuilder:validation:Optional
+	// (Default: "nukleros-gateway-system")
+	Namespace string `json:"namespace,omitempty"`
+
+	// An array of port specs.  Triggers the creation of a Gateway resource for
+	// each defined port.
 	Ports []PortSpec `json:"ports,omitempty"`
 }
 
+// PortSpec defines a port which gets implemented as a Gateway resource.
 type PortSpec struct {
 	Name string `json:"name,omitempty"`
 	Port int64  `json:"port,omitempty"`

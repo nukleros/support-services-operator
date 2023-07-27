@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;create;update;patch;delete
 
-// CreateNamespaceNuklerosGatewaySystem creates the Namespace resource with name nukleros-gateway-system.
-func CreateNamespaceNuklerosGatewaySystem(
+// CreateNamespaceNamespace creates the Namespace resource with name parent.Spec.Namespace.
+func CreateNamespaceNamespace(
 	parent *gatewayv1alpha1.GlooEdge,
 	collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -42,10 +42,10 @@ func CreateNamespaceNuklerosGatewaySystem(
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{
-				"name": "nukleros-gateway-system",
+				"name": parent.Spec.Namespace, //  controlled by field: namespace
 			},
 		},
 	}
 
-	return mutate.MutateNamespaceNuklerosGatewaySystem(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateNamespaceNamespace(resourceObj, parent, collection, reconciler, req)
 }

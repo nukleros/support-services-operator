@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateNamespaceNuklerosGatewaySystem mutates the Namespace resource with name nukleros-gateway-system.
-func MutateNamespaceNuklerosGatewaySystem(
+// MutateNamespaceNamespace mutates the Namespace resource with name parent.Spec.Namespace.
+func MutateNamespaceNamespace(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

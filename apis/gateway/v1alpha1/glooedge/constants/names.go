@@ -42,7 +42,7 @@ const (
 	DeploymentNamespaceGatewayProxy                       = "gateway-proxy"
 	GatewayNamespaceGatewayProxy                          = "gateway-proxy"
 	IssuerNamespaceCertificateAuthority                   = "certificate-authority"
-	NamespaceNuklerosGatewaySystem                        = "nukleros-gateway-system"
+	NamespaceNamespace                                    = "parent.Spec.Namespace"
 	ServiceAccountNamespaceCertgen                        = "certgen"
 	ServiceAccountNamespaceGloo                           = "gloo"
 	ServiceAccountNamespaceDiscovery                      = "discovery"
