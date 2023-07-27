@@ -1,6 +1,6 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= "nukleros/support-services-operator:latest"
+IMG ?= "nukleros/support-services-operator:dev"
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
@@ -63,7 +63,10 @@ test-e2e:
 build: generate fmt vet ## Build manager binary.
 	go build -o bin/manager main.go
 
-run: manifests generate fmt vet ## Run a controller from your host.
+tidy:
+	go mod tidy
+
+run: tidy manifests generate fmt vet ## Run a controller from your host.
 	go run ./main.go
 
 docker-build: test ## Build docker image with the manager.

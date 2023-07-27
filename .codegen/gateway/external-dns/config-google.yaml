@@ -1,0 +1,18 @@
+---
+# +operator-builder:resource:field=provider,value="google",include
+apiVersion: v1
+kind: Secret
+metadata:
+  name: external-dns-google
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+  labels:
+    platform.nukleros.io/group: ingress
+    platform.nukleros.io/project: external-dns
+stringData:
+  EXTERNAL_DNS_TXT_OWNER_ID: external-dns-
+  EXTERNAL_DNS_TXT_PREFIX: external-dns-
+  EXTERNAL_DNS_PROVIDER: google
+  EXTERNAL_DNS_GOOGLE_ZONE_VISIBILITY: private
+  EXTERNAL_DNS_GOOGLE_PROJECT: my-project
+  EXTERNAL_DNS_DOMAIN_FILTER: mydomain.com
+  EXTERNAL_DNS_POLICY: sync

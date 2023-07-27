@@ -1,0 +1,16 @@
+apiVersion: gateway.support-services.nukleros.io/v1alpha1
+kind: ExternalDNS
+metadata:
+  name: externaldns-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-gateway-system"
+  zoneType: "private"
+  domainName: "nukleros.io"
+  image: "k8s.gcr.io/external-dns/external-dns"
+  version: "v0.12.2"
+  provider: "none"
+  serviceAccountName: "external-dns"
+  iamRoleArn: "iam_role_arn"

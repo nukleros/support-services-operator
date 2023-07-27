@@ -1,0 +1,16 @@
+apiVersion: gateway.support-services.nukleros.io/v1alpha1
+kind: GlooEdge
+metadata:
+  name: glooedge
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-gateway-system"
+  ports:
+    - name: http
+      port: 80
+      ssl: false
+    - name: https
+      port: 443
+      ssl: true

@@ -1,0 +1,436 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: gloo
+    gloo: rbac
+  name: certgen
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: gloo
+    gloo: gloo
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: gloo
+    gloo: discovery
+  name: discovery
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: gloo
+    gloo: gateway-proxy
+  name: gateway-proxy
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-resource-watcher-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  - secrets
+  - endpoints
+  - configmaps
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-leader-election-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - "*"
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-upstream-mutator-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - gloo.solo.io
+  resources:
+  - upstreams
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-resource-reader-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - gloo.solo.io
+  resources:
+  - upstreams
+  - upstreamgroups
+  - proxies
+  verbs:
+  - get
+  - list
+  - watch
+  - patch # needed for status updates for skv1
+- apiGroups:
+  - enterprise.gloo.solo.io
+  resources:
+  - authconfigs
+  verbs:
+  - get
+  - list
+  - watch
+  - patch # needed for status updates for skv1
+- apiGroups:
+  - ratelimit.solo.io
+  resources:
+  - ratelimitconfigs
+  - ratelimitconfigs/status
+  verbs:
+  - get
+  - list
+  - watch
+  - patch # needed for status updates for skv1
+  - update # needed for status updates for skv2
+- apiGroups:
+  - graphql.gloo.solo.io
+  resources:
+  - graphqlapis
+  - graphqlapis/status
+  verbs:
+  - get
+  - list
+  - watch
+  - patch # needed for status updates for skv1
+  - update # needed for status updates for skv2
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: settings-user-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - gloo.solo.io
+  resources:
+  - settings
+  verbs:
+  - get
+  - list
+  - watch
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-resource-mutator-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - gloo.solo.io
+  resources:
+  - proxies
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gateway-resource-reader-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - gateway.solo.io
+  resources:
+  - gateways
+  - httpgateways
+  - tcpgateways
+  - virtualservices
+  - routetables
+  - virtualhostoptions
+  - routeoptions
+  verbs:
+  - get
+  - list
+  - watch
+  - patch # needed for status updates
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-graphqlapi-mutator-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups:
+  - graphql.gloo.solo.io
+  resources:
+  - graphqlapis
+  - graphqlapis/status
+  verbs:
+  - get
+  - list
+  - watch
+  - update
+  - patch
+  - create
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-resource-watcher-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: discovery
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: kube-resource-watcher-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kube-leader-election-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: discovery
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: kube-leader-election-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-upstream-mutator-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: discovery
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-upstream-mutator-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-resource-reader-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-resource-reader-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: settings-user-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: gateway
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: discovery
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: settings-user-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-resource-mutator-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gateway
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: gloo
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-resource-mutator-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gateway-resource-reader-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: gateway
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+- kind: ServiceAccount
+  name: gloo # used to support gloo/gateway running in same pod
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gateway-resource-reader-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-graphqlapi-mutator-binding-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+  - kind: ServiceAccount
+    name: discovery
+    namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-graphqlapi-mutator-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-gateway-vwc-update-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+- apiGroups: ["admissionregistration.k8s.io"]
+  resources: ["validatingwebhookconfigurations"]
+  verbs: ["get", "update"]
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-gateway-secret-create-default
+  labels:
+    app: gloo
+    gloo: rbac
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["create", "get", "update"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-gateway-vwc-update-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+- kind: ServiceAccount
+  name: certgen
+  namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-gateway-vwc-update-default
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gloo-gateway-secret-create-default
+  labels:
+    app: gloo
+    gloo: rbac
+subjects:
+  - kind: ServiceAccount
+    name: certgen
+    namespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
+roleRef:
+  kind: ClusterRole
+  name: gloo-gateway-secret-create-default
+  apiGroup: rbac.authorization.k8s.io

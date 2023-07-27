@@ -54,6 +54,12 @@ Build the APIs and controller code:
 make operator-create
 ```
 
+Ensure go dependencies are tidied:
+
+```bash
+go mod tidy
+```
+
 ### Test Operator
 
 Install CRDs:
@@ -64,6 +70,10 @@ make install
 
 Run the controller for the support services operator locally.  It will use your
 kubeconfig to connect to the Kubernetes API.
+
+```bash
+make run
+```
 
 There are sample manifests for each custom resource in the `config/samples`
 directory.  Create all the support services:
