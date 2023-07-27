@@ -51,6 +51,7 @@ func CreateConfigMapNamespaceGatewayProxyEnvoyConfig(
 				},
 			},
 			"data": map[string]interface{}{
+				// controlled by field: namespace
 				"envoy.yaml": `layered_runtime:
   layers:
   - name: static_layer
@@ -68,7 +69,7 @@ node:
   metadata:
     # Specifies the proxy's in-memory xds cache key (see projects/gloo/pkg/xds/envoy.go)
     # This value needs to match discoveryNamespace (or "writeNamespace") in the settings template
-    role: nukleros-gateway-system~gateway-proxy
+    role: ` + parent.Spec.Namespace + `~gateway-proxy
 static_resources:
   listeners:
     - name: prometheus_listener
@@ -110,17 +111,17 @@ static_resources:
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
   clusters:
-  - name: gloo.nukleros-gateway-system.svc.cluster.local:9977
+  - name: gloo.` + parent.Spec.Namespace + `.svc.cluster.local:9977
     alt_stat_name: xds_cluster
     connect_timeout: 5.000s
     load_assignment:
-      cluster_name: gloo.nukleros-gateway-system.svc.cluster.local:9977
+      cluster_name: gloo.` + parent.Spec.Namespace + `.svc.cluster.local:9977
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: gloo.nukleros-gateway-system.svc.cluster.local
+                address: gloo.` + parent.Spec.Namespace + `.svc.cluster.local
                 port_value: 9977
     http2_protocol_options: {}
     upstream_connection_options:
@@ -138,7 +139,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: gloo.nukleros-gateway-system.svc.cluster.local
+                address: gloo.` + parent.Spec.Namespace + `.svc.cluster.local
                 port_value: 9976
     upstream_connection_options:
       tcp_keepalive:
@@ -154,7 +155,7 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: gloo.nukleros-gateway-system.svc.cluster.local
+                address: gloo.` + parent.Spec.Namespace + `.svc.cluster.local
                 port_value: 9979
     upstream_connection_options:
       tcp_keepalive:
@@ -181,7 +182,7 @@ dynamic_resources:
     api_type: GRPC
     rate_limit_settings: {}
     grpc_services:
-    - envoy_grpc: {cluster_name: gloo.nukleros-gateway-system.svc.cluster.local:9977}
+    - envoy_grpc: {cluster_name: gloo.` + parent.Spec.Namespace + `.svc.cluster.local:9977}
   cds_config:
     resource_api_version: V3
     ads: {}
@@ -193,7 +194,8 @@ admin:
   address:
     socket_address:
       address: 127.0.0.1
-      port_value: 19000`,
+      port_value: 19000
+`,
 			},
 		},
 	}

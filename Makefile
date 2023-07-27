@@ -1,6 +1,6 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= "nukleros/support-services-operator:latest"
+IMG ?= "nukleros/support-services-operator:dev"
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:crdVersions=v1"
 
