@@ -79,6 +79,11 @@ func CreateServiceAccountNamespaceCertManager(
 			"metadata": map[string]interface{}{
 				"name":      "cert-manager",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"annotations": map[string]interface{}{
+					// controlled by field: iamRoleArn
+					//  On AWS, the IAM Role ARN that gives cert manager access to Route53
+					"eks.amazonaws.com/role-arn": parent.Spec.IamRoleArn,
+				},
 				"labels": map[string]interface{}{
 					"app":                          "cert-manager",
 					"app.kubernetes.io/name":       "cert-manager",

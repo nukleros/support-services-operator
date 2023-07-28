@@ -84,6 +84,10 @@ spec:
                       controller deployment.'
                     type: integer
                 type: object
+              iamRoleArn:
+                description: On AWS, the IAM Role ARN that gives cert-manager access
+                  to Route53
+                type: string
               namespace:
                 default: nukleros-certs-system
                 description: '(Default: "nukleros-certs-system") Namespace to use

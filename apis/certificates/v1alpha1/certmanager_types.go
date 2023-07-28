@@ -67,6 +67,10 @@ type CertManagerSpec struct {
 	// +kubebuilder:validation:Required
 	//  Contact e-mail address for receiving updates about certificates from LetsEncrypt.
 	ContactEmail string `json:"contactEmail,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//  On AWS, the IAM Role ARN that gives cert-manager access to Route53
+	IamRoleArn string `json:"iamRoleArn,omitempty"`
 }
 
 type CertManagerCollectionSpec struct {
