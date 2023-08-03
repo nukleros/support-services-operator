@@ -25,12 +25,13 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateDeploymentNamespaceExternalDnsGoogle mutates the Deployment resource with name external-dns-google.
-func MutateDeploymentNamespaceExternalDnsGoogle(
+// MutateDeploymentNamespaceExternalDnsRoute53 mutates the Deployment resource with name external-dns-route53.
+func MutateDeploymentNamespaceExternalDnsRoute53(
 	original client.Object,
 	parent *gatewayv1alpha1.ExternalDNS, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
 ) ([]client.Object, error) {
+
 	// if either the reconciler or request are found to be nil, return the base object.
 	if reconciler == nil || req == nil {
 		return []client.Object{original}, nil
