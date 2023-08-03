@@ -69,6 +69,8 @@ func CreateServiceAccountNamespaceServiceAccountName(
 // +kubebuilder:rbac:groups=extensions,resources=ingresses,verbs=get;watch;list
 // +kubebuilder:rbac:groups=networking.k8s.io,resources=ingresses,verbs=get;watch;list
 // +kubebuilder:rbac:groups=core,resources=nodes,verbs=watch;list
+// +kubebuilder:rbac:groups=gloo.solo.io,resources=proxies,verbs=get;watch;list
+// +kubebuilder:rbac:groups=gateway.solo.io,resources=virtualservices,verbs=get;list;watch
 
 // CreateClusterRoleNamespaceExternalDns creates the ClusterRole resource with name external-dns.
 func CreateClusterRoleNamespaceExternalDns(
@@ -142,6 +144,32 @@ func CreateClusterRoleNamespaceExternalDns(
 					"verbs": []interface{}{
 						"watch",
 						"list",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"gloo.solo.io",
+					},
+					"resources": []interface{}{
+						"proxies",
+					},
+					"verbs": []interface{}{
+						"get",
+						"watch",
+						"list",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"gateway.solo.io",
+					},
+					"resources": []interface{}{
+						"virtualservices",
+					},
+					"verbs": []interface{}{
+						"get",
+						"list",
+						"watch",
 					},
 				},
 			},
