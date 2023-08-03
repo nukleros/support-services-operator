@@ -56,6 +56,11 @@ spec:
                 type: object
               domainName:
                 type: string
+              extraArgs:
+                description: Extra arguments to be passed into the External DNS container.
+                items:
+                  type: string
+                type: array
               iamRoleArn:
                 description: On AWS, the IAM Role ARN that gives external-dns access
                   to Route53
