@@ -23333,6 +23333,7 @@ spec:
                     name:
                       type: string
                     options:
+                    
                       properties:
                         accessLoggingService:
                           properties:

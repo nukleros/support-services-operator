@@ -20,12 +20,11 @@ spec:
       replaceInvalidRoutes: false
     disableKubernetesDestinations: false
     disableProxyGarbageCollection: false
-  discoveryNamespace: nukleros-gateway-system
+  discoveryNamespace: nukleros-gateway-system # +operator-builder:field:name=namespace,default="nukleros-gateway-system",type=string
   kubernetesArtifactSource: {}
   kubernetesConfigSource: {}
   kubernetesSecretSource: {}
   refreshRate: 60s
-
   gateway:
     isolateVirtualHostsBySslConfig: false
     readGatewaysFromAllNamespaces: false
