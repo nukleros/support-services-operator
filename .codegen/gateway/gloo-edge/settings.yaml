@@ -26,6 +26,7 @@ spec:
   kubernetesSecretSource: {}
   refreshRate: 60s
   gateway:
+    persistProxySpec: true
     isolateVirtualHostsBySslConfig: false
     readGatewaysFromAllNamespaces: false
     enableGatewayController: true
