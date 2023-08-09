@@ -36,7 +36,7 @@ func MutateDeploymentNamespaceExternalDnsGoogle(
 		return []client.Object{original}, nil
 	}
 
-	mutatedObject, err := AppendExtraArgs(original, parent)
+	mutatedObject, err := appendExtraArgs(original, parent)
 	if err != nil {
 		return []client.Object{original}, err
 	}

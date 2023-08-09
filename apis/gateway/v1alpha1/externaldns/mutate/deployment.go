@@ -9,7 +9,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func AppendExtraArgs(original client.Object, parent *gatewayv1alpha1.ExternalDNS) (client.Object, error) {
+func appendExtraArgs(original client.Object, parent *gatewayv1alpha1.ExternalDNS) (client.Object, error) {
 
 	// convert object to unstructured
 	unstructuredObj, err := resources.ToUnstructured(original)
