@@ -14,3 +14,5 @@ spec:
   provider: "none"
   serviceAccountName: "external-dns"
   iamRoleArn: "iam_role_arn"
+  # extraArgs:
+  # - --txt-owner-id=acme-corp

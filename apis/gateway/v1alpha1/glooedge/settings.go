@@ -63,12 +63,13 @@ func CreateSettingsNamespaceDefault(
 					"disableKubernetesDestinations": false,
 					"disableProxyGarbageCollection": false,
 				},
-				"discoveryNamespace":       "nukleros-gateway-system",
+				"discoveryNamespace":       parent.Spec.Namespace, //  controlled by field: namespace
 				"kubernetesArtifactSource": map[string]interface{}{},
 				"kubernetesConfigSource":   map[string]interface{}{},
 				"kubernetesSecretSource":   map[string]interface{}{},
 				"refreshRate":              "60s",
 				"gateway": map[string]interface{}{
+					"persistProxySpec":               true,
 					"isolateVirtualHostsBySslConfig": false,
 					"readGatewaysFromAllNamespaces":  false,
 					"enableGatewayController":        true,

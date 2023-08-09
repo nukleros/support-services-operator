@@ -19,18 +19,18 @@ package mutate
 import (
 	"fmt"
 
-	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
-	"github.com/nukleros/operator-builder-tools/pkg/resources"
-
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
+	"github.com/nukleros/operator-builder-tools/pkg/resources"
 
 	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateGatewayNuklerosGatewaySystemGatewayProxy mutates the Gateway resource with name gateway-proxy-ssl.
-func MutateGatewayNuklerosGatewaySystemGatewayProxy(
+// MutateGatewayNamespaceGatewayProxy mutates the Gateway resource with name gateway-proxy.
+func MutateGatewayNamespaceGatewayProxy(
 	original client.Object,
 	parent *gatewayv1alpha1.GlooEdge, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,

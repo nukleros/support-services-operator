@@ -136,6 +136,7 @@ spec:
             - --v=2
             - --cluster-resource-namespace=$(POD_NAMESPACE)
             - --leader-election-namespace=$(POD_NAMESPACE)
+            - --issuer-ambient-credentials
           ports:
             - containerPort: 9402
               name: http-metrics

@@ -239,6 +239,7 @@ func CreateDeploymentNamespaceCertManager(
 									"--v=2",
 									"--cluster-resource-namespace=$(POD_NAMESPACE)",
 									"--leader-election-namespace=$(POD_NAMESPACE)",
+									"--issuer-ambient-credentials",
 								},
 								"ports": []interface{}{
 									map[string]interface{}{

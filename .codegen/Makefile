@@ -9,8 +9,13 @@ preserve:
 	cp ../Dockerfile.old preserved-assets/
 	cp ../go.mod preserved-assets/
 	cp ../config/samples/gateway_v1alpha1_glooedge.yaml preserved-assets/
+	cp ../config/samples/gateway_v1alpha1_externaldns.yaml preserved-assets/
 	cp ../apis/gateway/v1alpha1/glooedge_types.go preserved-assets/glooedge_types.go.bak
-	cp ../apis/gateway/v1alpha1/glooedge/mutate/gateway_nukleros_gateway_system_gateway_proxy.go preserved-assets/gateway_nukleros_gateway_system_gateway_proxy.go.bak
+	cp ../apis/gateway/v1alpha1/externaldns_types.go preserved-assets/externaldns_types.go.bak
+	cp ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go preserved-assets/gateway_namespace_gateway_proxy.go.bak
+	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go preserved-assets/deployment.go.bak
+	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_route_US.go preserved-assets/deployment_namespace_external_dns_route_US.go.bak
+	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_google.go preserved-assets/deployment_namespace_external_dns_google.go.bak
 
 #operator-clean: @ Preserve manually managed assets and then remove all operator source code to prep for re-generation
 operator-clean: preserve
@@ -37,7 +42,12 @@ operator-create:
 	cp preserved-assets/Dockerfile.old ../
 	cp preserved-assets/go.mod ../
 	cp preserved-assets/gateway_v1alpha1_glooedge.yaml ../config/samples/gateway_v1alpha1_glooedge.yaml
+	cp preserved-assets/gateway_v1alpha1_externaldns.yaml ../config/samples/gateway_v1alpha1_externaldns.yaml
 	cp preserved-assets/glooedge_types.go.bak ../apis/gateway/v1alpha1/glooedge_types.go
-	cp preserved-assets/gateway_nukleros_gateway_system_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/gateway_nukleros_gateway_system_gateway_proxy.go
+	cp preserved-assets/externaldns_types.go.bak ../apis/gateway/v1alpha1/externaldns_types.go
+	cp preserved-assets/gateway_namespace_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go
+	cp preserved-assets/deployment.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go
+	cp preserved-assets/deployment_namespace_external_dns_route_US.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_route_US.go
+	cp preserved-assets/deployment_namespace_external_dns_google.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_google.go
 	go mod tidy
 

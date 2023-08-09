@@ -56,6 +56,22 @@ rules:
     verbs:
       - watch
       - list
+  - apiGroups:
+      - gloo.solo.io
+    resources:
+      - proxies
+    verbs:
+      - get
+      - watch
+      - list
+  - apiGroups:
+      - gateway.solo.io
+    resources:
+      - virtualservices
+    verbs:
+      - get
+      - list
+      - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding

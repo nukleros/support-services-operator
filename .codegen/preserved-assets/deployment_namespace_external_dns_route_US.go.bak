@@ -25,8 +25,8 @@ import (
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
 )
 
-// MutateDeploymentNamespaceExternalDnsGoogle mutates the Deployment resource with name external-dns-google.
-func MutateDeploymentNamespaceExternalDnsGoogle(
+// MutateDeploymentNamespaceExternalDnsRoute53 mutates the Deployment resource with name external-dns-route53.
+func MutateDeploymentNamespaceExternalDnsRoute53(
 	original client.Object,
 	parent *gatewayv1alpha1.ExternalDNS, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
@@ -36,10 +36,7 @@ func MutateDeploymentNamespaceExternalDnsGoogle(
 		return []client.Object{original}, nil
 	}
 
-	mutatedObject, err := AppendExtraArgs(original, parent)
-	if err != nil {
-		return []client.Object{original}, err
-	}
+	// mutation logic goes here
 
-	return []client.Object{mutatedObject}, nil
+	return []client.Object{original}, nil
 }
