@@ -31,16 +31,12 @@ func MutateDeploymentNamespaceExternalDnsRoute53(
 	parent *gatewayv1alpha1.ExternalDNS, collection *orchestrationv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
 ) ([]client.Object, error) {
-
 	// if either the reconciler or request are found to be nil, return the base object.
 	if reconciler == nil || req == nil {
 		return []client.Object{original}, nil
 	}
 
-	mutatedObject, err := AppendExtraArgs(original, parent)
-	if err != nil {
-		return []client.Object{original}, err
-	}
+	// mutation logic goes here
 
-	return []client.Object{mutatedObject}, nil
+	return []client.Object{original}, nil
 }
