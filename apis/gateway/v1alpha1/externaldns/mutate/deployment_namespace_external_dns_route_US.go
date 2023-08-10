@@ -36,7 +36,11 @@ func MutateDeploymentNamespaceExternalDnsRoute53(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	mutatedObject, err := appendExtraArgs(original, parent)
+	if err != nil {
+		return []client.Object{original}, err
+	}
 
-	return []client.Object{original}, nil
+	return []client.Object{mutatedObject}, nil
+
 }
