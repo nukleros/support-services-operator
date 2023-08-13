@@ -60,7 +60,12 @@ func MutateGatewayNamespaceGatewayProxy(
 			return mutatedGateways, fmt.Errorf("spec field not found in gateway object: %w", err)
 		}
 
-		spec["bindPort"] = portSpec.Port
+		bindPort, err := getUnprivilegedPort(portSpec.Port, parent.Spec.Ports)
+		if err != nil {
+			return mutatedGateways, fmt.Errorf("failed to get unprivileged port: %w", err)
+		}
+
+		spec["bindPort"] = bindPort
 		spec["ssl"] = portSpec.SSL
 
 		if err := unstructured.SetNestedMap(target.Object, spec, "spec"); err != nil {
@@ -73,4 +78,26 @@ func MutateGatewayNamespaceGatewayProxy(
 	}
 
 	return mutatedGateways, nil
+}
+
+// getUnprivilegedPort returns an unprivileged port if the port is privileged.
+func getUnprivilegedPort(port int64, portSpec []gatewayv1alpha1.PortSpec) (int64, error) {
+	if port < 1024 {
+		unprivilegedPort := port + 8000
+		if !isPortInUse(unprivilegedPort, portSpec) {
+			return unprivilegedPort, nil
+		}
+		return port, fmt.Errorf("port %d is already in use", unprivilegedPort)
+	}
+	return port, nil
+}
+
+// isPortInUse returns true if the requested port is already in use.
+func isPortInUse(port int64, portSpec []gatewayv1alpha1.PortSpec) bool {
+	for _, portSpec := range portSpec {
+		if portSpec.Port == int64(port) {
+			return true
+		}
+	}
+	return false
 }
