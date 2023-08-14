@@ -62,7 +62,6 @@ func CreateSecretNamespaceExternalDnsRoute53(
 				//  +kubebuilder:validation:Enum=private;public
 				//  Type of DNS hosted zone to manage.
 				"EXTERNAL_DNS_AWS_ZONE_TYPE":    parent.Spec.ZoneType,
-				"EXTERNAL_DNS_AWS_PREFER_CNAME": "true",
 				"EXTERNAL_DNS_DOMAIN_FILTER":    parent.Spec.DomainName, //  controlled by field: domainName
 				"EXTERNAL_DNS_POLICY":           "sync",
 				"AWS_ACCESS_KEY_ID":             "",
