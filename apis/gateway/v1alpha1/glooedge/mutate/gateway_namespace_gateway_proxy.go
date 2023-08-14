@@ -82,6 +82,9 @@ func MutateGatewayNamespaceGatewayProxy(
 
 // getUnprivilegedPort returns an unprivileged port if the port is privileged.
 func getUnprivilegedPort(port int64, portSpec []gatewayv1alpha1.PortSpec) (int64, error) {
+	if port < 1 {
+		return port, fmt.Errorf("port %d is invalid, must be greater than 0", port)
+	}
 	if port < 1024 {
 		unprivilegedPort := port + 8000
 		if !isPortInUse(unprivilegedPort, portSpec) {
