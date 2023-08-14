@@ -40,8 +40,6 @@ func MutateServiceNamespaceGatewayProxy(
 		return []client.Object{original}, nil
 	}
 
-	var mutatedService []client.Object
-
 	// convert object to unstructured
 	service, err := resources.ToUnstructured(original)
 	if err != nil {
@@ -51,10 +49,10 @@ func MutateServiceNamespaceGatewayProxy(
 	// target := unstructuredObj.DeepCopy()
 	existingPorts, found, err := unstructured.NestedSlice(service.Object, "spec", "ports")
 	if err != nil {
-		return mutatedService, fmt.Errorf("failed to retrieve spec field for gateway: %w", err)
+		return []client.Object{original}, fmt.Errorf("failed to retrieve spec field for gateway: %w", err)
 	}
 	if !found {
-		return mutatedService, fmt.Errorf("spec field not found in gateway object: %w", err)
+		return []client.Object{original}, fmt.Errorf("spec field not found in gateway object: %w", err)
 	}
 
 	newPorts := []interface{}{}
@@ -66,10 +64,10 @@ func MutateServiceNamespaceGatewayProxy(
 
 		targetPort, err := getUnprivilegedPort(portSpec.Port, parent.Spec.Ports)
 		if err != nil {
-			return mutatedService, err
+			return []client.Object{original}, err
 		}
 
-		port["port"] = portSpec.SSL
+		port["port"] = portSpec.Port
 		port["targetPort"] = targetPort
 		port["protocol"] = "TCP"
 		port["name"] = portSpec.Name
@@ -77,14 +75,14 @@ func MutateServiceNamespaceGatewayProxy(
 		newPorts = append(newPorts, port)
 	}
 
-	newPorts = append(newPorts, existingPorts)
+	newPorts = append(newPorts, existingPorts...)
 
 	err = unstructured.SetNestedSlice(service.Object, newPorts, "spec", "ports")
 	if err != nil {
-		return mutatedService, fmt.Errorf("failed to set ports field for service: %w", err)
+		return []client.Object{original}, fmt.Errorf("failed to set ports field for service: %w", err)
 	}
 
-	return mutatedService, nil
+	return []client.Object{service}, nil
 }
 
 // removeDuplicatePorts removes any ports that have the same port number as the one passed in.
