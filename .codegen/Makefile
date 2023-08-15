@@ -13,6 +13,7 @@ preserve:
 	cp ../apis/gateway/v1alpha1/glooedge_types.go preserved-assets/glooedge_types.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns_types.go preserved-assets/externaldns_types.go.bak
 	cp ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go preserved-assets/gateway_namespace_gateway_proxy.go.bak
+	cp ../apis/gateway/v1alpha1/glooedge/mutate/service_namespace_gateway_proxy.go preserved-assets/service_namespace_gateway_proxy.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go preserved-assets/deployment.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_route_US.go preserved-assets/deployment_namespace_external_dns_route_US.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_google.go preserved-assets/deployment_namespace_external_dns_google.go.bak
@@ -46,6 +47,7 @@ operator-create:
 	cp preserved-assets/glooedge_types.go.bak ../apis/gateway/v1alpha1/glooedge_types.go
 	cp preserved-assets/externaldns_types.go.bak ../apis/gateway/v1alpha1/externaldns_types.go
 	cp preserved-assets/gateway_namespace_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go
+	cp preserved-assets/service_namespace_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/service_namespace_gateway_proxy.go
 	cp preserved-assets/deployment.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go
 	cp preserved-assets/deployment_namespace_external_dns_route_US.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_route_US.go
 	cp preserved-assets/deployment_namespace_external_dns_google.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment_namespace_external_dns_google.go

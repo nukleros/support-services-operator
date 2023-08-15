@@ -16,7 +16,6 @@ stringData:
   # +kubebuilder:validation:Enum=private;public
   # Type of DNS hosted zone to manage.`
   EXTERNAL_DNS_AWS_ZONE_TYPE: private
-  EXTERNAL_DNS_AWS_PREFER_CNAME: "true"
   EXTERNAL_DNS_DOMAIN_FILTER: nukleros.io # +operator-builder:field:name=domainName,type=string
   EXTERNAL_DNS_POLICY: sync
   AWS_ACCESS_KEY_ID: ""
