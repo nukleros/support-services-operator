@@ -66,11 +66,18 @@ spec:
                     Gateway resource.
                   properties:
                     name:
+                      description: Name of the port to create.
                       type: string
                     port:
+                      description: Port number to use for the port.
                       format: int64
                       type: integer
+                    protocol:
+                      description: Protocol to use for the port.  Defaults to HTTP1.
+                      type: string
                     ssl:
+                      description: Indicates whether the port should be secured via
+                        TLS.
                       type: boolean
                   type: object
                 type: array
