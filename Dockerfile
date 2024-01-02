@@ -1,7 +1,5 @@
-FROM ubuntu:latest
-COPY ./bin/manager /manager
-RUN chmod +x /manager
-RUN chown -R 65532:65532 /manager
+FROM gcr.io/distroless/static:nonroot
+COPY manager /
 USER 65532:65532
 
 ENTRYPOINT ["/manager"]
