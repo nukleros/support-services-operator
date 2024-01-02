@@ -57,9 +57,17 @@ type GlooEdgeSpec struct {
 
 // PortSpec defines a port which gets implemented as a Gateway resource.
 type PortSpec struct {
+	// Name of the port to create.
 	Name string `json:"name,omitempty"`
-	Port int64  `json:"port,omitempty"`
-	SSL  bool   `json:"ssl,omitempty"`
+
+	// Port number to use for the port.
+	Port int64 `json:"port,omitempty"`
+
+	// Indicates whether the port should be secured via TLS.
+	SSL bool `json:"ssl,omitempty"`
+
+	// Protocol to use for the port.  Defaults to HTTP.
+	Protocol string `json:"protocol,omitempty"`
 }
 
 type GlooEdgeCollectionSpec struct {

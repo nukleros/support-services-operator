@@ -18,12 +18,12 @@ package mutate
 
 import (
 	"fmt"
-
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"sigs.k8s.io/controller-runtime/pkg/client"
+	"strings"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
 	"github.com/nukleros/operator-builder-tools/pkg/resources"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
@@ -50,6 +50,12 @@ func MutateGatewayNamespaceGatewayProxy(
 
 	// create a gateway object for each port requested
 	for _, portSpec := range parent.Spec.Ports {
+
+		// only create a gateway object for http ports
+		if strings.ToLower(portSpec.Protocol) != "http" {
+			continue
+		}
+
 		target := unstructuredObj.DeepCopy()
 
 		spec, found, err := unstructured.NestedMap(target.Object, "spec")
