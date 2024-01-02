@@ -73,7 +73,7 @@ spec:
                       format: int64
                       type: integer
                     protocol:
-                      description: Protocol to use for the port.  Defaults to HTTP1.
+                      description: Protocol to use for the port.  Defaults to HTTP.
                       type: string
                     ssl:
                       description: Indicates whether the port should be secured via

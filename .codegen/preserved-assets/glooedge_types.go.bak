@@ -66,7 +66,7 @@ type PortSpec struct {
 	// Indicates whether the port should be secured via TLS.
 	SSL bool `json:"ssl,omitempty"`
 
-	// Protocol to use for the port.  Defaults to HTTP1.
+	// Protocol to use for the port.  Defaults to HTTP.
 	Protocol string `json:"protocol,omitempty"`
 }
 
