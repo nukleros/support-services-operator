@@ -51,6 +51,7 @@ func MutateGatewayNamespaceGatewayProxy(
 	// create a gateway object for each port requested
 	for _, portSpec := range parent.Spec.Ports {
 
+		// only create a gateway object for http ports
 		if strings.ToLower(portSpec.Protocol) != "http" {
 			continue
 		}
