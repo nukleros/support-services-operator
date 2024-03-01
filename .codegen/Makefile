@@ -12,6 +12,8 @@ preserve:
 	cp ../config/samples/gateway_v1alpha1_externaldns.yaml preserved-assets/
 	cp ../apis/gateway/v1alpha1/glooedge_types.go preserved-assets/glooedge_types.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns_types.go preserved-assets/externaldns_types.go.bak
+	cp ../apis/gateway/v1alpha1/externalsecrets_types.go preserved-assets/externalsecrets_types.go.bak
+	cp ../apis/gateway/v1alpha1/certmanager_types.go preserved-assets/certmanager_types.go.bak
 	cp ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go preserved-assets/gateway_namespace_gateway_proxy.go.bak
 	cp ../apis/gateway/v1alpha1/glooedge/mutate/service_namespace_gateway_proxy.go preserved-assets/service_namespace_gateway_proxy.go.bak
 	cp ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go preserved-assets/deployment.go.bak
@@ -46,6 +48,8 @@ operator-create:
 	cp preserved-assets/gateway_v1alpha1_externaldns.yaml ../config/samples/gateway_v1alpha1_externaldns.yaml
 	cp preserved-assets/glooedge_types.go.bak ../apis/gateway/v1alpha1/glooedge_types.go
 	cp preserved-assets/externaldns_types.go.bak ../apis/gateway/v1alpha1/externaldns_types.go
+	cp preserved-assets/externalsecrets_types.go.bak ../apis/gateway/v1alpha1/externalsecrets.go
+	cp preserved-assets/certmanager_types.go.bak ../apis/gateway/v1alpha1/certmanager.go
 	cp preserved-assets/gateway_namespace_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/gateway_namespace_gateway_proxy.go
 	cp preserved-assets/service_namespace_gateway_proxy.go.bak ../apis/gateway/v1alpha1/glooedge/mutate/service_namespace_gateway_proxy.go
 	cp preserved-assets/deployment.go.bak ../apis/gateway/v1alpha1/externaldns/mutate/deployment.go

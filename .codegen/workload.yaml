@@ -16,7 +16,7 @@ spec:
   componentFiles:
     - certificates/cert-manager/workload.yaml
     - gateway/external-dns/workload.yaml
-    # - secrets/external-secrets/workload.yaml
+    - secrets/external-secrets/workload.yaml
     # - secrets/reloader/workload.yaml
     - gateway/gloo-edge/workload.yaml
   resources:

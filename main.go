@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,9 +35,11 @@ import (
 	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
 	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
 	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
+	secretsv1alpha1 "github.com/nukleros/support-services-operator/apis/secrets/v1alpha1"
 	certificatescontrollers "github.com/nukleros/support-services-operator/controllers/certificates"
 	gatewaycontrollers "github.com/nukleros/support-services-operator/controllers/gateway"
 	orchestrationcontrollers "github.com/nukleros/support-services-operator/controllers/orchestration"
+	secretscontrollers "github.com/nukleros/support-services-operator/controllers/secrets"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -57,6 +59,7 @@ func init() {
 	utilruntime.Must(orchestrationv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(certificatesv1alpha1.AddToScheme(scheme))
 	utilruntime.Must(gatewayv1alpha1.AddToScheme(scheme))
+	utilruntime.Must(secretsv1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
 }
 
@@ -105,6 +108,7 @@ func main() {
 		orchestrationcontrollers.NewSupportServicesReconciler(mgr),
 		certificatescontrollers.NewCertManagerReconciler(mgr),
 		gatewaycontrollers.NewExternalDNSReconciler(mgr),
+		secretscontrollers.NewExternalSecretsReconciler(mgr),
 		gatewaycontrollers.NewGlooEdgeReconciler(mgr),
 		//+kubebuilder:scaffold:reconcilers
 	}
