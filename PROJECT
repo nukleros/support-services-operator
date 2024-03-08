@@ -39,6 +39,14 @@ resources:
     crdVersion: v1
   controller: true
   domain: support-services.nukleros.io
+  group: secrets
+  kind: ExternalSecrets
+  path: github.com/nukleros/support-services-operator/apis/secrets/v1alpha1
+  version: v1alpha1
+- api:
+    crdVersion: v1
+  controller: true
+  domain: support-services.nukleros.io
   group: gateway
   kind: GlooEdge
   path: github.com/nukleros/support-services-operator/apis/gateway/v1alpha1

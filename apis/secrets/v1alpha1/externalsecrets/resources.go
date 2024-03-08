@@ -46,6 +46,7 @@ spec:
     replicas: 2
   webhook:
     replicas: 2
+  iamRoleArn: "iam_role_arn"
 `
 
 // sampleExternalSecretsRequired is a sample containing only required fields
@@ -57,6 +58,7 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
+  iamRoleArn: "iam_role_arn"
 `
 
 // Sample returns the sample manifest for this custom resource.

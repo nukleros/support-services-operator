@@ -77,7 +77,7 @@ func CreateServiceAccountNamespaceExternalSecrets(
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"annotations": map[string]interface{}{
 					// controlled by field: iamRoleArn
-					//  On AWS, the IAM Role ARN that gives cert-manager access to Route53
+					//  On AWS, the IAM Role ARN that gives external-secrets access to SecretsManager
 					"eks.amazonaws.com/role-arn": parent.Spec.IamRoleArn,
 				},
 				"labels": map[string]interface{}{
