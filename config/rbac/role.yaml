@@ -355,6 +355,12 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - serviceaccounts/token
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  resources:
   - services
   verbs:
   - create
@@ -381,6 +387,135 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clusterexternalsecrets
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clusterexternalsecrets/finalizers
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clusterexternalsecrets/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clustersecretstores
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clustersecretstores/finalizers
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - clustersecretstores/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - externalsecrets
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - externalsecrets/finalizers
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - externalsecrets/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - pushsecrets
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - pushsecrets/finalizers
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - pushsecrets/status
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - secretstores
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - secretstores/finalizers
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - external-secrets.io
+  resources:
+  - secretstores/status
+  verbs:
+  - patch
+  - update
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
@@ -518,6 +653,84 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - acraccesstokens
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - ecrauthorizationtokens
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - fakes
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - gcraccesstokens
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - passwords
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - vaultdynamicsecrets
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - gloo.solo.io
   resources:
@@ -696,3 +909,23 @@ rules:
   - routes/custom-host
   verbs:
   - create
+- apiGroups:
+  - secrets.support-services.nukleros.io
+  resources:
+  - externalsecrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - secrets.support-services.nukleros.io
+  resources:
+  - externalsecrets/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2024.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,12 +28,15 @@ import (
 	generatecertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/certificates"
 	generategateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/gateway"
 	generateorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/orchestration"
+	generatesecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/secrets"
 	initcertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/certificates"
 	initgateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/gateway"
 	initorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/orchestration"
+	initsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/secrets"
 	versioncertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/certificates"
 	versiongateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/gateway"
 	versionorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/orchestration"
+	versionsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/secrets"
 	//+kubebuilder:scaffold:operator-builder:subcommands:imports
 )
 
@@ -71,6 +74,7 @@ func (c *SsctlCommand) newInitSubCommand() {
 	initorchestration.NewSupportServicesSubCommand(parentCommand)
 	initcertificates.NewCertManagerSubCommand(parentCommand)
 	initgateway.NewExternalDNSSubCommand(parentCommand)
+	initsecrets.NewExternalSecretsSubCommand(parentCommand)
 	initgateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:init
 }
@@ -83,6 +87,7 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	generateorchestration.NewSupportServicesSubCommand(parentCommand)
 	generatecertificates.NewCertManagerSubCommand(parentCommand)
 	generategateway.NewExternalDNSSubCommand(parentCommand)
+	generatesecrets.NewExternalSecretsSubCommand(parentCommand)
 	generategateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:generate
 }
@@ -95,6 +100,7 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	versionorchestration.NewSupportServicesSubCommand(parentCommand)
 	versioncertificates.NewCertManagerSubCommand(parentCommand)
 	versiongateway.NewExternalDNSSubCommand(parentCommand)
+	versionsecrets.NewExternalSecretsSubCommand(parentCommand)
 	versiongateway.NewGlooEdgeSubCommand(parentCommand)
 	//+kubebuilder:scaffold:operator-builder:subcommands:version
 }
