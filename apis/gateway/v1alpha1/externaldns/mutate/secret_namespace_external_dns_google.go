@@ -17,6 +17,9 @@ limitations under the License.
 package mutate
 
 import (
+	"fmt"
+
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
@@ -36,7 +39,28 @@ func MutateSecretNamespaceExternalDnsGoogle(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	secret, ok := original.(*unstructured.Unstructured)
+	if !ok {
+		return []client.Object{original}, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
+	}
 
-	return []client.Object{original}, nil
+	if parent.Spec.GcpProject != "" {
+		if err := unstructured.SetNestedField(secret.Object, parent.Spec.GcpProject, "stringData", "EXTERNAL_DNS_GOOGLE_PROJECT"); err != nil {
+			return []client.Object{original}, fmt.Errorf("failed to set GCP project: %w", err)
+		}
+	}
+
+	if parent.Spec.DomainName != "" {
+		if err := unstructured.SetNestedField(secret.Object, parent.Spec.DomainName, "stringData", "EXTERNAL_DNS_DOMAIN_FILTER"); err != nil {
+			return []client.Object{original}, fmt.Errorf("failed to set domain filter: %w", err)
+		}
+	}
+
+	if parent.Spec.ZoneType != "" {
+		if err := unstructured.SetNestedField(secret.Object, parent.Spec.ZoneType, "stringData", "EXTERNAL_DNS_GOOGLE_ZONE_VISIBILITY"); err != nil {
+			return []client.Object{original}, fmt.Errorf("failed to set zone visibility: %w", err)
+		}
+	}
+
+	return []client.Object{secret}, nil
 }

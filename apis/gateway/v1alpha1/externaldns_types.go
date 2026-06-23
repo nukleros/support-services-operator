@@ -23,8 +23,6 @@ import (
 	"github.com/nukleros/operator-builder-tools/pkg/status"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
-	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
 )
 
 var ErrUnableToConvertExternalDNS = errors.New("unable to convert to ExternalDNS")
@@ -60,6 +58,10 @@ type ExternalDNSSpec struct {
 
 	// +kubebuilder:validation:Required
 	DomainName string `json:"domainName,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	//  GCP project ID used when provider is "google".
+	GcpProject string `json:"gcpProject,omitempty"`
 
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
@@ -203,9 +205,7 @@ func (component *ExternalDNS) SetChildResourceCondition(resource *status.ChildRe
 
 // GetDependencies returns the dependencies for a component.
 func (*ExternalDNS) GetDependencies() []workload.Workload {
-	return []workload.Workload{
-		&certificatesv1alpha1.CertManager{},
-	}
+	return []workload.Workload{}
 }
 
 // GetComponentGVK returns a GVK object for the component.
