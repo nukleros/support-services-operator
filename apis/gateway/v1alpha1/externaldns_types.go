@@ -63,6 +63,12 @@ type ExternalDNSSpec struct {
 	//  GCP project ID used when provider is "google".
 	GcpProject string `json:"gcpProject,omitempty"`
 
+	// +kubebuilder:default="external-dns"
+	// +kubebuilder:validation:Optional
+	// (Default: "external-dns")
+	//  Name of the GCP IAM service account external-dns impersonates via Workload Identity when provider is "google".
+	GcpServiceAccountName string `json:"gcpServiceAccountName,omitempty"`
+
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")

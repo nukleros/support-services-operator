@@ -14,5 +14,8 @@ spec:
   provider: "none"
   serviceAccountName: "external-dns"
   iamRoleArn: "iam_role_arn"
+  # on GCP, use provider "google" with the following instead of iamRoleArn:
+  # gcpProject: "my-gcp-project"
+  # gcpServiceAccountName: "external-dns"
   # extraArgs:
   # - --txt-owner-id=acme-corp

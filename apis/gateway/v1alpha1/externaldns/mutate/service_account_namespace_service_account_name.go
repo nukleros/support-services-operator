@@ -48,7 +48,7 @@ func MutateServiceAccountNamespaceServiceAccountName(
 		return []client.Object{original}, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
 	}
 
-	gcpSaEmail := fmt.Sprintf("external-dns@%s.iam.gserviceaccount.com", parent.Spec.GcpProject)
+	gcpSaEmail := fmt.Sprintf("%s@%s.iam.gserviceaccount.com", parent.Spec.GcpServiceAccountName, parent.Spec.GcpProject)
 	if err := unstructured.SetNestedField(sa.Object, gcpSaEmail, "metadata", "annotations", "iam.gke.io/gcp-service-account"); err != nil {
 		return []client.Object{original}, fmt.Errorf("failed to set Workload Identity annotation: %w", err)
 	}

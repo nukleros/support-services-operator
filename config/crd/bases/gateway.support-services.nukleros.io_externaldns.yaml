@@ -71,6 +71,12 @@ spec:
               gcpProject:
                 description: ' GCP project ID used when provider is "google".'
                 type: string
+              gcpServiceAccountName:
+                default: external-dns
+                description: |-
+                  (Default: "external-dns")
+                   Name of the GCP IAM service account external-dns impersonates via Workload Identity when provider is "google".
+                type: string
               iamRoleArn:
                 description: ' On AWS, the IAM Role ARN that gives external-dns access
                   to Route53'
