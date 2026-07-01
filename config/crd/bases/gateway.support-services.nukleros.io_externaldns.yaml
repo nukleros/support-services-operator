@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.0
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: externaldns.gateway.support-services.nukleros.io
 spec:
   group: gateway.support-services.nukleros.io
@@ -21,14 +20,19 @@ spec:
         description: ExternalDNS is the Schema for the externaldns API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -36,53 +40,58 @@ spec:
             description: ExternalDNSSpec defines the desired state of ExternalDNS.
             properties:
               collection:
-                description: Specifies a reference to the collection to use for this
-                  workload. Requires the name and namespace input to find the collection.
-                  If no collection field is set, default to selecting the only workload
-                  collection in the cluster, which will result in an error if not
-                  exactly one collection is found.
+                description: |-
+                  Specifies a reference to the collection to use for this workload.
+                  Requires the name and namespace input to find the collection.
+                  If no collection field is set, default to selecting the only
+                  workload collection in the cluster, which will result in an error
+                  if not exactly one collection is found.
                 properties:
                   name:
-                    description: Required if specifying collection.  The name of the
-                      collection within a specific collection.namespace to reference.
+                    description: |-
+                      Required if specifying collection.  The name of the collection
+                      within a specific collection.namespace to reference.
                     type: string
                   namespace:
-                    description: '(Default: "") The namespace where the collection
-                      exists.  Required only if the collection is namespace scoped
-                      and not cluster scoped.'
+                    description: |-
+                      (Default: "") The namespace where the collection exists.  Required only if
+                      the collection is namespace scoped and not cluster scoped.
                     type: string
                 required:
                 - name
                 type: object
               domainName:
                 type: string
-              gcpProject:
-                description: GCP project ID used when provider is "google".
-                type: string
               extraArgs:
-                description: Extra arguments to be passed into the External DNS container.
+                description: ' Extra arguments to be passed into the External DNS
+                  container.'
                 items:
                   type: string
                 type: array
+              gcpProject:
+                description: ' GCP project ID used when provider is "google".'
+                type: string
               iamRoleArn:
-                description: On AWS, the IAM Role ARN that gives external-dns access
-                  to Route53
+                description: ' On AWS, the IAM Role ARN that gives external-dns access
+                  to Route53'
                 type: string
               image:
                 default: k8s.gcr.io/external-dns/external-dns
-                description: '(Default: "k8s.gcr.io/external-dns/external-dns") Image
-                  repo and name to use for external-dns.'
+                description: |-
+                  (Default: "k8s.gcr.io/external-dns/external-dns")
+                   Image repo and name to use for external-dns.
                 type: string
               namespace:
                 default: nukleros-gateway-system
-                description: '(Default: "nukleros-gateway-system") Namespace to use
-                  for ingress support services.'
+                description: |-
+                  (Default: "nukleros-gateway-system")
+                   Namespace to use for ingress support services.
                 type: string
               provider:
                 default: none
-                description: '(Default: "none") The DNS provider to use for setting
-                  DNS records with external-dns.  One of: none | active-directory
-                  | google | route53.'
+                description: |-
+                  (Default: "none")
+                   The DNS provider to use for setting DNS records with external-dns.  One of: none | active-directory | google | route53.
                 enum:
                 - none
                 - active-directory
@@ -91,16 +100,21 @@ spec:
                 type: string
               serviceAccountName:
                 default: external-dns
-                description: '(Default: "external-dns") The name of the external-dns
-                  service account which is referenced in role policy doc for AWS.'
+                description: |-
+                  (Default: "external-dns")
+                   The name of the external-dns service account which is referenced in role policy doc for AWS.
                 type: string
               version:
                 default: v0.12.2
-                description: '(Default: "v0.12.2") Version of external-dns to use.'
+                description: |-
+                  (Default: "v0.12.2")
+                   Version of external-dns to use.
                 type: string
               zoneType:
                 default: private
-                description: '(Default: "private") Type of DNS hosted zone to manage.'
+                description: |-
+                  (Default: "private")
+                   Type of DNS hosted zone to manage.
                 enum:
                 - private
                 - public
@@ -111,8 +125,9 @@ spec:
             properties:
               conditions:
                 items:
-                  description: PhaseCondition describes an event that has occurred
-                    during a phase of the controller reconciliation loop.
+                  description: |-
+                    PhaseCondition describes an event that has occurred during a phase
+                    of the controller reconciliation loop.
                   properties:
                     lastModified:
                       description: LastModified defines the time in which this component

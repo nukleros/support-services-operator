@@ -122,7 +122,7 @@ type ExternalDNSStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:scope=Cluster
+// +kubebuilder:resource:path=externaldns,scope=Cluster
 
 // ExternalDNS is the Schema for the externaldns API.
 type ExternalDNS struct {
