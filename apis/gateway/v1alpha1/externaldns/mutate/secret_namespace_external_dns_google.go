@@ -17,6 +17,7 @@ limitations under the License.
 package mutate
 
 import (
+	"errors"
 	"fmt"
 
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -44,10 +45,12 @@ func MutateSecretNamespaceExternalDnsGoogle(
 		return []client.Object{original}, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
 	}
 
-	if parent.Spec.GcpProject != "" {
-		if err := unstructured.SetNestedField(secret.Object, parent.Spec.GcpProject, "stringData", "EXTERNAL_DNS_GOOGLE_PROJECT"); err != nil {
-			return []client.Object{original}, fmt.Errorf("failed to set GCP project: %w", err)
-		}
+	if parent.Spec.GcpProject == "" {
+		return []client.Object{original}, errors.New("gcpProject is required when provider is \"google\"")
+	}
+
+	if err := unstructured.SetNestedField(secret.Object, parent.Spec.GcpProject, "stringData", "EXTERNAL_DNS_GOOGLE_PROJECT"); err != nil {
+		return []client.Object{original}, fmt.Errorf("failed to set GCP project: %w", err)
 	}
 
 	if parent.Spec.DomainName != "" {
