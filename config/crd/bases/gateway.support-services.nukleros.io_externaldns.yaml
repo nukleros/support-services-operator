@@ -61,6 +61,7 @@ spec:
                 - name
                 type: object
               domainName:
+                minLength: 1
                 type: string
               extraArgs:
                 description: ' Extra arguments to be passed into the External DNS
@@ -79,7 +80,7 @@ spec:
                 type: string
               iamRoleArn:
                 description: ' On AWS, the IAM Role ARN that gives external-dns access
-                  to Route53'
+                  to Route53 when provider is "route53".'
                 type: string
               image:
                 default: k8s.gcr.io/external-dns/external-dns
@@ -125,6 +126,8 @@ spec:
                 - private
                 - public
                 type: string
+            required:
+            - domainName
             type: object
           status:
             description: ExternalDNSStatus defines the observed state of ExternalDNS.

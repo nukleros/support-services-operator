@@ -53,10 +53,12 @@ func MutateSecretNamespaceExternalDnsGoogle(
 		return []client.Object{original}, fmt.Errorf("failed to set GCP project: %w", err)
 	}
 
-	if parent.Spec.DomainName != "" {
-		if err := unstructured.SetNestedField(secret.Object, parent.Spec.DomainName, "stringData", "EXTERNAL_DNS_DOMAIN_FILTER"); err != nil {
-			return []client.Object{original}, fmt.Errorf("failed to set domain filter: %w", err)
-		}
+	if parent.Spec.DomainName == "" {
+		return []client.Object{original}, errors.New("domainName is required")
+	}
+
+	if err := unstructured.SetNestedField(secret.Object, parent.Spec.DomainName, "stringData", "EXTERNAL_DNS_DOMAIN_FILTER"); err != nil {
+		return []client.Object{original}, fmt.Errorf("failed to set domain filter: %w", err)
 	}
 
 	if parent.Spec.ZoneType != "" {

@@ -17,6 +17,8 @@ limitations under the License.
 package mutate
 
 import (
+	"errors"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
@@ -36,7 +38,9 @@ func MutateSecretNamespaceExternalDnsRoute53(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	if parent.Spec.IamRoleArn == "" {
+		return []client.Object{original}, errors.New("iamRoleArn is required when provider is \"route53\"")
+	}
 
 	return []client.Object{original}, nil
 }

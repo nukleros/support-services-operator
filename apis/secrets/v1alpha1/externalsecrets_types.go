@@ -71,8 +71,9 @@ type ExternalSecretsSpec struct {
 	Webhook ExternalSecretsSpecWebhook `json:"webhook,omitempty"`
 
 	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	//  On AWS, the IAM Role ARN that gives external-secrets access to SecretsManager
-	IamRoleArn string `json:"iamRoleArn,omitempty"`
+	IamRoleArn string `json:"iamRoleArn"`
 }
 
 type ExternalSecretsCollectionSpec struct {

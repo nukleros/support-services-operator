@@ -78,6 +78,7 @@ spec:
               contactEmail:
                 description: ' Contact e-mail address for receiving updates about
                   certificates from LetsEncrypt.'
+                minLength: 1
                 type: string
               controller:
                 properties:
@@ -97,6 +98,7 @@ spec:
               iamRoleArn:
                 description: ' On AWS, the IAM Role ARN that gives cert-manager access
                   to Route53'
+                minLength: 1
                 type: string
               namespace:
                 default: nukleros-certs-system
@@ -125,6 +127,9 @@ spec:
                        Number of replicas to use for the cert-manager webhook deployment.
                     type: integer
                 type: object
+            required:
+            - contactEmail
+            - iamRoleArn
             type: object
           status:
             description: CertManagerStatus defines the observed state of CertManager.

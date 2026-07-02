@@ -57,7 +57,8 @@ type ExternalDNSSpec struct {
 	ZoneType string `json:"zoneType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	DomainName string `json:"domainName,omitempty"`
+	// +kubebuilder:validation:MinLength=1
+	DomainName string `json:"domainName"`
 
 	// +kubebuilder:validation:Optional
 	//  GCP project ID used when provider is "google".
@@ -94,8 +95,8 @@ type ExternalDNSSpec struct {
 	//  The name of the external-dns service account which is referenced in role policy doc for AWS.
 	ServiceAccountName string `json:"serviceAccountName,omitempty"`
 
-	// +kubebuilder:validation:Required
-	//  On AWS, the IAM Role ARN that gives external-dns access to Route53
+	// +kubebuilder:validation:Optional
+	//  On AWS, the IAM Role ARN that gives external-dns access to Route53 when provider is "route53".
 	IamRoleArn string `json:"iamRoleArn,omitempty"`
 
 	// +kubebuilder:validation:Optional
