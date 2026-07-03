@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.0
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: glooedges.gateway.support-services.nukleros.io
 spec:
   group: gateway.support-services.nukleros.io
@@ -21,14 +20,19 @@ spec:
         description: GlooEdge is the Schema for the glooedges API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -36,20 +40,22 @@ spec:
             description: GlooEdgeSpec defines the desired state of GlooEdge.
             properties:
               collection:
-                description: Specifies a reference to the collection to use for this
-                  workload. Requires the name and namespace input to find the collection.
-                  If no collection field is set, default to selecting the only workload
-                  collection in the cluster, which will result in an error if not
-                  exactly one collection is found.
+                description: |-
+                  Specifies a reference to the collection to use for this workload.
+                  Requires the name and namespace input to find the collection.
+                  If no collection field is set, default to selecting the only
+                  workload collection in the cluster, which will result in an error
+                  if not exactly one collection is found.
                 properties:
                   name:
-                    description: Required if specifying collection.  The name of the
-                      collection within a specific collection.namespace to reference.
+                    description: |-
+                      Required if specifying collection.  The name of the collection
+                      within a specific collection.namespace to reference.
                     type: string
                   namespace:
-                    description: '(Default: "") The namespace where the collection
-                      exists.  Required only if the collection is namespace scoped
-                      and not cluster scoped.'
+                    description: |-
+                      (Default: "") The namespace where the collection exists.  Required only if
+                      the collection is namespace scoped and not cluster scoped.
                     type: string
                 required:
                 - name
@@ -59,8 +65,9 @@ spec:
                 description: '(Default: "nukleros-gateway-system")'
                 type: string
               ports:
-                description: An array of port specs.  Triggers the creation of a Gateway
-                  resource for each defined port.
+                description: |-
+                  An array of port specs.  Triggers the creation of a Gateway resource for
+                  each defined port.
                 items:
                   description: PortSpec defines a port which gets implemented as a
                     Gateway resource.
@@ -87,8 +94,9 @@ spec:
             properties:
               conditions:
                 items:
-                  description: PhaseCondition describes an event that has occurred
-                    during a phase of the controller reconciliation loop.
+                  description: |-
+                    PhaseCondition describes an event that has occurred during a phase
+                    of the controller reconciliation loop.
                   properties:
                     lastModified:
                       description: LastModified defines the time in which this component

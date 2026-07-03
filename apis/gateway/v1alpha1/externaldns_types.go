@@ -23,8 +23,6 @@ import (
 	"github.com/nukleros/operator-builder-tools/pkg/status"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-
-	certificatesv1alpha1 "github.com/nukleros/support-services-operator/apis/certificates/v1alpha1"
 )
 
 var ErrUnableToConvertExternalDNS = errors.New("unable to convert to ExternalDNS")
@@ -59,7 +57,18 @@ type ExternalDNSSpec struct {
 	ZoneType string `json:"zoneType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	DomainName string `json:"domainName,omitempty"`
+	// +kubebuilder:validation:MinLength=1
+	DomainName string `json:"domainName"`
+
+	// +kubebuilder:validation:Optional
+	//  GCP project ID used when provider is "google".
+	GcpProject string `json:"gcpProject,omitempty"`
+
+	// +kubebuilder:default="external-dns"
+	// +kubebuilder:validation:Optional
+	// (Default: "external-dns")
+	//  Name of the GCP IAM service account external-dns impersonates via Workload Identity when provider is "google".
+	GcpServiceAccountName string `json:"gcpServiceAccountName,omitempty"`
 
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
@@ -86,8 +95,8 @@ type ExternalDNSSpec struct {
 	//  The name of the external-dns service account which is referenced in role policy doc for AWS.
 	ServiceAccountName string `json:"serviceAccountName,omitempty"`
 
-	// +kubebuilder:validation:Required
-	//  On AWS, the IAM Role ARN that gives external-dns access to Route53
+	// +kubebuilder:validation:Optional
+	//  On AWS, the IAM Role ARN that gives external-dns access to Route53 when provider is "route53".
 	IamRoleArn string `json:"iamRoleArn,omitempty"`
 
 	// +kubebuilder:validation:Optional
@@ -120,7 +129,7 @@ type ExternalDNSStatus struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:resource:scope=Cluster
+// +kubebuilder:resource:path=externaldns,scope=Cluster
 
 // ExternalDNS is the Schema for the externaldns API.
 type ExternalDNS struct {
@@ -203,9 +212,7 @@ func (component *ExternalDNS) SetChildResourceCondition(resource *status.ChildRe
 
 // GetDependencies returns the dependencies for a component.
 func (*ExternalDNS) GetDependencies() []workload.Workload {
-	return []workload.Workload{
-		&certificatesv1alpha1.CertManager{},
-	}
+	return []workload.Workload{}
 }
 
 // GetComponentGVK returns a GVK object for the component.

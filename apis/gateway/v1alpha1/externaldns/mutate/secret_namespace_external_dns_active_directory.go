@@ -17,6 +17,10 @@ limitations under the License.
 package mutate
 
 import (
+	"errors"
+	"fmt"
+
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
@@ -36,7 +40,18 @@ func MutateSecretNamespaceExternalDnsActiveDirectory(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	secret, ok := original.(*unstructured.Unstructured)
+	if !ok {
+		return []client.Object{original}, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
+	}
 
-	return []client.Object{original}, nil
+	if parent.Spec.DomainName == "" {
+		return []client.Object{original}, errors.New("domainName is required")
+	}
+
+	if err := unstructured.SetNestedField(secret.Object, parent.Spec.DomainName, "stringData", "EXTERNAL_DNS_DOMAIN_FILTER"); err != nil {
+		return []client.Object{original}, fmt.Errorf("failed to set domain filter: %w", err)
+	}
+
+	return []client.Object{secret}, nil
 }

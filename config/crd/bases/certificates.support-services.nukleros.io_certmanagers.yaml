@@ -3,8 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.0
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.14.0
   name: certmanagers.certificates.support-services.nukleros.io
 spec:
   group: certificates.support-services.nukleros.io
@@ -21,14 +20,19 @@ spec:
         description: CertManager is the Schema for the certmanagers API.
         properties:
           apiVersion:
-            description: 'APIVersion defines the versioned schema of this representation
-              of an object. Servers should convert recognized schemas to the latest
-              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
             type: string
           kind:
-            description: 'Kind is a string value representing the REST resource this
-              object represents. Servers may infer this from the endpoint the client
-              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
             type: string
           metadata:
             type: object
@@ -39,85 +43,102 @@ spec:
                 properties:
                   image:
                     default: quay.io/jetstack/cert-manager-cainjector
-                    description: '(Default: "quay.io/jetstack/cert-manager-cainjector")
-                      Image repo and name to use for cert-manager cainjector.'
+                    description: |-
+                      (Default: "quay.io/jetstack/cert-manager-cainjector")
+                       Image repo and name to use for cert-manager cainjector.
                     type: string
                   replicas:
                     default: 2
-                    description: '(Default: 2) Number of replicas to use for the cert-manager
-                      cainjector deployment.'
+                    description: |-
+                      (Default: 2)
+                       Number of replicas to use for the cert-manager cainjector deployment.
                     type: integer
                 type: object
               collection:
-                description: Specifies a reference to the collection to use for this
-                  workload. Requires the name and namespace input to find the collection.
-                  If no collection field is set, default to selecting the only workload
-                  collection in the cluster, which will result in an error if not
-                  exactly one collection is found.
+                description: |-
+                  Specifies a reference to the collection to use for this workload.
+                  Requires the name and namespace input to find the collection.
+                  If no collection field is set, default to selecting the only
+                  workload collection in the cluster, which will result in an error
+                  if not exactly one collection is found.
                 properties:
                   name:
-                    description: Required if specifying collection.  The name of the
-                      collection within a specific collection.namespace to reference.
+                    description: |-
+                      Required if specifying collection.  The name of the collection
+                      within a specific collection.namespace to reference.
                     type: string
                   namespace:
-                    description: '(Default: "") The namespace where the collection
-                      exists.  Required only if the collection is namespace scoped
-                      and not cluster scoped.'
+                    description: |-
+                      (Default: "") The namespace where the collection exists.  Required only if
+                      the collection is namespace scoped and not cluster scoped.
                     type: string
                 required:
                 - name
                 type: object
               contactEmail:
-                description: Contact e-mail address for receiving updates about certificates
-                  from LetsEncrypt.
+                description: ' Contact e-mail address for receiving updates about
+                  certificates from LetsEncrypt.'
+                minLength: 1
                 type: string
               controller:
                 properties:
                   image:
                     default: quay.io/jetstack/cert-manager-controller
-                    description: '(Default: "quay.io/jetstack/cert-manager-controller")
-                      Image repo and name to use for cert-manager controller.'
+                    description: |-
+                      (Default: "quay.io/jetstack/cert-manager-controller")
+                       Image repo and name to use for cert-manager controller.
                     type: string
                   replicas:
                     default: 2
-                    description: '(Default: 2) Number of replicas to use for the cert-manager
-                      controller deployment.'
+                    description: |-
+                      (Default: 2)
+                       Number of replicas to use for the cert-manager controller deployment.
                     type: integer
                 type: object
               iamRoleArn:
-                description: On AWS, the IAM Role ARN that gives cert-manager access
-                  to Route53
+                description: ' On AWS, the IAM Role ARN that gives cert-manager access
+                  to Route53'
+                minLength: 1
                 type: string
               namespace:
                 default: nukleros-certs-system
-                description: '(Default: "nukleros-certs-system") Namespace to use
-                  for certificate support services.'
+                description: |-
+                  (Default: "nukleros-certs-system")
+                   Namespace to use for certificate support services.
                 type: string
               version:
                 default: v1.9.1
-                description: '(Default: "v1.9.1") Version of cert-manager to use.'
+                description: |-
+                  (Default: "v1.9.1")
+                   Version of cert-manager to use.
                 type: string
               webhook:
                 properties:
                   image:
                     default: quay.io/jetstack/cert-manager-webhook
-                    description: '(Default: "quay.io/jetstack/cert-manager-webhook")
-                      Image repo and name to use for cert-manager webhook.'
+                    description: |-
+                      (Default: "quay.io/jetstack/cert-manager-webhook")
+                       Image repo and name to use for cert-manager webhook.
                     type: string
                   replicas:
                     default: 2
-                    description: '(Default: 2) Number of replicas to use for the cert-manager
-                      webhook deployment.'
+                    description: |-
+                      (Default: 2)
+                       Number of replicas to use for the cert-manager webhook deployment.
                     type: integer
                 type: object
+            required:
+            - contactEmail
+            - iamRoleArn
             type: object
           status:
             description: CertManagerStatus defines the observed state of CertManager.
             properties:
               conditions:
                 items:
-                  description: PhaseCondition describes an event that has occurred
-                    during a phase of the controller reconciliation loop.
+                  description: |-
+                    PhaseCondition describes an event that has occurred during a phase
+                    of the controller reconciliation loop.
                   properties:
                     lastModified:
                       description: LastModified defines the time in which this component

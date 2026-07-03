@@ -17,6 +17,9 @@ limitations under the License.
 package mutate
 
 import (
+	"fmt"
+
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
@@ -36,7 +39,19 @@ func MutateServiceAccountNamespaceServiceAccountName(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	if parent.Spec.Provider != "google" || parent.Spec.GcpProject == "" {
+		return []client.Object{original}, nil
+	}
 
-	return []client.Object{original}, nil
+	sa, ok := original.(*unstructured.Unstructured)
+	if !ok {
+		return []client.Object{original}, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
+	}
+
+	gcpSaEmail := fmt.Sprintf("%s@%s.iam.gserviceaccount.com", parent.Spec.GcpServiceAccountName, parent.Spec.GcpProject)
+	if err := unstructured.SetNestedField(sa.Object, gcpSaEmail, "metadata", "annotations", "iam.gke.io/gcp-service-account"); err != nil {
+		return []client.Object{original}, fmt.Errorf("failed to set Workload Identity annotation: %w", err)
+	}
+
+	return []client.Object{sa}, nil
 }

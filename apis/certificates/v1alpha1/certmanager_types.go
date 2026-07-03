@@ -65,12 +65,14 @@ type CertManagerSpec struct {
 	Webhook CertManagerSpecWebhook `json:"webhook,omitempty"`
 
 	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	//  Contact e-mail address for receiving updates about certificates from LetsEncrypt.
-	ContactEmail string `json:"contactEmail,omitempty"`
+	ContactEmail string `json:"contactEmail"`
 
 	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:MinLength=1
 	//  On AWS, the IAM Role ARN that gives cert-manager access to Route53
-	IamRoleArn string `json:"iamRoleArn,omitempty"`
+	IamRoleArn string `json:"iamRoleArn"`
 }
 
 type CertManagerCollectionSpec struct {
