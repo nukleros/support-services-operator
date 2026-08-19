@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: nginx-ingress
   namespace: nukleros-ingress-system
@@ -9,7 +9,6 @@ metadata:
     platform.nukleros.io/project: nginx-ingress-controller
     app.kubernetes.io/name: nginx-ingress
 spec:
-  replicas: 2
   selector:
     matchLabels:
       app: nginx-ingress
@@ -37,8 +36,10 @@ spec:
           ports:
             - name: http
               containerPort: 80
+              hostPort: 80
             - name: https
               containerPort: 443
+              hostPort: 443
             - name: readiness-port
               containerPort: 8081
             - name: prometheus
@@ -82,17 +83,5 @@ spec:
             - -report-ingress-status
             - -external-service=nginx-ingress
             - -enable-prometheus-metrics
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchExpressions:
-                    - key: app.kubernetes.io/name
-                      operator: In
-                      values:
-                        - nginx-ingress
       nodeSelector:
         kubernetes.io/os: linux

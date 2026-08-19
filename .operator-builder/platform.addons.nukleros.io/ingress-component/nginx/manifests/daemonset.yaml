@@ -5,7 +5,11 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-ingress
-  namespace: nginx-ingress # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+  namespace: nukleros-ingress-system # +operator-builder:field:name=namespace,default="nukleros-ingress-system",type=string
+  labels:
+    platform.nukleros.io/category: ingress
+    platform.nukleros.io/project: nginx-ingress-controller
+    app.kubernetes.io/name: nginx-ingress
 spec:
   selector:
     matchLabels:
@@ -14,14 +18,19 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
-        #annotations:
-    #prometheus.io/scrape: "true"
-    #prometheus.io/port: "9113"
-    #prometheus.io/scheme: http
-
+        app.kubernetes.io/name: nginx-ingress
+        platform.nukleros.io/category: ingress
+        platform.nukleros.io/project: nginx-ingress-controller
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9113"
+        prometheus.io/scheme: http
     spec:
       serviceAccountName: nginx-ingress
       automountServiceAccountToken: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - # +operator-builder:field:name=nginx.image,default=nginx/nginx-ingress,type=string,replace="nginxImage",description=`
           # Image repo and name to use for nginx.`
@@ -50,12 +59,13 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-              #limits:
-              #  cpu: "1"
-              #  memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: 1Gi
           securityContext:
-            allowPrivilegeEscalation: true
-            runAsUser: 101 #nginx
+            allowPrivilegeEscalation: false
+            runAsUser: 101
+            runAsNonRoot: true
             capabilities:
               drop:
                 - ALL
@@ -72,9 +82,12 @@ spec:
                   fieldPath: metadata.name
           args:
             - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
-            - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
-#- -v=3 # Enables extensive logging. Useful for troubleshooting.
-#- -report-ingress-status
-#- -external-service=nginx-ingress
-#- -enable-prometheus-metrics
-#- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+            - -report-ingress-status
+            - -external-service=nginx-ingress
+            - -enable-cert-manager
+            - -enable-external-dns
+            - -report-ingress-status
+            - -external-service=nginx-ingress
+            - -enable-prometheus-metrics
+      nodeSelector:
+        kubernetes.io/os: linux
