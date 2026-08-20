@@ -41,7 +41,7 @@ spec:
     installType: "deployment"
     include: false
     image: "nginx/nginx-ingress"
-    version: "2.3.0"
+    version: "5.5.4"
     replicas: 2
   kong:
     include: true

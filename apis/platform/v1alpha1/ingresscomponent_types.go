@@ -99,9 +99,9 @@ type IngressComponentSpecNginx struct {
 	// Image repo and name to use for nginx.
 	Image string `json:"image,omitempty"`
 
-	// +kubebuilder:default="2.3.0"
+	// +kubebuilder:default="5.5.4"
 	// +kubebuilder:validation:Optional
-	// (Default: "2.3.0")
+	// (Default: "5.5.4")
 	//
 	// Version of nginx to use.
 	Version string `json:"version,omitempty"`

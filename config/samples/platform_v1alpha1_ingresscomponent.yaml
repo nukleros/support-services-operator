@@ -8,12 +8,12 @@ spec:
     #namespace: ""
   nginx:
     installType: "deployment"
-    include: true
+    include: false
     image: "nginx/nginx-ingress"
     version: "5.5.4"
     replicas: 2
   kong:
-    include: false
+    include: true
     replicas: 2
     gateway:
       image: "kong/kong-gateway"

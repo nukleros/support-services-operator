@@ -33,11 +33,15 @@ restore:
 operator-clean: preserve
 	rm -rf ../*
 
+# WARN: init/create only need to be run once.  use update to update the operator.
 operator-init:
 	cd .. && operator-builder $(INIT_OPTS)
 
 operator-create:
 	cd .. && operator-builder $(CREATE_OPTS)
+
+operator-update:
+	cd .. && operator-builder $(CREATE_OPTS) --force
 
 #
 # project management

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: (unknown)
   name: ingresscomponents.platform.addons.nukleros.io
 spec:
   group: platform.addons.nukleros.io
@@ -212,9 +212,9 @@ spec:
                       Number of replicas to use for the nginx ingress controller deployment.
                     type: integer
                   version:
-                    default: 2.3.0
+                    default: 5.5.4
                     description: |-
-                      (Default: "2.3.0")
+                      (Default: "5.5.4")
 
                       Version of nginx to use.
                     type: string

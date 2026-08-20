@@ -37,7 +37,7 @@ spec:
       containers:
         - # +operator-builder:field:name=nginx.image,default=nginx/nginx-ingress,type=string,replace="nginxImage",description=`
           # Image repo and name to use for nginx.`
-          # +operator-builder:field:name=nginx.version,default="2.3.0",type=string,replace="nginxVersion",description=`
+          # +operator-builder:field:name=nginx.version,default="5.5.4",type=string,replace="nginxVersion",description=`
           # Version of nginx to use.`
           image: nginxImage:nginxVersion
           imagePullPolicy: IfNotPresent
