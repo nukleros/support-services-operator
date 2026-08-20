@@ -12,24 +12,6 @@ CREATE_OPTS=create api \
 	--controller \
 	--resource
 
-# preserve manually mananged assets
-preserve:
-	cp -R ../config/install assets/
-	cp ../README.md assets/
-	cp ../Makefile assets/
-	cp ../Dockerfile assets/
-	cp ../Dockerfile.old assets/
-	cp ../go.mod assets/
-
-# restore manually managed assets
-restore:
-	cp -R assets/install ../config
-	cp assets/README.md ../
-	cp assets/Makefile ../
-	cp assets/Dockerfile ../
-	cp assets/Dockerfile.old ../
-	cp assets/go.mod ../
-
 operator-clean: preserve
 	rm -rf ../*
 
@@ -55,8 +37,13 @@ project:
 	@touch $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml
 
 download:
-	vendir sync --file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml --lock-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml.lock
+	vendir sync \
+		--file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml \
+		--lock-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml.lock
 
 overlay:
-	yot -I 2 -i $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml -o $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT) -f $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml
-
+	yot \
+		--indent-level 2 \
+		--instructions $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml \
+		--output-directory $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT) \
+		--values-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml
