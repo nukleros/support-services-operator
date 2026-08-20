@@ -5,9 +5,27 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - acme.cert-manager.io
+  - ""
   resources:
-  - challenges
+  - configmaps
+  - leases
+  - namespaces
+  - pods
+  - secrets
+  - serviceaccounts
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
   verbs:
   - create
   - delete
@@ -18,21 +36,86 @@ rules:
   - update
   - watch
 - apiGroups:
-  - acme.cert-manager.io
+  - ""
   resources:
-  - challenges/finalizers
+  - endpoints/status
+  - secrets/status
+  - services/status
   verbs:
-  - update
-- apiGroups:
-  - acme.cert-manager.io
-  resources:
-  - challenges/status
-  verbs:
+  - get
   - patch
   - update
 - apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - persistentvolumeclaims
+  verbs:
+  - delete
+  - get
+  - list
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - persistentvolumes
+  verbs:
+  - get
+  - list
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  - serviceaccounts/token
+  verbs:
+  - create
+- apiGroups:
+  - acid.zalan.do
+  resources:
+  - operatorconfigurations
+  - postgresqls
+  - postgresqls/status
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - acid.zalan.do
+  resources:
+  - postgresteams
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - acme.cert-manager.io
   resources:
+  - challenges
   - orders
   verbs:
   - create
@@ -46,12 +129,14 @@ rules:
 - apiGroups:
   - acme.cert-manager.io
   resources:
+  - challenges/finalizers
   - orders/finalizers
   verbs:
   - update
 - apiGroups:
   - acme.cert-manager.io
   resources:
+  - challenges/status
   - orders/status
   verbs:
   - patch
@@ -60,17 +145,6 @@ rules:
   - admissionregistration.k8s.io
   resources:
   - mutatingwebhookconfigurations
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - admissionregistration.k8s.io
-  resources:
   - validatingwebhookconfigurations
   verbs:
   - create
@@ -102,8 +176,29 @@ rules:
   - update
   - watch
 - apiGroups:
+  - application.addons.nukleros.io
+  resources:
+  - databasecomponents
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - application.addons.nukleros.io
+  resources:
+  - databasecomponents/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - apps
   resources:
+  - daemonsets
   - deployments
   verbs:
   - create
@@ -114,15 +209,45 @@ rules:
   - update
   - watch
 - apiGroups:
+  - apps
+  resources:
+  - replicasets
+  verbs:
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - statefulsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+- apiGroups:
   - authorization.k8s.io
   resources:
   - subjectaccessreviews
   verbs:
   - create
 - apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+- apiGroups:
   - cert-manager.io
   resources:
   - certificaterequests
+  - certificates
+  - issuers
   verbs:
   - create
   - delete
@@ -136,38 +261,16 @@ rules:
   - cert-manager.io
   resources:
   - certificaterequests/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - cert-manager.io
-  resources:
-  - certificaterequests/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - cert-manager.io
-  resources:
-  - certificates
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - cert-manager.io
-  resources:
   - certificates/finalizers
   verbs:
   - update
 - apiGroups:
   - cert-manager.io
   resources:
+  - certificaterequests/status
   - certificates/status
+  - clusterissuers/status
+  - issuers/status
   verbs:
   - patch
   - update
@@ -183,33 +286,6 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - cert-manager.io
-  resources:
-  - clusterissuers/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - cert-manager.io
-  resources:
-  - issuers
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - cert-manager.io
-  resources:
-  - issuers/status
-  verbs:
-  - patch
-  - update
 - apiGroups:
   - cert-manager.io
   resources:
@@ -239,21 +315,35 @@ rules:
   verbs:
   - sign
 - apiGroups:
-  - certificates.support-services.nukleros.io
+  - cis.f5.com
   resources:
-  - certmanagers
+  - ingresslinks
   verbs:
-  - create
-  - delete
   - get
   - list
-  - patch
-  - update
   - watch
 - apiGroups:
-  - certificates.support-services.nukleros.io
+  - configuration.konghq.com
   resources:
-  - certmanagers/status
+  - kongclusterplugins
+  - kongconsumers
+  - kongingresses
+  - kongplugins
+  - tcpingresses
+  - udpingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongclusterplugins/status
+  - kongconsumers/status
+  - kongingresses/status
+  - kongplugins/status
+  - tcpingresses/status
+  - udpingresses/status
   verbs:
   - get
   - patch
@@ -261,19 +351,9 @@ rules:
 - apiGroups:
   - coordination.k8s.io
   resources:
+  - configmaps
   - leases
   verbs:
-  - '*'
-  - create
-  - get
-  - patch
-  - update
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  verbs:
-  - '*'
   - create
   - delete
   - get
@@ -282,15 +362,15 @@ rules:
   - update
   - watch
 - apiGroups:
-  - ""
+  - discovery.k8s.io
   resources:
-  - endpoints
+  - endpointslices
   verbs:
   - get
   - list
   - watch
 - apiGroups:
-  - ""
+  - events.k8s.io
   resources:
   - events
   verbs:
@@ -299,93 +379,34 @@ rules:
   - patch
   - update
 - apiGroups:
-  - ""
+  - extensions
   resources:
-  - namespaces
+  - daemonsets
+  - deployments
   verbs:
-  - create
-  - delete
   - get
   - list
   - patch
   - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - nodes
-  verbs:
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - serviceaccounts
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - serviceaccounts/token
-  verbs:
-  - create
-- apiGroups:
-  - ""
-  resources:
-  - services
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - enterprise.gloo.solo.io
-  resources:
-  - authconfigs
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
 - apiGroups:
   - extensions
+  - networking.internal.knative.dev
   resources:
   - ingresses
   verbs:
   - get
   - list
   - watch
+- apiGroups:
+  - extensions
+  - networking.internal.knative.dev
+  - networking.k8s.io
+  resources:
+  - ingresses/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - external-secrets.io
   resources:
@@ -400,13 +421,13 @@ rules:
   - external-secrets.io
   resources:
   - clusterexternalsecrets/finalizers
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
   - clusterexternalsecrets/status
+  - clustersecretstores/finalizers
+  - clustersecretstores/status
+  - externalsecrets/finalizers
+  - externalsecrets/status
+  - secretstores/finalizers
+  - secretstores/status
   verbs:
   - patch
   - update
@@ -414,83 +435,7 @@ rules:
   - external-secrets.io
   resources:
   - clustersecretstores
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - clustersecretstores/finalizers
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - clustersecretstores/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
   - externalsecrets
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - externalsecrets/finalizers
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - externalsecrets/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - pushsecrets
-  verbs:
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - pushsecrets/finalizers
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
-  - pushsecrets/status
-  verbs:
-  - patch
-  - update
-- apiGroups:
-  - external-secrets.io
-  resources:
   - secretstores
   verbs:
   - create
@@ -502,18 +447,44 @@ rules:
   - update
   - watch
 - apiGroups:
-  - external-secrets.io
+  - externaldns.nginx.org
   resources:
-  - secretstores/finalizers
+  - dnsendpoints
   verbs:
-  - patch
+  - create
+  - delete
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - externaldns.nginx.org
+  resources:
+  - dnsendpoints/status
+  verbs:
   - update
 - apiGroups:
-  - external-secrets.io
+  - gateway.networking.k8s.io
   resources:
-  - secretstores/status
+  - gatewayclasses
+  - tcproutes
+  - tlsroutes
+  - udproutes
   verbs:
-  - patch
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  - gateways/status
+  - httproutes/status
+  - tcproutes/status
+  - tlsroutes/status
+  - udproutes/status
+  verbs:
+  - get
   - update
 - apiGroups:
   - gateway.networking.k8s.io
@@ -522,11 +493,14 @@ rules:
   verbs:
   - get
   - list
+  - update
   - watch
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
   - gateways/finalizers
+  - httproutes/finalizers
+  - referencepolicies/finalizers
   verbs:
   - update
 - apiGroups:
@@ -543,13 +517,7 @@ rules:
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
-  - httproutes/finalizers
-  verbs:
-  - update
-- apiGroups:
-  - gateway.solo.io
-  resources:
-  - gateways
+  - referencepolicies
   verbs:
   - create
   - delete
@@ -559,239 +527,42 @@ rules:
   - update
   - watch
 - apiGroups:
-  - gateway.solo.io
+  - gateway.networking.k8s.io
   resources:
-  - httpgateways
+  - referencepolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - k8s.nginx.org
+  resources:
+  - dnsendpoints/status
+  - policies/status
+  - transportservers/status
+  - virtualserverroutes/status
+  - virtualservers/status
+  verbs:
+  - update
+- apiGroups:
+  - k8s.nginx.org
+  resources:
+  - globalconfigurations
+  - policies
+  - transportservers
+  - virtualserverroutes
+  - virtualservers
   verbs:
   - get
   - list
-  - patch
   - watch
 - apiGroups:
-  - gateway.solo.io
+  - networking.k8s.io
   resources:
-  - routeoptions
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gateway.solo.io
-  resources:
-  - routetables
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gateway.solo.io
-  resources:
-  - tcpgateways
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gateway.solo.io
-  resources:
-  - virtualhostoptions
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gateway.solo.io
-  resources:
-  - virtualservices
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gateway.support-services.nukleros.io
-  resources:
-  - externaldns
+  - ingressclasses
   verbs:
   - create
   - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - gateway.support-services.nukleros.io
-  resources:
-  - externaldns/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - gateway.support-services.nukleros.io
-  resources:
-  - glooedges
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - gateway.support-services.nukleros.io
-  resources:
-  - glooedges/status
-  verbs:
-  - get
-  - patch
-  - update
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - acraccesstokens
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - ecrauthorizationtokens
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - fakes
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - gcraccesstokens
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - passwords
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - generators.external-secrets.io
-  resources:
-  - vaultdynamicsecrets
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - gloo.solo.io
-  resources:
-  - proxies
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - gloo.solo.io
-  resources:
-  - settings
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - gloo.solo.io
-  resources:
-  - upstreamgroups
-  verbs:
-  - get
-  - list
-  - patch
-  - watch
-- apiGroups:
-  - gloo.solo.io
-  resources:
-  - upstreams
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - graphql.gloo.solo.io
-  resources:
-  - graphqlapis
-  verbs:
-  - create
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - graphql.gloo.solo.io
-  resources:
-  - graphqlapis/status
-  verbs:
-  - create
   - get
   - list
   - patch
@@ -815,9 +586,11 @@ rules:
   verbs:
   - update
 - apiGroups:
-  - orchestration.support-services.nukleros.io
+  - platform.addons.nukleros.io
   resources:
-  - supportservices
+  - certificatescomponents
+  - ingresscomponents
+  - secretscomponents
   verbs:
   - create
   - delete
@@ -827,72 +600,29 @@ rules:
   - update
   - watch
 - apiGroups:
-  - orchestration.support-services.nukleros.io
+  - platform.addons.nukleros.io
   resources:
-  - supportservices/status
+  - certificatescomponents/status
+  - ingresscomponents/status
+  - secretscomponents/status
   verbs:
   - get
   - patch
   - update
 - apiGroups:
-  - ratelimit.solo.io
+  - policy
   resources:
-  - ratelimitconfigs
+  - poddisruptionbudgets
   verbs:
+  - create
+  - delete
   - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - ratelimit.solo.io
-  resources:
-  - ratelimitconfigs/status
-  verbs:
-  - get
-  - list
-  - patch
-  - update
-  - watch
 - apiGroups:
   - rbac.authorization.k8s.io
   resources:
   - clusterrolebindings
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
   - clusterroles
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
   - rolebindings
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
   - roles
   verbs:
   - create
@@ -909,9 +639,9 @@ rules:
   verbs:
   - create
 - apiGroups:
-  - secrets.support-services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
-  - externalsecrets
+  - supportservices
   verbs:
   - create
   - delete
@@ -921,9 +651,9 @@ rules:
   - update
   - watch
 - apiGroups:
-  - secrets.support-services.nukleros.io
+  - setup.addons.nukleros.io
   resources:
-  - externalsecrets/status
+  - supportservices/status
   verbs:
   - get
   - patch

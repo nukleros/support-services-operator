@@ -1,5 +1,5 @@
 /*
-Copyright 2024.
+Copyright 2026.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ func (v *VersionSubCommand) version(cmd *cobra.Command, args []string) error {
 
 // GetParent is a convenience function written when the CLI code is scaffolded
 // to return the parent command and avoid scaffolding code with bad imports.
-func GetParent(c interface{}) *cobra.Command {
+func GetParent(c any) *cobra.Command {
 	switch subcommand := c.(type) {
 	case *VersionSubCommand:
 		return subcommand.Command
@@ -104,7 +104,7 @@ func (v *VersionInfo) Display() error {
 
 	outputStream := os.Stdout
 
-	if _, err := outputStream.WriteString(fmt.Sprintln(string(output))); err != nil {
+	if _, err := fmt.Fprintln(outputStream, string(output)); err != nil {
 		return fmt.Errorf("failed to write to stdout, %s", err)
 	}
 

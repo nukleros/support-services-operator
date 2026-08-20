@@ -34,10 +34,10 @@ operator-clean: preserve
 	rm -rf ../*
 
 operator-init:
-	cd .. && /usr/local/bin/operator-builder $(INIT_OPTS)
+	cd .. && operator-builder $(INIT_OPTS)
 
 operator-create:
-	cd .. && /usr/local/bin/operator-builder $(CREATE_OPTS)
+	cd .. && operator-builder $(CREATE_OPTS)
 
 #
 # project management

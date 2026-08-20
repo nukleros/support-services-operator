@@ -1,93 +1,152 @@
 # Support Services Operator
 
-A Kubernetes operator to manage platform support services.
+A Kubernetes operator to manage cluster support services.
 
-A Kubernetes cluster needs support services for tenant workloads.  The support
-services operator exists to facilitate installation of these components.
+Support services operator has been built with
+[operator-builder](https://github.com/nukleros/operator-builder).  This allows
+us to generate all the source code for the project from a set of Kubernetes yaml
+manifest for the managed Kubernetes resources with commented markers.  The following quickstart walks through the
+process of re-generating the source code and running it to test changes.  See
+the [operator-builder
+docs](https://github.com/nukleros/operator-builder/tree/main/docs) for more
+info.
+
+Make sure you have [operator-builder
+installed](https://github.com/nukleros/operator-builder/blob/main/docs/installation.md)
+before proceeding.
+
+Use [kind](https://kind.sigs.k8s.io/) to spin up a local Kubernetes cluster for
+testing.
 
 ## Quickstart
 
-### Install
+### Generate Source
 
-Install the support services operator:
-
-```bash
-kubectl apply -f config/samples/install
-```
-
-### Create Support Services
-
-Set up the support services collection.  This resource logically associates the
-support services components:
+The manifests that define the managed resources are in the `.codegen` directory.
 
 ```bash
-kubectl apply -f config/samples/setup_v1alpha1_supportservices.yaml
+cd .codegen
 ```
 
-Install the certificates component which consists of cert-manager:
+There is a Makefile that facilitates common operations.  If you have
+operator-builder installed somewhere besides `/usr/local/bin/` set the following
+env var:
 
 ```bash
-kubectl apply -f config/samples/platform_v1alpha1_certificatescomponent.yaml
+export OPERATOR_BUILDER=/path/to/operator-builder
 ```
 
-Install the ingress component which, by default, consists of the kong ingress
-controller and external DNS:
+Remove the existing source code:
 
 ```bash
-kubectl apply -f config/samples/platform_v1alpha1_ingresscomponent.yaml
+make operator-clean
 ```
 
-## Local Development & Testing
+Initialize a new codebase:
 
-To install the custom resource/s for this operator, make sure you have a
-kubeconfig set up for a test cluster, then run:
+```bash
+make operator-init
+```
 
-    make install
+Build the APIs and controller code:
 
-To run the controller locally against a test cluster:
+```bash
+make operator-create
+```
 
-    make run
+Ensure go dependencies are tidied:
 
-You can then test the operator by creating the sample manifest/s:
+```bash
+go mod tidy
+```
 
-    kubectl apply -f config/samples
+### Test Operator
 
-To clean up:
+Install CRDs:
 
-    make uninstall
+```bash
+make install
+```
 
-### Common Changes
+Run the controller for the support services operator locally.  It will use your
+kubeconfig to connect to the Kubernetes API.
 
-Following is a cheat sheet of operations for common changes to the operator:
+```bash
+make run
+```
 
-In `.operator-builder` directory:
+There are sample manifests for each custom resource in the `config/samples`
+directory.  Create all the support services:
 
-1. Make updates to yot overlays for project being changed.
-2. Run `make overlays` and check the output manifests match your expectations.
-3. Run `make operator-clean && make operator-init && make operator-create` to
-   update the operator source code.
-4. Run `make restore` to restore the static assets that were preserved, e.g.
-   README.
+```bash
+kubectl apply -f config/samples
+```
 
-In root directory:
+Check the outcome.  One of the custom resources represents a cert-mangaer
+installation.  You can view the spec:
 
-1. Run `make install` or `make manifests` to generate CRD manifests.  (Check
-   go.sum for changes if missing go.sum entry errors occur.)
-2. Run `make deploy` to update deployment kustomize overlays.
-3. If releasing a new version of support-services-operator, update the image
-   version in `config/install/support-services-operator.yaml`.
-4. If CRD updates were made, run `make crd-static-manifest` to update the static
-   install CRD manifest.
+```bash
+kubectl get certmanager certmanager-sample -o=jsonpath='{.spec}'
+```
 
-In `.operator-builder` directory:
+You can see the pods that were created as a part of the cert-manager
+installation.  Note there are two replicas for each deployment.
 
-1. Run `make preserve` to preserve static assets.
+```bash
+kubectl get po -n nukleros-certs-system
+```
 
-In root directory:
+Update the certmanager resource.  Set `spec.cainjector.replicas` to 1:
 
-1. Add and commit changes
-2. If releasing a new version of support-services-operator, tag the commit.
-3. Push changes.
+```bash
+kubectl edit certmanager certmanager-sample
+```
+
+Check the pods again to ensure there is now just one cainjector pod.
+
+```bash
+kubectl get po -n nukleros-certs-system
+```
+
+### Clean Up
+
+Now let's delete the support services components.  This will remove the various
+support services installations.
+
+```bash
+kubectl delete externaldns externaldns-sample
+kubectl delete externalsecrets externalsecrets-sample
+kubectl delete reloader reloader-sample
+kubectl delete certmanager certmanager-sample
+```
+
+The supportservices resource orchestrates values that need to be shared by
+different components.  You can now delete that as well.
+
+```bash
+kubectl delete supportservices supportservices-sample
+```
+
+You can now stop the controller that you ran with `make run` by hitting Ctrl-C
+in that window.
+
+Finally, remove the CRDs:
+
+```bash
+make uninstall
+```
+
+### Preserve Manually Managed Assets
+
+If you make any changes to files in the codebase, and you want to preserve those
+outside of the code generation lifecycle, add that file to the `preserve` and
+`restore` make targets defined in `.codegen/Makefile`.  When you delete the
+codebase with `make operator-clean` they will automatically be saved.  After
+code is generated you can restore them with:
+
+```
+make restore
+```
 
 ## Deploy the Controller Manager
 
@@ -110,6 +169,10 @@ To clean up:
 
 ## Companion CLI
 
+See the [operator-builder
+docs](https://github.com/nukleros/operator-builder/blob/main/docs/companion-cli.md)
+for more info on the companion CLI.
+
 To build the companion CLI:
 
     make build-cli
@@ -118,3 +181,4 @@ The CLI binary will get saved to the bin directory.  You can see the help
 message with:
 
     ./bin/ssctl help
+
