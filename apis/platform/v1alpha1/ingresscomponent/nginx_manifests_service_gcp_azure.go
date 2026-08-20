@@ -41,11 +41,21 @@ func CreateServiceNamespaceNginxIngressGcpAzure(
 		return []client.Object{}, nil
 	}
 
+	if collection.Spec.Cloud == "aws" {
+		return []client.Object{}, nil
+	}
+
+	if collection.Spec.Cloud == "local" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "v1",
-			"kind":       "Service",
+			// +operator-builder:resource:collectionField=cloud,value="aws",include=false
+			// +operator-builder:resource:collectionField=cloud,value="local",include=false
+			"kind": "Service",
 			"metadata": map[string]interface{}{
 				"name":      "nginx-ingress-gcp-azure",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace

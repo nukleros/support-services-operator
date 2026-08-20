@@ -44,6 +44,8 @@ func CreateDeploymentNamespaceExternalDnsActiveDirectory(
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			// +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
+			// controlled by field: externalDNS.extraArgs
+			//  Extra arguments to pass to the external-dns deployment.
 			"apiVersion": "apps/v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{

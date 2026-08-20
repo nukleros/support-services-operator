@@ -39,10 +39,21 @@ spec:
           spec:
             description: SupportServicesSpec defines the desired state of SupportServices.
             properties:
-              defaultIngressController:
-                default: kong
+              cloud:
+                default: local
                 description: |-
-                  (Default: "kong")
+                  (Default: "local")
+
+                  Cloud that this operator is running on.  One of: local | google | aws.
+                enum:
+                - local
+                - google
+                - aws
+                type: string
+              defaultIngressController:
+                default: nginx
+                description: |-
+                  (Default: "nginx")
 
                   The default ingress for setting TLS certs.  One of: kong | nginx.
                 enum:

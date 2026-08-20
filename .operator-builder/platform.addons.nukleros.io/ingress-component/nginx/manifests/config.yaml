@@ -1,6 +1,6 @@
 ---
-# +operator-builder:resource:field=nginx.include,value=true,include
 kind: ConfigMap
+# +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: v1
 metadata:
   name: nginx-config

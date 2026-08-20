@@ -1,6 +1,8 @@
 ---
 # +operator-builder:resource:field=nginx.include,value=true,include
 apiVersion: v1
+# +operator-builder:resource:collectionField=cloud,value="aws",include=false
+# +operator-builder:resource:collectionField=cloud,value="local",include=false
 kind: Service
 metadata:
   name: nginx-ingress-gcp-azure

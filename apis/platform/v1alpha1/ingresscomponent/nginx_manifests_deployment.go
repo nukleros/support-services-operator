@@ -37,20 +37,20 @@ func CreateDeploymentNamespaceNginxIngress(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.Nginx.InstallType != "deployment" {
+	if parent.Spec.Nginx.Include != true {
 		return []client.Object{}, nil
 	}
 
-	if parent.Spec.Nginx.Include != true {
+	if parent.Spec.Nginx.InstallType != "deployment" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=nginx.installType,value="deployment",include
 			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "apps/v1",
-			"kind":       "Deployment",
+			// +operator-builder:resource:field=nginx.installType,value="deployment",include
+			"kind": "Deployment",
 			"metadata": map[string]interface{}{
 				"name":      "nginx-ingress",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace

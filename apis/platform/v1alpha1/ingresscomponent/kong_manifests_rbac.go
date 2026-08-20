@@ -37,8 +37,13 @@ func CreateServiceAccountNamespaceKongServiceaccount(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "v1",
 			"kind":       "ServiceAccount",
 			"metadata": map[string]interface{}{
@@ -70,8 +75,13 @@ func CreateRoleNamespaceKongLeaderElection(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "Role",
 			"metadata": map[string]interface{}{
@@ -174,8 +184,13 @@ func CreateClusterRoleKongIngress(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "ClusterRole",
 			"metadata": map[string]interface{}{
@@ -755,8 +770,13 @@ func CreateRoleBindingNamespaceKongLeaderElection(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "RoleBinding",
 			"metadata": map[string]interface{}{
@@ -795,8 +815,13 @@ func CreateClusterRoleBindingKongIngress(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "ClusterRoleBinding",
 			"metadata": map[string]interface{}{

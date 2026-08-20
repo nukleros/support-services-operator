@@ -34,7 +34,8 @@ metadata:
   name: supportservices-sample
 spec:
   tier: "development"
-  defaultIngressController: "kong"
+  defaultIngressController: "nginx"
+  cloud: "local"
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields

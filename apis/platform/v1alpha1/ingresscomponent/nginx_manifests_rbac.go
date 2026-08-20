@@ -72,8 +72,8 @@ func CreateClusterRoleNginxIngress(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			"kind": "ClusterRole",
 			// +operator-builder:resource:field=nginx.include,value=true,include
-			"kind":       "ClusterRole",
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"metadata": map[string]interface{}{
 				"name": "nginx-ingress",
@@ -367,8 +367,8 @@ func CreateClusterRoleBindingNginxIngress(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			"kind": "ClusterRoleBinding",
 			// +operator-builder:resource:field=nginx.include,value=true,include
-			"kind":       "ClusterRoleBinding",
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"metadata": map[string]interface{}{
 				"name": "nginx-ingress",

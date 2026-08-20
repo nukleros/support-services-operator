@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright 2026.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ import (
 
 	"github.com/nukleros/operator-builder-tools/pkg/controller/workload"
 
-	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
-	orchestrationv1alpha1 "github.com/nukleros/support-services-operator/apis/orchestration/v1alpha1"
+	platformv1alpha1 "github.com/nukleros/support-services-operator/apis/platform/v1alpha1"
+	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// MutateDeploymentNamespaceExternalDnsRoute53 mutates the Deployment resource with name external-dns-route53.
-func MutateDeploymentNamespaceExternalDnsRoute53(
+// MutateServiceNamespaceNginxIngressNodeport mutates the Service resource with name nginx-ingress-nodeport.
+func MutateServiceNamespaceNginxIngressNodeport(
 	original client.Object,
-	parent *gatewayv1alpha1.ExternalDNS, collection *orchestrationv1alpha1.SupportServices,
+	parent *platformv1alpha1.IngressComponent, collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler, req *workload.Request,
 ) ([]client.Object, error) {
 	// if either the reconciler or request are found to be nil, return the base object.
@@ -36,11 +36,7 @@ func MutateDeploymentNamespaceExternalDnsRoute53(
 		return []client.Object{original}, nil
 	}
 
-	mutatedObject, err := appendExtraArgs(original, parent)
-	if err != nil {
-		return []client.Object{original}, err
-	}
+	// mutation logic goes here
 
-	return []client.Object{mutatedObject}, nil
-
+	return []client.Object{original}, nil
 }

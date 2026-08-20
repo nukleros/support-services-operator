@@ -54,6 +54,7 @@ const (
 	ServiceAccountNamespaceNginxIngress                  = "nginx-ingress"
 	ServiceNamespaceNginxIngressAws                      = "nginx-ingress-aws"
 	ServiceNamespaceNginxIngressGcpAzure                 = "nginx-ingress-gcp-azure"
+	ServiceNamespaceNginxIngressNodeport                 = "nginx-ingress-nodeport"
 	CRDKongclusterpluginsConfigurationKonghqCom          = "kongclusterplugins.configuration.konghq.com"
 	CRDKongconsumersConfigurationKonghqCom               = "kongconsumers.configuration.konghq.com"
 	CRDKongingressesConfigurationKonghqCom               = "kongingresses.configuration.konghq.com"

@@ -1,4 +1,10 @@
 commonOverlays:
+  - name: "add include markers for all kong resources"
+    query: "$"
+    value:
+      # +operator-builder:resource:field=kong.include,value=true,include
+      apiVersion: "%v"
+
   - name: "add namespace markers"
     query:
       - metadata.namespace

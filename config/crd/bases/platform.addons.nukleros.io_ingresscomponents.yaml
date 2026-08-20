@@ -64,6 +64,16 @@ spec:
                 type: string
               externalDNS:
                 properties:
+                  extraArgs:
+                    default:
+                    - '{}'
+                    description: |-
+                      (Default: ["{}"])
+
+                      Extra arguments to pass to the external-dns deployment.
+                    items:
+                      type: string
+                    type: array
                   iamRoleArn:
                     description: On AWS, the IAM Role ARN that gives external-dns
                       access to Route53

@@ -2,9 +2,12 @@
 # +operator-builder:field:name=tier,arbitrary,default="development",type=string,description=`
 # +kubebuilder:validation:Enum=development;staging;production
 # The tier of cluster being used.  One of: development | staging | production.`
-# +operator-builder:field:name=defaultIngressController,arbitrary,default="kong",type=string,description=`
+# +operator-builder:field:name=defaultIngressController,arbitrary,default="nginx",type=string,description=`
 # +kubebuilder:validation:Enum=kong;nginx
 # The default ingress for setting TLS certs.  One of: kong | nginx.`
+# +operator-builder:field:name=cloud,arbitrary,default="local",type=string,description=`
+# +kubebuilder:validation:Enum=local;google;aws
+# Cloud that this operator is running on.  One of: local | google | aws.`
 apiVersion: v1
 kind: Namespace
 metadata:

@@ -56,6 +56,7 @@ spec:
   externalDNS:
     provider: "none"
     zoneType: "private"
+    extraArgs: ["{}"]
     image: "k8s.gcr.io/external-dns/external-dns"
     version: "v0.12.2"
     serviceAccountName: "external-dns"
@@ -177,6 +178,7 @@ var CreateFuncs = []func(
 	CreateServiceAccountNamespaceNginxIngress,
 	CreateServiceNamespaceNginxIngressAws,
 	CreateServiceNamespaceNginxIngressGcpAzure,
+	CreateServiceNamespaceNginxIngressNodeport,
 	CreateCRDKongclusterpluginsConfigurationKonghqCom,
 	CreateCRDKongconsumersConfigurationKonghqCom,
 	CreateCRDKongingressesConfigurationKonghqCom,

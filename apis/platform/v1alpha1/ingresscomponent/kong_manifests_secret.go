@@ -37,8 +37,13 @@ func CreateSecretNamespaceKongServiceaccountToken(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Kong.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=kong.include,value=true,include
 			"apiVersion": "v1",
 			"kind":       "Secret",
 			"metadata": map[string]interface{}{

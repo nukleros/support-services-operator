@@ -4,12 +4,11 @@ import (
 	"fmt"
 
 	"github.com/nukleros/operator-builder-tools/pkg/resources"
-	gatewayv1alpha1 "github.com/nukleros/support-services-operator/apis/gateway/v1alpha1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func appendExtraArgs(original client.Object, parent *gatewayv1alpha1.ExternalDNS) (client.Object, error) {
+func appendExtraArgs(original client.Object, extraArgs []string) (client.Object, error) {
 
 	// convert object to unstructured
 	unstructuredObj, err := resources.ToUnstructured(original)
@@ -45,7 +44,7 @@ func appendExtraArgs(original client.Object, parent *gatewayv1alpha1.ExternalDNS
 	}
 
 	// append extra args
-	for _, arg := range parent.Spec.ExtraArgs {
+	for _, arg := range extraArgs {
 		args = append(args, arg)
 	}
 

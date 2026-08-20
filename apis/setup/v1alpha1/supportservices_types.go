@@ -44,13 +44,21 @@ type SupportServicesSpec struct {
 	// The tier of cluster being used.  One of: development | staging | production.
 	Tier string `json:"tier,omitempty"`
 
-	// +kubebuilder:default="kong"
+	// +kubebuilder:default="nginx"
 	// +kubebuilder:validation:Optional
-	// (Default: "kong")
+	// (Default: "nginx")
 	//
 	// +kubebuilder:validation:Enum=kong;nginx
 	// The default ingress for setting TLS certs.  One of: kong | nginx.
 	DefaultIngressController string `json:"defaultIngressController,omitempty"`
+
+	// +kubebuilder:default="local"
+	// +kubebuilder:validation:Optional
+	// (Default: "local")
+	//
+	// +kubebuilder:validation:Enum=local;google;aws
+	// Cloud that this operator is running on.  One of: local | google | aws.
+	Cloud string `json:"cloud,omitempty"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.

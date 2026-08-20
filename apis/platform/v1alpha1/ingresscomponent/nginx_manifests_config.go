@@ -43,8 +43,8 @@ func CreateConfigMapNamespaceNginxConfig(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			"kind": "ConfigMap",
 			// +operator-builder:resource:field=nginx.include,value=true,include
-			"kind":       "ConfigMap",
 			"apiVersion": "v1",
 			"metadata": map[string]interface{}{
 				"name":      "nginx-config",

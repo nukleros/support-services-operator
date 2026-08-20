@@ -189,6 +189,13 @@ type IngressComponentSpecExternalDNS struct {
 	// Type of DNS hosted zone to manage.
 	ZoneType string `json:"zoneType,omitempty"`
 
+	// +kubebuilder:default={"{}"}
+	// +kubebuilder:validation:Optional
+	// (Default: ["{}"])
+	//
+	// Extra arguments to pass to the external-dns deployment.
+	ExtraArgs []string `json:"extraArgs,omitempty"`
+
 	// +kubebuilder:default="k8s.gcr.io/external-dns/external-dns"
 	// +kubebuilder:validation:Optional
 	// (Default: "k8s.gcr.io/external-dns/external-dns")

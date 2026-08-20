@@ -29,8 +29,8 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
 
-// CreateServiceNamespaceNginxIngressAws creates the Service resource with name nginx-ingress-aws.
-func CreateServiceNamespaceNginxIngressAws(
+// CreateServiceNamespaceNginxIngressNodeport creates the Service resource with name nginx-ingress-nodeport.
+func CreateServiceNamespaceNginxIngressNodeport(
 	parent *platformv1alpha1.IngressComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -41,7 +41,7 @@ func CreateServiceNamespaceNginxIngressAws(
 		return []client.Object{}, nil
 	}
 
-	if collection.Spec.Cloud != "aws" {
+	if collection.Spec.Cloud != "local" {
 		return []client.Object{}, nil
 	}
 
@@ -49,22 +49,18 @@ func CreateServiceNamespaceNginxIngressAws(
 		Object: map[string]interface{}{
 			// +operator-builder:resource:field=nginx.include,value=true,include
 			"apiVersion": "v1",
-			// +operator-builder:resource:collectionField=cloud,value="aws",include
+			// +operator-builder:resource:collectionField=cloud,value="local",include
 			"kind": "Service",
 			"metadata": map[string]interface{}{
-				"name":      "nginx-ingress-aws",
+				"name":      "nginx-ingress-nodeport",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
-				"annotations": map[string]interface{}{
-					"service.beta.kubernetes.io/aws-load-balancer-type":            "nlb",
-					"service.beta.kubernetes.io/aws-load-balancer-nlb-target-type": "ip",
-				},
 				"labels": map[string]interface{}{
 					"platform.nukleros.io/category": "ingress",
 					"platform.nukleros.io/project":  "nginx-ingress-controller",
 				},
 			},
 			"spec": map[string]interface{}{
-				"type": "LoadBalancer",
+				"type": "NodePort",
 				"ports": []interface{}{
 					map[string]interface{}{
 						"port":       80,
@@ -86,5 +82,5 @@ func CreateServiceNamespaceNginxIngressAws(
 		},
 	}
 
-	return mutate.MutateServiceNamespaceNginxIngressAws(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutateServiceNamespaceNginxIngressNodeport(resourceObj, parent, collection, reconciler, req)
 }
