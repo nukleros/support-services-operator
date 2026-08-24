@@ -1,0 +1,8 @@
+## Append samples of your project ##
+resources:
+- setup_v1alpha1_supportservices.yaml
+- application_v1alpha1_databasecomponent.yaml
+- platform_v1alpha1_certificatescomponent.yaml
+- platform_v1alpha1_ingresscomponent.yaml
+- platform_v1alpha1_secretscomponent.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

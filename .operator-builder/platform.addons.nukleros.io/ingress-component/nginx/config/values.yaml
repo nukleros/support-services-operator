@@ -1,4 +1,3 @@
 ---
 defaultImage: nginx/nginx-ingress
-defaultVersion: "2.3.0"
-
+defaultVersion: "5.5.4"

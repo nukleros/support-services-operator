@@ -1,4 +1,5 @@
 ---
+# +operator-builder:resource:field=kong.include,value=true,include
 apiVersion: v1
 kind: Service
 metadata:
@@ -24,6 +25,7 @@ spec:
     app: ingress-kong
   type: LoadBalancer
 ---
+# +operator-builder:resource:field=kong.include,value=true,include
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,5 +1,7 @@
 ---
 # +operator-builder:resource:field=externalDNS.provider,value="active-directory",include
+# +operator-builder:field:name=externalDNS.extraArgs,arbitrary,default="{}",type=stringArray,description=`
+# Extra arguments to pass to the external-dns deployment.`
 apiVersion: apps/v1
 kind: Deployment
 metadata:

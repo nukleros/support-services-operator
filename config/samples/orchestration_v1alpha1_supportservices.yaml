@@ -1,7 +1,0 @@
-apiVersion: orchestration.support-services.nukleros.io/v1alpha1
-kind: SupportServices
-metadata:
-  name: supportservices-sample
-spec:
-  tier: "development"
-  defaultIngressController: "kong"

@@ -2,18 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'Merge pull request #16 from lander2k2/nginx-rbac...'
-      sha: f72048843f3eb0ec0a4c2c6b12ba55f22db4cd6a
+      commitTitle: 'fix: add missing daemonset resource (#27)...'
+      sha: faa211b6912a817859607665014a66ac61a56959
       tags:
-      - v0.1.2
-    path: ./
+      - v0.4.1
+    path: .
   path: platform.addons.nukleros.io/ingress-component/nginx/vendor
-- contents:
-  - git:
-      commitTitle: Release 2.3.1 (#3047)...
-      sha: a8742472b9ddf27433b6b1de49d250aa9a7cb47e
-      tags:
-      - v2.3.1
-    path: ./
-  path: platform.addons.nukleros.io/ingress-component/nginx/vendor-nginx
 kind: LockConfig

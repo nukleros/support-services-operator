@@ -1,5 +1,5 @@
 /*
-Copyright 2024.
+Copyright 2026.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,19 +25,16 @@ import (
 	cmdversion "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version"
 
 	// specific imports for workloads
-	generatecertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/certificates"
-	generategateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/gateway"
-	generateorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/orchestration"
-	generatesecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/secrets"
-	initcertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/certificates"
-	initgateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/gateway"
-	initorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/orchestration"
-	initsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/secrets"
-	versioncertificates "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/certificates"
-	versiongateway "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/gateway"
-	versionorchestration "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/orchestration"
-	versionsecrets "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/secrets"
-	//+kubebuilder:scaffold:operator-builder:subcommands:imports
+	generateapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/application"
+	generateplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/platform"
+	generatesetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/generate/setup"
+	initapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/application"
+	initplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/platform"
+	initsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/init/setup"
+	versionapplication "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/application"
+	versionplatform "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/platform"
+	versionsetup "github.com/nukleros/support-services-operator/cmd/ssctl/commands/version/setup"
+	// +kubebuilder:scaffold:operator-builder:subcommands:imports
 )
 
 // SsctlCommand represents the base command when called without any subcommands.
@@ -71,12 +68,12 @@ func (c *SsctlCommand) newInitSubCommand() {
 	_ = parentCommand
 
 	// add the init subcommands
-	initorchestration.NewSupportServicesSubCommand(parentCommand)
-	initcertificates.NewCertManagerSubCommand(parentCommand)
-	initgateway.NewExternalDNSSubCommand(parentCommand)
-	initsecrets.NewExternalSecretsSubCommand(parentCommand)
-	initgateway.NewGlooEdgeSubCommand(parentCommand)
-	//+kubebuilder:scaffold:operator-builder:subcommands:init
+	initsetup.NewSupportServicesSubCommand(parentCommand)
+	initapplication.NewDatabaseComponentSubCommand(parentCommand)
+	initplatform.NewCertificatesComponentSubCommand(parentCommand)
+	initplatform.NewIngressComponentSubCommand(parentCommand)
+	initplatform.NewSecretsComponentSubCommand(parentCommand)
+	// +kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
 func (c *SsctlCommand) newGenerateSubCommand() {
@@ -84,12 +81,12 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	_ = parentCommand
 
 	// add the generate subcommands
-	generateorchestration.NewSupportServicesSubCommand(parentCommand)
-	generatecertificates.NewCertManagerSubCommand(parentCommand)
-	generategateway.NewExternalDNSSubCommand(parentCommand)
-	generatesecrets.NewExternalSecretsSubCommand(parentCommand)
-	generategateway.NewGlooEdgeSubCommand(parentCommand)
-	//+kubebuilder:scaffold:operator-builder:subcommands:generate
+	generatesetup.NewSupportServicesSubCommand(parentCommand)
+	generateapplication.NewDatabaseComponentSubCommand(parentCommand)
+	generateplatform.NewCertificatesComponentSubCommand(parentCommand)
+	generateplatform.NewIngressComponentSubCommand(parentCommand)
+	generateplatform.NewSecretsComponentSubCommand(parentCommand)
+	// +kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
 func (c *SsctlCommand) newVersionSubCommand() {
@@ -97,12 +94,12 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	_ = parentCommand
 
 	// add the version subcommands
-	versionorchestration.NewSupportServicesSubCommand(parentCommand)
-	versioncertificates.NewCertManagerSubCommand(parentCommand)
-	versiongateway.NewExternalDNSSubCommand(parentCommand)
-	versionsecrets.NewExternalSecretsSubCommand(parentCommand)
-	versiongateway.NewGlooEdgeSubCommand(parentCommand)
-	//+kubebuilder:scaffold:operator-builder:subcommands:version
+	versionsetup.NewSupportServicesSubCommand(parentCommand)
+	versionapplication.NewDatabaseComponentSubCommand(parentCommand)
+	versionplatform.NewCertificatesComponentSubCommand(parentCommand)
+	versionplatform.NewIngressComponentSubCommand(parentCommand)
+	versionplatform.NewSecretsComponentSubCommand(parentCommand)
+	// +kubebuilder:scaffold:operator-builder:subcommands:version
 }
 
 // addSubCommands adds any additional subCommands to the root command.
