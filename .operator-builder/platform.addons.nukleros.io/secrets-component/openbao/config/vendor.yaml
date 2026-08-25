@@ -1,0 +1,14 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: platform.addons.nukleros.io/secrets-component/openbao/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nukleros/platform-component-library.git
+          ref: v0.5.0
+        includePaths:
+          - secrets/openbao/*
+        newRootPath: secrets/openbao

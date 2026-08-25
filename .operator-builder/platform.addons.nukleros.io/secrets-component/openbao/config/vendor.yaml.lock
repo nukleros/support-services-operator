@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: openbao (#28)...'
+      sha: b2c2438a238907f485cc9d7c968ffedaf1473d4f
+      tags:
+      - v0.5.0
+    path: .
+  path: platform.addons.nukleros.io/secrets-component/openbao/vendor
+kind: LockConfig

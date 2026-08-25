@@ -1,0 +1,8 @@
+---
+defaultImage: quay.io/openbao/openbao
+defaultVersion: "2.6.2"
+
+# NOTE: with the agent injector, openbao still seems to rely on vault's
+#       sidecar image.
+defaultAgentInjectorSidecarImage: "docker.io/hashicorp/vault-k8s"
+defaultAgentInjectorSidecarImageVersion: "1.7.2"

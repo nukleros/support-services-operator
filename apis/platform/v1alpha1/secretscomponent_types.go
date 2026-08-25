@@ -44,6 +44,9 @@ type SecretsComponentSpec struct {
 	// if not exactly one collection is found.
 	Collection SecretsComponentCollectionSpec `json:"collection"`
 
+	// +kubebuilder:validation:Optional
+	Openbao SecretsComponentSpecOpenbao `json:"openbao,omitempty"`
+
 	// +kubebuilder:default="nukleros-secrets-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-secrets-system")
@@ -68,6 +71,148 @@ type SecretsComponentCollectionSpec struct {
 	// (Default: "") The namespace where the collection exists.  Required only if
 	// the collection is namespace scoped and not cluster scoped.
 	Namespace string `json:"namespace"`
+}
+
+type SecretsComponentSpecOpenbao struct {
+	// +kubebuilder:validation:Optional
+	Injector SecretsComponentSpecOpenbaoInjector `json:"injector,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UnsealKey SecretsComponentSpecOpenbaoUnsealKey `json:"unsealKey,omitempty"`
+
+	// +kubebuilder:default=3
+	// +kubebuilder:validation:Optional
+	// (Default: 3)
+	//
+	// Number of replicas to use for the OpenBao server statefulset.
+	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:default="quay.io/openbao/openbao"
+	// +kubebuilder:validation:Optional
+	// (Default: "quay.io/openbao/openbao")
+	//
+	// Image repo and name to use for OpenBao.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="2.6.2"
+	// +kubebuilder:validation:Optional
+	// (Default: "2.6.2")
+	//
+	// Version of OpenBao to use.
+	Version string `json:"version,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Storage SecretsComponentSpecOpenbaoStorage `json:"storage,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoInjector struct {
+	// +kubebuilder:default=true
+	// +kubebuilder:validation:Optional
+	// (Default: true)
+	//
+	// Include the OpenBao Agent Injector (its mutating webhook, Deployment, and RBAC).
+	// Disable if you only need the OpenBao server itself, without automatic secret
+	// injection into other pods.
+	Include bool `json:"include,omitempty"`
+
+	// +kubebuilder:default=2
+	// +kubebuilder:validation:Optional
+	// (Default: 2)
+	//
+	// Number of replicas to use for the OpenBao Agent Injector deployment.
+	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:default="docker.io/hashicorp/vault-k8s"
+	// +kubebuilder:validation:Optional
+	// (Default: "docker.io/hashicorp/vault-k8s")
+	//
+	// Image repo and name to use for the OpenBao Agent Injector sidecar.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="1.7.2"
+	// +kubebuilder:validation:Optional
+	// (Default: "1.7.2")
+	//
+	// Version of the OpenBao Agent Injector sidecar image to use.
+	ImageVersion string `json:"imageVersion,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoUnsealKey struct {
+	// +kubebuilder:validation:Optional
+	Secret SecretsComponentSpecOpenbaoUnsealKeySecret `json:"secret,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoUnsealKeySecret struct {
+	// +kubebuilder:default="managed"
+	// +kubebuilder:validation:Optional
+	// (Default: "managed")
+	//
+	// Type of secret.  One of 'managed' or 'unmanaged'.
+	//
+	// +kubebuilder:validation:Enum=managed;unmanaged
+	Type string `json:"type,omitempty"`
+
+	// +kubebuilder:default=""
+	// +kubebuilder:validation:Optional
+	// (Default: "")
+	//
+	// Namespace of the secret which contains the unseal key at
+	// openbao.unsealKey.secret.name.
+	//
+	// Only relevant when openbao.unsealKey.secret.type is not managed.
+	Namespace string `json:"namespace,omitempty"`
+
+	// +kubebuilder:default="openbao-unseal-key"
+	// +kubebuilder:validation:Optional
+	// (Default: "openbao-unseal-key")
+	//
+	// Name of the secret which contains the unseal key.  The secret must contain the
+	// key 'unseal-key.key'.
+	//
+	// Only relevant when openbao.unsealKey.secret.type is not managed.
+	Name string `json:"name,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoStorage struct {
+	// +kubebuilder:validation:Optional
+	Data SecretsComponentSpecOpenbaoStorageData `json:"data,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Audit SecretsComponentSpecOpenbaoStorageAudit `json:"audit,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoStorageData struct {
+	// +kubebuilder:default="10Gi"
+	// +kubebuilder:validation:Optional
+	// (Default: "10Gi")
+	//
+	// Size of the PVC used for OpenBao's raft data storage.
+	Size string `json:"size,omitempty"`
+
+	// +kubebuilder:default=""
+	// +kubebuilder:validation:Optional
+	// (Default: "")
+	//
+	// StorageClass to use for OpenBao's raft data volume.  Leave empty to use the
+	// cluster's default StorageClass.
+	Class string `json:"class,omitempty"`
+}
+
+type SecretsComponentSpecOpenbaoStorageAudit struct {
+	// +kubebuilder:default="10Gi"
+	// +kubebuilder:validation:Optional
+	// (Default: "10Gi")
+	//
+	// Size of the PVC used for OpenBao's audit log storage.
+	Size string `json:"size,omitempty"`
+
+	// +kubebuilder:default=""
+	// +kubebuilder:validation:Optional
+	// (Default: "")
+	//
+	// StorageClass to use for OpenBao's audit log volume.  Leave empty to use the
+	// cluster's default StorageClass.
+	Class string `json:"class,omitempty"`
 }
 
 type SecretsComponentSpecExternalSecrets struct {

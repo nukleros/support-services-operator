@@ -13,11 +13,25 @@ spec:
   dependencies: []
   resources:
     - namespace.yaml
+
+    # external-secrets
     - external-secrets/manifests/config.yaml
     - external-secrets/manifests/crds.yaml
     - external-secrets/manifests/deployment.yaml
     - external-secrets/manifests/rbac.yaml
     - external-secrets/manifests/service.yaml
     - external-secrets/manifests/webhook.yaml
+
+    # secret reloader
     - reloader/manifests/deployment.yaml
     - reloader/manifests/rbac.yaml
+
+    # openbao
+    - openbao/manifests/config.yaml
+    - openbao/manifests/rbac.yaml
+    - openbao/manifests/networkpolicy.yaml
+    - openbao/manifests/poddisruptionbudget.yaml
+    - openbao/manifests/statefulset.yaml
+    - openbao/manifests/deployment.yaml
+    - openbao/manifests/service.yaml
+    - openbao/manifests/webhook.yaml

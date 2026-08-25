@@ -27,10 +27,10 @@ import (
 	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=policy,resources=poddisruptionbudgets,verbs=get;list;watch;create;update;patch;delete
 
-// CreateNamespaceNamespace creates the Namespace resource with name parent.Spec.Namespace.
-func CreateNamespaceNamespace(
+// CreatePDBNamespaceOpenbao creates the PodDisruptionBudget resource with name openbao.
+func CreatePDBNamespaceOpenbao(
 	parent *platformv1alpha1.SecretsComponent,
 	collection *setupv1alpha1.SupportServices,
 	reconciler workload.Reconciler,
@@ -39,18 +39,30 @@ func CreateNamespaceNamespace(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// controlled by field: openbao.injector.include
-			//  Include the OpenBao Agent Injector (its mutating webhook, Deployment, and RBAC).  Disable if
-			//  you only need the OpenBao server itself, without automatic secret injection into other pods.
-			"apiVersion": "v1",
-			"kind":       "Namespace",
+			"apiVersion": "policy/v1",
+			"kind":       "PodDisruptionBudget",
 			"metadata": map[string]interface{}{
-				// controlled by field: namespace
-				//  Namespace to use for secrets support services.
-				"name": parent.Spec.Namespace,
+				"name":      "openbao",
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+				"labels": map[string]interface{}{
+					"app.kubernetes.io/name":        "openbao",
+					"app.kubernetes.io/instance":    "openbao",
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "openbao",
+				},
+			},
+			"spec": map[string]interface{}{
+				"maxUnavailable": 1,
+				"selector": map[string]interface{}{
+					"matchLabels": map[string]interface{}{
+						"app.kubernetes.io/name":     "openbao",
+						"app.kubernetes.io/instance": "openbao",
+						"component":                  "server",
+					},
+				},
 			},
 		},
 	}
 
-	return mutate.MutateNamespaceNamespace(resourceObj, parent, collection, reconciler, req)
+	return mutate.MutatePDBNamespaceOpenbao(resourceObj, parent, collection, reconciler, req)
 }

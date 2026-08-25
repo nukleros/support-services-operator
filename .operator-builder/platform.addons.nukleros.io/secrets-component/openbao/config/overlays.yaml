@@ -1,0 +1,212 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+yamlFiles:
+  - name: "openbao config"
+    path: "../vendor/config.yaml"
+    outputPath: "manifests/config.yaml"
+
+  - name: "unseal key"
+    path: "../static/secret-unseal-key.yaml"
+    outputPath: "manifests/config.yaml"
+    overlays:
+      - name: "add arbitrary markers for unseal key"
+        query: metadata
+        action: merge
+        value:
+          # +operator-builder:field:name=openbao.unsealKey.secret.type,arbitrary,default="managed",type=string,description=`
+          # Type of secret.  One of 'managed' or 'unmanaged'.
+          #
+          # +kubebuilder:validation:Enum=managed;unmanaged`
+
+          # +operator-builder:field:name=openbao.unsealKey.secret.namespace,arbitrary,default="",type=string,description=`
+          # Namespace of the secret which contains the unseal key at openbao.unsealKey.secret.name.
+          # 
+          # Only relevant when openbao.unsealKey.secret.type is not managed.`
+
+          # +operator-builder:field:name=openbao.unsealKey.secret.name,default="%v",type=string,description=`
+          # Name of the secret which contains the unseal key.  The secret must contain
+          # the key 'unseal-key.key'.
+          # 
+          # Only relevant when openbao.unsealKey.secret.type is not managed.`
+          name: openbao-unseal-key
+
+  - name: "openbao deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add include marker for the agent injector deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+      - name: "add agent injector sidecar image markers"
+        query: "spec.template.spec.containers[?(@.name == 'sidecar-injector')]"
+        value:
+          # +operator-builder:field:name=openbao.injector.image,default={{ .defaultAgentInjectorSidecarImage }},type=string,replace="imageInjector",description=`
+          # Image repo and name to use for the OpenBao Agent Injector sidecar.`
+          # +operator-builder:field:name=openbao.injector.imageVersion,default="{{ .defaultAgentInjectorSidecarImageVersion }}",type=string,replace="imageVersionInjector",description=`
+          # Version of the OpenBao Agent Injector sidecar image to use.`
+          image: imageInjector:imageVersionInjector
+
+      - name: "add agent injector replica count marker"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=openbao.injector.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the OpenBao Agent Injector deployment.`
+            replicas: !!int "%v"
+
+      - name: "use downward api for openbao namespace"
+        query: "spec.template.spec.containers[?(@.name == 'sidecar-injector')].env[?(@.name == 'AGENT_INJECT_VAULT_ADDR')]"
+        action: merge
+        value:
+          value: http://openbao.$(NAMESPACE).svc:8200
+
+      - name: "use downward api for openbao namespace"
+        query: "spec.template.spec.containers[?(@.name == 'sidecar-injector')].env[?(@.name == 'AGENT_INJECT_TLS_AUTO_HOSTS')]"
+        action: merge
+        value:
+          value: openbao-agent-injector-svc,openbao-agent-injector-svc.$(NAMESPACE),openbao-agent-injector-svc.$(NAMESPACE).svc
+
+      - name: "use default image for injection"
+        query: "spec.template.spec.containers[?(@.name == 'sidecar-injector')].env[?(@.name == 'AGENT_INJECT_VAULT_IMAGE')]"
+        action: merge
+        value:
+          # +operator-builder:field:name=openbao.image,default={{ .defaultImage }},type=string,replace="openbaoImage"
+          # +operator-builder:field:name=openbao.version,default="{{ .defaultVersion }}",type=string,replace="openbaoVersion"
+          value: openbaoImage:openbaoVersion
+
+  - name: "openbao networkpolicy"
+    path: "../vendor/networkpolicy.yaml"
+    outputPath: "manifests/networkpolicy.yaml"
+
+  - name: "openbao poddisruptionbudget"
+    path: "../vendor/poddisruptionbudget.yaml"
+    outputPath: "manifests/poddisruptionbudget.yaml"
+
+  - name: "openbao rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+    overlays:
+      - name: "add include marker for the agent injector service account"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "ServiceAccount")]
+              - query: $[?($.metadata.name == "openbao-agent-injector")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+      - name: "add include marker for the agent injector clusterrole"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "ClusterRole")]
+              - query: $[?($.metadata.name == "openbao-agent-injector-clusterrole")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+      - name: "add include marker for the agent injector clusterrolebinding"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "ClusterRoleBinding")]
+              - query: $[?($.metadata.name == "openbao-agent-injector-binding")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+      - name: "add include marker for the agent injector leader-elector role"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "Role")]
+              - query: $[?($.metadata.name == "openbao-agent-injector-leader-elector-role")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+      - name: "add include marker for the agent injector leader-elector rolebinding"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "RoleBinding")]
+              - query: $[?($.metadata.name == "openbao-agent-injector-leader-elector-binding")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
+
+  - name: "openbao service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+
+  - name: "openbao statefulset"
+    path: "../vendor/statefulset.yaml"
+    outputPath: "manifests/statefulset.yaml"
+    overlays:
+      - name: "add openbao server image markers"
+        query: "spec.template.spec.containers[?(@.name == 'openbao')]"
+        value:
+          # +operator-builder:field:name=openbao.image,default={{ .defaultImage }},type=string,replace="openbaoImage",description=`
+          # Image repo and name to use for OpenBao.`
+          # +operator-builder:field:name=openbao.version,default="{{ .defaultVersion }}",type=string,replace="openbaoVersion",description=`
+          # Version of OpenBao to use.`
+          image: openbaoImage:openbaoVersion
+
+      - name: "add openbao server replica count marker"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=openbao.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the OpenBao server statefulset.`
+            replicas: !!int "%v"
+
+      - name: "add openbao data volume size marker"
+        query: "spec.volumeClaimTemplates[?(@.metadata.name == 'data')].spec.resources.requests"
+        value:
+          # +operator-builder:field:name=openbao.storage.data.size,default="%v",type=string,description=`
+          # Size of the PVC used for OpenBao's raft data storage.`
+          storage: "%v"
+
+      - name: "add openbao data volume storage class marker"
+        query: "spec.volumeClaimTemplates[?(@.metadata.name == 'data')].spec"
+        action: merge
+        value:
+          # +operator-builder:field:name=openbao.storage.data.class,default="",type=string,description=`
+          # StorageClass to use for OpenBao's raft data volume.  Leave empty to
+          # use the cluster's default StorageClass.`
+          storageClassName: ""
+
+      - name: "add openbao audit volume size marker"
+        query: "spec.volumeClaimTemplates[?(@.metadata.name == 'audit')].spec.resources.requests"
+        value:
+          # +operator-builder:field:name=openbao.storage.audit.size,default="%v",type=string,description=`
+          # Size of the PVC used for OpenBao's audit log storage.`
+          storage: "%v"
+
+      - name: "add openbao audit volume storage class marker"
+        query: "spec.volumeClaimTemplates[?(@.metadata.name == 'audit')].spec"
+        action: merge
+        value:
+          # +operator-builder:field:name=openbao.storage.audit.class,default="",type=string,description=`
+          # StorageClass to use for OpenBao's audit log volume.  Leave empty to
+          # use the cluster's default StorageClass.`
+          storageClassName: ""
+
+  - name: "openbao webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
+    overlays:
+      - name: "add include marker for the agent injector mutating webhook"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
