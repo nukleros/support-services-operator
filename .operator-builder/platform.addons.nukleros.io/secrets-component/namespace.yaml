@@ -1,8 +1,10 @@
 ---
+# +operator-builder:field:name=openbao.injector.include,arbitrary,default=true,type=bool,description=`
+# Include the OpenBao Agent Injector (its mutating webhook, Deployment, and RBAC).  Disable if 
+# you only need the OpenBao server itself, without automatic secret injection into other pods.`
 apiVersion: v1
 kind: Namespace
 metadata:
   # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string,description=`
   # Namespace to use for secrets support services.`
   name: nukleros-secrets-system
-

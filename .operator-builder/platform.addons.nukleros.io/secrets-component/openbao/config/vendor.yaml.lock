@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'fix: correct wget command which exposes output in cleartext (#30)...'
+      sha: b72ebb923dd5638def9dc439edcab0a5525e7297
+      tags:
+      - v0.5.2
+    path: .
+  path: platform.addons.nukleros.io/secrets-component/openbao/vendor
+kind: LockConfig

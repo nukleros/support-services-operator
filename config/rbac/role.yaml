@@ -200,6 +200,7 @@ rules:
   resources:
   - daemonsets
   - deployments
+  - statefulsets
   verbs:
   - create
   - delete
@@ -214,17 +215,6 @@ rules:
   - replicasets
   verbs:
   - get
-- apiGroups:
-  - apps
-  resources:
-  - statefulsets
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
 - apiGroups:
   - authorization.k8s.io
   resources:
@@ -560,6 +550,7 @@ rules:
   - networking.k8s.io
   resources:
   - ingressclasses
+  - networkpolicies
   verbs:
   - create
   - delete
@@ -617,6 +608,10 @@ rules:
   - create
   - delete
   - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - rbac.authorization.k8s.io
   resources:
