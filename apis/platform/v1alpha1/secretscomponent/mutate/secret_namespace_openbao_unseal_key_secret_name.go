@@ -51,57 +51,101 @@ func MutateSecretNamespaceOpenbaoUnsealKeySecretName(
 		return []client.Object{original}, nil
 	}
 
-	secretSpec := parent.Spec.Openbao.UnsealKey.Secret
-
-	// unmanaged: the secret is expected to already exist somewhere else -
-	// validate it rather than create/own anything.
-	if secretSpec.Type == "unmanaged" {
-		if secretSpec.Name == "" || secretSpec.Namespace == "" {
-			return nil, fmt.Errorf(
-				"openbao.unsealKey.secret.name and openbao.unsealKey.secret.namespace are both required when openbao.unsealKey.secret.type is 'unmanaged'",
-			)
-		}
-
-		existing := &unstructured.Unstructured{}
-		existing.SetAPIVersion("v1")
-		existing.SetKind("Secret")
-
-		if err := reconciler.Get(req.Context, client.ObjectKey{Namespace: secretSpec.Namespace, Name: secretSpec.Name}, existing); err != nil {
-			if apierrors.IsNotFound(err) {
-				return nil, fmt.Errorf("unmanaged secret %s/%s (openbao.unsealKey.secret) was not found", secretSpec.Namespace, secretSpec.Name)
-			}
-
-			return nil, fmt.Errorf("unable to look up unmanaged secret %s/%s: %w", secretSpec.Namespace, secretSpec.Name, err)
-		}
-
-		encodedKey, found, err := unstructured.NestedString(existing.Object, "data", unsealKeyDataKey)
-		if err != nil || !found || encodedKey == "" {
-			return nil, fmt.Errorf(
-				"unmanaged secret %s/%s (openbao.unsealKey.secret) must contain a non-empty '%s' key in its data",
-				secretSpec.Namespace, secretSpec.Name, unsealKeyDataKey,
-			)
-		}
-
-		// best-effort shape check only: OpenBao's static seal also accepts hex
-		// and other encodings, so a mismatch here is a warning, not a failure.
-		if decoded, decodeErr := base64.StdEncoding.DecodeString(encodedKey); decodeErr != nil || len(decoded) != 32 || !unsealKeyShapePattern.MatchString(encodedKey) {
-			req.Log.Info(
-				"unseal-key.key does not look like base64(openssl rand 32); continuing anyway since other valid key encodings exist",
-				"namespace", secretSpec.Namespace, "name", secretSpec.Name,
-			)
-		}
-
-		// nothing for us to manage - the referenced secret already exists and is valid.
-		return []client.Object{}, nil
-	}
-
-	// managed (the default): generate the key once, ourselves, the first time
-	// this secret doesn't already exist with data set.
 	u, ok := original.(*unstructured.Unstructured)
 	if !ok {
 		return nil, fmt.Errorf("expected *unstructured.Unstructured, got %T", original)
 	}
 
+	secretSpec := parent.Spec.Openbao.UnsealKey.Secret
+
+	if secretSpec.Type == "unmanaged" {
+		return mutateUnmanagedSecretNamespaceOpenbaoUnsealKeySecretName(u, secretSpec, reconciler, req)
+	}
+
+	return mutateManagedSecretNamespaceOpenbaoUnsealKeySecretName(u, reconciler, req)
+}
+
+// mutateUnmanagedSecretNamespaceOpenbaoUnsealKeySecretName validates that the
+// externally-provided secret referenced by openbao.unsealKey.secret exists and
+// is well-formed, mirroring it into the parent namespace if it lives elsewhere.
+func mutateUnmanagedSecretNamespaceOpenbaoUnsealKeySecretName(
+	u *unstructured.Unstructured,
+	secretSpec platformv1alpha1.SecretsComponentSpecOpenbaoUnsealKeySecret,
+	reconciler workload.Reconciler, req *workload.Request,
+) ([]client.Object, error) {
+	if secretSpec.Name == "" || secretSpec.Namespace == "" {
+		return nil, fmt.Errorf(
+			"openbao.unsealKey.secret.name and openbao.unsealKey.secret.namespace are both required when openbao.unsealKey.secret.type is 'unmanaged'",
+		)
+	}
+
+	existing := &unstructured.Unstructured{}
+	existing.SetAPIVersion("v1")
+	existing.SetKind("Secret")
+
+	if err := reconciler.Get(req.Context, client.ObjectKey{Namespace: secretSpec.Namespace, Name: secretSpec.Name}, existing); err != nil {
+		if apierrors.IsNotFound(err) {
+			return nil, fmt.Errorf("unmanaged secret %s/%s (openbao.unsealKey.secret) was not found", secretSpec.Namespace, secretSpec.Name)
+		}
+
+		return nil, fmt.Errorf("unable to look up unmanaged secret %s/%s: %w", secretSpec.Namespace, secretSpec.Name, err)
+	}
+
+	encodedKey, found, err := unstructured.NestedString(existing.Object, "data", unsealKeyDataKey)
+	if err != nil || !found || encodedKey == "" {
+		return nil, fmt.Errorf(
+			"unmanaged secret %s/%s (openbao.unsealKey.secret) must contain a non-empty '%s' key in its data",
+			secretSpec.Namespace, secretSpec.Name, unsealKeyDataKey,
+		)
+	}
+
+	// best-effort shape check only: OpenBao's static seal also accepts hex
+	// and other encodings, so a mismatch here is a warning, not a failure.
+	if decoded, decodeErr := base64.StdEncoding.DecodeString(encodedKey); decodeErr != nil || len(decoded) != 32 || !unsealKeyShapePattern.MatchString(encodedKey) {
+		req.Log.Info(
+			"unseal-key.key does not look like base64(openssl rand 32); continuing anyway since other valid key encodings exist",
+			"namespace", secretSpec.Namespace, "name", secretSpec.Name,
+		)
+	}
+
+	// The pod mounts this key from a secret in its own namespace (it can't
+	// mount across namespaces at all), so if the unmanaged secret lives
+	// elsewhere, mirror its data into a copy here rather than leaving the
+	// volume mount unable to find anything.
+	//
+	// NOTE: the copy is named after "original" (parent.Spec.Openbao.UnsealKey.
+	// Secret.Name), but the StatefulSet's volume mount currently hardcodes
+	// the literal name "openbao-unseal-key" rather than reading that field -
+	// so this only lines up end-to-end when Secret.Name is left at its
+	// "openbao-unseal-key" default. Say the word if you also want the volume
+	// mount wired to that field dynamically.
+	if secretSpec.Namespace != u.GetNamespace() {
+		copySecret := &unstructured.Unstructured{}
+		copySecret.SetAPIVersion("v1")
+		copySecret.SetKind("Secret")
+		copySecret.SetName(u.GetName())
+		copySecret.SetNamespace(u.GetNamespace())
+		copySecret.Object["type"] = "Opaque"
+
+		if err := unstructured.SetNestedField(copySecret.Object, encodedKey, "data", unsealKeyDataKey); err != nil {
+			return nil, fmt.Errorf("unable to set data on copied unseal key secret %s/%s: %w", copySecret.GetNamespace(), copySecret.GetName(), err)
+		}
+
+		return []client.Object{copySecret}, nil
+	}
+
+	// nothing for us to manage - the referenced secret already exists in the
+	// correct namespace and is valid.
+	return []client.Object{}, nil
+}
+
+// mutateManagedSecretNamespaceOpenbaoUnsealKeySecretName generates the unseal
+// key once, ourselves, the first time this secret doesn't already exist with
+// data set.
+func mutateManagedSecretNamespaceOpenbaoUnsealKeySecretName(
+	u *unstructured.Unstructured,
+	reconciler workload.Reconciler, req *workload.Request,
+) ([]client.Object, error) {
 	existing := &unstructured.Unstructured{}
 	existing.SetAPIVersion("v1")
 	existing.SetKind("Secret")

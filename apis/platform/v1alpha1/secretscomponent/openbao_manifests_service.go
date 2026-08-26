@@ -37,8 +37,13 @@ func CreateServiceNamespaceOpenbaoAgentInjectorSvc(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Openbao.Injector.Include != true {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=openbao.injector.include,value=true,include
 			"apiVersion": "v1",
 			"kind":       "Service",
 			"metadata": map[string]interface{}{

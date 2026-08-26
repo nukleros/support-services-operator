@@ -9,6 +9,16 @@ yamlFiles:
   - name: "openbao config"
     path: "../vendor/config.yaml"
     outputPath: "manifests/config.yaml"
+    overlays:
+      - name: "add include marker for the agent injector certs secret"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "Secret")]
+              - query: $[?($.metadata.name == "openbao-injector-certs")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
 
   - name: "unseal key"
     path: "../static/secret-unseal-key.yaml"
@@ -147,6 +157,16 @@ yamlFiles:
   - name: "openbao service"
     path: "../vendor/service.yaml"
     outputPath: "manifests/service.yaml"
+    overlays:
+      - name: "add include marker for the agent injector service"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "Service")]
+              - query: $[?($.metadata.name == "openbao-agent-injector-svc")]
+        query: "$"
+        value:
+          # +operator-builder:resource:field=openbao.injector.include,value=true,include
+          apiVersion: "%v"
 
   - name: "openbao statefulset"
     path: "../vendor/statefulset.yaml"

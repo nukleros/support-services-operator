@@ -2,10 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'feat: openbao (#28)...'
-      sha: b2c2438a238907f485cc9d7c968ffedaf1473d4f
+      commitTitle: 'fix: remove sensitive output from openbao init process (#29)...'
+      sha: 7d68f9b78d208661686cc80b164ae4ef1f80451c
       tags:
-      - v0.5.0
+      - v0.5.1
     path: .
   path: platform.addons.nukleros.io/secrets-component/openbao/vendor
 kind: LockConfig
