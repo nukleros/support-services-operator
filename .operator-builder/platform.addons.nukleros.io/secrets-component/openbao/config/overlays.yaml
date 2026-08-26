@@ -189,6 +189,12 @@ yamlFiles:
             # Number of replicas to use for the OpenBao server statefulset.`
             replicas: !!int "%v"
 
+      - name: "wire the unseal key volume to the configured secret name"
+        query: "spec.template.spec.volumes[?(@.name == 'userconfig-openbao-unseal-key')].secret"
+        value:
+          # +operator-builder:field:name=openbao.unsealKey.secret.name,default="%v",type=string
+          secretName: openbao-unseal-key
+
       - name: "add openbao data volume size marker"
         query: "spec.volumeClaimTemplates[?(@.metadata.name == 'data')].spec.resources.requests"
         value:

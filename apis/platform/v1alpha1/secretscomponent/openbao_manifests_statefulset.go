@@ -123,7 +123,8 @@ func CreateStatefulSetNamespaceOpenbao(
 							map[string]interface{}{
 								"name": "userconfig-openbao-unseal-key",
 								"secret": map[string]interface{}{
-									"secretName":  "openbao-unseal-key",
+									// controlled by field: openbao.unsealKey.secret.name
+									"secretName":  parent.Spec.Openbao.UnsealKey.Secret.Name,
 									"defaultMode": 256,
 								},
 							},

@@ -29,49 +29,6 @@ import (
 
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
 
-// CreateSecretNamespaceOpenbaoUnsealKeySecretName creates the Secret resource with name parent.Spec.Openbao.UnsealKey.Secret.Name.
-func CreateSecretNamespaceOpenbaoUnsealKeySecretName(
-	parent *platformv1alpha1.SecretsComponent,
-	collection *setupv1alpha1.SupportServices,
-	reconciler workload.Reconciler,
-	req *workload.Request,
-) ([]client.Object, error) {
-
-	var resourceObj = &unstructured.Unstructured{
-		Object: map[string]interface{}{
-			"apiVersion": "v1",
-			"stringData": map[string]interface{}{
-				"unseal-key.key": "",
-			},
-			"kind": "Secret",
-			"metadata": map[string]interface{}{
-				// controlled by field: openbao.unsealKey.secret.type
-
-				// controlled by field: openbao.unsealKey.secret.namespace
-
-				// controlled by field: openbao.unsealKey.secret.name
-				//  Type of secret.  One of 'managed' or 'unmanaged'.
-
-				//  +kubebuilder:validation:Enum=managed;unmanaged
-				//  Namespace of the secret which contains the unseal key at openbao.unsealKey.secret.name.
-				//
-				//  Only relevant when openbao.unsealKey.secret.type is not managed.
-				//  Name of the secret which contains the unseal key.  The secret must contain
-				//  the key 'unseal-key.key'.
-				//
-				//  Only relevant when openbao.unsealKey.secret.type is not managed.
-				"name":      parent.Spec.Openbao.UnsealKey.Secret.Name,
-				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
-			},
-			"type": "Opaque",
-		},
-	}
-
-	return mutate.MutateSecretNamespaceOpenbaoUnsealKeySecretName(resourceObj, parent, collection, reconciler, req)
-}
-
-// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
-
 // CreateSecretNamespaceOpenbaoInjectorCerts creates the Secret resource with name openbao-injector-certs.
 func CreateSecretNamespaceOpenbaoInjectorCerts(
 	parent *platformv1alpha1.SecretsComponent,
@@ -179,4 +136,47 @@ seal "static" {
 	}
 
 	return mutate.MutateConfigMapNamespaceOpenbaoConfig(resourceObj, parent, collection, reconciler, req)
+}
+
+// +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;patch;delete
+
+// CreateSecretNamespaceOpenbaoUnsealKeySecretName creates the Secret resource with name parent.Spec.Openbao.UnsealKey.Secret.Name.
+func CreateSecretNamespaceOpenbaoUnsealKeySecretName(
+	parent *platformv1alpha1.SecretsComponent,
+	collection *setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
+) ([]client.Object, error) {
+
+	var resourceObj = &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "v1",
+			"stringData": map[string]interface{}{
+				"unseal-key.key": "",
+			},
+			"kind": "Secret",
+			"metadata": map[string]interface{}{
+				// controlled by field: openbao.unsealKey.secret.type
+
+				// controlled by field: openbao.unsealKey.secret.namespace
+
+				// controlled by field: openbao.unsealKey.secret.name
+				//  Type of secret.  One of 'managed' or 'unmanaged'.
+
+				//  +kubebuilder:validation:Enum=managed;unmanaged
+				//  Namespace of the secret which contains the unseal key at openbao.unsealKey.secret.name.
+				//
+				//  Only relevant when openbao.unsealKey.secret.type is not managed.
+				//  Name of the secret which contains the unseal key.  The secret must contain
+				//  the key 'unseal-key.key'.
+				//
+				//  Only relevant when openbao.unsealKey.secret.type is not managed.
+				"name":      parent.Spec.Openbao.UnsealKey.Secret.Name,
+				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
+			},
+			"type": "Opaque",
+		},
+	}
+
+	return mutate.MutateSecretNamespaceOpenbaoUnsealKeySecretName(resourceObj, parent, collection, reconciler, req)
 }

@@ -1,28 +1,4 @@
 ---
-apiVersion: v1
-stringData:
-  unseal-key.key: ""
-kind: Secret
-metadata:
-  # +operator-builder:field:name=openbao.unsealKey.secret.type,arbitrary,default="managed",type=string,description=`
-  # Type of secret.  One of 'managed' or 'unmanaged'.
-  #
-  # +kubebuilder:validation:Enum=managed;unmanaged`
-
-  # +operator-builder:field:name=openbao.unsealKey.secret.namespace,arbitrary,default="",type=string,description=`
-  # Namespace of the secret which contains the unseal key at openbao.unsealKey.secret.name.
-  # 
-  # Only relevant when openbao.unsealKey.secret.type is not managed.`
-
-  # +operator-builder:field:name=openbao.unsealKey.secret.name,default="openbao-unseal-key",type=string,description=`
-  # Name of the secret which contains the unseal key.  The secret must contain
-  # the key 'unseal-key.key'.
-  # 
-  # Only relevant when openbao.unsealKey.secret.type is not managed.`
-  name: openbao-unseal-key
-  namespace: nukleros-secrets-system # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
-type: Opaque
----
 # +operator-builder:resource:field=openbao.injector.include,value=true,include
 apiVersion: v1
 kind: Secret
@@ -91,3 +67,27 @@ data:
       current_key_id = "initial"
       current_key    = "file:///openbao/userconfig/openbao-unseal-key/unseal-key.key"
     }
+---
+apiVersion: v1
+stringData:
+  unseal-key.key: ""
+kind: Secret
+metadata:
+  # +operator-builder:field:name=openbao.unsealKey.secret.type,arbitrary,default="managed",type=string,description=`
+  # Type of secret.  One of 'managed' or 'unmanaged'.
+  #
+  # +kubebuilder:validation:Enum=managed;unmanaged`
+
+  # +operator-builder:field:name=openbao.unsealKey.secret.namespace,arbitrary,default="",type=string,description=`
+  # Namespace of the secret which contains the unseal key at openbao.unsealKey.secret.name.
+  # 
+  # Only relevant when openbao.unsealKey.secret.type is not managed.`
+
+  # +operator-builder:field:name=openbao.unsealKey.secret.name,default="openbao-unseal-key",type=string,description=`
+  # Name of the secret which contains the unseal key.  The secret must contain
+  # the key 'unseal-key.key'.
+  # 
+  # Only relevant when openbao.unsealKey.secret.type is not managed.`
+  name: openbao-unseal-key
+  namespace: nukleros-secrets-system # +operator-builder:field:name=namespace,default="nukleros-secrets-system",type=string
+type: Opaque

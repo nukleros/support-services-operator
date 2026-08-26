@@ -61,6 +61,7 @@ spec:
             name: openbao-config
         - name: userconfig-openbao-unseal-key
           secret:
+            # +operator-builder:field:name=openbao.unsealKey.secret.name,default="openbao-unseal-key",type=string
             secretName: openbao-unseal-key
             defaultMode: 256
         - name: home
