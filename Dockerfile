@@ -2,11 +2,18 @@
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
 #
 # NOTE: this expects a pre-built "manager" binary in the build context (see
-# `make build` / the goreleaser `builds` section) rather than compiling it
-# here, since goreleaser's docker pipe builds this image from a context that
-# only contains the release binary, not the full repo source.
+# the "docker-build" target in the Makefile) rather than compiling it here,
+# since release tooling such as goreleaser's docker pipe builds this image
+# from a context that only contains the release binary, not the full repo
+# source.
+#
+# TARGETOS/TARGETARCH are unused by default (goreleaser only ever builds one
+# platform per image) but are declared here so "make docker-buildx" can
+# rewrite the COPY line below to pull in a per-platform binary.
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
+ARG TARGETOS
+ARG TARGETARCH
 COPY manager .
 USER 65532:65532
 
