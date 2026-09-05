@@ -1,28 +1,20 @@
-# Build the manager binary
-FROM golang:1.26.4 AS builder
-
-WORKDIR /workspace
-# Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-RUN go mod download
-
-# Copy the go source
-COPY main.go main.go
-COPY apis/ apis/
-COPY controllers/ controllers/
-COPY internal/ internal/
-
-# Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o manager main.go
-
 # Use distroless as minimal base image to package the manager binary
 # Refer to https://github.com/GoogleContainerTools/distroless for more details
+#
+# NOTE: this expects a pre-built "manager" binary in the build context (see
+# the "docker-build" target in the Makefile) rather than compiling it here,
+# since release tooling such as goreleaser's docker pipe builds this image
+# from a context that only contains the release binary, not the full repo
+# source.
+#
+# TARGETOS/TARGETARCH are unused by default (goreleaser only ever builds one
+# platform per image) but are declared here so "make docker-buildx" can
+# rewrite the COPY line below to pull in a per-platform binary.
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
-COPY --from=builder /workspace/manager .
+ARG TARGETOS
+ARG TARGETARCH
+COPY manager .
 USER 65532:65532
 
 ENTRYPOINT ["/manager"]

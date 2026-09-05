@@ -94,7 +94,8 @@ run: manifests generate fmt vet ## Run a controller from your host.
 # More info: https://docs.docker.com/develop/develop-images/build_enhancements/
 .PHONY: docker-build
 docker-build: test ## Build docker image with the manager.
-	$(CONTAINER_TOOL) build -t $(IMG) .
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o manager main.go
+	set +e; $(CONTAINER_TOOL) build -t $(IMG) . ; status=$$?; rm -f manager; exit $$status
 
 .PHONY: docker-push
 docker-push: ## Push docker image with the manager.
@@ -109,13 +110,23 @@ docker-push: ## Push docker image with the manager.
 PLATFORMS ?= linux/arm64,linux/amd64,linux/s390x,linux/ppc64le
 .PHONY: docker-buildx
 docker-buildx: test ## Build and push docker image for the manager for cross-platform support
-	# copy existing Dockerfile and insert --platform=${BUILDPLATFORM} into Dockerfile.cross, and preserve the original Dockerfile
-	sed -e '1 s/\(^FROM\)/FROM --platform=\$$\{BUILDPLATFORM\}/; t' -e ' 1,// s//FROM --platform=\$$\{BUILDPLATFORM\}/' Dockerfile > Dockerfile.cross
-	- $(CONTAINER_TOOL) buildx create --name support-services-operator-builder
-	$(CONTAINER_TOOL) buildx use support-services-operator-builder
-	- $(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile.cross .
-	- $(CONTAINER_TOOL) buildx rm support-services-operator-builder
-	rm Dockerfile.cross
+	# the whole recipe runs as one shell invocation (note the trailing "\" on every line) so a
+	# single trap can guarantee cleanup of the per-platform binaries and Dockerfile.cross below
+	# on any failure, without masking that failure; a comment on its own line here would break
+	# that chaining, so further explanation stays here rather than inline below
+	#
+	# cross-compile one "manager" binary per platform, then copy the Dockerfile and rewrite its
+	# COPY line so BuildKit pulls in the binary matching whichever platform it is currently building
+	trap 'rm -f Dockerfile.cross manager-*' EXIT; \
+	for platform in $$(echo $(PLATFORMS) | tr ',' ' '); do \
+		os=$${platform%%/*}; rest=$${platform#*/}; arch=$${rest%%/*}; \
+		CGO_ENABLED=0 GOOS=$$os GOARCH=$$arch go build -a -o manager-$$os-$$arch main.go; \
+	done; \
+	sed -e 's/^COPY manager \./COPY manager-\$$\{TARGETOS\}-\$$\{TARGETARCH\} ./' Dockerfile > Dockerfile.cross; \
+	$(CONTAINER_TOOL) buildx create --name support-services-operator-builder || true; \
+	$(CONTAINER_TOOL) buildx use support-services-operator-builder; \
+	$(CONTAINER_TOOL) buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile.cross . ; \
+	$(CONTAINER_TOOL) buildx rm support-services-operator-builder || true
 
 .PHONY: build-installer
 build-installer: manifests generate kustomize ## Generate a consolidated YAML with CRDs and deployment.
