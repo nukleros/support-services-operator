@@ -1,6 +1,6 @@
 module github.com/nukleros/support-services-operator
 
-go 1.26
+go 1.26.4
 
 require (
 	github.com/go-logr/logr v1.4.3
