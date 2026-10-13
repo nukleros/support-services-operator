@@ -44,8 +44,11 @@ func CreateValidatingWebhookSecretstoreValidate(
 			"metadata": map[string]interface{}{
 				"name": "secretstore-validate",
 				"labels": map[string]interface{}{
+					"app.kubernetes.io/name":        "external-secrets-webhook",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     "v2.12.0",
 					"external-secrets.io/component": "webhook",
-					"platform.nukleros.io/group":    "secrets",
+					"platform.nukleros.io/category": "secrets",
 					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
@@ -58,7 +61,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 								"external-secrets.io",
 							},
 							"apiVersions": []interface{}{
-								"v1beta1",
+								"v1",
 							},
 							"operations": []interface{}{
 								"CREATE",
@@ -75,7 +78,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 						"service": map[string]interface{}{
 							"namespace": "nukleros-secrets-system",
 							"name":      "external-secrets-webhook",
-							"path":      "/validate-external-secrets-io-v1beta1-secretstore",
+							"path":      "/validate-external-secrets-io-v1-secretstore",
 						},
 					},
 					"admissionReviewVersions": []interface{}{
@@ -84,6 +87,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 					},
 					"sideEffects":    "None",
 					"timeoutSeconds": 5,
+					"failurePolicy":  "Fail",
 				},
 				map[string]interface{}{
 					"name": "validate.clustersecretstore.external-secrets.io",
@@ -93,7 +97,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 								"external-secrets.io",
 							},
 							"apiVersions": []interface{}{
-								"v1beta1",
+								"v1",
 							},
 							"operations": []interface{}{
 								"CREATE",
@@ -110,7 +114,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 						"service": map[string]interface{}{
 							"namespace": "nukleros-secrets-system",
 							"name":      "external-secrets-webhook",
-							"path":      "/validate-external-secrets-io-v1beta1-clustersecretstore",
+							"path":      "/validate-external-secrets-io-v1-clustersecretstore",
 						},
 					},
 					"admissionReviewVersions": []interface{}{
@@ -119,6 +123,7 @@ func CreateValidatingWebhookSecretstoreValidate(
 					},
 					"sideEffects":    "None",
 					"timeoutSeconds": 5,
+					"failurePolicy":  "Fail",
 				},
 			},
 		},
@@ -144,8 +149,11 @@ func CreateValidatingWebhookExternalsecretValidate(
 			"metadata": map[string]interface{}{
 				"name": "externalsecret-validate",
 				"labels": map[string]interface{}{
+					"app.kubernetes.io/name":        "external-secrets-webhook",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     "v2.12.0",
 					"external-secrets.io/component": "webhook",
-					"platform.nukleros.io/group":    "secrets",
+					"platform.nukleros.io/category": "secrets",
 					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
@@ -158,7 +166,7 @@ func CreateValidatingWebhookExternalsecretValidate(
 								"external-secrets.io",
 							},
 							"apiVersions": []interface{}{
-								"v1beta1",
+								"v1",
 							},
 							"operations": []interface{}{
 								"CREATE",
@@ -175,7 +183,7 @@ func CreateValidatingWebhookExternalsecretValidate(
 						"service": map[string]interface{}{
 							"namespace": "nukleros-secrets-system",
 							"name":      "external-secrets-webhook",
-							"path":      "/validate-external-secrets-io-v1beta1-externalsecret",
+							"path":      "/validate-external-secrets-io-v1-externalsecret",
 						},
 					},
 					"admissionReviewVersions": []interface{}{

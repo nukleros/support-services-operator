@@ -45,11 +45,11 @@ func CreateServiceAccountNamespaceExternalSecretsCertController(
 				"name":      "external-secrets-cert-controller",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-cert-controller",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-cert-controller",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 		},
@@ -76,11 +76,11 @@ func CreateServiceAccountNamespaceExternalSecrets(
 				"name":      "external-secrets",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 		},
@@ -107,11 +107,11 @@ func CreateServiceAccountNamespaceExternalSecretsWebhook(
 				"name":      "external-secrets-webhook",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-webhook",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-webhook",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 		},
@@ -122,10 +122,12 @@ func CreateServiceAccountNamespaceExternalSecretsWebhook(
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=apiextensions.k8s.io,resources=customresourcedefinitions,verbs=get;list;watch;update;patch
-// +kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=validatingwebhookconfigurations,verbs=get;list;watch;update;patch
+// +kubebuilder:rbac:groups=admissionregistration.k8s.io,resources=validatingwebhookconfigurations,verbs=list;watch;get;update;patch
 // +kubebuilder:rbac:groups=core,resources=endpoints,verbs=list;get;watch
+// +kubebuilder:rbac:groups=discovery.k8s.io,resources=endpointslices,verbs=list;get;watch
 // +kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;update;patch
+// +kubebuilder:rbac:groups=coordination.k8s.io,resources=leases,verbs=get;create;update;patch
 
 // CreateClusterRoleExternalSecretsCertController creates the ClusterRole resource with name external-secrets-cert-controller.
 func CreateClusterRoleExternalSecretsCertController(
@@ -142,11 +144,11 @@ func CreateClusterRoleExternalSecretsCertController(
 			"metadata": map[string]interface{}{
 				"name": "external-secrets-cert-controller",
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-cert-controller",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-cert-controller",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"rules": []interface{}{
@@ -161,6 +163,21 @@ func CreateClusterRoleExternalSecretsCertController(
 						"get",
 						"list",
 						"watch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"apiextensions.k8s.io",
+					},
+					"resources": []interface{}{
+						"customresourcedefinitions",
+					},
+					"resourceNames": []interface{}{
+						"externalsecrets.external-secrets.io",
+						"secretstores.external-secrets.io",
+						"clustersecretstores.external-secrets.io",
+					},
+					"verbs": []interface{}{
 						"update",
 						"patch",
 					},
@@ -173,9 +190,23 @@ func CreateClusterRoleExternalSecretsCertController(
 						"validatingwebhookconfigurations",
 					},
 					"verbs": []interface{}{
-						"get",
 						"list",
 						"watch",
+						"get",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"admissionregistration.k8s.io",
+					},
+					"resources": []interface{}{
+						"validatingwebhookconfigurations",
+					},
+					"resourceNames": []interface{}{
+						"secretstore-validate",
+						"externalsecret-validate",
+					},
+					"verbs": []interface{}{
 						"update",
 						"patch",
 					},
@@ -186,6 +217,19 @@ func CreateClusterRoleExternalSecretsCertController(
 					},
 					"resources": []interface{}{
 						"endpoints",
+					},
+					"verbs": []interface{}{
+						"list",
+						"get",
+						"watch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"discovery.k8s.io",
+					},
+					"resources": []interface{}{
+						"endpointslices",
 					},
 					"verbs": []interface{}{
 						"list",
@@ -216,6 +260,33 @@ func CreateClusterRoleExternalSecretsCertController(
 						"get",
 						"list",
 						"watch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"",
+					},
+					"resources": []interface{}{
+						"secrets",
+					},
+					"resourceNames": []interface{}{
+						"external-secrets-webhook",
+					},
+					"verbs": []interface{}{
+						"update",
+						"patch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"coordination.k8s.io",
+					},
+					"resources": []interface{}{
+						"leases",
+					},
+					"verbs": []interface{}{
+						"get",
+						"create",
 						"update",
 						"patch",
 					},
@@ -230,18 +301,43 @@ func CreateClusterRoleExternalSecretsCertController(
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores,verbs=get;list;watch;update;patch
 // +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores,verbs=get;list;watch;update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets,verbs=get;list;watch;update;patch;create
+// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets,verbs=get;list;watch;update;patch;create;delete
 // +kubebuilder:rbac:groups=external-secrets.io,resources=clusterexternalsecrets,verbs=get;list;watch;update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets/status,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets/finalizers,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores/status,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores/finalizers,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores/status,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores/finalizers,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterexternalsecrets/status,verbs=update;patch
-// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterexternalsecrets/finalizers,verbs=update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets,verbs=get;list;watch;update;patch;create;delete
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterpushsecrets,verbs=get;list;watch;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterexternalsecrets/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterexternalsecrets/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterpushsecrets/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterpushsecrets/finalizers,verbs=get;update;patch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=generatorstates,verbs=get;list;watch;create;update;patch;delete;deletecollection
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=acraccesstokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=cloudsmithaccesstokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=clustergenerators,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=ecrauthorizationtokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=fakes,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gcraccesstokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=githubaccesstokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gitlabdeploytokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=quayaccesstokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=passwords,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=sshkeys,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=stssessiontokens,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=uuids,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=vaultdynamicsecrets,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=webhooks,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=grafanas,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=mfas,verbs=get;list;watch
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=beyondtrustworkloadcredentialsdynamicsecrets,verbs=get;list;watch
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts,verbs=get;list;watch
-// +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch
+// +kubebuilder:rbac:groups=core,resources=namespaces,verbs=get;list;watch;update;patch
 // +kubebuilder:rbac:groups=core,resources=configmaps,verbs=get;list;watch
 // +kubebuilder:rbac:groups=core,resources=secrets,verbs=get;list;watch;create;update;delete;patch
 // +kubebuilder:rbac:groups=core,resources=serviceaccounts/token,verbs=create
@@ -262,11 +358,11 @@ func CreateClusterRoleExternalSecretsController(
 			"metadata": map[string]interface{}{
 				"name": "external-secrets-controller",
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"rules": []interface{}{
@@ -279,6 +375,8 @@ func CreateClusterRoleExternalSecretsController(
 						"clustersecretstores",
 						"externalsecrets",
 						"clusterexternalsecrets",
+						"pushsecrets",
+						"clusterpushsecrets",
 					},
 					"verbs": []interface{}{
 						"get",
@@ -303,10 +401,65 @@ func CreateClusterRoleExternalSecretsController(
 						"clusterexternalsecrets",
 						"clusterexternalsecrets/status",
 						"clusterexternalsecrets/finalizers",
+						"pushsecrets",
+						"pushsecrets/status",
+						"pushsecrets/finalizers",
+						"clusterpushsecrets",
+						"clusterpushsecrets/status",
+						"clusterpushsecrets/finalizers",
 					},
 					"verbs": []interface{}{
+						"get",
 						"update",
 						"patch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"generators.external-secrets.io",
+					},
+					"resources": []interface{}{
+						"generatorstates",
+					},
+					"verbs": []interface{}{
+						"get",
+						"list",
+						"watch",
+						"create",
+						"update",
+						"patch",
+						"delete",
+						"deletecollection",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"generators.external-secrets.io",
+					},
+					"resources": []interface{}{
+						"acraccesstokens",
+						"cloudsmithaccesstokens",
+						"clustergenerators",
+						"ecrauthorizationtokens",
+						"fakes",
+						"gcraccesstokens",
+						"githubaccesstokens",
+						"gitlabdeploytokens",
+						"quayaccesstokens",
+						"passwords",
+						"sshkeys",
+						"stssessiontokens",
+						"uuids",
+						"vaultdynamicsecrets",
+						"webhooks",
+						"grafanas",
+						"mfas",
+						"beyondtrustworkloadcredentialsdynamicsecrets",
+					},
+					"verbs": []interface{}{
+						"get",
+						"list",
+						"watch",
 					},
 				},
 				map[string]interface{}{
@@ -321,6 +474,18 @@ func CreateClusterRoleExternalSecretsController(
 						"get",
 						"list",
 						"watch",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"",
+					},
+					"resources": []interface{}{
+						"namespaces",
+					},
+					"verbs": []interface{}{
+						"update",
+						"patch",
 					},
 				},
 				map[string]interface{}{
@@ -386,6 +551,20 @@ func CreateClusterRoleExternalSecretsController(
 					"verbs": []interface{}{
 						"create",
 						"update",
+						"delete",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"external-secrets.io",
+					},
+					"resources": []interface{}{
+						"pushsecrets",
+					},
+					"verbs": []interface{}{
+						"create",
+						"update",
+						"delete",
 					},
 				},
 			},
@@ -399,6 +578,26 @@ func CreateClusterRoleExternalSecretsController(
 // +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets,verbs=get;watch;list
 // +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores,verbs=get;watch;list
 // +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores,verbs=get;watch;list
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets,verbs=get;watch;list
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterpushsecrets,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=acraccesstokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=beyondtrustworkloadcredentialsdynamicsecrets,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=cloudsmithaccesstokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=clustergenerators,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=ecrauthorizationtokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=fakes,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gcraccesstokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=githubaccesstokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gitlabdeploytokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=quayaccesstokens,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=passwords,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=sshkeys,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=vaultdynamicsecrets,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=webhooks,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=grafanas,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=generatorstates,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=mfas,verbs=get;watch;list
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=uuids,verbs=get;watch;list
 
 // CreateClusterRoleExternalSecretsView creates the ClusterRole resource with name external-secrets-view.
 func CreateClusterRoleExternalSecretsView(
@@ -421,7 +620,7 @@ func CreateClusterRoleExternalSecretsView(
 					"rbac.authorization.k8s.io/aggregate-to-view":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-edit":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-admin": "true",
-					"platform.nukleros.io/group":                   "secrets",
+					"platform.nukleros.io/category":                "secrets",
 					"platform.nukleros.io/project":                 "external-secrets",
 				},
 			},
@@ -434,6 +633,38 @@ func CreateClusterRoleExternalSecretsView(
 						"externalsecrets",
 						"secretstores",
 						"clustersecretstores",
+						"pushsecrets",
+						"clusterpushsecrets",
+					},
+					"verbs": []interface{}{
+						"get",
+						"watch",
+						"list",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"generators.external-secrets.io",
+					},
+					"resources": []interface{}{
+						"acraccesstokens",
+						"beyondtrustworkloadcredentialsdynamicsecrets",
+						"cloudsmithaccesstokens",
+						"clustergenerators",
+						"ecrauthorizationtokens",
+						"fakes",
+						"gcraccesstokens",
+						"githubaccesstokens",
+						"gitlabdeploytokens",
+						"quayaccesstokens",
+						"passwords",
+						"sshkeys",
+						"vaultdynamicsecrets",
+						"webhooks",
+						"grafanas",
+						"generatorstates",
+						"mfas",
+						"uuids",
 					},
 					"verbs": []interface{}{
 						"get",
@@ -452,6 +683,26 @@ func CreateClusterRoleExternalSecretsView(
 // +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets,verbs=create;delete;deletecollection;patch;update
 // +kubebuilder:rbac:groups=external-secrets.io,resources=secretstores,verbs=create;delete;deletecollection;patch;update
 // +kubebuilder:rbac:groups=external-secrets.io,resources=clustersecretstores,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=external-secrets.io,resources=clusterpushsecrets,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=acraccesstokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=cloudsmithaccesstokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=clustergenerators,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=ecrauthorizationtokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=fakes,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gcraccesstokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=githubaccesstokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=gitlabdeploytokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=quayaccesstokens,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=passwords,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=sshkeys,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=vaultdynamicsecrets,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=webhooks,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=grafanas,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=generatorstates,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=mfas,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=beyondtrustworkloadcredentialsdynamicsecrets,verbs=create;delete;deletecollection;patch;update
+// +kubebuilder:rbac:groups=generators.external-secrets.io,resources=uuids,verbs=create;delete;deletecollection;patch;update
 
 // CreateClusterRoleExternalSecretsEdit creates the ClusterRole resource with name external-secrets-edit.
 func CreateClusterRoleExternalSecretsEdit(
@@ -473,7 +724,7 @@ func CreateClusterRoleExternalSecretsEdit(
 					"app.kubernetes.io/version":                    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
 					"rbac.authorization.k8s.io/aggregate-to-edit":  "true",
 					"rbac.authorization.k8s.io/aggregate-to-admin": "true",
-					"platform.nukleros.io/group":                   "secrets",
+					"platform.nukleros.io/category":                "secrets",
 					"platform.nukleros.io/project":                 "external-secrets",
 				},
 			},
@@ -486,6 +737,40 @@ func CreateClusterRoleExternalSecretsEdit(
 						"externalsecrets",
 						"secretstores",
 						"clustersecretstores",
+						"pushsecrets",
+						"clusterpushsecrets",
+					},
+					"verbs": []interface{}{
+						"create",
+						"delete",
+						"deletecollection",
+						"patch",
+						"update",
+					},
+				},
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"generators.external-secrets.io",
+					},
+					"resources": []interface{}{
+						"acraccesstokens",
+						"cloudsmithaccesstokens",
+						"clustergenerators",
+						"ecrauthorizationtokens",
+						"fakes",
+						"gcraccesstokens",
+						"githubaccesstokens",
+						"gitlabdeploytokens",
+						"quayaccesstokens",
+						"passwords",
+						"sshkeys",
+						"vaultdynamicsecrets",
+						"webhooks",
+						"grafanas",
+						"generatorstates",
+						"mfas",
+						"beyondtrustworkloadcredentialsdynamicsecrets",
+						"uuids",
 					},
 					"verbs": []interface{}{
 						"create",
@@ -500,6 +785,55 @@ func CreateClusterRoleExternalSecretsEdit(
 	}
 
 	return mutate.MutateClusterRoleExternalSecretsEdit(resourceObj, parent, collection, reconciler, req)
+}
+
+// +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterroles,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=external-secrets.io,resources=externalsecrets,verbs=get;list;watch
+// +kubebuilder:rbac:groups=external-secrets.io,resources=pushsecrets,verbs=get;list;watch
+
+// CreateClusterRoleExternalSecretsServicebindings creates the ClusterRole resource with name external-secrets-servicebindings.
+func CreateClusterRoleExternalSecretsServicebindings(
+	parent *platformv1alpha1.SecretsComponent,
+	collection *setupv1alpha1.SupportServices,
+	reconciler workload.Reconciler,
+	req *workload.Request,
+) ([]client.Object, error) {
+
+	var resourceObj = &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "rbac.authorization.k8s.io/v1",
+			"kind":       "ClusterRole",
+			"metadata": map[string]interface{}{
+				"name": "external-secrets-servicebindings",
+				"labels": map[string]interface{}{
+					"servicebinding.io/controller":  "true",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
+				},
+			},
+			"rules": []interface{}{
+				map[string]interface{}{
+					"apiGroups": []interface{}{
+						"external-secrets.io",
+					},
+					"resources": []interface{}{
+						"externalsecrets",
+						"pushsecrets",
+					},
+					"verbs": []interface{}{
+						"get",
+						"list",
+						"watch",
+					},
+				},
+			},
+		},
+	}
+
+	return mutate.MutateClusterRoleExternalSecretsServicebindings(resourceObj, parent, collection, reconciler, req)
 }
 
 // +kubebuilder:rbac:groups=rbac.authorization.k8s.io,resources=clusterrolebindings,verbs=get;list;watch;create;update;patch;delete
@@ -519,11 +853,11 @@ func CreateClusterRoleBindingExternalSecretsCertController(
 			"metadata": map[string]interface{}{
 				"name": "external-secrets-cert-controller",
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-cert-controller",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-cert-controller",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -561,11 +895,11 @@ func CreateClusterRoleBindingExternalSecretsController(
 			"metadata": map[string]interface{}{
 				"name": "external-secrets-controller",
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"roleRef": map[string]interface{}{
@@ -606,11 +940,11 @@ func CreateRoleNamespaceExternalSecretsLeaderelection(
 				"name":      "external-secrets-leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"rules": []interface{}{
@@ -680,11 +1014,11 @@ func CreateRoleBindingNamespaceExternalSecretsLeaderelection(
 				"name":      "external-secrets-leaderelection",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
 			"roleRef": map[string]interface{}{
