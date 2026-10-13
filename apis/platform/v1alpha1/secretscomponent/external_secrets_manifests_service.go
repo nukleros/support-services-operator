@@ -49,7 +49,7 @@ func CreateServiceNamespaceExternalSecretsWebhook(
 					"app.kubernetes.io/instance":    "external-secrets",
 					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
 					"external-secrets.io/component": "webhook",
-					"platform.nukleros.io/group":    "secrets",
+					"platform.nukleros.io/category": "secrets",
 					"platform.nukleros.io/project":  "external-secrets",
 				},
 			},
@@ -58,7 +58,7 @@ func CreateServiceNamespaceExternalSecretsWebhook(
 				"ports": []interface{}{
 					map[string]interface{}{
 						"port":       443,
-						"targetPort": 10250,
+						"targetPort": "webhook",
 						"protocol":   "TCP",
 						"name":       "webhook",
 					},

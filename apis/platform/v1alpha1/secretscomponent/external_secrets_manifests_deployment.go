@@ -45,17 +45,25 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 				"name":      "external-secrets-cert-controller",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-cert-controller",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-cert-controller",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
+				},
+				"template": map[string]interface{}{
+					"metadata": map[string]interface{}{
+						"labels": map[string]interface{}{
+							"app.kubernetes.io/version": parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+						},
+					},
 				},
 			},
 			"spec": map[string]interface{}{
 				// controlled by field: externalSecrets.certController.replicas
 				//  Number of replicas to use for the external-secrets cert-controller deployment.
-				"replicas": parent.Spec.ExternalSecrets.CertController.Replicas,
+				"replicas":             parent.Spec.ExternalSecrets.CertController.Replicas,
+				"revisionHistoryLimit": 10,
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
 						"app.kubernetes.io/name":     "external-secrets-cert-controller",
@@ -65,17 +73,34 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets-cert-controller",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets-cert-controller",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"app.kubernetes.io/version":     "v2.12.0",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{
-						"serviceAccountName": "external-secrets-cert-controller",
+						"serviceAccountName":           "external-secrets-cert-controller",
+						"automountServiceAccountToken": true,
+						"hostNetwork":                  false,
 						"containers": []interface{}{
 							map[string]interface{}{
 								"name": "cert-controller",
+								"securityContext": map[string]interface{}{
+									"allowPrivilegeEscalation": false,
+									"readOnlyRootFilesystem":   true,
+									"runAsNonRoot":             true,
+									"runAsUser":                65534,
+									"seccompProfile": map[string]interface{}{
+										"type": "RuntimeDefault",
+									},
+									"capabilities": map[string]interface{}{
+										"drop": []interface{}{
+											"ALL",
+										},
+									},
+								},
 								// controlled by field: externalSecrets.image
 								// controlled by field: externalSecrets.version
 								//  Image repo and name to use for external-secrets.
@@ -89,6 +114,12 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 									"--service-namespace=nukleros-secrets-system",
 									"--secret-name=external-secrets-webhook",
 									"--secret-namespace=nukleros-secrets-system",
+									"--metrics-addr=:8080",
+									"--healthz-addr=:8081",
+									"--loglevel=info",
+									"--zap-time-encoding=epoch",
+									"--enable-partial-cache=true",
+									"--enable-leader-election=true",
 								},
 								"ports": []interface{}{
 									map[string]interface{}{
@@ -96,25 +127,22 @@ func CreateDeploymentNamespaceExternalSecretsCertController(
 										"protocol":      "TCP",
 										"name":          "metrics",
 									},
+									map[string]interface{}{
+										"containerPort": 8081,
+										"protocol":      "TCP",
+										"name":          "ready",
+									},
 								},
 								"readinessProbe": map[string]interface{}{
 									"httpGet": map[string]interface{}{
-										"port": 8081,
+										"port": "ready",
 										"path": "/readyz",
 									},
 									"initialDelaySeconds": 20,
 									"periodSeconds":       5,
-								},
-								"securityContext": map[string]interface{}{
-									"allowPrivilegeEscalation": false,
-									"runAsNonRoot":             true,
-									"readOnlyRootFilesystem":   true,
-									"capabilities": map[string]interface{}{
-										"drop": []interface{}{
-											"ALL",
-										},
-									},
-									"runAsUser": 65534,
+									"timeoutSeconds":      5,
+									"failureThreshold":    3,
+									"successThreshold":    1,
 								},
 								"resources": map[string]interface{}{
 									"requests": map[string]interface{}{
@@ -181,17 +209,25 @@ func CreateDeploymentNamespaceExternalSecrets(
 				"name":      "external-secrets",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
+				},
+				"template": map[string]interface{}{
+					"metadata": map[string]interface{}{
+						"labels": map[string]interface{}{
+							"app.kubernetes.io/version": parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+						},
+					},
 				},
 			},
 			"spec": map[string]interface{}{
 				// controlled by field: externalSecrets.controller.replicas
 				//  Number of replicas to use for the external-secrets controller deployment.
-				"replicas": parent.Spec.ExternalSecrets.Controller.Replicas,
+				"replicas":             parent.Spec.ExternalSecrets.Controller.Replicas,
+				"revisionHistoryLimit": 10,
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
 						"app.kubernetes.io/name":     "external-secrets",
@@ -201,17 +237,34 @@ func CreateDeploymentNamespaceExternalSecrets(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"app.kubernetes.io/version":     "v2.12.0",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{
-						"serviceAccountName": "external-secrets",
+						"serviceAccountName":           "external-secrets",
+						"automountServiceAccountToken": true,
+						"hostNetwork":                  false,
 						"containers": []interface{}{
 							map[string]interface{}{
 								"name": "external-secrets",
+								"securityContext": map[string]interface{}{
+									"allowPrivilegeEscalation": false,
+									"readOnlyRootFilesystem":   true,
+									"runAsNonRoot":             true,
+									"runAsUser":                65534,
+									"seccompProfile": map[string]interface{}{
+										"type": "RuntimeDefault",
+									},
+									"capabilities": map[string]interface{}{
+										"drop": []interface{}{
+											"ALL",
+										},
+									},
+								},
 								// controlled by field: externalSecrets.image
 								// controlled by field: externalSecrets.version
 								//  Image repo and name to use for external-secrets.
@@ -219,7 +272,11 @@ func CreateDeploymentNamespaceExternalSecrets(
 								"image":           "" + parent.Spec.ExternalSecrets.Image + ":" + parent.Spec.ExternalSecrets.Version + "",
 								"imagePullPolicy": "IfNotPresent",
 								"args": []interface{}{
+									"--enable-leader-election=true",
 									"--concurrent=2",
+									"--metrics-addr=:8080",
+									"--loglevel=info",
+									"--zap-time-encoding=epoch",
 								},
 								"ports": []interface{}{
 									map[string]interface{}{
@@ -228,29 +285,19 @@ func CreateDeploymentNamespaceExternalSecrets(
 										"name":          "metrics",
 									},
 								},
-								"securityContext": map[string]interface{}{
-									"allowPrivilegeEscalation": false,
-									"runAsNonRoot":             true,
-									"readOnlyRootFilesystem":   true,
-									"capabilities": map[string]interface{}{
-										"drop": []interface{}{
-											"ALL",
-										},
-									},
-									"runAsUser": 65534,
-								},
 								"resources": map[string]interface{}{
 									"requests": map[string]interface{}{
 										"cpu":    "50m",
-										"memory": "32Mi",
+										"memory": "128Mi",
 									},
 									"limits": map[string]interface{}{
 										"cpu":    "100m",
-										"memory": "64Mi",
+										"memory": "256Mi",
 									},
 								},
 							},
 						},
+						"dnsPolicy": "ClusterFirst",
 						"affinity": map[string]interface{}{
 							"podAntiAffinity": map[string]interface{}{
 								"preferredDuringSchedulingIgnoredDuringExecution": []interface{}{
@@ -304,17 +351,25 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 				"name":      "external-secrets-webhook",
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 				"labels": map[string]interface{}{
-					"app.kubernetes.io/name":       "external-secrets-webhook",
-					"app.kubernetes.io/instance":   "external-secrets",
-					"app.kubernetes.io/version":    parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
-					"platform.nukleros.io/group":   "secrets",
-					"platform.nukleros.io/project": "external-secrets",
+					"app.kubernetes.io/name":        "external-secrets-webhook",
+					"app.kubernetes.io/instance":    "external-secrets",
+					"app.kubernetes.io/version":     parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+					"platform.nukleros.io/category": "secrets",
+					"platform.nukleros.io/project":  "external-secrets",
+				},
+				"template": map[string]interface{}{
+					"metadata": map[string]interface{}{
+						"labels": map[string]interface{}{
+							"app.kubernetes.io/version": parent.Spec.ExternalSecrets.Version, //  controlled by field: externalSecrets.version
+						},
+					},
 				},
 			},
 			"spec": map[string]interface{}{
 				// controlled by field: externalSecrets.webhook.replicas
 				//  Number of replicas to use for the external-secrets webhook deployment.
-				"replicas": parent.Spec.ExternalSecrets.Webhook.Replicas,
+				"replicas":             parent.Spec.ExternalSecrets.Webhook.Replicas,
+				"revisionHistoryLimit": 10,
 				"selector": map[string]interface{}{
 					"matchLabels": map[string]interface{}{
 						"app.kubernetes.io/name":     "external-secrets-webhook",
@@ -324,18 +379,34 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"app.kubernetes.io/name":       "external-secrets-webhook",
-							"app.kubernetes.io/instance":   "external-secrets",
-							"platform.nukleros.io/group":   "secrets",
-							"platform.nukleros.io/project": "external-secrets",
+							"app.kubernetes.io/name":        "external-secrets-webhook",
+							"app.kubernetes.io/instance":    "external-secrets",
+							"app.kubernetes.io/version":     "v2.12.0",
+							"platform.nukleros.io/category": "secrets",
+							"platform.nukleros.io/project":  "external-secrets",
 						},
 					},
 					"spec": map[string]interface{}{
-						"hostNetwork":        false,
-						"serviceAccountName": "external-secrets-webhook",
+						"hostNetwork":                  false,
+						"serviceAccountName":           "external-secrets-webhook",
+						"automountServiceAccountToken": true,
 						"containers": []interface{}{
 							map[string]interface{}{
 								"name": "webhook",
+								"securityContext": map[string]interface{}{
+									"allowPrivilegeEscalation": false,
+									"readOnlyRootFilesystem":   true,
+									"runAsNonRoot":             true,
+									"runAsUser":                65534,
+									"seccompProfile": map[string]interface{}{
+										"type": "RuntimeDefault",
+									},
+									"capabilities": map[string]interface{}{
+										"drop": []interface{}{
+											"ALL",
+										},
+									},
+								},
 								// controlled by field: externalSecrets.image
 								// controlled by field: externalSecrets.version
 								//  Image repo and name to use for external-secrets.
@@ -348,6 +419,10 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 									"--dns-name=external-secrets-webhook.nukleros-secrets-system.svc",
 									"--cert-dir=/tmp/certs",
 									"--check-interval=5m",
+									"--metrics-addr=:8080",
+									"--healthz-addr=:8081",
+									"--loglevel=info",
+									"--zap-time-encoding=epoch",
 								},
 								"ports": []interface{}{
 									map[string]interface{}{
@@ -360,14 +435,22 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 										"protocol":      "TCP",
 										"name":          "webhook",
 									},
+									map[string]interface{}{
+										"containerPort": 8081,
+										"protocol":      "TCP",
+										"name":          "ready",
+									},
 								},
 								"readinessProbe": map[string]interface{}{
 									"httpGet": map[string]interface{}{
-										"port": 8081,
+										"port": "ready",
 										"path": "/readyz",
 									},
 									"initialDelaySeconds": 20,
 									"periodSeconds":       5,
+									"timeoutSeconds":      5,
+									"failureThreshold":    3,
+									"successThreshold":    1,
 								},
 								"volumeMounts": []interface{}{
 									map[string]interface{}{
@@ -375,17 +458,6 @@ func CreateDeploymentNamespaceExternalSecretsWebhook(
 										"mountPath": "/tmp/certs",
 										"readOnly":  true,
 									},
-								},
-								"securityContext": map[string]interface{}{
-									"allowPrivilegeEscalation": false,
-									"runAsNonRoot":             true,
-									"readOnlyRootFilesystem":   true,
-									"capabilities": map[string]interface{}{
-										"drop": []interface{}{
-											"ALL",
-										},
-									},
-									"runAsUser": 65534,
 								},
 								"resources": map[string]interface{}{
 									"requests": map[string]interface{}{

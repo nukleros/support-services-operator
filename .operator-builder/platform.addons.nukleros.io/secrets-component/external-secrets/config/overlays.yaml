@@ -38,6 +38,10 @@ yamlFiles:
         value:
           labels:
             app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
+          template:
+            metadata:
+              labels:
+                app.kubernetes.io/version: v0.5.9  # +operator-builder:field:name=externalSecrets.version,default="{{ .defaultVersion }}",type=string
 
       - name: "add external secrets cert controller replica count marker"
         query: "$[?($.metadata.name == 'external-secrets-cert-controller')]"

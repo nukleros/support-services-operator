@@ -216,9 +216,9 @@ type SecretsComponentSpecOpenbaoStorageAudit struct {
 }
 
 type SecretsComponentSpecExternalSecrets struct {
-	// +kubebuilder:default="v0.5.9"
+	// +kubebuilder:default="v2.12.0"
 	// +kubebuilder:validation:Optional
-	// (Default: "v0.5.9")
+	// (Default: "v2.12.0")
 	//
 	// Version of external-secrets to use.
 	Version string `json:"version,omitempty"`
