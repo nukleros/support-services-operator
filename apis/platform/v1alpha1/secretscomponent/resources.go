@@ -60,7 +60,7 @@ spec:
         class: ""
   namespace: "nukleros-secrets-system"
   externalSecrets:
-    version: "v0.5.9"
+    version: "v2.12.0"
     certController:
       replicas: 1
     image: "ghcr.io/external-secrets/external-secrets"
@@ -152,10 +152,31 @@ var CreateFuncs = []func(
 ) ([]client.Object, error){
 	CreateNamespaceNamespace,
 	CreateSecretNamespaceExternalSecretsWebhook,
+	CreateCRDAcraccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDBeyondtrustworkloadcredentialsdynamicsecretsGeneratorsExternalSecretsIo,
+	CreateCRDCloudsmithaccesstokensGeneratorsExternalSecretsIo,
 	CreateCRDClusterexternalsecretsExternalSecretsIo,
+	CreateCRDClustergeneratorsGeneratorsExternalSecretsIo,
+	CreateCRDClusterpushsecretsExternalSecretsIo,
 	CreateCRDClustersecretstoresExternalSecretsIo,
+	CreateCRDEcrauthorizationtokensGeneratorsExternalSecretsIo,
 	CreateCRDExternalsecretsExternalSecretsIo,
+	CreateCRDFakesGeneratorsExternalSecretsIo,
+	CreateCRDGcraccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDGeneratorstatesGeneratorsExternalSecretsIo,
+	CreateCRDGithubaccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDGitlabdeploytokensGeneratorsExternalSecretsIo,
+	CreateCRDGrafanasGeneratorsExternalSecretsIo,
+	CreateCRDMfasGeneratorsExternalSecretsIo,
+	CreateCRDPasswordsGeneratorsExternalSecretsIo,
+	CreateCRDPushsecretsExternalSecretsIo,
+	CreateCRDQuayaccesstokensGeneratorsExternalSecretsIo,
 	CreateCRDSecretstoresExternalSecretsIo,
+	CreateCRDSshkeysGeneratorsExternalSecretsIo,
+	CreateCRDStssessiontokensGeneratorsExternalSecretsIo,
+	CreateCRDUuidsGeneratorsExternalSecretsIo,
+	CreateCRDVaultdynamicsecretsGeneratorsExternalSecretsIo,
+	CreateCRDWebhooksGeneratorsExternalSecretsIo,
 	CreateDeploymentNamespaceExternalSecretsCertController,
 	CreateDeploymentNamespaceExternalSecrets,
 	CreateDeploymentNamespaceExternalSecretsWebhook,
@@ -166,6 +187,7 @@ var CreateFuncs = []func(
 	CreateClusterRoleExternalSecretsController,
 	CreateClusterRoleExternalSecretsView,
 	CreateClusterRoleExternalSecretsEdit,
+	CreateClusterRoleExternalSecretsServicebindings,
 	CreateClusterRoleBindingExternalSecretsCertController,
 	CreateClusterRoleBindingExternalSecretsController,
 	CreateRoleNamespaceExternalSecretsLeaderelection,
@@ -218,10 +240,31 @@ var InitFuncs = []func(
 	workload.Reconciler,
 	*workload.Request,
 ) ([]client.Object, error){
+	CreateCRDAcraccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDBeyondtrustworkloadcredentialsdynamicsecretsGeneratorsExternalSecretsIo,
+	CreateCRDCloudsmithaccesstokensGeneratorsExternalSecretsIo,
 	CreateCRDClusterexternalsecretsExternalSecretsIo,
+	CreateCRDClustergeneratorsGeneratorsExternalSecretsIo,
+	CreateCRDClusterpushsecretsExternalSecretsIo,
 	CreateCRDClustersecretstoresExternalSecretsIo,
+	CreateCRDEcrauthorizationtokensGeneratorsExternalSecretsIo,
 	CreateCRDExternalsecretsExternalSecretsIo,
+	CreateCRDFakesGeneratorsExternalSecretsIo,
+	CreateCRDGcraccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDGeneratorstatesGeneratorsExternalSecretsIo,
+	CreateCRDGithubaccesstokensGeneratorsExternalSecretsIo,
+	CreateCRDGitlabdeploytokensGeneratorsExternalSecretsIo,
+	CreateCRDGrafanasGeneratorsExternalSecretsIo,
+	CreateCRDMfasGeneratorsExternalSecretsIo,
+	CreateCRDPasswordsGeneratorsExternalSecretsIo,
+	CreateCRDPushsecretsExternalSecretsIo,
+	CreateCRDQuayaccesstokensGeneratorsExternalSecretsIo,
 	CreateCRDSecretstoresExternalSecretsIo,
+	CreateCRDSshkeysGeneratorsExternalSecretsIo,
+	CreateCRDStssessiontokensGeneratorsExternalSecretsIo,
+	CreateCRDUuidsGeneratorsExternalSecretsIo,
+	CreateCRDVaultdynamicsecretsGeneratorsExternalSecretsIo,
+	CreateCRDWebhooksGeneratorsExternalSecretsIo,
 }
 
 func ConvertWorkload(component, collection workload.Workload) (

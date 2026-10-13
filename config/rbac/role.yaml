@@ -412,20 +412,27 @@ rules:
   resources:
   - clusterexternalsecrets/finalizers
   - clusterexternalsecrets/status
+  - clusterpushsecrets/finalizers
+  - clusterpushsecrets/status
   - clustersecretstores/finalizers
   - clustersecretstores/status
   - externalsecrets/finalizers
   - externalsecrets/status
+  - pushsecrets/finalizers
+  - pushsecrets/status
   - secretstores/finalizers
   - secretstores/status
   verbs:
+  - get
   - patch
   - update
 - apiGroups:
   - external-secrets.io
   resources:
+  - clusterpushsecrets
   - clustersecretstores
   - externalsecrets
+  - pushsecrets
   - secretstores
   verbs:
   - create
@@ -524,6 +531,44 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - acraccesstokens
+  - beyondtrustworkloadcredentialsdynamicsecrets
+  - cloudsmithaccesstokens
+  - clustergenerators
+  - ecrauthorizationtokens
+  - fakes
+  - gcraccesstokens
+  - generatorstates
+  - githubaccesstokens
+  - gitlabdeploytokens
+  - grafanas
+  - mfas
+  - passwords
+  - quayaccesstokens
+  - sshkeys
+  - uuids
+  - vaultdynamicsecrets
+  - webhooks
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - generators.external-secrets.io
+  resources:
+  - stssessiontokens
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - k8s.nginx.org
   resources:
