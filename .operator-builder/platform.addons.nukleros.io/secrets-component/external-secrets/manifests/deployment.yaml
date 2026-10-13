@@ -10,6 +10,10 @@ metadata:
     app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
     platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
 spec:
   # +operator-builder:field:name=externalSecrets.certController.replicas,default="1",type=int,description=`
   # Number of replicas to use for the external-secrets cert-controller deployment.`
@@ -111,6 +115,10 @@ metadata:
     app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
     platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
 spec:
   # +operator-builder:field:name=externalSecrets.controller.replicas,default="2",type=int,description=`
   # Number of replicas to use for the external-secrets controller deployment.`
@@ -194,6 +202,10 @@ metadata:
     app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
     platform.nukleros.io/category: secrets
     platform.nukleros.io/project: external-secrets
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/version: v0.5.9 # +operator-builder:field:name=externalSecrets.version,default="v2.12.0",type=string
 spec:
   # +operator-builder:field:name=externalSecrets.webhook.replicas,default="2",type=int,description=`
   # Number of replicas to use for the external-secrets webhook deployment.`
