@@ -68,10 +68,12 @@ type SupportServicesStatus struct {
 
 	// +kubebuilder:validation:Optional
 	Created bool `json:"created"`
+
 	// +kubebuilder:validation:Optional
-	DependenciesSatisfied bool                     `json:"dependenciesSatisfied"`
-	Conditions            []*status.PhaseCondition `json:"conditions,omitempty"`
-	Resources             []*status.ChildResource  `json:"resources,omitempty"`
+	DependenciesSatisfied bool `json:"dependenciesSatisfied"`
+
+	Conditions []*status.PhaseCondition `json:"conditions,omitempty"`
+	Resources  []*status.ChildResource  `json:"resources,omitempty"`
 }
 
 // +kubebuilder:object:root=true
