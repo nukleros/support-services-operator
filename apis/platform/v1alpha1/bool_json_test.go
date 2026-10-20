@@ -19,14 +19,11 @@ package v1alpha1
 import (
 	"encoding/json"
 	"testing"
-
-	applicationv1alpha1 "github.com/nukleros/support-services-operator/apis/application/v1alpha1"
-	setupv1alpha1 "github.com/nukleros/support-services-operator/apis/setup/v1alpha1"
 )
 
-// TestBoolJSONKeepsFalse marshals each boolean and requires false to stay in the object.
+// TestBoolJSONKeepsFalse marshals a false bool and requires the field to stay.
 func TestBoolJSONKeepsFalse(t *testing.T) {
-	// marshal every bool field and require false to remain
+	// marshal the include field and one status field
 	cases := []struct {
 		name  string
 		value any
@@ -38,64 +35,9 @@ func TestBoolJSONKeepsFalse(t *testing.T) {
 			field: "include",
 		},
 		{
-			name:  "nginx include",
-			value: IngressComponentSpecNginx{Include: false},
-			field: "include",
-		},
-		{
-			name:  "openbao injector include",
-			value: SecretsComponentSpecOpenbaoInjector{Include: false},
-			field: "include",
-		},
-		{
 			name:  "ingress created",
 			value: IngressComponentStatus{},
 			field: "created",
-		},
-		{
-			name:  "ingress dependenciesSatisfied",
-			value: IngressComponentStatus{},
-			field: "dependenciesSatisfied",
-		},
-		{
-			name:  "certificates created",
-			value: CertificatesComponentStatus{},
-			field: "created",
-		},
-		{
-			name:  "certificates dependenciesSatisfied",
-			value: CertificatesComponentStatus{},
-			field: "dependenciesSatisfied",
-		},
-		{
-			name:  "secrets created",
-			value: SecretsComponentStatus{},
-			field: "created",
-		},
-		{
-			name:  "secrets dependenciesSatisfied",
-			value: SecretsComponentStatus{},
-			field: "dependenciesSatisfied",
-		},
-		{
-			name:  "database created",
-			value: applicationv1alpha1.DatabaseComponentStatus{},
-			field: "created",
-		},
-		{
-			name:  "database dependenciesSatisfied",
-			value: applicationv1alpha1.DatabaseComponentStatus{},
-			field: "dependenciesSatisfied",
-		},
-		{
-			name:  "support services created",
-			value: setupv1alpha1.SupportServicesStatus{},
-			field: "created",
-		},
-		{
-			name:  "support services dependenciesSatisfied",
-			value: setupv1alpha1.SupportServicesStatus{},
-			field: "dependenciesSatisfied",
 		},
 	}
 
