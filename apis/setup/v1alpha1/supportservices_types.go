@@ -66,8 +66,8 @@ type SupportServicesStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Created               bool                     `json:"created,omitempty"`
-	DependenciesSatisfied bool                     `json:"dependenciesSatisfied,omitempty"`
+	Created               bool                     `json:"created"`
+	DependenciesSatisfied bool                     `json:"dependenciesSatisfied"`
 	Conditions            []*status.PhaseCondition `json:"conditions,omitempty"`
 	Resources             []*status.ChildResource  `json:"resources,omitempty"`
 }

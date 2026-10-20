@@ -113,7 +113,7 @@ type SecretsComponentSpecOpenbaoInjector struct {
 	// Include the OpenBao Agent Injector (its mutating webhook, Deployment, and RBAC).
 	// Disable if you only need the OpenBao server itself, without automatic secret
 	// injection into other pods.
-	Include bool `json:"include,omitempty"`
+	Include bool `json:"include"`
 
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
@@ -295,8 +295,8 @@ type SecretsComponentStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Created               bool                     `json:"created,omitempty"`
-	DependenciesSatisfied bool                     `json:"dependenciesSatisfied,omitempty"`
+	Created               bool                     `json:"created"`
+	DependenciesSatisfied bool                     `json:"dependenciesSatisfied"`
 	Conditions            []*status.PhaseCondition `json:"conditions,omitempty"`
 	Resources             []*status.ChildResource  `json:"resources,omitempty"`
 }
