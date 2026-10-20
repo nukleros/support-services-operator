@@ -229,7 +229,9 @@ type IngressComponentStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Created               bool                     `json:"created"`
+	// +kubebuilder:validation:Optional
+	Created bool `json:"created"`
+	// +kubebuilder:validation:Optional
 	DependenciesSatisfied bool                     `json:"dependenciesSatisfied"`
 	Conditions            []*status.PhaseCondition `json:"conditions,omitempty"`
 	Resources             []*status.ChildResource  `json:"resources,omitempty"`
