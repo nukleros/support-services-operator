@@ -29,7 +29,7 @@ func nginxWorkload(args ...string) *unstructured.Unstructured {
 	}}
 }
 
-// TestSetGlobalConfigurationArg checks an empty name, a set name, and a second name.
+// TestSetGlobalConfigurationArg checks an empty name, a set name, a replaced name, and a dropped arg.
 func TestSetGlobalConfigurationArg(t *testing.T) {
 	// an empty name leaves the existing args
 	empty := nginxWorkload("-nginx-configmaps=$(POD_NAMESPACE)/nginx-config")
@@ -57,6 +57,30 @@ func TestSetGlobalConfigurationArg(t *testing.T) {
 	got = containerArgs(nginxContainer(t, named))
 	if len(got) != 2 || got[1] != "-global-configuration=$(POD_NAMESPACE)/other" {
 		t.Fatalf("second name args: %v", got)
+	}
+
+	// an empty name drops a global configuration arg
+	dropped := nginxWorkload(
+		"-nginx-configmaps=$(POD_NAMESPACE)/nginx-config",
+		"-global-configuration=$(POD_NAMESPACE)/nginx-ingress",
+	)
+	if err := setGlobalConfigurationArg(dropped, ""); err != nil {
+		t.Fatal(err)
+	}
+	if got := containerArgs(nginxContainer(t, dropped)); len(got) != 1 || got[0] != "-nginx-configmaps=$(POD_NAMESPACE)/nginx-config" {
+		t.Fatalf("empty name drops global configuration arg: %v", got)
+	}
+}
+
+// TestSetGlobalConfigurationArgMissingContainers rejects a workload that has no containers.
+func TestSetGlobalConfigurationArgMissingContainers(t *testing.T) {
+	// build a workload with no containers
+	workload := &unstructured.Unstructured{Object: map[string]interface{}{}}
+
+	// reject the missing containers
+	err := setGlobalConfigurationArg(workload, "nginx-ingress")
+	if err == nil || err.Error() != "failed to find containers in unstructured object" {
+		t.Fatalf("missing containers: %v", err)
 	}
 }
 

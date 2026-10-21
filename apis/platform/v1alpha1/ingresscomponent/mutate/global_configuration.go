@@ -19,15 +19,18 @@ const (
 func setGlobalConfigurationArg(obj client.Object, name string) error {
 	workloadObject, ok := obj.(*unstructured.Unstructured)
 	if !ok {
-		return fmt.Errorf("nginx workload is %T", obj)
+		return fmt.Errorf("nginx workload must be *unstructured.Unstructured, got %T", obj)
 	}
 
 	// read the pod containers
 	containers, found, err := unstructured.NestedSlice(
 		workloadObject.Object, "spec", "template", "spec", "containers",
 	)
-	if err != nil || !found {
-		return fmt.Errorf("nginx workload has no containers: %w", err)
+	if err != nil {
+		return fmt.Errorf("failed to get containers from unstructured object: %w", err)
+	}
+	if !found {
+		return fmt.Errorf("failed to find containers in unstructured object")
 	}
 
 	// set the arg on the nginx container
