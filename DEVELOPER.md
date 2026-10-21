@@ -21,7 +21,7 @@ cd .operator-builder
 
 ## Diagram
 
-![Diagram](./images/pipeline.drawio.svg)
+![Diagram](./.images/pipeline.drawio.svg)
 
 
 ## Add New Project
