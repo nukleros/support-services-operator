@@ -49,7 +49,7 @@ func TestSetGlobalConfigurationArg(t *testing.T) {
 		t.Fatal(err)
 	}
 	got := containerArgs(nginxContainer(t, named))
-	if len(got) != 2 || got[1] != "-global-configuration=$(POD_NAMESPACE)/nginx-ingress" {
+	if len(got) != 2 || got[0] != "-global-configuration=$(POD_NAMESPACE)/nginx-ingress" {
 		t.Fatalf("named args: %v", got)
 	}
 
@@ -58,7 +58,7 @@ func TestSetGlobalConfigurationArg(t *testing.T) {
 		t.Fatal(err)
 	}
 	got = containerArgs(nginxContainer(t, named))
-	if len(got) != 2 || got[1] != "-global-configuration=$(POD_NAMESPACE)/other" {
+	if len(got) != 2 || got[0] != "-global-configuration=$(POD_NAMESPACE)/other" {
 		t.Fatalf("second name args: %v", got)
 	}
 

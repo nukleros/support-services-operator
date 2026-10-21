@@ -12,6 +12,10 @@ const (
 	nginxContainerName            = "nginx-ingress"
 	globalConfigurationArgPrefix  = "-global-configuration="
 	globalConfigurationArgPattern = "-global-configuration=$(POD_NAMESPACE)/%s"
+
+	// globalConfigurationAnnotation records the name on the pod template.
+	// An added container arg alone compares equal, so the update skips the deployment.
+	globalConfigurationAnnotation = "addons.nukleros.io/nginx-global-configuration"
 )
 
 // setGlobalConfigurationArg sets the nginx container's global configuration arg.
@@ -55,10 +59,25 @@ func setGlobalConfigurationArg(obj client.Object, name string) error {
 			}
 			kept = append(kept, arg)
 		}
+		// put the arg first so the equality check sees a changed element
 		if name != "" {
-			kept = append(kept, fmt.Sprintf(globalConfigurationArgPattern, name))
+			kept = append([]interface{}{fmt.Sprintf(globalConfigurationArgPattern, name)}, kept...)
 		}
 		container["args"] = kept
+	}
+
+	// record the name where the update comparison can see it
+	annotations, _, _ := unstructured.NestedStringMap(
+		workloadObject.Object, "spec", "template", "metadata", "annotations",
+	)
+	if annotations == nil {
+		annotations = map[string]string{}
+	}
+	annotations[globalConfigurationAnnotation] = name
+	if err := unstructured.SetNestedStringMap(
+		workloadObject.Object, annotations, "spec", "template", "metadata", "annotations",
+	); err != nil {
+		return fmt.Errorf("failed to set nginx global configuration annotation: %w", err)
 	}
 	return nil
 }
