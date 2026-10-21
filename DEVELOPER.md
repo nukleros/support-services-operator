@@ -64,6 +64,18 @@ Refer to other examples in this project, the [yaml-overlay-tool
 docs](https://docs.yaml-overlay-tool.io/) and the [operator-builder markers
 docs](https://github.com/nukleros/operator-builder/blob/main/docs/markers.md).
 
+Unlike the platform-component-library, these overlays generally add
+operator-builder markers, which make a value configurable on the custom
+resource.  For example, to make the namespace configurable:
+
+```yaml
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+```
+
 ```bash
 make overlay
 ```
