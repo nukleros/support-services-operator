@@ -8,7 +8,7 @@ import (
 
 // nginxWorkload builds an nginx workload whose container args are the ones passed in.
 func nginxWorkload(args ...string) *unstructured.Unstructured {
-	// put the args on the nginx container
+	// put the args and an int port on the nginx container
 	rawArgs := make([]interface{}, len(args))
 	for i, arg := range args {
 		rawArgs[i] = arg
@@ -21,6 +21,9 @@ func nginxWorkload(args ...string) *unstructured.Unstructured {
 						map[string]interface{}{
 							"name": nginxContainerName,
 							"args": rawArgs,
+							"ports": []interface{}{
+								map[string]interface{}{"containerPort": 80},
+							},
 						},
 					},
 				},
@@ -87,9 +90,10 @@ func TestSetGlobalConfigurationArgMissingContainers(t *testing.T) {
 // nginxContainer returns the nginx container from the workload.
 func nginxContainer(t *testing.T, workload *unstructured.Unstructured) map[string]interface{} {
 	t.Helper()
-	// read the single container
-	containers, found, err := unstructured.NestedSlice(workload.Object, "spec", "template", "spec", "containers")
-	if err != nil || !found || len(containers) != 1 {
+	// read the single container in place
+	raw, found, err := unstructured.NestedFieldNoCopy(workload.Object, "spec", "template", "spec", "containers")
+	containers, ok := raw.([]interface{})
+	if err != nil || !found || !ok || len(containers) != 1 {
 		t.Fatalf("containers: found=%v err=%v", found, err)
 	}
 	container, ok := containers[0].(map[string]interface{})

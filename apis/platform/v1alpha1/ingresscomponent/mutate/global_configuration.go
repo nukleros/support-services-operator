@@ -22,8 +22,8 @@ func setGlobalConfigurationArg(obj client.Object, name string) error {
 		return fmt.Errorf("nginx workload must be *unstructured.Unstructured, got %T", obj)
 	}
 
-	// read the pod containers
-	containers, found, err := unstructured.NestedSlice(
+	// read the pod containers in place, since a deep copy panics on int ports
+	rawContainers, found, err := unstructured.NestedFieldNoCopy(
 		workloadObject.Object, "spec", "template", "spec", "containers",
 	)
 	if err != nil {
@@ -32,9 +32,13 @@ func setGlobalConfigurationArg(obj client.Object, name string) error {
 	if !found {
 		return fmt.Errorf("failed to find containers in unstructured object")
 	}
+	containers, ok := rawContainers.([]interface{})
+	if !ok {
+		return fmt.Errorf("nginx containers must be []interface{}, got %T", rawContainers)
+	}
 
 	// set the arg on the nginx container
-	for i, item := range containers {
+	for _, item := range containers {
 		container, ok := item.(map[string]interface{})
 		if !ok {
 			continue
@@ -55,12 +59,6 @@ func setGlobalConfigurationArg(obj client.Object, name string) error {
 			kept = append(kept, fmt.Sprintf(globalConfigurationArgPattern, name))
 		}
 		container["args"] = kept
-		containers[i] = container
-	}
-	if err := unstructured.SetNestedSlice(
-		workloadObject.Object, containers, "spec", "template", "spec", "containers",
-	); err != nil {
-		return fmt.Errorf("failed to set nginx container args: %w", err)
 	}
 	return nil
 }
