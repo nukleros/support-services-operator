@@ -112,6 +112,11 @@ type IngressComponentSpecNginx struct {
 	//
 	// Number of replicas to use for the nginx ingress controller deployment.
 	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	//
+	// Name of the GlobalConfiguration in this component's namespace. An empty name omits the nginx controller arg.
+	GlobalConfigurationName string `json:"globalConfigurationName,omitempty"`
 }
 
 type IngressComponentSpecKong struct {
