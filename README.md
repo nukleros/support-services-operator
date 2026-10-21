@@ -1,6 +1,9 @@
 A Kubernetes operator built with
 [operator-builder](https://github.com/nukleros/operator-builder).
 
+See [DEVELOPER.md](DEVELOPER.md) for adding or upgrading the projects managed
+by this operator.
+
 ## Local Development & Testing
 
 To install the custom resource/s for this operator, make sure you have a
