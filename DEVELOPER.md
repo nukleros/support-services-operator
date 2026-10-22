@@ -53,7 +53,7 @@ platform-component-library) and "vendors" the manifests locally into
 make download
 ```
 
-### Overlay Into Opionated State
+### Overlay Operator Builder Markers
 
 Write your YOT overlay instructions at `$GROUP.$DOMAIN/$KIND/$PROJECT/config/overlays.yaml`
 and any values they reference at `$GROUP.$DOMAIN/$KIND/$PROJECT/config/values.yaml`.
