@@ -7,7 +7,8 @@ The following is for developers and outlines how to:
 3. [Regenerate the Operator](#regenerate-the-operator)
 
 The source manifests for each project in this operator are vendored from the
-[platform-component-library](https://github.com/nukleros/platform-component-library),
+[platform-component-library](https://github.com/nukleros/platform-component-library), 
+and [applicatio-component-library](https://github.com/nukleros/application-component-library) upstreams
 then overlaid with [operator-builder](https://github.com/nukleros/operator-builder)
 markers to produce the manifests used to generate the operator code.
 
