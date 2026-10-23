@@ -2,8 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'fix: add missing namespaces for zalando-postgres...'
-      sha: 5a6fe474ad100072b99ff04c5b258aaa5bf0c6d2
-    path: ./
+      commitTitle: 'feat: add cloudnative-pg component (#1)...'
+      sha: f129ceb9eaf9a0ee6fcf27d3c81665026467d2cb
+      tags:
+      - v0.1.0
+    path: .
   path: application.addons.nukleros.io/database-component/zalando-postgres/vendor
 kind: LockConfig

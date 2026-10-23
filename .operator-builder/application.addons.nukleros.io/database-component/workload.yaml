@@ -13,8 +13,17 @@ spec:
   dependencies: []
   resources:
     - namespace.yaml
+
+    # zalando-postgres
     - zalando-postgres/manifests/config.yaml
     - zalando-postgres/manifests/deployment.yaml
     - zalando-postgres/manifests/rbac.yaml
     - zalando-postgres/manifests/service.yaml
 
+    # cloudnative-pg
+    - cloudnative-pg/manifests/config.yaml
+    - cloudnative-pg/manifests/crds.yaml
+    - cloudnative-pg/manifests/deployment.yaml
+    - cloudnative-pg/manifests/rbac.yaml
+    - cloudnative-pg/manifests/service.yaml
+    - cloudnative-pg/manifests/webhook.yaml

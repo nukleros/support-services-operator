@@ -1,0 +1,18 @@
+---
+# +operator-builder:resource:field=provider,value=cloudnative-pg,include
+apiVersion: v1
+kind: Service
+metadata:
+  name: cnpg-webhook-service
+  namespace: nukleros-database-system # +operator-builder:field:name=namespace,default="nukleros-database-system",type=string
+  labels:
+    application.nukleros.io/category: database
+    application.nukleros.io/project: cloudnative-pg
+    app.kubernetes.io/name: cloudnative-pg
+    app.kubernetes.io/component: database
+spec:
+  ports:
+    - port: 443
+      targetPort: 9443
+  selector:
+    app.kubernetes.io/name: cloudnative-pg

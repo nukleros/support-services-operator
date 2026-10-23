@@ -37,11 +37,16 @@ spec:
   #collection:
     #name: "supportservices-sample"
     #namespace: ""
+  provider: "cloudnative-pg"
   namespace: "nukleros-database-system"
   zalandoPostgres:
     replicas: 1
     image: "registry.opensource.zalan.do/acid/postgres-operator"
     version: "v1.8.2"
+  cloudNativePg:
+    replicas: 2
+    image: "ghcr.io/cloudnative-pg/cloudnative-pg"
+    version: "1.30.1"
 `
 
 // sampleDatabaseComponentRequired is a sample containing only required fields
@@ -128,6 +133,31 @@ var CreateFuncs = []func(
 	CreateClusterRoleBindingPostgresOperator,
 	CreateClusterRolePostgresPod,
 	CreateServiceNamespacePostgresOperator,
+	CreateConfigMapNamespaceCnpgDefaultMonitoring,
+	CreateCRDBackupsPostgresqlCnpgIo,
+	CreateCRDClusterimagecatalogsPostgresqlCnpgIo,
+	CreateCRDClustersPostgresqlCnpgIo,
+	CreateCRDDatabaserolesPostgresqlCnpgIo,
+	CreateCRDDatabasesPostgresqlCnpgIo,
+	CreateCRDFailoverquorumsPostgresqlCnpgIo,
+	CreateCRDImagecatalogsPostgresqlCnpgIo,
+	CreateCRDPoolersPostgresqlCnpgIo,
+	CreateCRDPublicationsPostgresqlCnpgIo,
+	CreateCRDScheduledbackupsPostgresqlCnpgIo,
+	CreateCRDSubscriptionsPostgresqlCnpgIo,
+	CreateDeploymentNamespaceCnpgControllerManager,
+	CreateServiceAccountNamespaceCnpgManager,
+	CreateClusterRoleCnpgDatabaseEditorRole,
+	CreateClusterRoleCnpgDatabaseViewerRole,
+	CreateClusterRoleCnpgManager,
+	CreateClusterRoleCnpgPublicationEditorRole,
+	CreateClusterRoleCnpgPublicationViewerRole,
+	CreateClusterRoleCnpgSubscriptionEditorRole,
+	CreateClusterRoleCnpgSubscriptionViewerRole,
+	CreateClusterRoleBindingCnpgManagerRolebinding,
+	CreateServiceNamespaceCnpgWebhookService,
+	CreateMutatingWebhookCnpgMutatingWebhookConfiguration,
+	CreateValidatingWebhookCnpgValidatingWebhookConfiguration,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -143,7 +173,19 @@ var InitFuncs = []func(
 	*setupv1alpha1.SupportServices,
 	workload.Reconciler,
 	*workload.Request,
-) ([]client.Object, error){}
+) ([]client.Object, error){
+	CreateCRDBackupsPostgresqlCnpgIo,
+	CreateCRDClusterimagecatalogsPostgresqlCnpgIo,
+	CreateCRDClustersPostgresqlCnpgIo,
+	CreateCRDDatabaserolesPostgresqlCnpgIo,
+	CreateCRDDatabasesPostgresqlCnpgIo,
+	CreateCRDFailoverquorumsPostgresqlCnpgIo,
+	CreateCRDImagecatalogsPostgresqlCnpgIo,
+	CreateCRDPoolersPostgresqlCnpgIo,
+	CreateCRDPublicationsPostgresqlCnpgIo,
+	CreateCRDScheduledbackupsPostgresqlCnpgIo,
+	CreateCRDSubscriptionsPostgresqlCnpgIo,
+}
 
 func ConvertWorkload(component, collection workload.Workload) (
 	*applicationv1alpha1.DatabaseComponent,

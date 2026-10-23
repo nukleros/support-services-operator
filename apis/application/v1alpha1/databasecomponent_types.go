@@ -44,6 +44,15 @@ type DatabaseComponentSpec struct {
 	// if not exactly one collection is found.
 	Collection DatabaseComponentCollectionSpec `json:"collection"`
 
+	// +kubebuilder:default="cloudnative-pg"
+	// +kubebuilder:validation:Optional
+	// (Default: "cloudnative-pg")
+	//
+	// +kubebuilder:validation:Enum=zalando;cloudnative-pg
+	// The database provider to use for the support services operator. One of: zalando
+	// | cloudnative-pg.
+	Provider string `json:"provider,omitempty"`
+
 	// +kubebuilder:default="nukleros-database-system"
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-database-system")
@@ -53,6 +62,9 @@ type DatabaseComponentSpec struct {
 
 	// +kubebuilder:validation:Optional
 	ZalandoPostgres DatabaseComponentSpecZalandoPostgres `json:"zalandoPostgres,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	CloudNativePg DatabaseComponentSpecCloudNativePg `json:"cloudNativePg,omitempty"`
 }
 
 type DatabaseComponentCollectionSpec struct {
@@ -87,6 +99,29 @@ type DatabaseComponentSpecZalandoPostgres struct {
 	// (Default: "v1.8.2")
 	//
 	// Version of postgres operator to use.
+	Version string `json:"version,omitempty"`
+}
+
+type DatabaseComponentSpecCloudNativePg struct {
+	// +kubebuilder:default=2
+	// +kubebuilder:validation:Optional
+	// (Default: 2)
+	//
+	// Number of replicas to use for the cloudnative-pg controller deployment.
+	Replicas int `json:"replicas,omitempty"`
+
+	// +kubebuilder:default="ghcr.io/cloudnative-pg/cloudnative-pg"
+	// +kubebuilder:validation:Optional
+	// (Default: "ghcr.io/cloudnative-pg/cloudnative-pg")
+	//
+	// Image repo and name to use for cloudnative-pg.
+	Image string `json:"image,omitempty"`
+
+	// +kubebuilder:default="1.30.1"
+	// +kubebuilder:validation:Optional
+	// (Default: "1.30.1")
+	//
+	// Version of cloudnative-pg to use.
 	Version string `json:"version,omitempty"`
 }
 

@@ -37,17 +37,22 @@ func CreateDeploymentNamespacePostgresOperator(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "apps/v1",
 			"kind":       "Deployment",
 			"metadata": map[string]interface{}{
 				"name": "postgres-operator",
 				"labels": map[string]interface{}{
-					"application":                     "postgres-operator",
-					"app.kubernetes.io/name":          "postgres-operator",
-					"application.nukleros.io/group":   "database",
-					"application.nukleros.io/project": "zalando-postgres",
+					"application":                      "postgres-operator",
+					"app.kubernetes.io/name":           "postgres-operator",
+					"application.nukleros.io/category": "database",
+					"application.nukleros.io/project":  "zalando-postgres",
 				},
 				"namespace": parent.Spec.Namespace, //  controlled by field: namespace
 			},
@@ -66,10 +71,10 @@ func CreateDeploymentNamespacePostgresOperator(
 				"template": map[string]interface{}{
 					"metadata": map[string]interface{}{
 						"labels": map[string]interface{}{
-							"name":                            "postgres-operator",
-							"app.kubernetes.io/name":          "postgres-operator",
-							"application.nukleros.io/group":   "database",
-							"application.nukleros.io/project": "zalando-postgres",
+							"name":                             "postgres-operator",
+							"app.kubernetes.io/name":           "postgres-operator",
+							"application.nukleros.io/category": "database",
+							"application.nukleros.io/project":  "zalando-postgres",
 						},
 					},
 					"spec": map[string]interface{}{
@@ -120,7 +125,7 @@ func CreateDeploymentNamespacePostgresOperator(
 														"key":      "app.kubernetes.io/name",
 														"operator": "In",
 														"values": []interface{}{
-															"nginx-ingress",
+															"postgres-operator",
 														},
 													},
 												},

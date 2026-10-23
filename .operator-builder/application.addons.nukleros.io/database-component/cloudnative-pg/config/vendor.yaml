@@ -1,0 +1,14 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: application.addons.nukleros.io/database-component/cloudnative-pg/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/nukleros/application-component-library.git
+          ref: v0.1.0
+        includePaths:
+          - database/cloudnative-pg/*
+        newRootPath: database/cloudnative-pg

@@ -28,8 +28,8 @@ operator-update:
 #
 # project management
 #
-DOMAIN ?=
 GROUP ?=
+DOMAIN ?= addons.nukleros.io
 KIND ?=
 PROJECT ?=
 project:

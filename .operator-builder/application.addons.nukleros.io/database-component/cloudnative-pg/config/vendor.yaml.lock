@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: add cloudnative-pg component (#1)...'
+      sha: f129ceb9eaf9a0ee6fcf27d3c81665026467d2cb
+      tags:
+      - v0.1.0
+    path: .
+  path: application.addons.nukleros.io/database-component/cloudnative-pg/vendor
+kind: LockConfig

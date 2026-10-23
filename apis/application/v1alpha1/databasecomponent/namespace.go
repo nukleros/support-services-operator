@@ -39,6 +39,9 @@ func CreateNamespaceNamespace(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// controlled by field: provider
+			//  +kubebuilder:validation:Enum=zalando;cloudnative-pg
+			//  The database provider to use for the support services operator. One of: zalando | cloudnative-pg.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{
