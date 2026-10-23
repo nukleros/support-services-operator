@@ -90,7 +90,7 @@ type IngressComponentSpecNginx struct {
 	// (Default: false)
 	//
 	// Include the Nginx ingress controller when installing ingress components.
-	Include bool `json:"include,omitempty"`
+	Include bool `json:"include"`
 
 	// +kubebuilder:default="nginx/nginx-ingress"
 	// +kubebuilder:validation:Optional
@@ -120,7 +120,7 @@ type IngressComponentSpecKong struct {
 	// (Default: true)
 	//
 	// Include the Kong ingress controller when installing ingress components.
-	Include bool `json:"include,omitempty"`
+	Include bool `json:"include"`
 
 	// +kubebuilder:default=2
 	// +kubebuilder:validation:Optional
@@ -229,10 +229,14 @@ type IngressComponentStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	Created               bool                     `json:"created,omitempty"`
-	DependenciesSatisfied bool                     `json:"dependenciesSatisfied,omitempty"`
-	Conditions            []*status.PhaseCondition `json:"conditions,omitempty"`
-	Resources             []*status.ChildResource  `json:"resources,omitempty"`
+	// +kubebuilder:validation:Optional
+	Created bool `json:"created"`
+
+	// +kubebuilder:validation:Optional
+	DependenciesSatisfied bool `json:"dependenciesSatisfied"`
+
+	Conditions []*status.PhaseCondition `json:"conditions,omitempty"`
+	Resources  []*status.ChildResource  `json:"resources,omitempty"`
 }
 
 // +kubebuilder:object:root=true
