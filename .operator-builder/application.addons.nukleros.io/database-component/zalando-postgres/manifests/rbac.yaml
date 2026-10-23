@@ -1,10 +1,12 @@
 ---
+# +operator-builder:resource:field=provider,value=zalando,include
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: postgres-operator
   namespace: nukleros-database-system # +operator-builder:field:name=namespace,default="nukleros-database-system",type=string
 ---
+# +operator-builder:resource:field=provider,value=zalando,include
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -185,6 +187,7 @@ rules:
       - get
       - create
 ---
+# +operator-builder:resource:field=provider,value=zalando,include
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -198,6 +201,7 @@ subjects:
     name: postgres-operator
     namespace: nukleros-database-system # +operator-builder:field:name=namespace,default="nukleros-database-system",type=string
 ---
+# +operator-builder:resource:field=provider,value=zalando,include
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:

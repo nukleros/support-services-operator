@@ -37,8 +37,13 @@ func CreateServiceAccountNamespacePostgresOperator(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "v1",
 			"kind":       "ServiceAccount",
 			"metadata": map[string]interface{}{
@@ -83,8 +88,13 @@ func CreateClusterRolePostgresOperator(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "ClusterRole",
 			"metadata": map[string]interface{}{
@@ -377,8 +387,13 @@ func CreateClusterRoleBindingPostgresOperator(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "ClusterRoleBinding",
 			"metadata": map[string]interface{}{
@@ -415,8 +430,13 @@ func CreateClusterRolePostgresPod(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "rbac.authorization.k8s.io/v1",
 			"kind":       "ClusterRole",
 			"metadata": map[string]interface{}{

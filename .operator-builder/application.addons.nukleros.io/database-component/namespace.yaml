@@ -1,4 +1,7 @@
 ---
+# +operator-builder:field:name=provider,arbitrary,default=cloudnative-pg,type=string,description=`
+# +kubebuilder:validation:Enum=zalando;cloudnative-pg
+# The database provider to use for the support services operator. One of: zalando | cloudnative-pg.`
 apiVersion: v1
 kind: Namespace
 metadata:

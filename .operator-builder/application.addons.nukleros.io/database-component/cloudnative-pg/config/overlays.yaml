@@ -1,0 +1,70 @@
+commonOverlays:
+  - name: "add include markers for all nginx resources"
+    query: "$"
+    value:
+      # +operator-builder:resource:field=provider,value=cloudnative-pg,include
+      apiVersion: "%v"
+
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+      - "webhooks[*].clientConfig.service.namespace"
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+  - name: "add app name label"
+    query: metadata
+    value:
+      labels:
+        app.kubernetes.io/name: cloudnative-pg
+        app.kubernetes.io/component: database
+
+yamlFiles:
+  - name: "cloudnative-pg configmap"
+    path: "../vendor/config.yaml"
+    outputPath: "manifests/config.yaml"
+
+  - name: "cloudnative-pg crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  - name: "cloudnative-pg deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add replica count marker"
+        query: "$"
+        value:
+          spec:
+            # +operator-builder:field:name=cloudNativePg.replicas,default="%v",type=int,description=`
+            # Number of replicas to use for the cloudnative-pg controller deployment.`
+            replicas: !!int "%v"
+
+      - name: "add image name markers"
+        query: "spec.template.spec.containers[?(@.name == 'manager')]"
+        value:
+          # +operator-builder:field:name=cloudNativePg.image,default={{ .defaultImage }},type=string,replace="cnpgImage",description=`
+          # Image repo and name to use for cloudnative-pg.`
+          # +operator-builder:field:name=cloudNativePg.version,default="{{ .defaultVersion }}",type=string,replace="cnpgVersion",description=`
+          # Version of cloudnative-pg to use.`
+          image: cnpgImage:cnpgVersion
+
+      - name: "use configured image for operator image env"
+        query: "spec.template.spec.containers[?(@.name == 'manager')].env[?(@.name == 'OPERATOR_IMAGE_NAME')]"
+        action: merge
+        value:
+          # +operator-builder:field:name=cloudNativePg.image,default={{ .defaultImage }},type=string,replace="cnpgImage"
+          # +operator-builder:field:name=cloudNativePg.version,default="{{ .defaultVersion }}",type=string,replace="cnpgVersion"
+          value: cnpgImage:cnpgVersion
+
+  - name: "cloudnative-pg rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+
+  - name: "cloudnative-pg service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+
+  - name: "cloudnative-pg webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"

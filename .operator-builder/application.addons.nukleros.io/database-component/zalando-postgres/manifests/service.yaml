@@ -1,4 +1,5 @@
 ---
+# +operator-builder:resource:field=provider,value=zalando,include
 apiVersion: v1
 kind: Service
 metadata:

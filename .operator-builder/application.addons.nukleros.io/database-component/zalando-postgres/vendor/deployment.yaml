@@ -6,7 +6,7 @@ metadata:
   labels:
     application: postgres-operator
     app.kubernetes.io/name: postgres-operator
-    application.nukleros.io/group: database
+    application.nukleros.io/category: database
     application.nukleros.io/project: zalando-postgres
   namespace: nukleros-database-system
 spec:
@@ -21,7 +21,7 @@ spec:
       labels:
         name: postgres-operator
         app.kubernetes.io/name: postgres-operator
-        application.nukleros.io/group: database
+        application.nukleros.io/category: database
         application.nukleros.io/project: zalando-postgres
     spec:
       serviceAccountName: postgres-operator
@@ -55,6 +55,6 @@ spec:
                     - key: app.kubernetes.io/name
                       operator: In
                       values:
-                        - nginx-ingress
+                        - postgres-operator
       nodeSelector:
         kubernetes.io/os: linux

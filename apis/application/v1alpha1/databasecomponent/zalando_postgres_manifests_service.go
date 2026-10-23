@@ -37,8 +37,13 @@ func CreateServiceNamespacePostgresOperator(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
+	if parent.Spec.Provider != "zalando" {
+		return []client.Object{}, nil
+	}
+
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
+			// +operator-builder:resource:field=provider,value=zalando,include
 			"apiVersion": "v1",
 			"kind":       "Service",
 			"metadata": map[string]interface{}{

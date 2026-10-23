@@ -14,10 +14,12 @@ spec:
     description: Manage the setup of support services
     name: collection
   componentFiles:
+    # application components
     - ../application.addons.nukleros.io/database-component/workload.yaml
+    
+    # platform components
     - ../platform.addons.nukleros.io/certificates-component/workload.yaml
     - ../platform.addons.nukleros.io/ingress-component/workload.yaml
     - ../platform.addons.nukleros.io/secrets-component/workload.yaml
   resources:
     - namespace.yaml
-

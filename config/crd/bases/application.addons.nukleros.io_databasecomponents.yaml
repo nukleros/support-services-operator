@@ -39,6 +39,30 @@ spec:
           spec:
             description: DatabaseComponentSpec defines the desired state of DatabaseComponent.
             properties:
+              cloudNativePg:
+                properties:
+                  image:
+                    default: ghcr.io/cloudnative-pg/cloudnative-pg
+                    description: |-
+                      (Default: "ghcr.io/cloudnative-pg/cloudnative-pg")
+
+                      Image repo and name to use for cloudnative-pg.
+                    type: string
+                  replicas:
+                    default: 2
+                    description: |-
+                      (Default: 2)
+
+                      Number of replicas to use for the cloudnative-pg controller deployment.
+                    type: integer
+                  version:
+                    default: 1.30.1
+                    description: |-
+                      (Default: "1.30.1")
+
+                      Version of cloudnative-pg to use.
+                    type: string
+                type: object
               collection:
                 description: |-
                   Specifies a reference to the collection to use for this workload.
@@ -66,6 +90,17 @@ spec:
                   (Default: "nukleros-database-system")
 
                   Namespace to use for database support services.
+                type: string
+              provider:
+                default: cloudnative-pg
+                description: |-
+                  (Default: "cloudnative-pg")
+
+                  The database provider to use for the support services operator. One of: zalando
+                  | cloudnative-pg.
+                enum:
+                - zalando
+                - cloudnative-pg
                 type: string
               zalandoPostgres:
                 properties:
