@@ -190,6 +190,9 @@ spec:
                 type: string
               nginx:
                 properties:
+                  globalConfigurationName:
+                    description: Name of the GlobalConfiguration in this component's namespace. An empty name omits the nginx controller arg.
+                    type: string
                   image:
                     default: nginx/nginx-ingress
                     description: |-

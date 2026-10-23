@@ -36,7 +36,10 @@ func MutateDaemonSetNamespaceNginxIngress(
 		return []client.Object{original}, nil
 	}
 
-	// mutation logic goes here
+	// point nginx at the named GlobalConfiguration when the caller set one
+	if err := setGlobalConfigurationArg(original, parent.Spec.Nginx.GlobalConfigurationName); err != nil {
+		return nil, err
+	}
 
 	return []client.Object{original}, nil
 }
