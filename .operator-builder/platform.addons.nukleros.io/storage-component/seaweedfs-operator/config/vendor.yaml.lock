@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'fix: skip block scalars when quoting YAML 1.1 boolean words'
+      sha: 41142ddc18d4c6ffcfbd6dd5a0def53e195b1799
+      tags:
+      - v0.7.0-3-g41142dd
+    path: ./
+  path: platform.addons.nukleros.io/storage-component/seaweedfs-operator/vendor
+kind: LockConfig

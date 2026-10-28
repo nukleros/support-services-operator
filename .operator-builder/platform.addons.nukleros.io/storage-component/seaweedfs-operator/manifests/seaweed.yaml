@@ -1,0 +1,45 @@
+---
+apiVersion: seaweed.seaweedfs.com/v1
+kind: Seaweed
+metadata:
+  name: seaweedfs
+  namespace: nukleros-storage-system # +operator-builder:field:name=namespace,default="nukleros-storage-system",type=string
+spec:
+  # +operator-builder:field:name=seaweed.image,default=chrislusf/seaweedfs,type=string,replace="seaweedImage",description=`
+  # Image repo and name to use for the SeaweedFS master, volume and filer servers.`
+  # +operator-builder:field:name=seaweed.version,default="4.51",type=string,replace="seaweedVersion",description=`
+  # Version of SeaweedFS to use.`
+  image: seaweedImage:seaweedVersion
+  volumeServerDiskCount: 1
+  master:
+    # +operator-builder:field:name=seaweed.master.replicas,default="1",type=int,description=`
+    # Number of SeaweedFS master servers.  Use an odd number (3 for HA) so the masters keep a quorum.`
+    replicas: 1
+    volumeSizeLimitMB: 1024
+    # +operator-builder:field:name=seaweed.master.defaultReplication,default="000",type=string,description=`
+    # Default replication for new volumes, as SeaweedFS "xyz" placement (data centers, racks,
+    # servers).  "000" keeps one copy; "001" keeps a second copy on another volume server.`
+    defaultReplication: "000"
+  volume:
+    # +operator-builder:field:name=seaweed.volume.replicas,default="1",type=int,description=`
+    # Number of SeaweedFS volume servers.`
+    replicas: 1
+    requests:
+      # +operator-builder:field:name=seaweed.volume.storage,default="10Gi",type=string,description=`
+      # Size of the persistent volume for each SeaweedFS volume server.`
+      storage: 10Gi
+  filer:
+    # +operator-builder:field:name=seaweed.filer.replicas,default="1",type=int,description=`
+    # Number of SeaweedFS filer servers.  The default leveldb2 filer store is local to each
+    # filer, so keep this at 1 unless the filer config points at a shared store.`
+    replicas: 1
+    persistence:
+      enabled: true
+    config: |
+      [leveldb2]
+      enabled = true
+      dir = "/data/filerldb2"
+    s3:
+      # +operator-builder:field:name=seaweed.s3.enabled,default=true,type=bool,description=`
+      # Run the S3 API gateway on the filer servers.`
+      enabled: true

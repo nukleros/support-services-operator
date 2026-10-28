@@ -1,0 +1,26 @@
+apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: StorageComponent
+metadata:
+  name: storagecomponent-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-storage-system"
+  seaweedfsOperator:
+    replicas: 2
+    image: "chrislusf/seaweedfs-operator"
+    version: "1.0.42"
+  seaweed:
+    image: "chrislusf/seaweedfs"
+    version: "4.51"
+    master:
+      replicas: 1
+      defaultReplication: "000"
+    volume:
+      replicas: 1
+      storage: "10Gi"
+    filer:
+      replicas: 1
+    s3:
+      enabled: true

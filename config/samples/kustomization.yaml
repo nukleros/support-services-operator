@@ -5,4 +5,5 @@ resources:
 - platform_v1alpha1_certificatescomponent.yaml
 - platform_v1alpha1_ingresscomponent.yaml
 - platform_v1alpha1_secretscomponent.yaml
+- platform_v1alpha1_storagecomponent.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

@@ -1,0 +1,14 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: platform.addons.nukleros.io/storage-component/seaweedfs-operator/vendor
+    contents:
+      - path: ./
+        git:
+          url: https://github.com/muhammad-tahir-nawaz/platform-component-library.git
+          ref: 41142ddc18d4c6ffcfbd6dd5a0def53e195b1799
+        includePaths:
+          - storage/seaweedfs-operator/*
+        newRootPath: storage/seaweedfs-operator

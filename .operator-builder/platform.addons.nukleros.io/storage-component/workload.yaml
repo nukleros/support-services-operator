@@ -1,0 +1,23 @@
+kind: ComponentWorkload
+name: storage-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: StorageComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the storage support services
+    name: storage
+  dependencies:
+    - certificates-component
+  resources:
+    - namespace.yaml
+    - seaweedfs-operator/manifests/certificates.yaml
+    - seaweedfs-operator/manifests/crds.yaml
+    - seaweedfs-operator/manifests/deployment.yaml
+    - seaweedfs-operator/manifests/rbac.yaml
+    - seaweedfs-operator/manifests/seaweed.yaml
+    - seaweedfs-operator/manifests/service.yaml
+    - seaweedfs-operator/manifests/webhook.yaml
