@@ -8,7 +8,7 @@ directories:
       - path: ./
         git:
           url: https://github.com/nukleros/platform-component-library.git
-          ref: 20bb722b26532f9310c7574cbe563cc425ebad09
+          ref: v0.8.0
         includePaths:
           - storage/seaweedfs-operator/*
         newRootPath: storage/seaweedfs-operator
