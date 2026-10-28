@@ -53,14 +53,14 @@ yamlFiles:
     path: "../vendor/certificates.yaml"
     outputPath: "manifests/certificates.yaml"
     overlays:
-      - name: "set namespace in certificate names"
+      # commonName is capped at 64 characters, which a long namespace would exceed; the
+      # webhook only needs the dnsNames
+      - name: "remove certificate common name"
         documentQuery:
           - conditions:
             - query: $[?($.kind == "Certificate")]
-        query: "spec"
-        value:
-          # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
-          commonName: seaweedfs-operator-webhook.storage-namespace.svc
+        query: "spec.commonName"
+        action: delete
 
       - name: "set namespace in certificate dns names"
         documentQuery:

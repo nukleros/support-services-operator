@@ -66,8 +66,6 @@ func CreateCertNamespaceSeaweedfsOperatorWebhookCert(
 					"kind":  "Issuer",
 					"group": "cert-manager.io",
 				},
-				// controlled by field: namespace
-				"commonName": "seaweedfs-operator-webhook." + parent.Spec.Namespace + ".svc",
 			},
 		},
 	}

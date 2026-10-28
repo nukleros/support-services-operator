@@ -22,8 +22,6 @@ spec:
     name: seaweedfs-operator-webhook-selfsigned-issuer
     kind: Issuer
     group: cert-manager.io
-  # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
-  commonName: seaweedfs-operator-webhook.storage-namespace.svc
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer
