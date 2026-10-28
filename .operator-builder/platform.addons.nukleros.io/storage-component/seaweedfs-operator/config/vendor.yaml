@@ -7,8 +7,8 @@ directories:
     contents:
       - path: ./
         git:
-          url: https://github.com/muhammad-tahir-nawaz/platform-component-library.git
-          ref: 41142ddc18d4c6ffcfbd6dd5a0def53e195b1799
+          url: https://github.com/nukleros/platform-component-library.git
+          ref: 20bb722b26532f9310c7574cbe563cc425ebad09
         includePaths:
           - storage/seaweedfs-operator/*
         newRootPath: storage/seaweedfs-operator
