@@ -1,0 +1,5 @@
+---
+defaultOperatorImage: chrislusf/seaweedfs-operator
+defaultOperatorVersion: "1.0.42"
+defaultSeaweedImage: chrislusf/seaweedfs
+defaultSeaweedVersion: "4.51"

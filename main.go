@@ -180,6 +180,7 @@ func main() {
 		platformcontrollers.NewCertificatesComponentReconciler(mgr),
 		platformcontrollers.NewIngressComponentReconciler(mgr),
 		platformcontrollers.NewSecretsComponentReconciler(mgr),
+		platformcontrollers.NewStorageComponentReconciler(mgr),
 		// +kubebuilder:scaffold:reconcilers
 	}
 

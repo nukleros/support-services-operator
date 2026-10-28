@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: add seaweedfs-operator under new storage category (#33)...'
+      sha: 20bb722b26532f9310c7574cbe563cc425ebad09
+      tags:
+      - v0.8.0
+    path: ./
+  path: platform.addons.nukleros.io/storage-component/seaweedfs-operator/vendor
+kind: LockConfig

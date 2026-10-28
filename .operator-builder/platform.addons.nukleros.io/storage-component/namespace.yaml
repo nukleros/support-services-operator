@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  # +operator-builder:field:name=namespace,default="nukleros-storage-system",type=string,description=`
+  # Namespace to use for storage support services.`
+  name: nukleros-storage-system

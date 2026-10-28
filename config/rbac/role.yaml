@@ -233,16 +233,6 @@ rules:
   - batch
   resources:
   - cronjobs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-- apiGroups:
-  - batch
-  resources:
   - jobs
   verbs:
   - create
@@ -250,6 +240,7 @@ rules:
   - get
   - list
   - patch
+  - update
   - watch
 - apiGroups:
   - cert-manager.io
@@ -399,12 +390,15 @@ rules:
   - update
 - apiGroups:
   - extensions
-  - networking.internal.knative.dev
   resources:
   - ingresses
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - extensions
@@ -622,10 +616,9 @@ rules:
   - patch
   - watch
 - apiGroups:
-  - networking.k8s.io
+  - monitoring.coreos.com
   resources:
-  - ingressclasses
-  - networkpolicies
+  - servicemonitors
   verbs:
   - create
   - delete
@@ -635,14 +628,25 @@ rules:
   - update
   - watch
 - apiGroups:
-  - networking.k8s.io
+  - networking.internal.knative.dev
   resources:
   - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
+  - ingresses
+  - networkpolicies
   verbs:
   - create
   - delete
   - get
   - list
+  - patch
   - update
   - watch
 - apiGroups:
@@ -657,6 +661,7 @@ rules:
   - certificatescomponents
   - ingresscomponents
   - secretscomponents
+  - storagecomponents
   verbs:
   - create
   - delete
@@ -671,6 +676,7 @@ rules:
   - certificatescomponents/status
   - ingresscomponents/status
   - secretscomponents/status
+  - storagecomponents/status
   verbs:
   - get
   - patch
@@ -779,6 +785,73 @@ rules:
   verbs:
   - create
 - apiGroups:
+  - seaweed.seaweedfs.com
+  resources:
+  - adminscripts
+  - bucketlifecyclepolicies
+  - bucketnotifications
+  - buckets
+  - s3credentials
+  - s3identities
+  - s3oidcproviders
+  - s3policies
+  - s3policybindings
+  - seaweedbackups
+  - seaweedrestores
+  - seaweeds
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - seaweed.seaweedfs.com
+  resources:
+  - adminscripts/finalizers
+  - bucketlifecyclepolicies/finalizers
+  - bucketnotifications/finalizers
+  - buckets/finalizers
+  - s3credentials/finalizers
+  - s3identities/finalizers
+  - s3oidcproviders/finalizers
+  - s3policies/finalizers
+  - s3policybindings/finalizers
+  - seaweedbackups/finalizers
+  - seaweedrestores/finalizers
+  - seaweeds/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - seaweed.seaweedfs.com
+  resources:
+  - adminscripts/status
+  - bucketlifecyclepolicies/status
+  - bucketnotifications/status
+  - buckets/status
+  - s3credentials/status
+  - s3identities/status
+  - s3oidcproviders/status
+  - s3policies/status
+  - s3policybindings/status
+  - seaweedbackups/status
+  - seaweedrestores/status
+  - seaweeds/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - seaweed.seaweedfs.com
+  resources:
+  - resourcereferencegrants
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - setup.addons.nukleros.io
   resources:
   - supportservices
@@ -807,4 +880,12 @@ rules:
   - get
   - list
   - patch
+  - watch
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - list
   - watch

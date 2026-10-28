@@ -1,0 +1,123 @@
+commonOverlays:
+  - name: "add namespace markers"
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+      - "webhooks[*].clientConfig.service.namespace"
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+yamlFiles:
+  - name: "seaweedfs-operator crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  - name: "seaweedfs-operator deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add replica count marker"
+        query: "spec"
+        value:
+          # +operator-builder:field:name=seaweedfsOperator.replicas,default="%v",type=int,description=`
+          # Number of replicas to use for the seaweedfs-operator deployment.`
+          replicas: !!int "%v"
+
+      - name: "add image markers"
+        query: "spec.template.spec.containers[?(@.name == 'seaweedfs-operator')]"
+        value:
+          # +operator-builder:field:name=seaweedfsOperator.image,default={{ .defaultOperatorImage }},type=string,replace="operatorImage",description=`
+          # Image repo and name to use for seaweedfs-operator.`
+          # +operator-builder:field:name=seaweedfsOperator.version,default="{{ .defaultOperatorVersion }}",type=string,replace="operatorVersion",description=`
+          # Version of seaweedfs-operator to use.`
+          image: operatorImage:operatorVersion
+
+  - name: "seaweedfs-operator rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+
+  - name: "seaweedfs-operator service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+
+  - name: "seaweedfs-operator webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
+    overlays:
+      - name: "set namespace in CA reference annotation"
+        query: "metadata.annotations"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
+          cert-manager.io/inject-ca-from: storage-namespace/seaweedfs-operator-webhook-cert
+
+  - name: "seaweedfs-operator webhook certificate"
+    path: "../vendor/certificates.yaml"
+    outputPath: "manifests/certificates.yaml"
+    overlays:
+      # commonName is capped at 64 characters, which a long namespace would exceed; the
+      # webhook only needs the dnsNames
+      - name: "remove certificate common name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "Certificate")]
+        query: "spec.commonName"
+        action: delete
+
+      - name: "set namespace in certificate dns names"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "Certificate")]
+        query: "spec.dnsNames"
+        action: replace
+        value:
+          - seaweedfs-operator-webhook
+          - seaweedfs-operator-webhook.storage-namespace  # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
+          - seaweedfs-operator-webhook.storage-namespace.svc  # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
+          - seaweedfs-operator-webhook.storage-namespace.svc.cluster.local  # +operator-builder:field:name=namespace,type=string,replace="storage-namespace"
+
+  - name: "default seaweedfs cluster"
+    path: "../static/seaweed.yaml"
+    outputPath: "manifests/seaweed.yaml"
+    overlays:
+      - name: "add image markers"
+        query: "spec"
+        value:
+          # +operator-builder:field:name=seaweed.image,default={{ .defaultSeaweedImage }},type=string,replace="seaweedImage",description=`
+          # Image repo and name to use for the SeaweedFS master, volume and filer servers.`
+          # +operator-builder:field:name=seaweed.version,default="{{ .defaultSeaweedVersion }}",type=string,replace="seaweedVersion",description=`
+          # Version of SeaweedFS to use.`
+          image: seaweedImage:seaweedVersion
+
+      - name: "add master markers"
+        query: "spec.master"
+        value:
+          # +operator-builder:field:name=seaweed.master.replicas,default="%v",type=int,description=`
+          # Number of SeaweedFS master servers.  Use an odd number (3 for HA) so the masters keep a quorum.`
+          replicas: !!int "%v"
+
+          # +operator-builder:field:name=seaweed.master.defaultReplication,default="%v",type=string,description=`
+          # Default replication for new volumes, as SeaweedFS "xyz" placement (data centers, racks,
+          # servers).  "000" keeps one copy; "001" keeps a second copy on another volume server.`
+          defaultReplication: "%v"
+
+      - name: "add volume markers"
+        query: "spec.volume"
+        value:
+          # +operator-builder:field:name=seaweed.volume.replicas,default="%v",type=int,description=`
+          # Number of SeaweedFS volume servers.`
+          replicas: !!int "%v"
+          requests:
+            # +operator-builder:field:name=seaweed.volume.storage,default="%v",type=string,description=`
+            # Size of the persistent volume for each SeaweedFS volume server.`
+            storage: "%v"
+
+      - name: "add filer markers"
+        query: "spec.filer"
+        value:
+          # +operator-builder:field:name=seaweed.filer.replicas,default="%v",type=int,description=`
+          # Number of SeaweedFS filer servers.  The default leveldb2 filer store is local to each
+          # filer, so keep this at 1 unless the filer config points at a shared store.`
+          replicas: !!int "%v"
+          s3:
+            # +operator-builder:field:name=seaweed.s3.enabled,default=true,type=bool,description=`
+            # Run the S3 API gateway on the filer servers.`
+            enabled: true
