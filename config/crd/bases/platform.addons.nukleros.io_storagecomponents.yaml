@@ -68,8 +68,10 @@ spec:
                   Namespace to use for storage support services.
                 type: string
               seaweed:
+                default: {}
                 properties:
                   filer:
+                    default: {}
                     properties:
                       replicas:
                         default: 1
@@ -88,6 +90,7 @@ spec:
                       Image repo and name to use for the SeaweedFS master, volume and filer servers.
                     type: string
                   master:
+                    default: {}
                     properties:
                       defaultReplication:
                         default: "000"
@@ -108,6 +111,7 @@ spec:
                         type: integer
                     type: object
                   s3:
+                    default: {}
                     properties:
                       enabled:
                         default: true
@@ -125,6 +129,7 @@ spec:
                       Version of SeaweedFS to use.
                     type: string
                   volume:
+                    default: {}
                     properties:
                       replicas:
                         default: 1
@@ -143,6 +148,7 @@ spec:
                     type: object
                 type: object
               seaweedfsOperator:
+                default: {}
                 properties:
                   image:
                     default: chrislusf/seaweedfs-operator

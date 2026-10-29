@@ -129,6 +129,7 @@ spec:
               kong:
                 properties:
                   gateway:
+                    default: {}
                     properties:
                       image:
                         default: kong/kong-gateway
@@ -153,6 +154,7 @@ spec:
                       Include the Kong ingress controller when installing ingress components.
                     type: boolean
                   ingressController:
+                    default: {}
                     properties:
                       image:
                         default: kong/kubernetes-ingress-controller
@@ -189,6 +191,7 @@ spec:
                   Namespace to use for ingress support services.
                 type: string
               nginx:
+                default: {}
                 properties:
                   image:
                     default: nginx/nginx-ingress

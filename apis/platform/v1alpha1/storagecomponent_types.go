@@ -51,9 +51,11 @@ type StorageComponentSpec struct {
 	// Namespace to use for storage support services.
 	Namespace string `json:"namespace,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	SeaweedfsOperator StorageComponentSpecSeaweedfsOperator `json:"seaweedfsOperator,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Seaweed StorageComponentSpecSeaweed `json:"seaweed,omitempty"`
 }
@@ -108,15 +110,19 @@ type StorageComponentSpecSeaweed struct {
 	// Version of SeaweedFS to use.
 	Version string `json:"version,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Master StorageComponentSpecSeaweedMaster `json:"master,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Volume StorageComponentSpecSeaweedVolume `json:"volume,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Filer StorageComponentSpecSeaweedFiler `json:"filer,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	S3 StorageComponentSpecSeaweedS3 `json:"s3,omitempty"`
 }
