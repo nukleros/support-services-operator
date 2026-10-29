@@ -44,6 +44,7 @@ type SecretsComponentSpec struct {
 	// if not exactly one collection is found.
 	Collection SecretsComponentCollectionSpec `json:"collection"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Openbao SecretsComponentSpecOpenbao `json:"openbao,omitempty"`
 
@@ -54,9 +55,11 @@ type SecretsComponentSpec struct {
 	// Namespace to use for secrets support services.
 	Namespace string `json:"namespace,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	ExternalSecrets SecretsComponentSpecExternalSecrets `json:"externalSecrets,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Reloader SecretsComponentSpecReloader `json:"reloader,omitempty"`
 }
@@ -74,9 +77,11 @@ type SecretsComponentCollectionSpec struct {
 }
 
 type SecretsComponentSpecOpenbao struct {
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Injector SecretsComponentSpecOpenbaoInjector `json:"injector,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	UnsealKey SecretsComponentSpecOpenbaoUnsealKey `json:"unsealKey,omitempty"`
 
@@ -101,6 +106,7 @@ type SecretsComponentSpecOpenbao struct {
 	// Version of OpenBao to use.
 	Version string `json:"version,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Storage SecretsComponentSpecOpenbaoStorage `json:"storage,omitempty"`
 }
@@ -138,6 +144,7 @@ type SecretsComponentSpecOpenbaoInjector struct {
 }
 
 type SecretsComponentSpecOpenbaoUnsealKey struct {
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Secret SecretsComponentSpecOpenbaoUnsealKeySecret `json:"secret,omitempty"`
 }
@@ -174,9 +181,11 @@ type SecretsComponentSpecOpenbaoUnsealKeySecret struct {
 }
 
 type SecretsComponentSpecOpenbaoStorage struct {
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Data SecretsComponentSpecOpenbaoStorageData `json:"data,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Audit SecretsComponentSpecOpenbaoStorageAudit `json:"audit,omitempty"`
 }
@@ -223,6 +232,7 @@ type SecretsComponentSpecExternalSecrets struct {
 	// Version of external-secrets to use.
 	Version string `json:"version,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	CertController SecretsComponentSpecExternalSecretsCertController `json:"certController,omitempty"`
 
@@ -233,9 +243,11 @@ type SecretsComponentSpecExternalSecrets struct {
 	// Image repo and name to use for external-secrets.
 	Image string `json:"image,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Controller SecretsComponentSpecExternalSecretsController `json:"controller,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Webhook SecretsComponentSpecExternalSecretsWebhook `json:"webhook,omitempty"`
 }

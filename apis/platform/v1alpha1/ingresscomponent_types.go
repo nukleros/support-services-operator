@@ -44,6 +44,7 @@ type IngressComponentSpec struct {
 	// if not exactly one collection is found.
 	Collection IngressComponentCollectionSpec `json:"collection"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Nginx IngressComponentSpecNginx `json:"nginx,omitempty"`
 
@@ -129,12 +130,14 @@ type IngressComponentSpecKong struct {
 	// Number of replicas to use for the kong ingress deployment.
 	Replicas int `json:"replicas,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Gateway IngressComponentSpecKongGateway `json:"gateway,omitempty"`
 
 	// +kubebuilder:validation:Required
 	ProxyServiceName string `json:"proxyServiceName,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	IngressController IngressComponentSpecKongIngressController `json:"ingressController,omitempty"`
 }
