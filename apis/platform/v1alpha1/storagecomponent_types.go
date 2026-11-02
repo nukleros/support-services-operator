@@ -96,6 +96,10 @@ type StorageComponentSpecSeaweedfsOperator struct {
 }
 
 type StorageComponentSpecSeaweed struct {
+	// +kubebuilder:default={}
+	// +kubebuilder:validation:Optional
+	S3 StorageComponentSpecSeaweedS3 `json:"s3,omitempty"`
+
 	// +kubebuilder:default="chrislusf/seaweedfs"
 	// +kubebuilder:validation:Optional
 	// (Default: "chrislusf/seaweedfs")
@@ -121,10 +125,43 @@ type StorageComponentSpecSeaweed struct {
 	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Filer StorageComponentSpecSeaweedFiler `json:"filer,omitempty"`
+}
 
+type StorageComponentSpecSeaweedS3 struct {
 	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
-	S3 StorageComponentSpecSeaweedS3 `json:"s3,omitempty"`
+	Auth StorageComponentSpecSeaweedS3Auth `json:"auth,omitempty"`
+
+	// +kubebuilder:default=true
+	// +kubebuilder:validation:Optional
+	// (Default: true)
+	//
+	// Run the S3 API gateway on the filer servers.
+	Enabled bool `json:"enabled"`
+}
+
+type StorageComponentSpecSeaweedS3Auth struct {
+	// +kubebuilder:default=true
+	// +kubebuilder:validation:Optional
+	// (Default: true)
+	//
+	// Require credentials on the S3 API.  Creates an admin identity with full access
+	// whose access key and secret key are stored in the Secret named by
+	// seaweed.s3.auth.secretName. When disabled, anything that can reach the filer on
+	// port 8333 can read and write every bucket.  Disabling it on a running cluster
+	// does not remove the identity: delete the seaweedfs-admin S3Identity,
+	// S3Credentials, S3Policy and S3PolicyBinding, then restart the filer pods.
+	Enabled bool `json:"enabled"`
+
+	// +kubebuilder:default="seaweedfs-s3-admin"
+	// +kubebuilder:validation:Optional
+	// (Default: "seaweedfs-s3-admin")
+	//
+	// Name of the Secret, in the storage namespace, that holds the admin identity's S3
+	// keys under accessKey and secretKey.  The keys are generated if the Secret does
+	// not exist or is empty; keys already in the Secret (for example synced from a
+	// secret store) are used as they are.
+	SecretName string `json:"secretName,omitempty"`
 }
 
 type StorageComponentSpecSeaweedMaster struct {
@@ -170,15 +207,6 @@ type StorageComponentSpecSeaweedFiler struct {
 	// Number of SeaweedFS filer servers.  The default leveldb2 filer store is local to
 	// each filer, so keep this at 1 unless the filer config points at a shared store.
 	Replicas int `json:"replicas,omitempty"`
-}
-
-type StorageComponentSpecSeaweedS3 struct {
-	// +kubebuilder:default=true
-	// +kubebuilder:validation:Optional
-	// (Default: true)
-	//
-	// Run the S3 API gateway on the filer servers.
-	Enabled bool `json:"enabled"`
 }
 
 // StorageComponentStatus defines the observed state of StorageComponent.

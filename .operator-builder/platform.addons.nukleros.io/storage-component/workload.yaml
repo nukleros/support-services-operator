@@ -18,6 +18,7 @@ spec:
     - seaweedfs-operator/manifests/crds.yaml
     - seaweedfs-operator/manifests/deployment.yaml
     - seaweedfs-operator/manifests/rbac.yaml
+    - seaweedfs-operator/manifests/s3-auth.yaml
     - seaweedfs-operator/manifests/seaweed.yaml
     - seaweedfs-operator/manifests/service.yaml
     - seaweedfs-operator/manifests/webhook.yaml

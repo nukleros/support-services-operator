@@ -121,3 +121,42 @@ yamlFiles:
             # +operator-builder:field:name=seaweed.s3.enabled,default=true,type=bool,description=`
             # Run the S3 API gateway on the filer servers.`
             enabled: true
+
+  - name: "default seaweedfs s3 admin identity"
+    path: "../static/s3-auth.yaml"
+    outputPath: "manifests/s3-auth.yaml"
+    overlays:
+      - name: "add include marker for the s3 auth resources"
+        query: "$"
+        value:
+          # +operator-builder:resource:field=seaweed.s3.auth.enabled,value=true,include
+          apiVersion: "%v"
+
+      - name: "add s3 auth markers"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "S3Identity")]
+        query: metadata
+        action: merge
+        value:
+          # +operator-builder:field:name=seaweed.s3.auth.enabled,arbitrary,default=true,type=bool,description=`
+          # Require credentials on the S3 API.  Creates an admin identity with full access whose
+          # access key and secret key are stored in the Secret named by seaweed.s3.auth.secretName.
+          # When disabled, anything that can reach the filer on port 8333 can read and write
+          # every bucket.  Disabling it on a running cluster does not remove the identity: delete
+          # the seaweedfs-admin S3Identity, S3Credentials, S3Policy and S3PolicyBinding, then
+          # restart the filer pods.`
+          name: "%v"
+
+      - name: "add s3 admin secret name marker"
+        documentQuery:
+          - conditions:
+              - query: $[?($.kind == "S3Credentials")]
+        query: spec.secretRef
+        value:
+          # +operator-builder:field:name=seaweed.s3.auth.secretName,default="%v",type=string,description=`
+          # Name of the Secret, in the storage namespace, that holds the admin identity's S3 keys
+          # under accessKey and secretKey.  The keys are generated if the Secret does not exist
+          # or is empty; keys already in the Secret (for example synced from a secret store)
+          # are used as they are.`
+          name: "%v"

@@ -43,6 +43,11 @@ spec:
     image: "chrislusf/seaweedfs-operator"
     version: "1.0.42"
   seaweed:
+    s3:
+      auth:
+        enabled: true
+        secretName: "seaweedfs-s3-admin"
+      enabled: true
     image: "chrislusf/seaweedfs"
     version: "4.51"
     master:
@@ -53,8 +58,6 @@ spec:
       storage: "10Gi"
     filer:
       replicas: 1
-    s3:
-      enabled: true
 `
 
 // sampleStorageComponentRequired is a sample containing only required fields
@@ -158,6 +161,10 @@ var CreateFuncs = []func(
 	CreateClusterRoleBindingSeaweedfsOperatorManagerRolebinding,
 	CreateRoleNamespaceSeaweedfsOperatorLeaderElectionRole,
 	CreateRoleBindingNamespaceSeaweedfsOperatorLeaderElectionRolebinding,
+	CreateS3IdentityNamespaceSeaweedfsAdmin,
+	CreateS3CredentialsNamespaceSeaweedfsAdmin,
+	CreateS3PolicyNamespaceSeaweedfsAdmin,
+	CreateS3PolicyBindingNamespaceSeaweedfsAdmin,
 	CreateSeaweedNamespaceSeaweedfs,
 	CreateServiceNamespaceSeaweedfsOperator,
 	CreateServiceNamespaceSeaweedfsOperatorWebhook,
