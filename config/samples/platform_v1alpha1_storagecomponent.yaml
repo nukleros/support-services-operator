@@ -12,6 +12,11 @@ spec:
     image: "chrislusf/seaweedfs-operator"
     version: "1.0.42"
   seaweed:
+    s3:
+      auth:
+        enabled: true
+        secretName: "seaweedfs-s3-admin"
+      enabled: true
     image: "chrislusf/seaweedfs"
     version: "4.51"
     master:
@@ -22,5 +27,3 @@ spec:
       storage: "10Gi"
     filer:
       replicas: 1
-    s3:
-      enabled: true
