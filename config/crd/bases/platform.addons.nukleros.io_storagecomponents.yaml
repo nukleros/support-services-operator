@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.21.0
+    controller-gen.kubebuilder.io/version: (unknown)
   name: storagecomponents.platform.addons.nukleros.io
 spec:
   group: platform.addons.nukleros.io
@@ -65,114 +65,10 @@ spec:
                 description: |-
                   (Default: "nukleros-storage-system")
 
-                  Namespace to use for storage support services.
+                  Namespace to install the seaweedfs-operator into.  This component installs only
+                  the operator: SeaweedFS clusters, buckets and S3 identities are created by its
+                  consumers, usually in their own namespaces.
                 type: string
-              seaweed:
-                default: {}
-                properties:
-                  filer:
-                    default: {}
-                    properties:
-                      replicas:
-                        default: 1
-                        description: |-
-                          (Default: 1)
-
-                          Number of SeaweedFS filer servers.  The default leveldb2 filer store is local to
-                          each filer, so keep this at 1 unless the filer config points at a shared store.
-                        type: integer
-                    type: object
-                  image:
-                    default: chrislusf/seaweedfs
-                    description: |-
-                      (Default: "chrislusf/seaweedfs")
-
-                      Image repo and name to use for the SeaweedFS master, volume and filer servers.
-                    type: string
-                  master:
-                    default: {}
-                    properties:
-                      defaultReplication:
-                        default: "000"
-                        description: |-
-                          (Default: "000")
-
-                          Default replication for new volumes, as SeaweedFS "xyz" placement (data centers,
-                          racks, servers).  "000" keeps one copy; "001" keeps a second copy on another
-                          volume server.
-                        type: string
-                      replicas:
-                        default: 1
-                        description: |-
-                          (Default: 1)
-
-                          Number of SeaweedFS master servers.  Use an odd number (3 for HA) so the masters
-                          keep a quorum.
-                        type: integer
-                    type: object
-                  s3:
-                    default: {}
-                    properties:
-                      auth:
-                        default: {}
-                        properties:
-                          enabled:
-                            default: true
-                            description: |-
-                              (Default: true)
-
-                              Require credentials on the S3 API.  Creates an admin identity with full access
-                              whose access key and secret key are stored in the Secret named by
-                              seaweed.s3.auth.secretName. When disabled, anything that can reach the filer on
-                              port 8333 can read and write every bucket.  Disabling it on a running cluster
-                              does not remove the identity: delete the seaweedfs-admin S3Identity,
-                              S3Credentials, S3Policy and S3PolicyBinding, then restart the filer pods.
-                            type: boolean
-                          secretName:
-                            default: seaweedfs-s3-admin
-                            description: |-
-                              (Default: "seaweedfs-s3-admin")
-
-                              Name of the Secret, in the storage namespace, that holds the admin identity's S3
-                              keys under accessKey and secretKey.  The keys are generated if the Secret does
-                              not exist or is empty; keys already in the Secret (for example synced from a
-                              secret store) are used as they are.
-                            type: string
-                        type: object
-                      enabled:
-                        default: true
-                        description: |-
-                          (Default: true)
-
-                          Run the S3 API gateway on the filer servers.
-                        type: boolean
-                    type: object
-                  version:
-                    default: "4.51"
-                    description: |-
-                      (Default: "4.51")
-
-                      Version of SeaweedFS to use.
-                    type: string
-                  volume:
-                    default: {}
-                    properties:
-                      replicas:
-                        default: 1
-                        description: |-
-                          (Default: 1)
-
-                          Number of SeaweedFS volume servers.
-                        type: integer
-                      storage:
-                        default: 10Gi
-                        description: |-
-                          (Default: "10Gi")
-
-                          Size of the persistent volume for each SeaweedFS volume server.
-                        type: string
-                    type: object
-                type: object
               seaweedfsOperator:
                 default: {}
                 properties:

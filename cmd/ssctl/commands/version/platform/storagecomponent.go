@@ -29,7 +29,7 @@ import (
 func NewStorageComponentSubCommand(parentCommand *cobra.Command) {
 	versionCmd := &cmdversion.VersionSubCommand{
 		Name:         "storage",
-		Description:  "Manage the storage support services",
+		Description:  "Manage the seaweedfs-operator (SeaweedFS clusters, buckets and S3 identities are created by consumers)",
 		VersionFunc:  VersionStorageComponent,
 		SubCommandOf: parentCommand,
 	}

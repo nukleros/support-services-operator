@@ -42,7 +42,7 @@ import (
 func NewStorageComponentSubCommand(parentCommand *cobra.Command) {
 	generateCmd := &cmdgenerate.GenerateSubCommand{
 		Name:                  "storage",
-		Description:           "Manage the storage support services",
+		Description:           "Manage the seaweedfs-operator (SeaweedFS clusters, buckets and S3 identities are created by consumers)",
 		SubCommandOf:          parentCommand,
 		GenerateFunc:          GenerateStorageComponent,
 		UseCollectionManifest: true,

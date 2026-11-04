@@ -48,16 +48,14 @@ type StorageComponentSpec struct {
 	// +kubebuilder:validation:Optional
 	// (Default: "nukleros-storage-system")
 	//
-	// Namespace to use for storage support services.
+	// Namespace to install the seaweedfs-operator into.  This component installs only
+	// the operator: SeaweedFS clusters, buckets and S3 identities are created by its
+	// consumers, usually in their own namespaces.
 	Namespace string `json:"namespace,omitempty"`
 
 	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	SeaweedfsOperator StorageComponentSpecSeaweedfsOperator `json:"seaweedfsOperator,omitempty"`
-
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	Seaweed StorageComponentSpecSeaweed `json:"seaweed,omitempty"`
 }
 
 type StorageComponentCollectionSpec struct {
@@ -93,120 +91,6 @@ type StorageComponentSpecSeaweedfsOperator struct {
 	//
 	// Version of seaweedfs-operator to use.
 	Version string `json:"version,omitempty"`
-}
-
-type StorageComponentSpecSeaweed struct {
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	S3 StorageComponentSpecSeaweedS3 `json:"s3,omitempty"`
-
-	// +kubebuilder:default="chrislusf/seaweedfs"
-	// +kubebuilder:validation:Optional
-	// (Default: "chrislusf/seaweedfs")
-	//
-	// Image repo and name to use for the SeaweedFS master, volume and filer servers.
-	Image string `json:"image,omitempty"`
-
-	// +kubebuilder:default="4.51"
-	// +kubebuilder:validation:Optional
-	// (Default: "4.51")
-	//
-	// Version of SeaweedFS to use.
-	Version string `json:"version,omitempty"`
-
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	Master StorageComponentSpecSeaweedMaster `json:"master,omitempty"`
-
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	Volume StorageComponentSpecSeaweedVolume `json:"volume,omitempty"`
-
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	Filer StorageComponentSpecSeaweedFiler `json:"filer,omitempty"`
-}
-
-type StorageComponentSpecSeaweedS3 struct {
-	// +kubebuilder:default={}
-	// +kubebuilder:validation:Optional
-	Auth StorageComponentSpecSeaweedS3Auth `json:"auth,omitempty"`
-
-	// +kubebuilder:default=true
-	// +kubebuilder:validation:Optional
-	// (Default: true)
-	//
-	// Run the S3 API gateway on the filer servers.
-	Enabled bool `json:"enabled"`
-}
-
-type StorageComponentSpecSeaweedS3Auth struct {
-	// +kubebuilder:default=true
-	// +kubebuilder:validation:Optional
-	// (Default: true)
-	//
-	// Require credentials on the S3 API.  Creates an admin identity with full access
-	// whose access key and secret key are stored in the Secret named by
-	// seaweed.s3.auth.secretName. When disabled, anything that can reach the filer on
-	// port 8333 can read and write every bucket.  Disabling it on a running cluster
-	// does not remove the identity: delete the seaweedfs-admin S3Identity,
-	// S3Credentials, S3Policy and S3PolicyBinding, then restart the filer pods.
-	Enabled bool `json:"enabled"`
-
-	// +kubebuilder:default="seaweedfs-s3-admin"
-	// +kubebuilder:validation:Optional
-	// (Default: "seaweedfs-s3-admin")
-	//
-	// Name of the Secret, in the storage namespace, that holds the admin identity's S3
-	// keys under accessKey and secretKey.  The keys are generated if the Secret does
-	// not exist or is empty; keys already in the Secret (for example synced from a
-	// secret store) are used as they are.
-	SecretName string `json:"secretName,omitempty"`
-}
-
-type StorageComponentSpecSeaweedMaster struct {
-	// +kubebuilder:default=1
-	// +kubebuilder:validation:Optional
-	// (Default: 1)
-	//
-	// Number of SeaweedFS master servers.  Use an odd number (3 for HA) so the masters
-	// keep a quorum.
-	Replicas int `json:"replicas,omitempty"`
-
-	// +kubebuilder:default="000"
-	// +kubebuilder:validation:Optional
-	// (Default: "000")
-	//
-	// Default replication for new volumes, as SeaweedFS "xyz" placement (data centers,
-	// racks, servers).  "000" keeps one copy; "001" keeps a second copy on another
-	// volume server.
-	DefaultReplication string `json:"defaultReplication,omitempty"`
-}
-
-type StorageComponentSpecSeaweedVolume struct {
-	// +kubebuilder:default=1
-	// +kubebuilder:validation:Optional
-	// (Default: 1)
-	//
-	// Number of SeaweedFS volume servers.
-	Replicas int `json:"replicas,omitempty"`
-
-	// +kubebuilder:default="10Gi"
-	// +kubebuilder:validation:Optional
-	// (Default: "10Gi")
-	//
-	// Size of the persistent volume for each SeaweedFS volume server.
-	Storage string `json:"storage,omitempty"`
-}
-
-type StorageComponentSpecSeaweedFiler struct {
-	// +kubebuilder:default=1
-	// +kubebuilder:validation:Optional
-	// (Default: 1)
-	//
-	// Number of SeaweedFS filer servers.  The default leveldb2 filer store is local to
-	// each filer, so keep this at 1 unless the filer config points at a shared store.
-	Replicas int `json:"replicas,omitempty"`
 }
 
 // StorageComponentStatus defines the observed state of StorageComponent.

@@ -58,7 +58,7 @@ func getStorageComponentManifest(i *cmdinit.InitSubCommand) (string, error) {
 func NewStorageComponentSubCommand(parentCommand *cobra.Command) {
 	initCmd := &cmdinit.InitSubCommand{
 		Name:         "storage",
-		Description:  "Manage the storage support services",
+		Description:  "Manage the seaweedfs-operator (SeaweedFS clusters, buckets and S3 identities are created by consumers)",
 		InitFunc:     InitStorageComponent,
 		SubCommandOf: parentCommand,
 	}
