@@ -43,7 +43,9 @@ func CreateNamespaceNamespace(
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{
 				// controlled by field: namespace
-				//  Namespace to use for storage support services.
+				//  Namespace to install the seaweedfs-operator into.  This component installs only the
+				//  operator: SeaweedFS clusters, buckets and S3 identities are created by its consumers,
+				//  usually in their own namespaces.
 				"name": parent.Spec.Namespace,
 			},
 		},
