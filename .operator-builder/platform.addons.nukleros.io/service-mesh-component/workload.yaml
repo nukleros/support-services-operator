@@ -1,0 +1,39 @@
+kind: ComponentWorkload
+name: service-mesh-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: ServiceMeshComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the service mesh management support services
+    name: service-mesh
+  dependencies:
+    - certificates-component
+  resources:
+    - namespace.yaml
+
+    # istio
+    - istio/manifests/config.yaml
+    - istio/manifests/config-gke.yaml
+    - istio/manifests/config-openshift.yaml
+    - istio/manifests/crds.yaml
+    - istio/manifests/rbac.yaml
+    - istio/manifests/rbac-openshift.yaml
+    - istio/manifests/service.yaml
+    - istio/manifests/webhook.yaml
+    - istio/manifests/deployment.yaml
+    - istio/manifests/deployment-gke.yaml
+    - istio/manifests/deployment-openshift.yaml
+    - istio/manifests/horizontalpodautoscaler.yaml
+    - istio/manifests/horizontalpodautoscaler-gke.yaml
+    - istio/manifests/horizontalpodautoscaler-openshift.yaml
+    - istio/manifests/poddisruptionbudget.yaml
+    - istio/manifests/daemonset.yaml
+    - istio/manifests/daemonset-gke.yaml
+    - istio/manifests/daemonset-openshift.yaml
+    - istio/manifests/networkpolicy.yaml
+    - istio/manifests/resourcequota.yaml
+    - istio/manifests/networkattachmentdefinition-openshift.yaml

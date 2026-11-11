@@ -21,6 +21,13 @@ spec:
     - ../platform.addons.nukleros.io/certificates-component/workload.yaml
     - ../platform.addons.nukleros.io/ingress-component/workload.yaml
     - ../platform.addons.nukleros.io/secrets-component/workload.yaml
+    - ../platform.addons.nukleros.io/service-mesh-component/workload.yaml
     - ../platform.addons.nukleros.io/storage-component/workload.yaml
   resources:
     - namespace.yaml
+
+    # gateway api crds
+    # NOTE: gateway api crds must be created during setup so that they
+    #       are made available to all components once enableGatewayAPI=true.
+    - gateway-api/manifests/crds.yaml
+    - gateway-api/manifests/webhook.yaml

@@ -36,6 +36,8 @@ spec:
   tier: "development"
   defaultIngressController: "nginx"
   cloud: "local"
+  platform: "kind"
+  enableGatewayAPI: false
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields
@@ -101,6 +103,18 @@ var CreateFuncs = []func(
 	*workload.Request,
 ) ([]client.Object, error){
 	CreateNamespaceParentName,
+	CreateCRDBackendtlspoliciesGatewayNetworkingK8sIo,
+	CreateCRDGatewayclassesGatewayNetworkingK8sIo,
+	CreateCRDGatewaysGatewayNetworkingK8sIo,
+	CreateCRDGrpcroutesGatewayNetworkingK8sIo,
+	CreateCRDHttproutesGatewayNetworkingK8sIo,
+	CreateCRDListenersetsGatewayNetworkingK8sIo,
+	CreateCRDReferencegrantsGatewayNetworkingK8sIo,
+	CreateCRDTcproutesGatewayNetworkingK8sIo,
+	CreateCRDTlsroutesGatewayNetworkingK8sIo,
+	CreateCRDUdproutesGatewayNetworkingK8sIo,
+	CreateValidatingAdmissionPolicySafeUpgradesGatewayNetworkingK8sIo,
+	CreateValidatingAdmissionPolicyBindingSafeUpgradesGatewayNetworkingK8sIo,
 }
 
 // InitFuncs is an array of functions that are called prior to starting the controller manager.  This is
@@ -115,7 +129,18 @@ var InitFuncs = []func(
 	*setupv1alpha1.SupportServices,
 	workload.Reconciler,
 	*workload.Request,
-) ([]client.Object, error){}
+) ([]client.Object, error){
+	CreateCRDBackendtlspoliciesGatewayNetworkingK8sIo,
+	CreateCRDGatewayclassesGatewayNetworkingK8sIo,
+	CreateCRDGatewaysGatewayNetworkingK8sIo,
+	CreateCRDGrpcroutesGatewayNetworkingK8sIo,
+	CreateCRDHttproutesGatewayNetworkingK8sIo,
+	CreateCRDListenersetsGatewayNetworkingK8sIo,
+	CreateCRDReferencegrantsGatewayNetworkingK8sIo,
+	CreateCRDTcproutesGatewayNetworkingK8sIo,
+	CreateCRDTlsroutesGatewayNetworkingK8sIo,
+	CreateCRDUdproutesGatewayNetworkingK8sIo,
+}
 
 func ConvertWorkload(component workload.Workload) (*setupv1alpha1.SupportServices, error) {
 	p, ok := component.(*setupv1alpha1.SupportServices)

@@ -6,4 +6,5 @@ resources:
 - platform_v1alpha1_ingresscomponent.yaml
 - platform_v1alpha1_secretscomponent.yaml
 - platform_v1alpha1_storagecomponent.yaml
+- platform_v1alpha1_servicemeshcomponent.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

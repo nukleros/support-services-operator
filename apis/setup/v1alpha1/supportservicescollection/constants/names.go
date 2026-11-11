@@ -20,5 +20,17 @@ package constants
 // package to prevent import cycle errors when attempting to reference the names from other
 // packages (e.g. mutate).
 const (
-	NamespaceParentName = "parent.Name"
+	NamespaceParentName                                                = "parent.Name"
+	CRDBackendtlspoliciesGatewayNetworkingK8sIo                        = "backendtlspolicies.gateway.networking.k8s.io"
+	CRDGatewayclassesGatewayNetworkingK8sIo                            = "gatewayclasses.gateway.networking.k8s.io"
+	CRDGatewaysGatewayNetworkingK8sIo                                  = "gateways.gateway.networking.k8s.io"
+	CRDGrpcroutesGatewayNetworkingK8sIo                                = "grpcroutes.gateway.networking.k8s.io"
+	CRDHttproutesGatewayNetworkingK8sIo                                = "httproutes.gateway.networking.k8s.io"
+	CRDListenersetsGatewayNetworkingK8sIo                              = "listenersets.gateway.networking.k8s.io"
+	CRDReferencegrantsGatewayNetworkingK8sIo                           = "referencegrants.gateway.networking.k8s.io"
+	CRDTcproutesGatewayNetworkingK8sIo                                 = "tcproutes.gateway.networking.k8s.io"
+	CRDTlsroutesGatewayNetworkingK8sIo                                 = "tlsroutes.gateway.networking.k8s.io"
+	CRDUdproutesGatewayNetworkingK8sIo                                 = "udproutes.gateway.networking.k8s.io"
+	ValidatingAdmissionPolicySafeUpgradesGatewayNetworkingK8sIo        = "safe-upgrades.gateway.networking.k8s.io"
+	ValidatingAdmissionPolicyBindingSafeUpgradesGatewayNetworkingK8sIo = "safe-upgrades.gateway.networking.k8s.io"
 )

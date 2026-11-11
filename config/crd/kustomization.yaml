@@ -8,6 +8,7 @@ resources:
 - bases/platform.addons.nukleros.io_ingresscomponents.yaml
 - bases/platform.addons.nukleros.io_secretscomponents.yaml
 - bases/platform.addons.nukleros.io_storagecomponents.yaml
+- bases/platform.addons.nukleros.io_servicemeshcomponents.yaml
 # +kubebuilder:scaffold:crdkustomizeresource
 
 patches:
@@ -19,6 +20,7 @@ patches:
 #- patches/webhook_in_ingresscomponents.yaml
 #- patches/webhook_in_secretscomponents.yaml
 #- patches/webhook_in_storagecomponents.yaml
+#- patches/webhook_in_servicemeshcomponents.yaml
 # +kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [WEBHOOK] To enable webhook, uncomment the following section

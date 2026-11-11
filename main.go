@@ -181,6 +181,7 @@ func main() {
 		platformcontrollers.NewIngressComponentReconciler(mgr),
 		platformcontrollers.NewSecretsComponentReconciler(mgr),
 		platformcontrollers.NewStorageComponentReconciler(mgr),
+		platformcontrollers.NewServiceMeshComponentReconciler(mgr),
 		// +kubebuilder:scaffold:reconcilers
 	}
 
