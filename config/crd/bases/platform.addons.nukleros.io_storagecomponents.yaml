@@ -70,6 +70,7 @@ spec:
                   consumers, usually in their own namespaces.
                 type: string
               seaweedfsOperator:
+                default: {}
                 properties:
                   image:
                     default: chrislusf/seaweedfs-operator

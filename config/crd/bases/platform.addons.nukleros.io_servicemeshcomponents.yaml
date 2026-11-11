@@ -62,8 +62,10 @@ spec:
                 - name
                 type: object
               istio:
+                default: {}
                 properties:
                   images:
+                    default: {}
                     properties:
                       cni:
                         default: registry.istio.io/release/install-cni

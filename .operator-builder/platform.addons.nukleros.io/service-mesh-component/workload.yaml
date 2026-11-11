@@ -10,7 +10,8 @@ spec:
   companionCliSubcmd:
     description: Manage the service mesh management support services
     name: service-mesh
-  dependencies: []
+  dependencies:
+    - certificates-component
   resources:
     - namespace.yaml
 

@@ -43,6 +43,7 @@ spec:
               certManager:
                 properties:
                   cainjector:
+                    default: {}
                     properties:
                       image:
                         default: quay.io/jetstack/cert-manager-cainjector
@@ -65,6 +66,7 @@ spec:
                       LetsEncrypt.
                     type: string
                   controller:
+                    default: {}
                     properties:
                       image:
                         default: quay.io/jetstack/cert-manager-controller
@@ -89,6 +91,7 @@ spec:
                       Version of cert-manager to use.
                     type: string
                   webhook:
+                    default: {}
                     properties:
                       image:
                         default: quay.io/jetstack/cert-manager-webhook

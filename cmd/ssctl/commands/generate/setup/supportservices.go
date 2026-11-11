@@ -78,7 +78,11 @@ func GenerateSupportServices(g *cmdgenerate.GenerateSubCommand) error {
 		// +kubebuilder:scaffold:operator-builder:versionmap
 	}
 
-	generate := generateFuncMap[apiVersion]
+	generate, ok := generateFuncMap[apiVersion]
+	if !ok {
+		return fmt.Errorf("unsupported API Version: %s", apiVersion)
+	}
+
 	resourceObjects, err := generate(collectionFile)
 	if err != nil {
 		return fmt.Errorf("unable to retrieve resources; %w", err)

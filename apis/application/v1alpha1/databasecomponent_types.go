@@ -60,9 +60,11 @@ type DatabaseComponentSpec struct {
 	// Namespace to use for database support services.
 	Namespace string `json:"namespace,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	ZalandoPostgres DatabaseComponentSpecZalandoPostgres `json:"zalandoPostgres,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	CloudNativePg DatabaseComponentSpecCloudNativePg `json:"cloudNativePg,omitempty"`
 }

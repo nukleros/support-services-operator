@@ -51,6 +51,7 @@ type ServiceMeshComponentSpec struct {
 	// Namespace to use for service mesh component support services.
 	Namespace string `json:"namespace,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Istio ServiceMeshComponentSpecIstio `json:"istio,omitempty"`
 }
@@ -77,6 +78,7 @@ type ServiceMeshComponentSpecIstio struct {
 	// not include the '-distroless' suffix.
 	Version string `json:"version,omitempty"`
 
+	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Images ServiceMeshComponentSpecIstioImages `json:"images,omitempty"`
 
@@ -219,7 +221,9 @@ func (component *ServiceMeshComponent) SetChildResourceCondition(resource *statu
 
 // GetDependencies returns the dependencies for a component.
 func (*ServiceMeshComponent) GetDependencies() []workload.Workload {
-	return []workload.Workload{}
+	return []workload.Workload{
+		&CertificatesComponent{},
+	}
 }
 
 // GetComponentGVK returns a GVK object for the component.
