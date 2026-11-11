@@ -28,23 +28,40 @@ operator-update:
 #
 # project management
 #
+# projects belong to a component when KIND is set, or to the collection when it is not:
+#
+#   make overlay GROUP=platform KIND=ingress-component PROJECT=kong  # platform.addons.nukleros.io/ingress-component/kong
+#   make overlay GROUP=setup PROJECT=gateway-api                     # setup.addons.nukleros.io/gateway-api
+#
 GROUP ?=
 DOMAIN ?= addons.nukleros.io
 KIND ?=
 PROJECT ?=
-project:
-	@mkdir -p $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/vendor $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/manifests
-	@touch $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml
-	@kubectl create ns nukleros-$(KIND)-system --dry-run=client -o yaml > $(GROUP).$(DOMAIN)/$(KIND)/namespace.yaml
 
-download:
+WORKLOAD_DIR = $(GROUP).$(DOMAIN)$(if $(KIND),/$(KIND))
+PROJECT_DIR = $(WORKLOAD_DIR)/$(PROJECT)
+CONFIG_DIR = $(PROJECT_DIR)/config
+
+# fail fast when a required variable is missing (e.g. require-GROUP)
+require-%:
+	@[ -n "$($*)" ] || (echo "ERROR: $* is required" && exit 1)
+
+PROJECT_REQUIREMENTS = require-GROUP require-PROJECT
+
+# NOTE: the collection namespace already exists, so a namespace is only generated for new components
+project: $(PROJECT_REQUIREMENTS)
+	@mkdir -p $(CONFIG_DIR) $(PROJECT_DIR)/vendor $(PROJECT_DIR)/manifests
+	@touch $(CONFIG_DIR)/values.yaml $(CONFIG_DIR)/vendor.yaml $(CONFIG_DIR)/overlays.yaml
+	@$(if $(KIND),[ -f $(WORKLOAD_DIR)/namespace.yaml ] || kubectl create ns nukleros-$(KIND)-system --dry-run=client -o yaml > $(WORKLOAD_DIR)/namespace.yaml)
+
+download: $(PROJECT_REQUIREMENTS)
 	vendir sync \
-		--file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml \
-		--lock-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml.lock
+		--file $(CONFIG_DIR)/vendor.yaml \
+		--lock-file $(CONFIG_DIR)/vendor.yaml.lock
 
-overlay:
+overlay: $(PROJECT_REQUIREMENTS)
 	yot \
 		--indent-level 2 \
-		--instructions $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml \
-		--output-directory $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT) \
-		--values-file $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml
+		--instructions $(CONFIG_DIR)/overlays.yaml \
+		--output-directory $(PROJECT_DIR) \
+		--values-file $(CONFIG_DIR)/values.yaml

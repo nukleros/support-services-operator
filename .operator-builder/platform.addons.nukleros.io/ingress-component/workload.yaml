@@ -14,6 +14,8 @@ spec:
     - certificates-component
   resources:
     - namespace.yaml
+
+    # external-dns
     - external-dns/manifests/config-active-directory.yaml
     - external-dns/manifests/config-google.yaml
     - external-dns/manifests/config-route53.yaml
@@ -21,6 +23,8 @@ spec:
     - external-dns/manifests/deployment-google.yaml
     - external-dns/manifests/deployment-route53.yaml
     - external-dns/manifests/rbac.yaml
+
+    # nginx
     - nginx/manifests/cert.yaml
     - nginx/manifests/config.yaml
     - nginx/manifests/crds.yaml
@@ -31,10 +35,11 @@ spec:
     - nginx/manifests/service-aws.yaml
     - nginx/manifests/service-gcp-azure.yaml
     - nginx/manifests/service-nodeport.yaml
+
+    # kong
     - kong/manifests/crds.yaml
     - kong/manifests/deployment.yaml
     - kong/manifests/ingress-class.yaml
     - kong/manifests/rbac.yaml
     - kong/manifests/service.yaml
     - kong/manifests/secret.yaml
-

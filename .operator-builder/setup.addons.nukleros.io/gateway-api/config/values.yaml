@@ -1,0 +1,3 @@
+---
+# NOTE: gateway-api has no configurable values, but the overlay make target requires a values file
+{}

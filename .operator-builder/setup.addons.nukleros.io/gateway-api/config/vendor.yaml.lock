@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: add istio in ambient mode (#34)...'
+      sha: 035449df1e46a1fcabe540cdac4098d76a7bcc9b
+      tags:
+      - v0.9.0
+    path: .
+  path: setup.addons.nukleros.io/gateway-api/vendor
+kind: LockConfig

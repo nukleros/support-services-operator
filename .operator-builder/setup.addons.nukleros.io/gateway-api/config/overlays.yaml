@@ -1,0 +1,17 @@
+commonOverlays:
+  - name: "add include markers for all gateway-api resources"
+    query: "$"
+    value:
+      # +operator-builder:resource:field=enableGatewayAPI,value=true,include
+      apiVersion: "%v"
+
+yamlFiles:
+  - name: "gateway-api crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  # NOTE: this is the upstream safe-upgrades validating admission policy, which prevents the gateway-api
+  #       crds from being downgraded or replaced with the experimental channel
+  - name: "gateway-api webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
