@@ -35,6 +35,7 @@ PROJECT ?=
 project:
 	@mkdir -p $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/vendor $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/manifests
 	@touch $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/values.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/vendor.yaml $(GROUP).$(DOMAIN)/$(KIND)/$(PROJECT)/config/overlays.yaml
+	@kubectl create ns nukleros-$(KIND)-system --dry-run=client -o yaml > $(GROUP).$(DOMAIN)/$(KIND)/namespace.yaml
 
 download:
 	vendir sync \

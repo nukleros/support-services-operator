@@ -36,6 +36,8 @@ spec:
   tier: "development"
   defaultIngressController: "nginx"
   cloud: "local"
+  platform: "kind"
+  enableGatewayAPI: false
 `
 
 // sampleSupportServicesRequired is a sample containing only required fields

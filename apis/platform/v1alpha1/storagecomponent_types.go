@@ -53,7 +53,6 @@ type StorageComponentSpec struct {
 	// consumers, usually in their own namespaces.
 	Namespace string `json:"namespace,omitempty"`
 
-	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	SeaweedfsOperator StorageComponentSpecSeaweedfsOperator `json:"seaweedfsOperator,omitempty"`
 }

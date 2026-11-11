@@ -8,6 +8,11 @@
 # +operator-builder:field:name=cloud,arbitrary,default="local",type=string,description=`
 # +kubebuilder:validation:Enum=local;google;aws
 # Cloud that this operator is running on.  One of: local | google | aws.`
+# +operator-builder:field:name=platform,arbitrary,default="kind",type=string,description=`
+# +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
+# Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.`
+# +operator-builder:field:name=enableGatewayAPI,arbitrary,default=false,type=bool,description=`
+# Enable Kubernetes Gateway API support.  Currently only supported for service-mesh components.`
 apiVersion: v1
 kind: Namespace
 metadata:

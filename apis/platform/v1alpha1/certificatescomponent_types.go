@@ -68,7 +68,6 @@ type CertificatesComponentCollectionSpec struct {
 }
 
 type CertificatesComponentSpecCertManager struct {
-	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Cainjector CertificatesComponentSpecCertManagerCainjector `json:"cainjector,omitempty"`
 
@@ -79,11 +78,9 @@ type CertificatesComponentSpecCertManager struct {
 	// Version of cert-manager to use.
 	Version string `json:"version,omitempty"`
 
-	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Controller CertificatesComponentSpecCertManagerController `json:"controller,omitempty"`
 
-	// +kubebuilder:default={}
 	// +kubebuilder:validation:Optional
 	Webhook CertificatesComponentSpecCertManagerWebhook `json:"webhook,omitempty"`
 

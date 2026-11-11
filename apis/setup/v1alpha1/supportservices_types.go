@@ -59,6 +59,23 @@ type SupportServicesSpec struct {
 	// +kubebuilder:validation:Enum=local;google;aws
 	// Cloud that this operator is running on.  One of: local | google | aws.
 	Cloud string `json:"cloud,omitempty"`
+
+	// +kubebuilder:default="kind"
+	// +kubebuilder:validation:Optional
+	// (Default: "kind")
+	//
+	// +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
+	// Platform that this operator is running on.  One of: kind | gke | openshift | eks
+	// | aks.
+	Platform string `json:"platform,omitempty"`
+
+	// +kubebuilder:default=false
+	// +kubebuilder:validation:Optional
+	// (Default: false)
+	//
+	// Enable Kubernetes Gateway API support.  Currently only supported for
+	// service-mesh components.
+	EnableGatewayAPI bool `json:"enableGatewayAPI"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.

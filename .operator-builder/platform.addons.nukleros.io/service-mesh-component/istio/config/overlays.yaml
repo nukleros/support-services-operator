@@ -1,0 +1,744 @@
+commonOverlays:
+  # the openshift network attachment definition is intentionally left in the default namespace
+  - name: "add namespace markers"
+    documentQuery:
+      - conditions:
+        - query: $[?($.kind != "NetworkAttachmentDefinition")]
+    query:
+      - metadata.namespace
+      - subjects[*].namespace
+      - "webhooks[*].clientConfig.service.namespace"
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+  - name: "set version on labels"
+    query:
+      - "metadata.labels['app.kubernetes.io/version']"
+      - "spec.template.metadata.labels['app.kubernetes.io/version']"
+    value: "%v"  # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string
+
+  # the api server stores quantities in canonical form (e.g. 1024Mi is stored as 1Gi), so the vendored
+  # values are canonicalized to prevent the operator from re-applying them on every reconciliation
+  - name: "canonicalize istiod memory quantities"
+    query: "spec.template.spec.containers[?(@.name == 'discovery')].resources"
+    value:
+      limits:
+        memory: 2Gi
+      requests:
+        memory: 2Gi
+
+  - name: "canonicalize ztunnel memory quantities"
+    query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].resources"
+    value:
+      limits:
+        memory: 1Gi
+
+  - name: "canonicalize resource quota pod counts"
+    query: "spec.hard"
+    value:
+      pods: "5k"
+
+yamlFiles:
+  #
+  # NOTE: the namespace and version in the config files are embedded in json/yaml strings, so the
+  #       vendored values are replaced in place rather than being swapped for a placeholder.
+  #
+  # NOTE: operator-builder requires unique resource names across the component, so resources in the
+  #       gke and openshift variants have the platform appended to their names (and references).
+  #
+  - name: "istio config for generic platforms"
+    path: "../vendor/config.yaml"
+    outputPath: "manifests/config.yaml"
+    overlays:
+      - name: "add include markers for generic config"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include=false
+          # +operator-builder:resource:collectionField=platform,value="openshift",include=false
+          apiVersion: "%v"
+
+      - name: "set istio version for the cni agent"
+        query: "data.CURRENT_AGENT_VERSION"
+        value: "%v"  # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string
+
+      - name: "set namespace and version in helm values configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "values")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          original-values: "%v"
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          merged-values: "%v"
+
+      - name: "set namespace in mesh configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          mesh: "%v"
+
+      - name: "set namespace and version in sidecar injector configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio-sidecar-injector")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          values: "%v"
+
+  - name: "istio config for gke"
+    path: "../vendor/config-gke.yaml"
+    outputPath: "manifests/config-gke.yaml"
+    overlays:
+      - name: "add include marker for gke config"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include
+          apiVersion: "%v"
+
+      - name: "append platform to configmap names"
+        query: "metadata.name"
+        value: "%v-gke"
+
+      - name: "set istio version for the cni agent"
+        query: "data.CURRENT_AGENT_VERSION"
+        value: "%v"  # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string
+
+      - name: "set namespace and version in helm values configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "values-gke")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          original-values: "%v"
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          merged-values: "%v"
+
+      - name: "set namespace in mesh configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio-gke")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          mesh: "%v"
+
+      - name: "set namespace and version in sidecar injector configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio-sidecar-injector-gke")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          values: "%v"
+
+  - name: "istio config for openshift"
+    path: "../vendor/config-openshift.yaml"
+    outputPath: "manifests/config-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift config"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+      - name: "append platform to configmap names"
+        query: "metadata.name"
+        value: "%v-openshift"
+
+      - name: "set istio version for the cni agent"
+        query: "data.CURRENT_AGENT_VERSION"
+        value: "%v"  # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string
+
+      - name: "set namespace and version in helm values configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "values-openshift")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          original-values: "%v"
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          merged-values: "%v"
+
+      - name: "set namespace in mesh configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio-openshift")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          mesh: "%v"
+
+      - name: "set namespace and version in sidecar injector configmap"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ConfigMap")]
+            - query: $[?($.metadata.name == "istio-sidecar-injector-openshift")]
+        query: "data"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="nukleros-service-mesh-system"
+          # +operator-builder:field:name=istio.version,type=string,replace="{{ .defaultVersion }}"
+          values: "%v"
+
+  - name: "istio crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  - name: "istio daemonset for generic platforms"
+    path: "../vendor/daemonset.yaml"
+    outputPath: "manifests/daemonset.yaml"
+    overlays:
+      - name: "add include markers for generic daemonset"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include=false
+          # +operator-builder:resource:collectionField=platform,value="openshift",include=false
+          apiVersion: "%v"
+
+      - name: "add istio cni image markers"
+        query: "spec.template.spec.containers[?(@.name == 'install-cni')]"
+        value:
+          # +operator-builder:field:name=istio.images.cni,default={{ .defaultCniImage }},type=string,replace="cniImage",description=`
+          # Image repo and name to use for the istio cni node agent.`
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: cniImage:istioVersion-distroless
+
+      - name: "add ztunnel image markers"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')]"
+        value:
+          # +operator-builder:field:name=istio.images.ztunnel,default={{ .defaultZtunnelImage }},type=string,replace="ztunnelImage",description=`
+          # Image repo and name to use for ztunnel.`
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: ztunnelImage:istioVersion-distroless
+
+      - name: "set namespace for ztunnel ca address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'CA_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+      - name: "set namespace for ztunnel xds address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'XDS_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+  - name: "istio daemonset for gke"
+    path: "../vendor/daemonset-gke.yaml"
+    outputPath: "manifests/daemonset-gke.yaml"
+    overlays:
+      - name: "add include marker for gke daemonset"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include
+          apiVersion: "%v"
+
+      - name: "append platform to daemonset names"
+        query: "metadata.name"
+        value: "%v-gke"
+
+      - name: "append platform to cni configmap reference"
+        query: "spec.template.spec.containers[?(@.name == 'install-cni')].envFrom[*].configMapRef.name"
+        value: "%v-gke"
+
+      - name: "add istio cni image markers"
+        query: "spec.template.spec.containers[?(@.name == 'install-cni')]"
+        value:
+          # +operator-builder:field:name=istio.images.cni,default={{ .defaultCniImage }},type=string,replace="cniImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: cniImage:istioVersion-distroless
+
+      - name: "add ztunnel image markers"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')]"
+        value:
+          # +operator-builder:field:name=istio.images.ztunnel,default={{ .defaultZtunnelImage }},type=string,replace="ztunnelImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: ztunnelImage:istioVersion-distroless
+
+      - name: "set namespace for ztunnel ca address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'CA_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+      - name: "set namespace for ztunnel xds address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'XDS_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+  - name: "istio daemonset for openshift"
+    path: "../vendor/daemonset-openshift.yaml"
+    outputPath: "manifests/daemonset-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift daemonset"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+      - name: "append platform to daemonset names"
+        query: "metadata.name"
+        value: "%v-openshift"
+
+      - name: "append platform to cni configmap reference"
+        query: "spec.template.spec.containers[?(@.name == 'install-cni')].envFrom[*].configMapRef.name"
+        value: "%v-openshift"
+
+      - name: "append platform to service account references"
+        query: "spec.template.spec.serviceAccountName"
+        value: "%v-openshift"
+
+      - name: "add istio cni image markers"
+        query: "spec.template.spec.containers[?(@.name == 'install-cni')]"
+        value:
+          # +operator-builder:field:name=istio.images.cni,default={{ .defaultCniImage }},type=string,replace="cniImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: cniImage:istioVersion-distroless
+
+      - name: "add ztunnel image markers"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')]"
+        value:
+          # +operator-builder:field:name=istio.images.ztunnel,default={{ .defaultZtunnelImage }},type=string,replace="ztunnelImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: ztunnelImage:istioVersion-distroless
+
+      - name: "set namespace for ztunnel ca address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'CA_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+      - name: "set namespace for ztunnel xds address"
+        query: "spec.template.spec.containers[?(@.name == 'istio-proxy')].env[?(@.name == 'XDS_ADDRESS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: istiod.service-mesh-namespace.svc:15012
+
+  - name: "istio deployment for generic platforms"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add include markers for generic deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include=false
+          # +operator-builder:resource:collectionField=platform,value="openshift",include=false
+          apiVersion: "%v"
+
+      - name: "add istiod image markers"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')]"
+        value:
+          # +operator-builder:field:name=istio.images.istiod,default={{ .defaultIstiodImage }},type=string,replace="istiodImage",description=`
+          # Image repo and name to use for istiod.`
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion",description=`
+          # Version of istio to use.  This version is used for all istio images, including the proxy
+          # image used for waypoints.  Distroless images are used, so this should not include the
+          # '-distroless' suffix.`
+          image: istiodImage:istioVersion-distroless
+
+      - name: "set namespace for trusted ztunnel node accounts"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')].env[?(@.name == 'CA_TRUSTED_NODE_ACCOUNTS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: service-mesh-namespace/ztunnel
+
+  - name: "istio deployment for gke"
+    path: "../vendor/deployment-gke.yaml"
+    outputPath: "manifests/deployment-gke.yaml"
+    overlays:
+      - name: "add include marker for gke deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include
+          apiVersion: "%v"
+
+      - name: "append platform to deployment name"
+        query: "metadata.name"
+        value: "%v-gke"
+
+      # istiod looks up the 'istio' and 'istio-sidecar-injector' configmaps by name, so the
+      # platform configmaps are mounted at the paths istiod reads before falling back to them
+      - name: "add platform mesh and sidecar injector config volumes"
+        query: "spec.template.spec.volumes"
+        value:
+          - name: config-volume
+            configMap:
+              name: istio-gke
+          - name: inject
+            configMap:
+              name: istio-sidecar-injector-gke
+
+      - name: "mount platform mesh and sidecar injector config"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')].volumeMounts"
+        value:
+          - name: config-volume
+            mountPath: /etc/istio/config
+            readOnly: true
+          - name: inject
+            mountPath: /var/lib/istio/inject
+            readOnly: true
+
+      - name: "add istiod image markers"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')]"
+        value:
+          # +operator-builder:field:name=istio.images.istiod,default={{ .defaultIstiodImage }},type=string,replace="istiodImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: istiodImage:istioVersion-distroless
+
+      - name: "set namespace for trusted ztunnel node accounts"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')].env[?(@.name == 'CA_TRUSTED_NODE_ACCOUNTS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: service-mesh-namespace/ztunnel
+
+  - name: "istio deployment for openshift"
+    path: "../vendor/deployment-openshift.yaml"
+    outputPath: "manifests/deployment-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift deployment"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+      - name: "append platform to deployment name"
+        query: "metadata.name"
+        value: "%v-openshift"
+
+      # istiod looks up the 'istio' and 'istio-sidecar-injector' configmaps by name, so the
+      # platform configmaps are mounted at the paths istiod reads before falling back to them
+      - name: "add platform mesh and sidecar injector config volumes"
+        query: "spec.template.spec.volumes"
+        value:
+          - name: config-volume
+            configMap:
+              name: istio-openshift
+          - name: inject
+            configMap:
+              name: istio-sidecar-injector-openshift
+
+      - name: "mount platform mesh and sidecar injector config"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')].volumeMounts"
+        value:
+          - name: config-volume
+            mountPath: /etc/istio/config
+            readOnly: true
+          - name: inject
+            mountPath: /var/lib/istio/inject
+            readOnly: true
+
+      - name: "append platform to service account reference"
+        query: "spec.template.spec.serviceAccountName"
+        value: "%v-openshift"
+
+      - name: "add istiod image markers"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')]"
+        value:
+          # +operator-builder:field:name=istio.images.istiod,default={{ .defaultIstiodImage }},type=string,replace="istiodImage"
+          # +operator-builder:field:name=istio.version,default="{{ .defaultVersion }}",type=string,replace="istioVersion"
+          image: istiodImage:istioVersion-distroless
+
+      - name: "set namespace for trusted ztunnel node accounts"
+        query: "spec.template.spec.containers[?(@.name == 'discovery')].env[?(@.name == 'CA_TRUSTED_NODE_ACCOUNTS')]"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          value: service-mesh-namespace/ztunnel-openshift
+
+  # NOTE: istiod replicas are managed by the horizontal pod autoscaler rather than the deployment.
+  #       the gke and openshift autoscalers are static copies with the platform appended to their
+  #       name and target, since yot does not produce multiple outputs from the same source file.
+  - name: "istio horizontal pod autoscaler for generic platforms"
+    path: "../vendor/horizontalpodautoscaler.yaml"
+    outputPath: "manifests/horizontalpodautoscaler.yaml"
+    overlays:
+      - name: "add include markers for generic horizontal pod autoscaler"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include=false
+          # +operator-builder:resource:collectionField=platform,value="openshift",include=false
+          apiVersion: "%v"
+
+      - name: "add istiod replica count markers"
+        query: "spec"
+        value:
+          # +operator-builder:field:name=istio.replicas,default="%v",type=int,description=`
+          # Minimum number of replicas to use for the istiod deployment.  The istiod deployment
+          # is autoscaled between istio.replicas and istio.maxReplicas.`
+          minReplicas: !!int "%v"
+          # +operator-builder:field:name=istio.maxReplicas,default="%v",type=int,description=`
+          # Maximum number of replicas to use for the istiod deployment.  The istiod deployment
+          # is autoscaled between istio.replicas and istio.maxReplicas.`
+          maxReplicas: !!int "%v"
+
+  - name: "istio horizontal pod autoscaler for gke"
+    path: "../static/horizontalpodautoscaler-gke.yaml"
+    outputPath: "manifests/horizontalpodautoscaler-gke.yaml"
+    overlays:
+      - name: "add include marker for gke horizontal pod autoscaler"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="gke",include
+          apiVersion: "%v"
+
+      - name: "add istiod replica count markers"
+        query: "spec"
+        value:
+          # +operator-builder:field:name=istio.replicas,default="%v",type=int
+          minReplicas: !!int "%v"
+          # +operator-builder:field:name=istio.maxReplicas,default="%v",type=int
+          maxReplicas: !!int "%v"
+
+  - name: "istio horizontal pod autoscaler for openshift"
+    path: "../static/horizontalpodautoscaler-openshift.yaml"
+    outputPath: "manifests/horizontalpodautoscaler-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift horizontal pod autoscaler"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+      - name: "add istiod replica count markers"
+        query: "spec"
+        value:
+          # +operator-builder:field:name=istio.replicas,default="%v",type=int
+          minReplicas: !!int "%v"
+          # +operator-builder:field:name=istio.maxReplicas,default="%v",type=int
+          maxReplicas: !!int "%v"
+
+  - name: "istio network attachment definition for openshift"
+    path: "../vendor/networkattachmentdefinition-openshift.yaml"
+    outputPath: "manifests/networkattachmentdefinition-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift network attachment definition"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+  - name: "istio networkpolicy"
+    path: "../vendor/networkpolicy.yaml"
+    outputPath: "manifests/networkpolicy.yaml"
+
+  - name: "istio poddisruptionbudget"
+    path: "../vendor/poddisruptionbudget.yaml"
+    outputPath: "manifests/poddisruptionbudget.yaml"
+
+  - name: "istio rbac for generic platforms and gke"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+    overlays:
+      - name: "add include marker for generic and gke rbac"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include=false
+          apiVersion: "%v"
+
+      - name: "set namespace in istiod clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istiod-clusterrole-nukleros-service-mesh-system")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-clusterrole-service-mesh-namespace
+
+      - name: "set namespace in istiod clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istiod-clusterrole-nukleros-service-mesh-system")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-clusterrole-service-mesh-namespace
+
+      - name: "set namespace in istiod gateway controller clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istiod-gateway-controller-nukleros-service-mesh-system")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-gateway-controller-service-mesh-namespace
+
+      - name: "set namespace in istiod gateway controller clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istiod-gateway-controller-nukleros-service-mesh-system")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-gateway-controller-service-mesh-namespace
+
+      - name: "set namespace in istio reader clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istio-reader-clusterrole-nukleros-service-mesh-system")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-reader-clusterrole-service-mesh-namespace
+
+      - name: "set namespace in istio reader clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istio-reader-clusterrole-nukleros-service-mesh-system")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-reader-clusterrole-service-mesh-namespace
+
+  - name: "istio rbac for openshift"
+    path: "../vendor/rbac-openshift.yaml"
+    outputPath: "manifests/rbac-openshift.yaml"
+    overlays:
+      - name: "add include marker for openshift rbac"
+        query: "$"
+        value:
+          # +operator-builder:resource:collectionField=platform,value="openshift",include
+          apiVersion: "%v"
+
+      - name: "append platform to rbac names"
+        query:
+          - metadata.name
+          - roleRef.name
+          - subjects[*].name
+        value: "%v-openshift"
+
+      - name: "set namespace in istiod clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istiod-clusterrole-nukleros-service-mesh-system-openshift")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-clusterrole-service-mesh-namespace-openshift
+
+      - name: "set namespace in istiod clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istiod-clusterrole-nukleros-service-mesh-system-openshift")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-clusterrole-service-mesh-namespace-openshift
+
+      - name: "set namespace in istiod gateway controller clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istiod-gateway-controller-nukleros-service-mesh-system-openshift")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-gateway-controller-service-mesh-namespace-openshift
+
+      - name: "set namespace in istiod gateway controller clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istiod-gateway-controller-nukleros-service-mesh-system-openshift")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istiod-gateway-controller-service-mesh-namespace-openshift
+
+      - name: "set namespace in istio reader clusterrole name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRole")]
+            - query: $[?($.metadata.name == "istio-reader-clusterrole-nukleros-service-mesh-system-openshift")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-reader-clusterrole-service-mesh-namespace-openshift
+
+      - name: "set namespace in istio reader clusterrolebinding name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ClusterRoleBinding")]
+            - query: $[?($.metadata.name == "istio-reader-clusterrole-nukleros-service-mesh-system-openshift")]
+        query:
+          - metadata
+          - roleRef
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-reader-clusterrole-service-mesh-namespace-openshift
+
+  - name: "istio resourcequota"
+    path: "../vendor/resourcequota.yaml"
+    outputPath: "manifests/resourcequota.yaml"
+
+  - name: "istio service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+
+  - name: "istio webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
+    overlays:
+      - name: "set namespace in sidecar injector webhook name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "MutatingWebhookConfiguration")]
+            - query: $[?($.metadata.name == "istio-sidecar-injector-nukleros-service-mesh-system")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-sidecar-injector-service-mesh-namespace
+
+      - name: "set namespace in validator webhook name"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ValidatingWebhookConfiguration")]
+            - query: $[?($.metadata.name == "istio-validator-nukleros-service-mesh-system")]
+        query: "metadata"
+        value:
+          # +operator-builder:field:name=namespace,type=string,replace="service-mesh-namespace"
+          name: istio-validator-service-mesh-namespace
+
+      # istiod manages the failure policy of its validating webhooks (switching them from Ignore to Fail
+      # once validation is working), so it is removed to prevent the operator from fighting istiod
+      - name: "remove failure policy from validating webhooks"
+        documentQuery:
+          - conditions:
+            - query: $[?($.kind == "ValidatingWebhookConfiguration")]
+        query: "webhooks[*].failurePolicy"
+        action: delete

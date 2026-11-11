@@ -1,0 +1,17 @@
+apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: ServiceMeshComponent
+metadata:
+  name: servicemeshcomponent-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-service-mesh-system"
+  istio:
+    version: "1.30.4"
+    images:
+      istiod: "registry.istio.io/release/pilot"
+      cni: "registry.istio.io/release/install-cni"
+      ztunnel: "registry.istio.io/release/ztunnel"
+    maxReplicas: 5
+    replicas: 2

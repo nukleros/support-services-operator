@@ -1,0 +1,5 @@
+---
+defaultIstiodImage: registry.istio.io/release/pilot
+defaultZtunnelImage: registry.istio.io/release/ztunnel
+defaultCniImage: registry.istio.io/release/install-cni
+defaultVersion: "1.30.4"

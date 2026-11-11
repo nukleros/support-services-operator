@@ -1,0 +1,15 @@
+---
+# +operator-builder:resource:collectionField=platform,value="openshift",include
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: istio-cni
+  namespace: default
+  labels:
+    operator.istio.io/component: Cni
+    app.kubernetes.io/name: istio-cni
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.30.4 # +operator-builder:field:name=istio.version,default="1.30.4",type=string
+    platform.nukleros.io/category: service-mesh
+    platform.nukleros.io/project: istio

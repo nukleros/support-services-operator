@@ -1,0 +1,34 @@
+---
+# +operator-builder:resource:collectionField=platform,value="gke",include
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: istiod-gke
+  namespace: nukleros-service-mesh-system # +operator-builder:field:name=namespace,default="nukleros-service-mesh-system",type=string
+  labels:
+    app: istiod
+    istio.io/rev: default
+    install.operator.istio.io/owning-resource: unknown
+    operator.istio.io/component: Pilot
+    app.kubernetes.io/name: istiod
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.30.4 # +operator-builder:field:name=istio.version,default="1.30.4",type=string
+    platform.nukleros.io/category: service-mesh
+    platform.nukleros.io/project: istio
+spec:
+  # +operator-builder:field:name=istio.maxReplicas,default="5",type=int
+  maxReplicas: 5
+  # +operator-builder:field:name=istio.replicas,default="2",type=int
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: istiod-gke
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80

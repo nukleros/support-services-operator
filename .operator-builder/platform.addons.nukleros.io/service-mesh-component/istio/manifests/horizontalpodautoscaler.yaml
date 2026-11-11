@@ -1,0 +1,42 @@
+---
+# +operator-builder:resource:collectionField=platform,value="gke",include=false
+# +operator-builder:resource:collectionField=platform,value="openshift",include=false
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: istiod
+  namespace: nukleros-service-mesh-system # +operator-builder:field:name=namespace,default="nukleros-service-mesh-system",type=string
+  labels:
+    app: istiod
+    istio.io/rev: default
+    install.operator.istio.io/owning-resource: unknown
+    operator.istio.io/component: Pilot
+    app.kubernetes.io/name: istiod
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.30.4 # +operator-builder:field:name=istio.version,default="1.30.4",type=string
+    platform.nukleros.io/category: service-mesh
+    platform.nukleros.io/project: istio
+spec:
+  # +operator-builder:field:name=istio.maxReplicas,default="5",type=int,description=`
+  # Maximum number of replicas to use for the istiod deployment.  The istiod deployment
+  # is autoscaled between istio.replicas and istio.maxReplicas.`
+  maxReplicas: 5
+  # +operator-builder:field:name=istio.replicas,default="2",type=int,description=`
+  # Minimum number of replicas to use for the istiod deployment.  The istiod deployment
+  # is autoscaled between istio.replicas and istio.maxReplicas.`
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: istiod
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+# Source: ambient/charts/istiod/templates/mutatingwebhook.yaml
+# TODO BML istiodRemote.injectionURL is invalid to set if `istiodRemote.enabled` is false, we should express that.

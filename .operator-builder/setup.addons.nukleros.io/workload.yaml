@@ -21,6 +21,7 @@ spec:
     - ../platform.addons.nukleros.io/certificates-component/workload.yaml
     - ../platform.addons.nukleros.io/ingress-component/workload.yaml
     - ../platform.addons.nukleros.io/secrets-component/workload.yaml
+    - ../platform.addons.nukleros.io/service-mesh-component/workload.yaml
     - ../platform.addons.nukleros.io/storage-component/workload.yaml
   resources:
     - namespace.yaml

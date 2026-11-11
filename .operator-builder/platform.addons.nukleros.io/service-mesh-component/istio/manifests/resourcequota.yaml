@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: istio-cni-resource-quota
+  namespace: nukleros-service-mesh-system # +operator-builder:field:name=namespace,default="nukleros-service-mesh-system",type=string
+  labels:
+    app.kubernetes.io/name: istio-cni
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.30.4 # +operator-builder:field:name=istio.version,default="1.30.4",type=string
+    platform.nukleros.io/category: service-mesh
+    platform.nukleros.io/project: istio
+spec:
+  hard:
+    pods: 5k
+  scopeSelector:
+    matchExpressions:
+      - operator: In
+        scopeName: PriorityClass
+        values:
+          - system-node-critical
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ztunnel
+  namespace: nukleros-service-mesh-system # +operator-builder:field:name=namespace,default="nukleros-service-mesh-system",type=string
+  labels:
+    app.kubernetes.io/name: ztunnel
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.30.4 # +operator-builder:field:name=istio.version,default="1.30.4",type=string
+    platform.nukleros.io/category: service-mesh
+    platform.nukleros.io/project: istio
+spec:
+  hard:
+    pods: 5k
+  scopeSelector:
+    matchExpressions:
+      - operator: In
+        scopeName: PriorityClass
+        values:
+          - system-node-critical
