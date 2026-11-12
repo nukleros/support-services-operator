@@ -35,13 +35,13 @@ func CreateValidatingAdmissionPolicySafeUpgradesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "admissionregistration.k8s.io/v1",
 			"kind":       "ValidatingAdmissionPolicy",
 			"metadata": map[string]interface{}{
@@ -104,13 +104,13 @@ func CreateValidatingAdmissionPolicyBindingSafeUpgradesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "admissionregistration.k8s.io/v1",
 			"kind":       "ValidatingAdmissionPolicyBinding",
 			"metadata": map[string]interface{}{

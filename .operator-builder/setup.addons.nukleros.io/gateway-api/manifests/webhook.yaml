@@ -1,5 +1,5 @@
 ---
-# +operator-builder:resource:field=enableGatewayAPI,value=true,include
+# +operator-builder:resource:field=gatewayAPI,value="managed",include
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
@@ -31,7 +31,7 @@ spec:
       message: Installing CRDs with version before v1.7.0 is prohibited by default. Uninstall ValidatingAdmissionPolicy safe-upgrades.gateway.networking.k8s.io to install older versions.
       reason: Invalid
 ---
-# +operator-builder:resource:field=enableGatewayAPI,value=true,include
+# +operator-builder:resource:field=gatewayAPI,value="managed",include
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicyBinding
 metadata:
