@@ -82,11 +82,18 @@ type SupportServicesSpec struct {
 	// (Default: "disabled")
 	//
 	// +kubebuilder:validation:Enum=disabled;external;managed
-	// Kubernetes Gateway API support and how its CRDs are provided.  One of: disabled
-	// | external | managed.
+	// How the Kubernetes Gateway API CRDs are provided.  One of: disabled | external |
+	// managed.
 	//
-	// disabled: Gateway API support is explicitly disabled.  This operator does not
-	// install the CRDs.  No components will use the Gateway API feature.
+	// NOTE: only managed currently has any effect.  This field controls only whether
+	// this operator installs the Gateway API CRDs and admission policies.  It is not
+	// read by any component and does not toggle Gateway API features (e.g. in istiod),
+	// which detect the CRDs on the cluster independently.  disabled and external are
+	// reserved for future use by components and currently behave identically.
+	//
+	// disabled: this operator does not install or manage the CRDs.  Any Gateway API
+	// CRDs already present on the cluster are left as-is and may still be used by
+	// components.
 	//
 	// external: the CRDs are provided by the platform (e.g. GKE with Gateway API
 	// enabled) or installed outside of this operator.  This operator does not install
