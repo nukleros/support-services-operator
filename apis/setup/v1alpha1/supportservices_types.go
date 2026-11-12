@@ -32,7 +32,8 @@ var ErrUnableToConvertSupportServices = errors.New("unable to convert to Support
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SupportServicesSpec defines the desired state of SupportServices.
-// +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')",message="platform\x20must\x20be\x20set\x20to\x20gke\x20(not\x20kind)\x20when\x20cloud\x20is\x20google"
+// +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')"
+// +kubebuilder:validation:XValidation:rule="!(self.platform=='gke'&&self.gatewayAPI=='managed')"
 type SupportServicesSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -76,13 +77,25 @@ type SupportServicesSpec struct {
 	// cloud=google and platform=kind is rejected.
 	Platform string `json:"platform,omitempty"`
 
-	// +kubebuilder:default=false
+	// +kubebuilder:default="disabled"
 	// +kubebuilder:validation:Optional
-	// (Default: false)
+	// (Default: "disabled")
 	//
-	// Enable Kubernetes Gateway API support.  Currently only supported for
-	// service-mesh components.
-	EnableGatewayAPI bool `json:"enableGatewayAPI"`
+	// +kubebuilder:validation:Enum=disabled;external;managed
+	// Kubernetes Gateway API support and how its CRDs are provided.  One of: disabled
+	// | external | managed.
+	//
+	// disabled: Gateway API support is explicitly disabled.  This operator does not
+	// install the CRDs.  No components will use the Gateway API feature.
+	//
+	// external: the CRDs are provided by the platform (e.g. GKE with Gateway API
+	// enabled) or installed outside of this operator.  This operator does not install
+	// them.
+	//
+	// managed: this operator installs and manages the CRDs via the standard channel.
+	// Do not use on clusters where the provider manages them.  Use external instead.
+	// The combination of platform=gke and gatewayAPI=managed is rejected.
+	GatewayAPI string `json:"gatewayAPI,omitempty"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.

@@ -6,5 +6,5 @@ spec:
   tier: "development"
   defaultIngressController: "nginx"
   cloud: "local"
-  platform: "kind"
-  enableGatewayAPI: false
+  platform: "gke"
+  gatewayAPI: "managed"

@@ -35,13 +35,13 @@ func CreateCRDBackendtlspoliciesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -1517,13 +1517,13 @@ func CreateCRDGatewayclassesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -2154,13 +2154,13 @@ func CreateCRDGatewaysGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -5822,13 +5822,13 @@ func CreateCRDGrpcroutesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -8050,13 +8050,13 @@ func CreateCRDHttproutesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -15587,13 +15587,13 @@ func CreateCRDListenersetsGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -16477,13 +16477,13 @@ func CreateCRDReferencegrantsGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -16893,13 +16893,13 @@ func CreateCRDTcproutesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -18268,13 +18268,13 @@ func CreateCRDTlsroutesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{
@@ -20543,13 +20543,13 @@ func CreateCRDUdproutesGatewayNetworkingK8sIo(
 	req *workload.Request,
 ) ([]client.Object, error) {
 
-	if parent.Spec.EnableGatewayAPI != true {
+	if parent.Spec.GatewayAPI != "managed" {
 		return []client.Object{}, nil
 	}
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// +operator-builder:resource:field=enableGatewayAPI,value=true,include
+			// +operator-builder:resource:field=gatewayAPI,value="managed",include
 			"apiVersion": "apiextensions.k8s.io/v1",
 			"kind":       "CustomResourceDefinition",
 			"metadata": map[string]interface{}{

@@ -62,14 +62,29 @@ spec:
                 - kong
                 - nginx
                 type: string
-              enableGatewayAPI:
-                default: false
+              gatewayAPI:
+                default: disabled
                 description: |-
-                  (Default: false)
+                  (Default: "disabled")
 
-                  Enable Kubernetes Gateway API support.  Currently only supported for
-                  service-mesh components.
-                type: boolean
+                  Kubernetes Gateway API support and how its CRDs are provided.  One of: disabled
+                  | external | managed.
+
+                  disabled: Gateway API support is explicitly disabled.  This operator does not
+                  install the CRDs.  No components will use the Gateway API feature.
+
+                  external: the CRDs are provided by the platform (e.g. GKE with Gateway API
+                  enabled) or installed outside of this operator.  This operator does not install
+                  them.
+
+                  managed: this operator installs and manages the CRDs via the standard channel.
+                  Do not use on clusters where the provider manages them.  Use external instead.
+                  The combination of platform=gke and gatewayAPI=managed is rejected.
+                enum:
+                - disabled
+                - external
+                - managed
+                type: string
               platform:
                 default: kind
                 description: |-
@@ -101,8 +116,8 @@ spec:
                 type: string
             type: object
             x-kubernetes-validations:
-            - message: platform must be set to gke (not kind) when cloud is google
-              rule: '!(self.cloud==''google''&&self.platform==''kind'')'
+            - rule: '!(self.cloud==''google''&&self.platform==''kind'')'
+            - rule: '!(self.platform==''gke''&&self.gatewayAPI==''managed'')'
           status:
             description: SupportServicesStatus defines the observed state of SupportServices.
             properties:

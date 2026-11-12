@@ -2,7 +2,7 @@ commonOverlays:
   - name: "add include markers for all gateway-api resources"
     query: "$"
     value:
-      # +operator-builder:resource:field=enableGatewayAPI,value=true,include
+      # +operator-builder:resource:field=gatewayAPI,value="managed",include
       apiVersion: "%v"
 
 yamlFiles:

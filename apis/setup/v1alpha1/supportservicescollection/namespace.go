@@ -37,28 +37,9 @@ func CreateNamespaceParentName(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// struct: .
-			// controlled by field: tier
-			// controlled by field: defaultIngressController
-			// controlled by field: cloud
-			// controlled by field: platform
-			// controlled by field: enableGatewayAPI
-			//  +kubebuilder:validation:Enum=development;staging;production
-			//  The tier of cluster being used.  One of: development | staging | production.
-			//  +kubebuilder:validation:Enum=kong;nginx
-			//  The default ingress for setting TLS certs.  One of: kong | nginx.
-			//  +kubebuilder:validation:Enum=local;google;aws
-			//  Cloud that this operator is running on.  One of: local | google | aws.
-			//  When set to google, platform must also be set explicitly (e.g. gke), as the
-			//  default platform of kind is not allowed.
-			//  +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
-			//  Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.
-			//  Platform is set independently of cloud and is not inferred from it.  GKE clusters
-			//  must set platform to gke: the generic (kind) istio-cni daemonset installs CNI
-			//  plugins to /opt/cni/bin, while the GKE kubelet reads them from /home/kubernetes/bin,
-			//  so pod sandboxes fail to start.  The combination of cloud=google and platform=kind
-			//  is rejected.
-			//  Enable Kubernetes Gateway API support.  Currently only supported for service-mesh components.
+			//  managed: this operator installs and manages the CRDs via the standard channel.
+			//  Do not use on clusters where the provider manages them.  Use external instead.
+			//  The combination of platform=gke and gatewayAPI=managed is rejected.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{

@@ -6,18 +6,24 @@
 # +operator-builder:struct:name=".",description=`
 # SupportServicesSpec defines the desired state of SupportServices.
 #
-# +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')"`
+# +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')"
+#
+# +kubebuilder:validation:XValidation:rule="!(self.platform=='gke'&&self.gatewayAPI=='managed')"`
+
 # +operator-builder:field:name=tier,arbitrary,default="development",type=string,description=`
 # +kubebuilder:validation:Enum=development;staging;production
 # The tier of cluster being used.  One of: development | staging | production.`
+
 # +operator-builder:field:name=defaultIngressController,arbitrary,default="nginx",type=string,description=`
 # +kubebuilder:validation:Enum=kong;nginx
 # The default ingress for setting TLS certs.  One of: kong | nginx.`
+
 # +operator-builder:field:name=cloud,arbitrary,default="local",type=string,description=`
 # +kubebuilder:validation:Enum=local;google;aws
 # Cloud that this operator is running on.  One of: local | google | aws.
 # When set to google, platform must also be set explicitly (e.g. gke), as the
 # default platform of kind is not allowed.`
+
 # +operator-builder:field:name=platform,arbitrary,default="kind",type=string,description=`
 # +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
 # Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.
@@ -26,8 +32,20 @@
 # plugins to /opt/cni/bin, while the GKE kubelet reads them from /home/kubernetes/bin,
 # so pod sandboxes fail to start.  The combination of cloud=google and platform=kind
 # is rejected.`
-# +operator-builder:field:name=enableGatewayAPI,arbitrary,default=false,type=bool,description=`
-# Enable Kubernetes Gateway API support.  Currently only supported for service-mesh components.`
+
+# +operator-builder:field:name=gatewayAPI,arbitrary,default="disabled",type=string,description=`
+# +kubebuilder:validation:Enum=disabled;external;managed
+# Kubernetes Gateway API support and how its CRDs are provided.  One of: disabled | external | managed.
+#
+# disabled: Gateway API support is explicitly disabled.  This operator does not install
+# the CRDs.  No components will use the Gateway API feature.
+#
+# external: the CRDs are provided by the platform (e.g. GKE with Gateway API enabled)
+# or installed outside of this operator.  This operator does not install them.
+#
+# managed: this operator installs and manages the CRDs via the standard channel.
+# Do not use on clusters where the provider manages them.  Use external instead.
+# The combination of platform=gke and gatewayAPI=managed is rejected.`
 apiVersion: v1
 kind: Namespace
 metadata:
