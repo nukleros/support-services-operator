@@ -32,6 +32,7 @@ var ErrUnableToConvertSupportServices = errors.New("unable to convert to Support
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SupportServicesSpec defines the desired state of SupportServices.
+// +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')",message="platform\x20must\x20be\x20set\x20to\x20gke\x20(not\x20kind)\x20when\x20cloud\x20is\x20google"
 type SupportServicesSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -57,7 +58,9 @@ type SupportServicesSpec struct {
 	// (Default: "local")
 	//
 	// +kubebuilder:validation:Enum=local;google;aws
-	// Cloud that this operator is running on.  One of: local | google | aws.
+	// Cloud that this operator is running on.  One of: local | google | aws. When set
+	// to google, platform must also be set explicitly (e.g. gke), as the default
+	// platform of kind is not allowed.
 	Cloud string `json:"cloud,omitempty"`
 
 	// +kubebuilder:default="kind"
@@ -66,7 +69,11 @@ type SupportServicesSpec struct {
 	//
 	// +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
 	// Platform that this operator is running on.  One of: kind | gke | openshift | eks
-	// | aks.
+	// | aks. Platform is set independently of cloud and is not inferred from it.  GKE
+	// clusters must set platform to gke: the generic (kind) istio-cni daemonset
+	// installs CNI plugins to /opt/cni/bin, while the GKE kubelet reads them from
+	// /home/kubernetes/bin, so pod sandboxes fail to start.  The combination of
+	// cloud=google and platform=kind is rejected.
 	Platform string `json:"platform,omitempty"`
 
 	// +kubebuilder:default=false

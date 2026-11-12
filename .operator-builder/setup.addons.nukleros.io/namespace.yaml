@@ -1,4 +1,12 @@
 ---
+# NOTE: the XValidation marker below must contain no whitespace.  struct marker descriptions
+#       are word-wrapped at 80 characters and, unlike field markers, +kubebuilder: lines are
+#       not exempt, so any space would split the marker across comment lines.
+
+# +operator-builder:struct:name=".",description=`
+# SupportServicesSpec defines the desired state of SupportServices.
+#
+# +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')"`
 # +operator-builder:field:name=tier,arbitrary,default="development",type=string,description=`
 # +kubebuilder:validation:Enum=development;staging;production
 # The tier of cluster being used.  One of: development | staging | production.`
@@ -7,10 +15,17 @@
 # The default ingress for setting TLS certs.  One of: kong | nginx.`
 # +operator-builder:field:name=cloud,arbitrary,default="local",type=string,description=`
 # +kubebuilder:validation:Enum=local;google;aws
-# Cloud that this operator is running on.  One of: local | google | aws.`
+# Cloud that this operator is running on.  One of: local | google | aws.
+# When set to google, platform must also be set explicitly (e.g. gke), as the
+# default platform of kind is not allowed.`
 # +operator-builder:field:name=platform,arbitrary,default="kind",type=string,description=`
 # +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
-# Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.`
+# Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.
+# Platform is set independently of cloud and is not inferred from it.  GKE clusters
+# must set platform to gke: the generic (kind) istio-cni daemonset installs CNI
+# plugins to /opt/cni/bin, while the GKE kubelet reads them from /home/kubernetes/bin,
+# so pod sandboxes fail to start.  The combination of cloud=google and platform=kind
+# is rejected.`
 # +operator-builder:field:name=enableGatewayAPI,arbitrary,default=false,type=bool,description=`
 # Enable Kubernetes Gateway API support.  Currently only supported for service-mesh components.`
 apiVersion: v1
