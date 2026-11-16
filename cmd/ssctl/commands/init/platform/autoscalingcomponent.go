@@ -34,7 +34,7 @@ import (
 func getAutoscalingComponentManifest(i *cmdinit.InitSubCommand) (string, error) {
 	apiVersion := i.APIVersion
 	if apiVersion == "" || apiVersion == "latest" {
-		return platform.AutoscalingComponentLatestSample, nil
+		apiVersion = platform.AutoscalingComponentLatestGroupVersion.Version
 	}
 
 	// generate a map of all versions to samples for each api version created
