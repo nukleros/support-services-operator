@@ -2,8 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: 'docs: update skill for greptile review...'
-      sha: bcc68c32398880aad72a78e486fe0045c27a3731
+      commitTitle: 'feat: keda (#35)...'
+      sha: 45cbaf016f6dff203f81e7ff8fbd1469ff4bacdc
+      tags:
+      - v0.10.0
     path: .
   path: platform.addons.nukleros.io/autoscaling-component/keda/vendor
 kind: LockConfig
