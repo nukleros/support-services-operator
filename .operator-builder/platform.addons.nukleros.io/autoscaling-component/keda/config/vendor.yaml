@@ -1,0 +1,17 @@
+---
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+minimumRequiredVersion: 0.30.0
+directories:
+  - path: platform.addons.nukleros.io/autoscaling-component/keda/vendor
+    contents:
+      - path: ./
+        # NOTE: temporarily vendored from https://github.com/scottlee01818/platform-component-library.git
+        #       (branch feature/keda) for unmerged PCL changes.  switch back to the upstream url
+        #       and a release tag before merging.
+        git:
+          url: https://github.com/scottlee01818/platform-component-library.git
+          ref: feature/keda
+        includePaths:
+          - autoscaling/keda/*
+        newRootPath: autoscaling/keda

@@ -1,0 +1,20 @@
+apiVersion: platform.addons.nukleros.io/v1alpha1
+kind: AutoscalingComponent
+metadata:
+  name: autoscalingcomponent-sample
+spec:
+  #collection:
+    #name: "supportservices-sample"
+    #namespace: ""
+  namespace: "nukleros-autoscaling-system"
+  keda:
+    version: "2.21.0"
+    operator:
+      replicas: 2
+      image: "ghcr.io/kedacore/keda"
+    metricsApiserver:
+      replicas: 2
+      image: "ghcr.io/kedacore/keda-metrics-apiserver"
+    admissionWebhooks:
+      replicas: 2
+      image: "ghcr.io/kedacore/keda-admission-webhooks"

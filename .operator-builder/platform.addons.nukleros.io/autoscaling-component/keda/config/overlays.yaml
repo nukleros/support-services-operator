@@ -1,0 +1,125 @@
+commonOverlays:
+  # NOTE: only references to the vendored namespace are rewritten.  keda intentionally places the
+  #       keda-operator-auth-reader rolebinding in kube-system, and binds the kube-system
+  #       horizontal-pod-autoscaler service account, so those references are left as-is.  the
+  #       subjects are filtered separately, since the kube-system rolebinding's subject is in the
+  #       keda namespace.
+  - name: "add namespace markers"
+    documentQuery:
+      - conditions:
+        - query: $[?($.metadata.namespace == "nukleros-autoscaling-system")]
+    query:
+      - metadata.namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+  - name: "add subject and service namespace markers"
+    query:
+      - subjects[?(@.namespace == "nukleros-autoscaling-system")].namespace
+      - "webhooks[*].clientConfig.service.namespace"
+      - spec.service.namespace
+    value: "%v"  # +operator-builder:field:name=namespace,default="%v",type=string
+
+  - name: "set version on labels"
+    query:
+      - "metadata.labels['app.kubernetes.io/version']"
+      - "spec.template.metadata.labels['app.kubernetes.io/version']"
+    value: "%v"  # +operator-builder:field:name=keda.version,default="{{ .defaultVersion }}",type=string
+
+yamlFiles:
+  - name: "keda apiservice"
+    path: "../vendor/apiservice.yaml"
+    outputPath: "manifests/apiservice.yaml"
+
+  - name: "keda crds"
+    path: "../vendor/crds.yaml"
+    outputPath: "manifests/crds.yaml"
+
+  - name: "keda deployment"
+    path: "../vendor/deployment.yaml"
+    outputPath: "manifests/deployment.yaml"
+    overlays:
+      - name: "add keda operator image markers"
+        query: "spec.template.spec.containers[?(@.name == 'keda-operator')]"
+        value:
+          # +operator-builder:field:name=keda.operator.image,default={{ .defaultOperatorImage }},type=string,replace="operatorImage",description=`
+          # Image repo and name to use for the KEDA operator.`
+          # +operator-builder:field:name=keda.version,default="{{ .defaultVersion }}",type=string,replace="kedaVersion",description=`
+          # Version of KEDA to use.  Applies to the operator, metrics apiserver and admission webhooks,
+          # which are released together.`
+          image: operatorImage:kedaVersion
+
+      - name: "add keda operator replica count marker"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "keda-operator")]
+        query: "spec"
+        value:
+          # +operator-builder:field:name=keda.operator.replicas,default="%v",type=int,description=`
+          # Number of replicas to use for the KEDA operator deployment.  With 1 replica, its pod
+          # disruption budget (minAvailable: 1) blocks node drains.`
+          replicas: !!int "%v"
+
+      - name: "add keda metrics apiserver image markers"
+        query: "spec.template.spec.containers[?(@.name == 'keda-operator-metrics-apiserver')]"
+        value:
+          # +operator-builder:field:name=keda.metricsApiserver.image,default={{ .defaultMetricsApiserverImage }},type=string,replace="metricsApiserverImage",description=`
+          # Image repo and name to use for the KEDA metrics apiserver.`
+          # +operator-builder:field:name=keda.version,default="{{ .defaultVersion }}",type=string,replace="kedaVersion"
+          image: metricsApiserverImage:kedaVersion
+
+      - name: "add keda metrics apiserver replica count marker"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "keda-operator-metrics-apiserver")]
+        query: "spec"
+        value:
+          # +operator-builder:field:name=keda.metricsApiserver.replicas,default="%v",type=int,description=`
+          # Number of replicas to use for the KEDA metrics apiserver deployment.  With 1 replica, its
+          # pod disruption budget (minAvailable: 1) blocks node drains.`
+          replicas: !!int "%v"
+
+      # NOTE: the metrics apiserver reaches the operator's metrics service by its fully qualified
+      #       name, so the namespace comes from the downward api (POD_NAMESPACE, already set on
+      #       the container) instead of being hard-coded.
+      - name: "use downward api for metrics service address namespace"
+        query: "spec.template.spec.containers[?(@.name == 'keda-operator-metrics-apiserver')].args[?(@ =~ /^--metrics-service-address=/)]"
+        value: --metrics-service-address=keda-operator.$(POD_NAMESPACE).svc.cluster.local:9666
+
+      - name: "add keda admission webhooks image markers"
+        query: "spec.template.spec.containers[?(@.name == 'keda-admission-webhooks')]"
+        value:
+          # +operator-builder:field:name=keda.admissionWebhooks.image,default={{ .defaultAdmissionWebhooksImage }},type=string,replace="admissionWebhooksImage",description=`
+          # Image repo and name to use for the KEDA admission webhooks.`
+          # +operator-builder:field:name=keda.version,default="{{ .defaultVersion }}",type=string,replace="kedaVersion"
+          image: admissionWebhooksImage:kedaVersion
+
+      - name: "add keda admission webhooks replica count marker"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "keda-admission-webhooks")]
+        query: "spec"
+        value:
+          # +operator-builder:field:name=keda.admissionWebhooks.replicas,default="%v",type=int,description=`
+          # Number of replicas to use for the KEDA admission webhooks deployment.  With 1 replica, its
+          # pod disruption budget (minAvailable: 1) blocks node drains.`
+          replicas: !!int "%v"
+
+  - name: "keda networkpolicy"
+    path: "../vendor/networkpolicy.yaml"
+    outputPath: "manifests/networkpolicy.yaml"
+
+  - name: "keda poddisruptionbudget"
+    path: "../vendor/poddisruptionbudget.yaml"
+    outputPath: "manifests/poddisruptionbudget.yaml"
+
+  - name: "keda rbac"
+    path: "../vendor/rbac.yaml"
+    outputPath: "manifests/rbac.yaml"
+
+  - name: "keda service"
+    path: "../vendor/service.yaml"
+    outputPath: "manifests/service.yaml"
+
+  - name: "keda webhook"
+    path: "../vendor/webhook.yaml"
+    outputPath: "manifests/webhook.yaml"
