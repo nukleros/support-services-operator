@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: 'feat: keda (#35)...'
+      sha: 45cbaf016f6dff203f81e7ff8fbd1469ff4bacdc
+      tags:
+      - v0.10.0
+    path: .
+  path: platform.addons.nukleros.io/autoscaling-component/keda/vendor
+kind: LockConfig

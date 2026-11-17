@@ -7,4 +7,5 @@ resources:
 - platform_v1alpha1_secretscomponent.yaml
 - platform_v1alpha1_storagecomponent.yaml
 - platform_v1alpha1_servicemeshcomponent.yaml
+- platform_v1alpha1_autoscalingcomponent.yaml
 # +kubebuilder:scaffold:manifestskustomizesamples

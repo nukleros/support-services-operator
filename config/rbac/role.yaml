@@ -29,13 +29,12 @@ rules:
   - ""
   resources:
   - configmaps/status
-  - endpoints/status
-  - pods/status
-  - secrets/status
   verbs:
   - get
+  - list
   - patch
   - update
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -52,6 +51,16 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - endpoints/status
+  - pods/status
+  - secrets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
   - events
   verbs:
   - create
@@ -63,6 +72,7 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - limitranges
   - nodes
   - replicationcontrollers
   verbs:
@@ -94,6 +104,22 @@ rules:
   - serviceaccounts/token
   verbs:
   - create
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+- apiGroups:
+  - '*'
+  resources:
+  - '*/scale'
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
 - apiGroups:
   - acid.zalan.do
   resources:
@@ -178,8 +204,11 @@ rules:
   resources:
   - apiservices
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
   - update
   - watch
 - apiGroups:
@@ -211,6 +240,17 @@ rules:
   verbs:
   - create
   - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments/scale
+  - statefulsets/scale
+  verbs:
   - get
   - list
   - patch
@@ -404,6 +444,19 @@ rules:
   - list
   - watch
 - apiGroups:
+  - eventing.keda.sh
+  resources:
+  - cloudeventsources
+  - cloudeventsources/status
+  - clustercloudeventsources
+  - clustercloudeventsources/status
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - events.k8s.io
   resources:
   - events
@@ -489,6 +542,12 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - external.metrics.k8s.io
+  resources:
+  - externalmetrics
+  verbs:
+  - get
 - apiGroups:
   - externaldns.nginx.org
   resources:
@@ -677,6 +736,25 @@ rules:
   - list
   - watch
 - apiGroups:
+  - keda.sh
+  resources:
+  - clustertriggerauthentications
+  - clustertriggerauthentications/status
+  - scaledjobs
+  - scaledjobs/finalizers
+  - scaledjobs/status
+  - scaledobjects
+  - scaledobjects/finalizers
+  - scaledobjects/status
+  - triggerauthentications
+  - triggerauthentications/status
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
   - monitoring.coreos.com
   resources:
   - podmonitors
@@ -782,6 +860,7 @@ rules:
 - apiGroups:
   - platform.addons.nukleros.io
   resources:
+  - autoscalingcomponents
   - certificatescomponents
   - ingresscomponents
   - secretscomponents
@@ -798,6 +877,7 @@ rules:
 - apiGroups:
   - platform.addons.nukleros.io
   resources:
+  - autoscalingcomponents/status
   - certificatescomponents/status
   - ingresscomponents/status
   - secretscomponents/status

@@ -1,0 +1,5 @@
+---
+defaultOperatorImage: ghcr.io/kedacore/keda
+defaultMetricsApiserverImage: ghcr.io/kedacore/keda-metrics-apiserver
+defaultAdmissionWebhooksImage: ghcr.io/kedacore/keda-admission-webhooks
+defaultVersion: "2.21.0"

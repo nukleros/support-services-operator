@@ -1,0 +1,25 @@
+kind: ComponentWorkload
+name: autoscaling-component
+spec:
+  api:
+    clusterScoped: true
+    domain: addons.nukleros.io
+    group: platform
+    kind: AutoscalingComponent
+    version: v1alpha1
+  companionCliSubcmd:
+    description: Manage the autoscaling support services
+    name: autoscaling
+  dependencies: []
+  resources:
+    - namespace.yaml
+
+    # keda
+    - keda/manifests/crds.yaml
+    - keda/manifests/rbac.yaml
+    - keda/manifests/service.yaml
+    - keda/manifests/deployment.yaml
+    - keda/manifests/poddisruptionbudget.yaml
+    - keda/manifests/networkpolicy.yaml
+    - keda/manifests/webhook.yaml
+    - keda/manifests/apiservice.yaml

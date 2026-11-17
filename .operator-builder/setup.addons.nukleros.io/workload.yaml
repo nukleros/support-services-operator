@@ -18,6 +18,7 @@ spec:
     - ../application.addons.nukleros.io/database-component/workload.yaml
     
     # platform components
+    - ../platform.addons.nukleros.io/autoscaling-component/workload.yaml
     - ../platform.addons.nukleros.io/certificates-component/workload.yaml
     - ../platform.addons.nukleros.io/ingress-component/workload.yaml
     - ../platform.addons.nukleros.io/secrets-component/workload.yaml

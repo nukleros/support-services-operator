@@ -75,6 +75,7 @@ func (c *SsctlCommand) newInitSubCommand() {
 	initplatform.NewSecretsComponentSubCommand(parentCommand)
 	initplatform.NewStorageComponentSubCommand(parentCommand)
 	initplatform.NewServiceMeshComponentSubCommand(parentCommand)
+	initplatform.NewAutoscalingComponentSubCommand(parentCommand)
 	// +kubebuilder:scaffold:operator-builder:subcommands:init
 }
 
@@ -90,6 +91,7 @@ func (c *SsctlCommand) newGenerateSubCommand() {
 	generateplatform.NewSecretsComponentSubCommand(parentCommand)
 	generateplatform.NewStorageComponentSubCommand(parentCommand)
 	generateplatform.NewServiceMeshComponentSubCommand(parentCommand)
+	generateplatform.NewAutoscalingComponentSubCommand(parentCommand)
 	// +kubebuilder:scaffold:operator-builder:subcommands:generate
 }
 
@@ -105,6 +107,7 @@ func (c *SsctlCommand) newVersionSubCommand() {
 	versionplatform.NewSecretsComponentSubCommand(parentCommand)
 	versionplatform.NewStorageComponentSubCommand(parentCommand)
 	versionplatform.NewServiceMeshComponentSubCommand(parentCommand)
+	versionplatform.NewAutoscalingComponentSubCommand(parentCommand)
 	// +kubebuilder:scaffold:operator-builder:subcommands:version
 }
 

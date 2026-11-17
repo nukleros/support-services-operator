@@ -182,6 +182,7 @@ func main() {
 		platformcontrollers.NewSecretsComponentReconciler(mgr),
 		platformcontrollers.NewStorageComponentReconciler(mgr),
 		platformcontrollers.NewServiceMeshComponentReconciler(mgr),
+		platformcontrollers.NewAutoscalingComponentReconciler(mgr),
 		// +kubebuilder:scaffold:reconcilers
 	}
 
