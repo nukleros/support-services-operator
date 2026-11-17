@@ -6,9 +6,6 @@ directories:
   - path: platform.addons.nukleros.io/autoscaling-component/keda/vendor
     contents:
       - path: ./
-        # NOTE: temporarily vendored from https://github.com/scottlee01818/platform-component-library.git
-        #       (branch feature/keda) for unmerged PCL changes.  switch back to the upstream url
-        #       and a release tag before merging.
         git:
           url: https://github.com/nukleros/platform-component-library.git
           ref: v0.10.0
