@@ -32,6 +32,8 @@ var ErrUnableToConvertSupportServices = errors.New("unable to convert to Support
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
 // SupportServicesSpec defines the desired state of SupportServices.
+// +kubebuilder:validation:XValidation:rule="!(self.cloud=='google'&&self.platform=='kind')"
+// +kubebuilder:validation:XValidation:rule="!(self.platform=='gke'&&self.gatewayAPI=='managed')"
 type SupportServicesSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
@@ -57,7 +59,9 @@ type SupportServicesSpec struct {
 	// (Default: "local")
 	//
 	// +kubebuilder:validation:Enum=local;google;aws
-	// Cloud that this operator is running on.  One of: local | google | aws.
+	// Cloud that this operator is running on.  One of: local | google | aws. When set
+	// to google, platform must also be set explicitly (e.g. gke), as the default
+	// platform of kind is not allowed.
 	Cloud string `json:"cloud,omitempty"`
 
 	// +kubebuilder:default="kind"
@@ -66,16 +70,39 @@ type SupportServicesSpec struct {
 	//
 	// +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
 	// Platform that this operator is running on.  One of: kind | gke | openshift | eks
-	// | aks.
+	// | aks. Platform is set independently of cloud and is not inferred from it.  GKE
+	// clusters must set platform to gke: the generic (kind) istio-cni daemonset
+	// installs CNI plugins to /opt/cni/bin, while the GKE kubelet reads them from
+	// /home/kubernetes/bin, so pod sandboxes fail to start.  The combination of
+	// cloud=google and platform=kind is rejected.
 	Platform string `json:"platform,omitempty"`
 
-	// +kubebuilder:default=false
+	// +kubebuilder:default="disabled"
 	// +kubebuilder:validation:Optional
-	// (Default: false)
+	// (Default: "disabled")
 	//
-	// Enable Kubernetes Gateway API support.  Currently only supported for
-	// service-mesh components.
-	EnableGatewayAPI bool `json:"enableGatewayAPI"`
+	// +kubebuilder:validation:Enum=disabled;external;managed
+	// How the Kubernetes Gateway API CRDs are provided.  One of: disabled | external |
+	// managed.
+	//
+	// NOTE: only managed currently has any effect.  This field controls only whether
+	// this operator installs the Gateway API CRDs and admission policies.  It is not
+	// read by any component and does not toggle Gateway API features (e.g. in istiod),
+	// which detect the CRDs on the cluster independently.  disabled and external are
+	// reserved for future use by components and currently behave identically.
+	//
+	// disabled: this operator does not install or manage the CRDs.  Any Gateway API
+	// CRDs already present on the cluster are left as-is and may still be used by
+	// components.
+	//
+	// external: the CRDs are provided by the platform (e.g. GKE with Gateway API
+	// enabled) or installed outside of this operator.  This operator does not install
+	// them.
+	//
+	// managed: this operator installs and manages the CRDs via the standard channel.
+	// Do not use on clusters where the provider manages them.  Use external instead.
+	// The combination of platform=gke and gatewayAPI=managed is rejected.
+	GatewayAPI string `json:"gatewayAPI,omitempty"`
 }
 
 // SupportServicesStatus defines the observed state of SupportServices.

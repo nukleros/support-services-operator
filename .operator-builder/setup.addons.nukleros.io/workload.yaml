@@ -28,6 +28,6 @@ spec:
 
     # gateway api crds
     # NOTE: gateway api crds must be created during setup so that they
-    #       are made available to all components once enableGatewayAPI=true.
+    #       are made available to all components once gatewayAPI=managed.
     - gateway-api/manifests/crds.yaml
     - gateway-api/manifests/webhook.yaml

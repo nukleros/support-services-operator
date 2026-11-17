@@ -221,9 +221,7 @@ func (component *ServiceMeshComponent) SetChildResourceCondition(resource *statu
 
 // GetDependencies returns the dependencies for a component.
 func (*ServiceMeshComponent) GetDependencies() []workload.Workload {
-	return []workload.Workload{
-		&CertificatesComponent{},
-	}
+	return []workload.Workload{}
 }
 
 // GetComponentGVK returns a GVK object for the component.

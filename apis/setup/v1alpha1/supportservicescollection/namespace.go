@@ -37,20 +37,9 @@ func CreateNamespaceParentName(
 
 	var resourceObj = &unstructured.Unstructured{
 		Object: map[string]interface{}{
-			// controlled by field: tier
-			// controlled by field: defaultIngressController
-			// controlled by field: cloud
-			// controlled by field: platform
-			// controlled by field: enableGatewayAPI
-			//  +kubebuilder:validation:Enum=development;staging;production
-			//  The tier of cluster being used.  One of: development | staging | production.
-			//  +kubebuilder:validation:Enum=kong;nginx
-			//  The default ingress for setting TLS certs.  One of: kong | nginx.
-			//  +kubebuilder:validation:Enum=local;google;aws
-			//  Cloud that this operator is running on.  One of: local | google | aws.
-			//  +kubebuilder:validation:Enum=kind;gke;openshift;eks;aks
-			//  Platform that this operator is running on.  One of: kind | gke | openshift | eks | aks.
-			//  Enable Kubernetes Gateway API support.  Currently only supported for service-mesh components.
+			//  managed: this operator installs and manages the CRDs via the standard channel.
+			//  Do not use on clusters where the provider manages them.  Use external instead.
+			//  The combination of platform=gke and gatewayAPI=managed is rejected.
 			"apiVersion": "v1",
 			"kind":       "Namespace",
 			"metadata": map[string]interface{}{
