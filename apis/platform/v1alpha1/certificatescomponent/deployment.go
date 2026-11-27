@@ -120,11 +120,11 @@ func CreateDeploymentNamespaceCertManagerCainjector(
 								"resources": map[string]interface{}{
 									"requests": map[string]interface{}{
 										"cpu":    "50m",
-										"memory": "64Mi",
+										"memory": "128Mi",
 									},
 									"limits": map[string]interface{}{
 										"cpu":    "100m",
-										"memory": "128Mi",
+										"memory": "512Mi",
 									},
 								},
 							},
@@ -269,11 +269,11 @@ func CreateDeploymentNamespaceCertManager(
 								"resources": map[string]interface{}{
 									"requests": map[string]interface{}{
 										"cpu":    "25m",
-										"memory": "32Mi",
+										"memory": "64Mi",
 									},
 									"limits": map[string]interface{}{
 										"cpu":    "50m",
-										"memory": "64Mi",
+										"memory": "256Mi",
 									},
 								},
 							},

@@ -63,10 +63,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: 128Mi
             limits:
               cpu: 100m
-              memory: 128Mi
+              memory: 512Mi
       nodeSelector:
         kubernetes.io/os: linux
       affinity:
@@ -154,10 +154,10 @@ spec:
           resources:
             requests:
               cpu: 25m
-              memory: 32Mi
+              memory: 64Mi
             limits:
               cpu: 50m
-              memory: 64Mi
+              memory: 256Mi
       nodeSelector:
         kubernetes.io/os: linux
       affinity:
