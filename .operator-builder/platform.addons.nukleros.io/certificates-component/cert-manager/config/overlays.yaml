@@ -35,6 +35,19 @@ yamlFiles:
           # Version of cert-manager to use.`
           image: cainjectorImage:certManagerVersion
 
+      # the cainjector caches every Secret in the cluster, so 128Mi is
+      # exhausted on clusters with a few hundred Secrets
+      - name: "raise cainjector memory"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "cert-manager-cainjector")]
+        query: "spec.template.spec.containers[?(@.name == 'cert-manager')].resources"
+        value:
+          requests:
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+
   - name: "cert-manager controller deployment"
     path: "../vendor/deployment.yaml"
     outputPath: "manifests/deployment.yaml"
@@ -57,6 +70,17 @@ yamlFiles:
           # Image repo and name to use for cert-manager controller.`
           # +operator-builder:field:name=certManager.version,default={{ .defaultVersion }},type=string,replace="certManagerVersion"
           image: controllerImage:certManagerVersion
+
+      - name: "raise controller memory"
+        documentQuery:
+          - conditions:
+            - query: $[?($.metadata.name == "cert-manager")]
+        query: "spec.template.spec.containers[?(@.name == 'cert-manager')].resources"
+        value:
+          requests:
+            memory: 64Mi
+          limits:
+            memory: 256Mi
 
   - name: "cert-manager webhook deployment"
     path: "../vendor/deployment.yaml"
